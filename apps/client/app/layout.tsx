@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="flex flex-col h-screen justify-center items-center bg-[#DFEAFE]">{children}</body>
     </html>
   );
 }
