@@ -10,7 +10,7 @@ interface ButtonProps {
 
 export const Button = ({ label, isActive = false, type, onClick }: ButtonProps) => {
   const buttonStyle = useMemo(() => {
-    const primary = isActive ? "bg-main-500 text-white" : "border-gray-200 text-gray-500";
+    const primary = isActive ? "bg-main-500 text-white" : "bg-gray-200 text-gray-500";
     const secondary = isActive ? "border-tropicalblue-400 text-tropicalblue-400" : "border-gray-300 text-gray-800";
 
     return `${type == "primary" ? primary : secondary}`;
