@@ -19,7 +19,7 @@ export const LoginForm = () => {
       isValid,
       errors
     }
-  } = useForm<LoginFormProps>({ defaultValues: { email: '', password: '' } })
+  } = useForm<LoginFormProps>({ mode: "onChange", defaultValues: { email: '', password: '' } })
 
   const onSubmit = (data: LoginFormProps) => {
     alert(JSON.stringify(data))
@@ -37,7 +37,7 @@ export const LoginForm = () => {
               required: "이메일을 필수로 입력해야 합니다.",
               pattern: {
                 value: /^s\d{5}@gsm\.hs\.kr$/,
-                message: "이메일을 다시 한 번 확인해주세요"
+                message: "@gsm.hs.kr 학교 이메일을 입력해주세요"
               }
             }}
             render={({ field }) => <Input label="이메일" type="email" {...field} />}
@@ -50,7 +50,7 @@ export const LoginForm = () => {
               required: "비밀번호을 필수로 입력해야 합니다.",
               pattern: {
                 value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/,
-                message: "비밀번호를 다시 한 번 확인해주세요"
+                message: "영문, 숫자를 포함한 8~12자리 비밀번호를 입력해주세요"
               }
             }}
             render={({ field }) => <Input label="비밀번호" type="password" {...field} />}
