@@ -1,4 +1,4 @@
-import { LoginForm } from "../src/widgets/auth/loginForm"
+import { LoginForm } from "../src/widgets/auth/ui/loginForm"
 
 export default function page() {
   return (
