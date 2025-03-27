@@ -33,28 +33,26 @@ export const LoginForm = () => {
           <Controller
             name="email"
             control={control}
-            rules={
-              {
-                required: "이메일을 필수로 입력해야 합니다.",
-                pattern: {
-                  value: /^s\d{5}@gsm\.hs\.kr$/,
-                  message: "이메일을 다시 한 번 확인해주세요"
-                }
-              }}
+            rules={{
+              required: "이메일을 필수로 입력해야 합니다.",
+              pattern: {
+                value: /^s\d{5}@gsm\.hs\.kr$/,
+                message: "이메일을 다시 한 번 확인해주세요"
+              }
+            }}
             render={({ field }) => <Input label="이메일" type="email" {...field} />}
           />
           {<small role="alert" className="text-error-500">{errors.email?.message}</small>}
           <Controller
             name="password"
             control={control}
-            rules={
-              {
-                required: "비밀번호을 필수로 입력해야 합니다.",
-                pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/,
-                  message: "비밀번호를 다시 한 번 확인해주세요"
-                }
-              }}
+            rules={{
+              required: "비밀번호을 필수로 입력해야 합니다.",
+              pattern: {
+                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/,
+                message: "비밀번호를 다시 한 번 확인해주세요"
+              }
+            }}
             render={({ field }) => <Input label="비밀번호" type="password" {...field} />}
           />
           {<small role="alert" className="text-error-500">{errors.password?.message}</small>}

@@ -2,7 +2,9 @@ import { LoginForm } from "../src/widgets/auth/ui/loginForm"
 
 export default function page() {
   return (
-    <LoginForm />
+    <div className="flex justify-center items-center h-screen bg-main-100">
+      <LoginForm />
+    </div>
   )
 }
 
