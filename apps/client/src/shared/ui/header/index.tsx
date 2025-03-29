@@ -5,7 +5,9 @@ import Link from "next/link";
 const Header = () => {
   return (
     <header className="w-full py-[1.38rem] flex justify-around">
-      <Image src={Textlogo} alt="logo" />
+      <Link href={"/"}>
+        <Image src={Textlogo} id="image" alt="logo" />
+      </Link>
       <ul className="gap-[2rem] flex text-label items-center text-body3">
         <Link href="/calculate">점수 계산</Link>
         <Link href="/descrition">설명</Link>
