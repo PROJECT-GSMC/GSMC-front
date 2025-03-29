@@ -8,22 +8,14 @@ const config: Omit<Config, "content"> = {
   ],
   theme: {
     extend: {
-      fontWeight: {
-        semibold: "600",
-        regular: "400",
-      },
       fontSize: {
-        titleLarge: "3rem",
-        titleMedium: "2.25rem",
-        titleSmall: "1.5rem",
-        body1: "1.125rem",
-        body: "1rem",
-        label: "0.875rem",
-      },
-      lineHeight: {
-        high: "3.6rem",
-        medium: "1.8rem",
-        small: "1.05rem",
+        titleLarge: [" 3rem", { lineHeight: "3.6rem", fontWeight: "600" }],
+        titleMedium: ["2.25rem", { lineHeight: "2.7rem", fontWeight: "600" }],
+        titleSmall: ["1.5rem", { lineHeight: "1.8rem", fontWeight: "600" }],
+        body1: ["1.125rem", { lineHeight: "1.35rem", fontWeight: "600" }],
+        body2: ["1rem", { lineHeight: "1.2rem", fontWeight: "600" }],
+        body3: ["1rem", { lineHeight: "1.2rem", fontWeight: "400" }],
+        label: ["0.875rem", { lineHeight: "1.05rem", fontWeight: "400" }],
       },
       colors: {
         tropicalblue: {
