@@ -79,6 +79,12 @@ importers:
       '@repo/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@tanstack/react-query':
+        specifier: ^5.69.0
+        version: 5.69.0(react@19.0.0)
+      '@tanstack/react-query-devtools':
+        specifier: ^5.69.0
+        version: 5.69.0(@tanstack/react-query@5.69.0)(react@19.0.0)
       next:
         specifier: ^15.2.1
         version: 15.2.1(react-dom@19.0.0)(react@19.0.0)
@@ -88,6 +94,9 @@ importers:
       react-dom:
         specifier: ^19.0.0
         version: 19.0.0(react@19.0.0)
+      react-hook-form:
+        specifier: ^7.54.2
+        version: 7.54.2(react@19.0.0)
     devDependencies:
       '@next/eslint-plugin-next':
         specifier: ^15.2.1
@@ -663,6 +672,34 @@ packages:
     resolution: {integrity: sha512-JQ5TuMi45Owi4/BIMAJBoSQoOJu12oOk/gADqlcUL9JEdHB8vyjUSsxqeNXnmXHjYKMi2WcYtezGEEhqUI/E2g==}
     dependencies:
       tslib: 2.8.1
+    dev: false
+
+  /@tanstack/query-core@5.69.0:
+    resolution: {integrity: sha512-Kn410jq6vs1P8Nm+ZsRj9H+U3C0kjuEkYLxbiCyn3MDEiYor1j2DGVULqAz62SLZtUZ/e9Xt6xMXiJ3NJ65WyQ==}
+    dev: false
+
+  /@tanstack/query-devtools@5.67.2:
+    resolution: {integrity: sha512-O4QXFFd7xqp6EX7sdvc9tsVO8nm4lpWBqwpgjpVLW5g7IeOY6VnS/xvs/YzbRhBVkKTMaJMOUGU7NhSX+YGoNg==}
+    dev: false
+
+  /@tanstack/react-query-devtools@5.69.0(@tanstack/react-query@5.69.0)(react@19.0.0):
+    resolution: {integrity: sha512-sYklnou3IKAemqB5wJeBwjmG5bUGDKAL5/I4pVA+aqSnsNibVLt8/pAU976uuJ5K71w71bHtI/AMxiIs3gtkEA==}
+    peerDependencies:
+      '@tanstack/react-query': ^5.69.0
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-devtools': 5.67.2
+      '@tanstack/react-query': 5.69.0(react@19.0.0)
+      react: 19.0.0
+    dev: false
+
+  /@tanstack/react-query@5.69.0(react@19.0.0):
+    resolution: {integrity: sha512-Ift3IUNQqTcaFa1AiIQ7WCb/PPy8aexZdq9pZWLXhfLcLxH0+PZqJ2xFImxCpdDZrFRZhLJrh76geevS5xjRhA==}
+    peerDependencies:
+      react: ^18 || ^19
+    dependencies:
+      '@tanstack/query-core': 5.69.0
+      react: 19.0.0
     dev: false
 
   /@types/estree@1.0.6:
