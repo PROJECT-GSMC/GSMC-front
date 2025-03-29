@@ -4,6 +4,7 @@ const config: Omit<Config, "content"> = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@repo/ui/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@repo/ui/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
