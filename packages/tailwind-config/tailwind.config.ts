@@ -1,12 +1,15 @@
 import type { Config } from "tailwindcss";
 
-// We want each package to be responsible for its own content.
 const config: Omit<Config, "content"> = {
+  content: [
+    "./src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@repo/ui/dist/**/*.{js,ts,jsx,tsx}",
+  ],
   theme: {
     extend: {
-      fontWeights: {
-        Semibold: 600, // title, body1, 2
-        regular: 400, // body3, label
+      fontWeight: {
+        semibold: "600",
+        regular: "400",
       },
       fontSize: {
         titleLarge: "3rem",
@@ -37,31 +40,10 @@ const config: Omit<Config, "content"> = {
           800: "#263C65",
           900: "#131E32",
         },
-        error: {
-          100: "#F9DADB",
-          200: "#F2B5B7",
-          300: "#EC8F92",
-          400: "#E56A6E",
-          500: "#DF454A",
-          600: "#B2373B",
-          700: "#86292C",
-          800: "#591C1E",
-          900: "#2D0E0F",
-        },
-        gray: {
-          100: "#E6E6E7",
-          200: "#CDCDCF",
-          300: "#B4B5B7",
-          400: "#9B9C9F",
-          500: "#828387",
-          600: "#68696C",
-          700: "#4E4F51",
-          800: "#343436",
-          900: "#1A1A1B",
-        },
       },
     },
   },
   plugins: [],
 };
+
 export default config;
