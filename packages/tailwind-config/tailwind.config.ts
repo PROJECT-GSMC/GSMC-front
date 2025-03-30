@@ -15,7 +15,7 @@ const config: Omit<Config, "content"> = {
         body1: ["1.125rem", { lineHeight: "1.35rem", fontWeight: "600" }],
         body2: ["1rem", { lineHeight: "1.2rem", fontWeight: "600" }],
         body3: ["1rem", { lineHeight: "1.2rem", fontWeight: "400" }],
-        label: ["0.875rem", { lineHeight: "1.05rem", fontWeight: "400" }],
+        label: [" 1.125rem", { fontWeight: "600" }],
       },
       colors: {
         tropicalblue: {
