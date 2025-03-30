@@ -41,7 +41,7 @@ const Dropdown = <T,>({
       )}
 
       <button
-        className="rounded-[0.625rem] text-left px-[1.5rem] py-[1rem] border mt-[0.5rem]"
+        className={`rounded-[0.625rem] text-left ${isOpen && "border-main-500"} px-[1.5rem] py-[1rem] border mt-[0.5rem]`}
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >
