@@ -12,7 +12,7 @@ interface InputProps {
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
   ({ label, type = "text", value, onChange, onBlur }, ref) => {
     return (
-      <div className="flex flex-col gap-[0.25rem] items-start">
+      <div className="flex flex-col w-full gap-[0.25rem] items-start">
         <label htmlFor={label} className="text-label">
           {label}
         </label>
