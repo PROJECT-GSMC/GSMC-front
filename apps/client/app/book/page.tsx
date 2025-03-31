@@ -3,13 +3,13 @@
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import { Controller, useForm } from "react-hook-form";
-import Textarea from "../../../shared/ui/textarea";
-import Header from "../../../shared/ui/header";
-import Semester from "../../../shared/ui/semester";
-import Dropdown from "../../../shared/ui/dropdown";
-import File from "../../../shared/ui/file";
+import Dropdown from "../../src/shared/ui/dropdown";
+import Semester from "../../src/shared/ui/semester";
+import Textarea from "../../src/shared/ui/textarea";
+import File from "../../src/shared/ui/file";
+import Header from "../../src/shared/ui/header";
 
-const CharacterWidget = () => {
+const BookWidget = () => {
   const {
     register,
     setValue,
@@ -79,4 +79,4 @@ const CharacterWidget = () => {
   );
 };
 
-export default CharacterWidget;
+export default BookWidget;
