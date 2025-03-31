@@ -9,7 +9,7 @@ import Semester from "../../../shared/ui/semester";
 import Dropdown from "../../../shared/ui/dropdown";
 import File from "../../../shared/ui/file";
 
-const MajorWidget = () => {
+const CharacterWidget = () => {
   const {
     register,
     setValue,
@@ -79,4 +79,4 @@ const MajorWidget = () => {
   );
 };
 
-export default MajorWidget;
+export default CharacterWidget;
