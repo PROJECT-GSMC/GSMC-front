@@ -28,7 +28,7 @@ export const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`flex py-[0.8125rem] w-full px-[1.375rem] border justify-center items-center self-stretch rounded-[0.75rem] ${buttonStyle}`}
+      className={`flex py-[0.8125rem] w-full text-body2 px-[1.375rem] border justify-center items-center self-stretch rounded-[0.75rem] ${buttonStyle}`}
       disabled={!isActive}
     >
       {label}
