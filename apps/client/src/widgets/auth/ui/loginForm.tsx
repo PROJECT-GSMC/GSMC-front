@@ -13,9 +13,6 @@ export const LoginForm = () => {
     control,
     handleSubmit,
     formState: {
-      isSubmitting,
-      isSubmitted,
-      isDirty,
       isValid,
       errors
     }
@@ -42,22 +39,26 @@ export const LoginForm = () => {
             }}
             render={({ field }) => <Input label="이메일" type="email" {...field} />}
           />
-          {<small role="alert" className="text-error-500">{errors.email?.message}</small>}
+          {<small role="alert" className="text-red-500">{errors.email?.message}</small>}
           <Controller
             name="password"
             control={control}
             rules={{
               required: "비밀번호을 필수로 입력해야 합니다.",
+              minLength: {
+                value: 8,
+                message: "영문, 숫자를 포함한 8자 이상으로 입력해주세요."
+              },
               pattern: {
-                value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,12}$/,
-                message: "영문, 숫자를 포함한 8~12자리 비밀번호를 입력해주세요"
+                value: /^(?=.*[a-zA-Z])(?=.*\d).*$/,
+                message: "영문, 숫자를 포함한 비밀번호를 입력해주세요."
               }
             }}
             render={({ field }) => <Input label="비밀번호" type="password" {...field} />}
           />
-          {<small role="alert" className="text-error-500">{errors.password?.message}</small>}
+          {<small role="alert" className="text-red-500">{errors.password?.message}</small>}
         </div>
-        <Button label="로그인" type="primary" isActive={isDirty && isValid} />
+        <Button label="로그인" type="primary" isActive={isValid} />
       </div>
     </form>
   )
