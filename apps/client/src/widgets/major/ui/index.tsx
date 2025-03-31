@@ -25,7 +25,7 @@ const MajorWidget = () => {
         className="flex gap-[2rem] flex-col justify-center"
         onSubmit={handleSubmit((data) => console.log(data))}
       >
-        <h1 className="text-main-700 text-titleMedium my-[2.38rem]">
+        <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
           전공 영역
         </h1>
         <Controller
