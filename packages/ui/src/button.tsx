@@ -6,12 +6,14 @@ interface ButtonProps {
   isActive?: boolean;
   type: "primary" | "secondary";
   onClick?: () => void;
+  width?: string;
 }
 
 export const Button = ({
   label,
   isActive = false,
   type,
+  width = "w-full",
   onClick,
 }: ButtonProps) => {
   const buttonStyle = useMemo(() => {
@@ -28,7 +30,7 @@ export const Button = ({
   return (
     <button
       onClick={onClick}
-      className={`flex py-[0.8125rem] w-full text-body2 px-[1.375rem] border justify-center items-center self-stretch rounded-[0.75rem] ${buttonStyle}`}
+      className={`flex py-[0.8125rem] ${width} text-body2 px-[1.375rem] border justify-center items-center self-stretch rounded-[0.75rem] ${buttonStyle}`}
       disabled={!isActive}
     >
       {label}
