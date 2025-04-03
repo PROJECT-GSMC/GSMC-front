@@ -1,4 +1,5 @@
 import { Button } from "@repo/ui/button";
+import { variantStyles } from "../../../../../../packages/ui/src/consts/button";
 
 export const Information = () => {
   return (
@@ -14,8 +15,8 @@ export const Information = () => {
         </div>
       </div>
       <div className="flex flex-col gap-[0.75rem]">
-        <Button type="primary" isActive label="글 보러가기" />
-        <Button type="secondary" isActive label="점수 관리" />
+        <Button isActive variant={variantStyles["blue"]} label="글 보러가기" />
+        <Button isActive variant={variantStyles["skyblue"]} label="점수 관리" />
       </div>
     </div>
   );
