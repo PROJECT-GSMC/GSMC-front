@@ -60,7 +60,7 @@ const LoginPage = () => {
               render={({ field }) => <Input label="비밀번호" type="password" error={errors.password?.message} {...field} />}
             />
           </div>
-          <Button label="로그인" type="primary" isActive={isValid} />
+          <Button label="로그인" variant="primary" isActive={isValid} />
         </form>
       </AuthForm>
     </div>
