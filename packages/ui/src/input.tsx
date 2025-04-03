@@ -2,30 +2,28 @@ import React from "react";
 
 interface InputProps {
   label: string;
-  type?: string;
   value: string;
+  type?: "text" | "password" | "email";
+  error?: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur: () => void;
-  ref: React.Ref<HTMLInputElement>;
 }
 
-export const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ label, type = "text", value, onChange, onBlur }, ref) => {
+export const Input = (
+  ({ label, type = "text", value, error, onChange }: InputProps) => {
     return (
-      <div className="flex flex-col w-full gap-[0.25rem] items-start">
+      <div className="flex flex-col w-full">
         <label htmlFor={label} className="text-label">
           {label}
         </label>
         <input
-          type={type}
-          name={label}
           id={label}
+          name={label}
+          type={type}
           value={value}
           onChange={onChange}
-          onBlur={onBlur}
-          ref={ref}
-          className="flex w-[25rem] p-[1rem] items-center gap-[0.625rem] rounded-[0.5rem] border bg-white outline-main-500"
+          className="p-[1rem] rounded-[0.5rem] border bg-white ui-outline-gray-600"
         />
+        <small role="alert" className="text-red-500">{error}</small>
       </div>
     );
   }
