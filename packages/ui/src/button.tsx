@@ -15,6 +15,7 @@ interface ButtonProps {
   width?: string
   isActive?: boolean;
   onClick?: () => void;
+  width?: string;
 }
 
 export const Button = ({ variant, isActive, label, width, onClick }: ButtonProps) => {
