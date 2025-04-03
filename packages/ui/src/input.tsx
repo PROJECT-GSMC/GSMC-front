@@ -3,7 +3,7 @@ import React from "react";
 interface InputProps {
   label: string;
   value: string;
-  type?: "text" | "password" | "email";
+  type?: string;
   error?: string
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
