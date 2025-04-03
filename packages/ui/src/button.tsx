@@ -16,13 +16,12 @@ interface ButtonProps {
   variant: DefaultButton | CustomButton;
   isActive?: boolean;
   onClick?: () => void;
+  width?: string;
 }
 
 export const Button = ({ variant, isActive, label, onClick }: ButtonProps) => {
   const state: Enable | Disable = isActive ? "default" : onClick ? "active" : "disabled"
-
   const baseStyle = "flex py-[0.8125rem] w-full text-body2 px-[1.375rem] justify-center items-center self-stretch rounded-[0.75rem] transition-colors";
-
   const buttonStyle = useMemo(() => {
     if (typeof variant == "string") {
       const variantStyles = {
