@@ -3,6 +3,7 @@ import type { Config } from "tailwindcss";
 const config: Omit<Config, "content"> = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
+    "./app/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@repo/ui/dist/**/*.{js,ts,jsx,tsx}",
     "./node_modules/@repo/ui/**/*.{js,ts,jsx,tsx}",
   ],
@@ -20,18 +21,16 @@ const config: Omit<Config, "content"> = {
       colors: {
         tropicalblue: {
           50: "#EFF5FF",
+          100: "#DAE7FF",
+          200: "#C4D9FF",
+          300: "#91BBFF",
           400: "#5E97FC",
-        },
-        main: {
-          100: "#DFEAFE",
-          200: "#BFD5FE",
-          300: "#9EC1FD",
-          400: "#7EACFD",
-          500: "#5E97FC",
-          600: "#4B79CA",
-          700: "#385B97",
-          800: "#263C65",
-          900: "#131E32",
+          500: "#3870F9",
+          600: "#2250EE",
+          700: "#1A3CDB",
+          800: "#1C32B1",
+          900: "#1C2F8C",
+          950: "#161E55",
         },
       },
     },
