@@ -1,15 +1,11 @@
-"use client";
-
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import Textarea from "../../../shared/ui/textarea";
 import Header from "../../../shared/ui/header";
 import Semester from "../../../shared/ui/semester";
-import Dropdown from "../../../shared/ui/dropdown";
 import File from "../../../shared/ui/file";
-
-const CharacterWidget = () => {
+const BookWidget = () => {
   const {
     register,
     setValue,
@@ -25,17 +21,33 @@ const CharacterWidget = () => {
         className="flex gap-[2rem] flex-col justify-center"
         onSubmit={handleSubmit((data) => console.log(data))}
       >
-        <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
-          인성 영역
+        <h1 className="text-main-700 text-titleMedium my-[2.38rem]">
+          독서 영역
         </h1>
         <Controller
-          name="category"
+          name="title"
           control={control}
           rules={{
-            required: "카테고리를 선택해주세요.",
+            required: "제목을 입력해주세요.",
+          }}
+          render={({ field }) => <Input label="제목" {...field} />}
+        />
+        <Controller
+          name="author"
+          control={control}
+          rules={{
+            required: "저자를 입력해주세요.",
+          }}
+          render={({ field }) => <Input label="저자" {...field} />}
+        />
+        <Controller
+          name="page"
+          control={control}
+          rules={{
+            required: "페이지를 입력해주세요.",
           }}
           render={({ field }) => (
-            <Dropdown label="카테고리" options={["example"]} {...field} />
+            <Input type="number" label="페이지" {...field} />
           )}
         />
         <Controller
@@ -47,20 +59,12 @@ const CharacterWidget = () => {
           render={({ field }) => <Semester {...field} />}
         />
         <Controller
-          name="topic"
-          control={control}
-          rules={{
-            required: "주제를 입력해주세요.",
-          }}
-          render={({ field }) => <Input label="주제" {...field} />}
-        />
-        <Controller
           name="content"
           control={control}
           rules={{
             required: "내용을 입력해주세요.",
           }}
-          render={({ field }) => <Textarea {...field} />}
+          render={({ field }) => <Textarea isBook {...field} />}
         />
         <Controller
           name="file"
@@ -79,4 +83,4 @@ const CharacterWidget = () => {
   );
 };
 
-export default CharacterWidget;
+export default BookWidget;
