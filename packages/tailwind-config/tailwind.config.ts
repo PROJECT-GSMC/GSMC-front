@@ -34,6 +34,9 @@ const config: Omit<Config, "content"> = {
           900: "#131E32",
         },
       },
+      screens: {
+        mobile: { max: "640px" },
+      },
     },
   },
   plugins: [],
