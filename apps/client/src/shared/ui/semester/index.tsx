@@ -1,4 +1,5 @@
 import { Button } from "@repo/ui/button";
+import { variantStyles } from "../../../../../../packages/ui/src/consts/button";
 
 interface SemesterProps {
   value: string;
@@ -18,13 +19,13 @@ const Semester = ({ value, onChange }: SemesterProps) => {
       <div className="flex gap-[0.5rem] mt-[0.5rem] w-full">
         <Button
           label="1학기"
-          type="secondary"
+          variant={variantStyles["skyblue"]}
           isActive={value === "1학기"}
           onClick={() => handleButtonClick("1학기")}
         />
         <Button
           label="2학기"
-          type="secondary"
+          variant={variantStyles["skyblue"]}
           isActive={value === "2학기"}
           onClick={() => handleButtonClick("2학기")}
         />
