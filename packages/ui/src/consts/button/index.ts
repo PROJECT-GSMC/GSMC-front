@@ -6,7 +6,7 @@ export const variantStyles = {
   },
   skyblue: {
     default:
-      "bg-white border border-tropicalblue-400 text-tropicalblue-400 hover:bg-tropicalblue-500 hover:text-white hover:border-tropicalblue-500",
+      "border border-tropicalblue-400 text-tropicalblue-400 hover:bg-tropicalblue-500 hover:text-white hover:border-tropicalblue-500",
     active:
       "bg-gray-300 border border-tropicalblue-400 text-tropicalblue-400 hover:bg-tropicalblue-500 hover:text-white hover:border-tropicalblue-500",
     disabled:
