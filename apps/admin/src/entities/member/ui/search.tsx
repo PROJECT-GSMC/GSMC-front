@@ -1,4 +1,4 @@
-import SearchIcon from "../../../shared/asset/svg/search";
+import SearchIcon from "@repo/ui/search";
 
 export const Search = () => {
   return (
