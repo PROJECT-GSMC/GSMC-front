@@ -12,9 +12,9 @@ const PostsWidget = () => {
   return (
     <div className="flex flex-col items-center">
       <Header />
-      <div className="w-[600px]">
+      <div className="w-full max-w-[37.5rem]">
         <Search result={result} setResult={setResult} />
-        <div className="flex gap-[1rem] justify-between">
+        <div className="flex gap-[1rem] mobile:gap-0 justify-between">
           <Button label="독서" variant={variantStyles["skyblue"]} />
           <Button label="인성" variant={variantStyles["skyblue"]} />
           <Button label="전공" variant={variantStyles["skyblue"]} />
