@@ -15,6 +15,9 @@ importers:
         specifier: ^7.54.2
         version: 7.54.2(react@19.0.0)
     devDependencies:
+      '@types/node':
+        specifier: ^22.13.9
+        version: 22.13.9
       autoprefixer:
         specifier: ^10.4.21
         version: 10.4.21(postcss@8.5.3)
