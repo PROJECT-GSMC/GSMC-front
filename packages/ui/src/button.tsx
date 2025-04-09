@@ -9,11 +9,10 @@ interface ButtonProps {
   variant: keyof typeof variantStyles;
   width?: string;
   isActive?: boolean;
-  hover?: boolean;
   onClick?: () => void;
 }
 
-export const Button = ({ variant, isActive, label, width, hover, onClick }: ButtonProps) => {
+export const Button = ({ variant, isActive, label, width, onClick }: ButtonProps) => {
   const state: ButtonState = isActive ? "default" : onClick ? "active" : "disabled"
   const baseStyle = "flex py-[0.8125rem] w-full text-body2 px-[1.375rem] justify-center items-center self-stretch rounded-[0.75rem] transition-colors";
   const buttonStyle = useMemo(() => variantStyles[variant][state], [variant, state]);
