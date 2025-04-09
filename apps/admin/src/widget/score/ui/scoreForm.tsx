@@ -3,7 +3,6 @@
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import { Controller, useForm } from "react-hook-form";
-import { variantStyles } from "../../../../../../packages/ui/src/consts/button";
 import Checkbox from "../../../entities/score/ui/checkbox";
 import Header from "../../../shared/ui/header";
 
@@ -46,12 +45,12 @@ const ScoreForm = () => {
 
         <div className="flex flex-col gap-[0.69rem]">
           <Button
-            variant={variantStyles["skyblue"]}
+            variant="skyblue"
             label="뒤로가기"
             isActive
           />
           <Button
-            variant={variantStyles["blue"]}
+            variant="blue"
             label="점수 주기 완료"
             isActive
           />
