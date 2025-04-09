@@ -8,7 +8,6 @@ import Header from "../../../shared/ui/header";
 import Semester from "../../../shared/ui/semester";
 import Dropdown from "../../../shared/ui/dropdown";
 import File from "../../../shared/ui/file";
-import { variantStyles } from "../../../../../../packages/ui/src/consts/button";
 
 const MajorWidget = () => {
   const {
@@ -72,8 +71,8 @@ const MajorWidget = () => {
           render={({ field }) => <File label="이미지" {...field} />}
         />
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-          <Button isActive variant={variantStyles["skyblue"]} label="임시저장" />
-          <Button isActive={false} variant={variantStyles["blue"]} label="작성 완료" />
+          <Button isActive variant="skyblue" label="임시저장" />
+          <Button isActive={false} variant="blue" label="작성 완료" />
         </div>
       </form>
     </div>

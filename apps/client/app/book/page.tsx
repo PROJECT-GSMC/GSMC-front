@@ -8,7 +8,6 @@ import Semester from "../../src/shared/ui/semester";
 import Textarea from "../../src/shared/ui/textarea";
 import File from "../../src/shared/ui/file";
 import Header from "../../src/shared/ui/header";
-import { variantStyles } from "../../../../packages/ui/src/consts/button";
 
 const BookWidget = () => {
   const {
@@ -72,8 +71,8 @@ const BookWidget = () => {
           render={({ field }) => <File label="이미지" {...field} />}
         />
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-          <Button variant={variantStyles["skyblue"]} label="임시저장" isActive />
-          <Button variant={variantStyles["blue"]} label="작성 완료" isActive={false} />
+          <Button variant="skyblue" label="임시저장" isActive />
+          <Button variant="blue" label="작성 완료" isActive={false} />
         </div>
       </form>
     </div>

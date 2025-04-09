@@ -1,4 +1,3 @@
-import { variantStyles } from "../../../../packages/ui/src/consts/button";
 import { Button } from "@repo/ui/button";
 import Header from "../../src/shared/ui/header";
 
@@ -28,8 +27,8 @@ const DetailPage = () => {
           </main>
 
           <footer className="flex gap-[1.56rem] w-full">
-            <Button label="수정하기" variant={variantStyles["blue"]} width="w-full" isActive />
-            <Button label="뒤로가기" variant={variantStyles["skyblue"]} width="w-full" isActive />
+            <Button label="수정하기" variant="blue" width="w-full" isActive />
+            <Button label="뒤로가기" variant="skyblue" width="w-full" isActive />
           </footer>
 
         </div>
