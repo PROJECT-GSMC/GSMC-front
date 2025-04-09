@@ -35,7 +35,7 @@ const config: Omit<Config, "content"> = {
         },
       },
       screens: {
-        mobile: { max: "640px" },
+        mobile: { max: "600px" },
       },
     },
   },
