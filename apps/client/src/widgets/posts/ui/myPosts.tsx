@@ -15,11 +15,11 @@ const PostsWidget = () => {
       <div className="w-[600px]">
         <Search result={result} setResult={setResult} />
         <div className="flex gap-[1rem] justify-between">
-          <Button label="독서" variant={variantStyles["skyblue"]} />
-          <Button label="인성" variant={variantStyles["skyblue"]} />
-          <Button label="전공" variant={variantStyles["skyblue"]} />
-          <Button label="외국어" variant={variantStyles["skyblue"]} />
-          <Button label="임시저장" variant={variantStyles["skyblue"]} />
+          <Button label="독서" variant="skyblue" />
+          <Button label="인성" variant="skyblue" />
+          <Button label="전공" variant="skyblue" />
+          <Button label="외국어" variant="skyblue" />
+          <Button label="임시저장" variant="skyblue" />
         </div>
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
           <Post
