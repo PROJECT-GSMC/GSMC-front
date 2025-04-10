@@ -1,8 +1,35 @@
+"use client";
+
+import List from "@repo/ui/list";
+import { ShowInformation } from "../src/entities/main/ui/showInformation";
+import Header from "../src/shared/ui/header";
+import { useEffect, useState } from "react";
+import { getCertification } from "../src/entities/main/api/getCertification";
+import { Certification } from "../src/entities/main/model/certification";
+import Card from "@repo/ui/card";
+
 export default function page() {
+  const [certification, setCertification] = useState<Certification[]>();
+  useEffect(() => {
+    const Fetch = async () => {
+      const res = await getCertification();
+      setCertification(res);
+    };
+    Fetch();
+  }, []);
   return (
-    <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
-
+    <div className="flex flex-col items-center w-full h-screen">
+      <Header />
+      <div className="w-full max-w-[37.5rem]">
+        <ShowInformation name="모태환" score={2300} />
+        <div className="flex flex-col">
+          <List title="자격증">
+            {certification?.map((v, i) => {
+              return <Card key={i} front={v.name} />;
+            })}
+          </List>
+        </div>
+      </div>
     </div>
-  )
+  );
 }
-
