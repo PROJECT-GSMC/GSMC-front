@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { getCertification } from "../src/entities/main/api/getCertification";
 import { Certification } from "../src/entities/main/model/certification";
 import Card from "@repo/ui/card";
+import ShowLogin from "../src/entities/main/ui/showLogin";
 
 export default function page() {
   const [certification, setCertification] = useState<Certification[]>();
@@ -20,8 +21,12 @@ export default function page() {
   return (
     <div className="flex flex-col items-center w-full h-screen">
       <Header />
-      <div className="w-full max-w-[37.5rem]">
-        <ShowInformation name="모태환" score={2300} />
+      <div className="w-full max-w-[37.5rem] flex flex-col">
+        {localStorage.getItem("accessToken") ? (
+          <ShowInformation name="모태환" score={2300} />
+        ) : (
+          <ShowLogin />
+        )}
         <div className="flex flex-col">
           <List title="자격증">
             {certification?.map((v, i) => {
