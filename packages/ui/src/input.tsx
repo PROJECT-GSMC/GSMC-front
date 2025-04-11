@@ -28,9 +28,8 @@ export const Input = ({
         onChange={onChange}
         className="p-[1rem] rounded-[0.5rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600"
       />
-      <small role="alert" className="text-red-500">
-        {error}
-      </small>
+      {error && <small role="alert" className="text-red-500">{error}</small>}
+
     </div>
   );
 };
