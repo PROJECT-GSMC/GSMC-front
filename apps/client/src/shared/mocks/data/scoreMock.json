@@ -1,0 +1,21 @@
+{
+	"totalScore": 2300,
+	"score": [
+		{
+			"categoryName": "major-in_school_attendance-seminar",
+			"value": 15
+		},
+		{
+			"categoryName":  "humanities-activities-self_directed_activities",
+			"value": 25
+		},
+		{
+			"categoryName":  "humanities-book-bookmarathon-turtle",
+			"value": 40
+		},
+		{
+			"categoryName":  "foreign_lang-test-toeic-score",
+			"value": 750
+		}
+  ]
+}
