@@ -18,14 +18,14 @@ const Semester = ({ value, onChange }: SemesterProps) => {
       <div className="flex gap-[0.5rem] mt-[0.5rem] w-full">
         <Button
           label="1학기"
-          variant="skyblue"
-          isActive={value === "1학기"}
+          variant={value === "1학기" ? "blue" : "skyblue"}
+          isActive
           onClick={() => handleButtonClick("1학기")}
         />
         <Button
           label="2학기"
-          variant="skyblue"
-          isActive={value === "2학기"}
+          variant={value === "2학기" ? "blue" : "skyblue"}
+          isActive
           onClick={() => handleButtonClick("2학기")}
         />
       </div>
