@@ -23,11 +23,9 @@ const BookWidget = () => {
         className="flex gap-[2rem] flex-col justify-center w-full max-w-[37.5rem]"
         onSubmit={handleSubmit((data) => {
           sendBook(data);
-          if (errors) {
-            toast.error("글을 올리는데 실패했습니다");
-          } else {
-            toast.success("글을 올리는데 성공했습니다");
-          }
+          errors
+            ? toast.error("글 제출을 실패했습니다")
+            : toast.success("글 제출을 성공했습니다");
         })}
       >
         <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
