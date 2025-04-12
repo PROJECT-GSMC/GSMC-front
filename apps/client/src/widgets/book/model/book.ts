@@ -3,4 +3,5 @@ export interface Book {
   author: string;
   page: number;
   content: string;
+  semester: number;
 }
