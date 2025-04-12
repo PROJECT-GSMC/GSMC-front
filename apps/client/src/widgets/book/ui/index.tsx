@@ -6,19 +6,21 @@ import { Controller, useForm } from "react-hook-form";
 import Textarea from "../../../shared/ui/textarea";
 import Header from "../../../shared/ui/header";
 import Semester from "../../../shared/ui/semester";
+import { sendBook } from "../api/sendBook";
+import { Book } from "../model/book";
 
 const BookWidget = () => {
   const {
     handleSubmit,
     control,
     formState: { errors, isValid },
-  } = useForm({ mode: "onChange" });
+  } = useForm<Book>({ mode: "onChange" });
   return (
     <div className="flex flex-col items-center">
       <Header />
       <form
         className="flex gap-[2rem] flex-col justify-center w-full max-w-[37.5rem]"
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit((data) => sendBook(data))}
       >
         <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
           독서 영역
@@ -44,7 +46,7 @@ const BookWidget = () => {
         <Controller
           name="page"
           control={control}
-          defaultValue=""
+          defaultValue={0}
           rules={{
             required: "페이지를 입력해주세요.",
           }}
@@ -54,7 +56,7 @@ const BookWidget = () => {
         />
         <Controller
           name="semester"
-          defaultValue=""
+          defaultValue={0}
           control={control}
           rules={{
             required: "학기를 선택해주세요.",
