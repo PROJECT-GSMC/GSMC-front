@@ -1,3 +1,5 @@
+"use client";
+
 import { useForm, Controller, useWatch } from "react-hook-form";
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
@@ -28,6 +30,7 @@ const MajorWidget = () => {
 
   const category1 = useWatch({ control, name: "category1" });
   const category2 = useWatch({ control, name: "category2" });
+  const file = useWatch({ control, name: "file" });
 
   const categoryName = `${category1}-${category2}`;
 
@@ -108,6 +111,12 @@ const MajorWidget = () => {
           control={control}
           rules={{
             required: "내용을 입력해주세요.",
+            minLength: {
+              value: file ? 200 : 400,
+              message: file
+                ? "내용을 200자 이상 입력해주세요."
+                : "내용을 400자 이상 입력해주세요.",
+            },
           }}
           render={({ field }) => <Textarea {...field} />}
         />
