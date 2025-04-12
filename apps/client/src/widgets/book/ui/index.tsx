@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import { Controller, useForm } from "react-hook-form";
