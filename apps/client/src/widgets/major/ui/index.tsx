@@ -22,7 +22,7 @@ const MajorWidget = () => {
     <div className="flex flex-col items-center">
       <Header />
       <form
-        className="flex gap-[2rem] flex-col justify-center"
+        className="flex gap-[2rem] flex-col justify-center w-full max-w-[37.5rem]"
         onSubmit={handleSubmit((data) => console.log(data))}
       >
         <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
