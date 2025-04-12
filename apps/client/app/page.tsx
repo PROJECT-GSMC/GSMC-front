@@ -8,6 +8,7 @@ import { getCertification } from "../src/entities/main/api/getCertification";
 import { Certification } from "../src/entities/main/model/certification";
 import Card from "@repo/ui/card";
 import ShowLogin from "../src/entities/main/ui/showLogin";
+import { Button } from "@repo/ui/button";
 
 export default function page() {
   const [certification, setCertification] = useState<Certification[]>();
@@ -27,7 +28,13 @@ export default function page() {
         ) : (
           <ShowLogin />
         )}
-        <div className="flex flex-col">
+        <div className="flex items-center gap-10">
+          <Button label="독서" variant="skyblue" onClick={() => console.log()} />
+          <Button label="인성" variant="skyblue" onClick={() => console.log()} />
+          <Button label="전공" variant="skyblue" onClick={() => console.log()} />
+          <Button label="외국어" variant="skyblue" onClick={() => console.log()} />
+        </div>
+        <div className="flex flex-col mt-9">
           <List title="자격증">
             {certification?.map((v, i) => {
               return <Card key={i} front={v.name} />;
