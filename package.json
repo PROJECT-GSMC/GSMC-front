@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "axios": "^1.8.4",
-    "react-hook-form": "^7.54.2"
+    "react-hook-form": "^7.54.2",
+    "sonner": "^2.0.3"
   }
 }
