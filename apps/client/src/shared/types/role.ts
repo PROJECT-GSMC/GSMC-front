@@ -1,5 +1,0 @@
-export type role =
-  | "ROLE_STUDENT"
-  | "ROLE_HOOMROOM_TEACHER"
-  | "ROLE_MAISTER_TEACHER"
-  | "ROLE_DEVELOPER";
