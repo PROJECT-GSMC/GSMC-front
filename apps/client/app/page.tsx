@@ -26,33 +26,33 @@ export default function page() {
   const book_dropdown = [
     {
       title: "독서영역 작성하러가기",
-      url: ""
+      url: "book/write"
     },
     {
-      title: "독서마라톤 단계 입력",
-      url: ""
+      title: "독서로 단계 입력",
+      url: "book/bookroad"
     }
   ]
 
   const human_dropdown = [
     {
       title: "인성영역 작성하러가기",
-      url: ""
+      url: "humanity/write"
     },
     {
       title: "인성 자격증 입력하기",
-      url: ""
+      url: "humanity/certificates"
     }
   ]
 
   const major_dropdown = [
     {
       title: "전공 자격증 입력하기",
-      url: ""
+      url: "major/certificate"
     },
     {
       title: "TOPCIT 점수 입력하기",
-      url: ""
+      url: "marjor/topcit"
     }
   ]
 
