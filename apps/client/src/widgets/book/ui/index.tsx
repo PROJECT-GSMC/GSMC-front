@@ -6,17 +6,13 @@ import { Controller, useForm } from "react-hook-form";
 import Textarea from "../../../shared/ui/textarea";
 import Header from "../../../shared/ui/header";
 import Semester from "../../../shared/ui/semester";
-import File from "../../../shared/ui/file";
 
 const BookWidget = () => {
   const {
-    register,
-    setValue,
     handleSubmit,
-    setError,
     control,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm({ mode: "onChange" });
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -30,6 +26,7 @@ const BookWidget = () => {
         <Controller
           name="title"
           control={control}
+          defaultValue=""
           rules={{
             required: "제목을 입력해주세요.",
           }}
@@ -37,6 +34,7 @@ const BookWidget = () => {
         />
         <Controller
           name="author"
+          defaultValue=""
           control={control}
           rules={{
             required: "저자를 입력해주세요.",
@@ -46,6 +44,7 @@ const BookWidget = () => {
         <Controller
           name="page"
           control={control}
+          defaultValue=""
           rules={{
             required: "페이지를 입력해주세요.",
           }}
@@ -55,6 +54,7 @@ const BookWidget = () => {
         />
         <Controller
           name="semester"
+          defaultValue=""
           control={control}
           rules={{
             required: "학기를 선택해주세요.",
@@ -63,23 +63,17 @@ const BookWidget = () => {
         />
         <Controller
           name="content"
+          defaultValue=""
           control={control}
           rules={{
             required: "내용을 입력해주세요.",
           }}
           render={({ field }) => <Textarea isBook {...field} />}
         />
-        <Controller
-          name="file"
-          control={control}
-          rules={{
-            required: "파일을 선택해주세요.",
-          }}
-          render={({ field }) => <File label="이미지" {...field} />}
-        />
+
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
           <Button isActive variant="skyblue" label="임시저장" />
-          <Button isActive={false} variant="blue" label="작성 완료" />
+          <Button isActive={isValid} variant="blue" label="작성 완료" />
         </div>
       </form>
     </div>
