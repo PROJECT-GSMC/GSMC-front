@@ -8,6 +8,7 @@ import Header from "../../../shared/ui/header";
 import Semester from "../../../shared/ui/semester";
 import { sendBook } from "../api/sendBook";
 import { Book } from "../model/book";
+import { toast } from "sonner";
 
 const BookWidget = () => {
   const {
@@ -20,7 +21,14 @@ const BookWidget = () => {
       <Header />
       <form
         className="flex gap-[2rem] flex-col justify-center w-full max-w-[37.5rem]"
-        onSubmit={handleSubmit((data) => sendBook(data))}
+        onSubmit={handleSubmit((data) => {
+          sendBook(data);
+          if (errors) {
+            toast.error("글을 올리는데 실패했습니다");
+          } else {
+            toast.success("글을 올리는데 성공했습니다");
+          }
+        })}
       >
         <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
           독서 영역
