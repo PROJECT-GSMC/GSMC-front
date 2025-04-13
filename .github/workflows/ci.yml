@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Node.js 세팅
+        uses: actions/setup-node@v3
+        with:
+          node-version: "18"
+
+      - name: pnpm 설치
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: pnpm store 경로 가져오기
+        shell: bash
+        run: |
+          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
+
+      - uses: actions/cache@v3
+        name: pnpm 캐시 설정
+        with:
+          path: ${{ env.STORE_PATH }}
+          key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
+          restore-keys: |
+            ${{ runner.os }}-pnpm-store-
+
+      - name: 의존성 설치
+        run: pnpm install --frozen-lockfile
+
+      - name: 린트
+        run: pnpm lint
+
+      - name: 테스트
+        run: pnpm test
+
+      - name: 빌드
+        run: pnpm build
