@@ -1,5 +1,6 @@
 import { useState } from "react";
 import Checked from "../../../shared/asset/svg/checked";
+import { on } from "events";
 
 interface CheckboxProps {
   check?: boolean;
@@ -16,6 +17,7 @@ const Checkbox = ({ check, onChange }: CheckboxProps) => {
         <div
           onClick={() => {
             setIsChecked(!isChecked);
+            onChange && onChange(!isChecked);
           }}
           className="flex cursor-pointer"
         >
@@ -25,6 +27,7 @@ const Checkbox = ({ check, onChange }: CheckboxProps) => {
         <div
           onClick={() => {
             setIsChecked2(!isChecked2);
+            onChange && onChange(!isChecked2);
           }}
           className="flex cursor-pointer"
         >
