@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Checked from "../../../shared/asset/svg/checked";
-import { on } from "events";
 
 interface CheckboxProps {
   check?: boolean;
