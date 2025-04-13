@@ -47,3 +47,35 @@ jobs:
 
       - name: 빌드
         run: pnpm build
+
+  pr-checks:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: PR 제목 확인
+        uses: amannn/action-semantic-pull-request@v5
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          requireScope: false
+          subjectPattern: ".+"
+          subjectPatternError: "PR 제목 넣어주세요."
+
+      - name: PR CI 결과 코멘트
+        if: always()
+        uses: actions/github-script@v6
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const status = '${{ job.status }}';
+            const message = status === 'success' 
+              ? '✅ CI success'
+              : '❌ CI failed';
+
+            github.rest.issues.createComment({
+              issue_number: pr.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: message
+            });
+
