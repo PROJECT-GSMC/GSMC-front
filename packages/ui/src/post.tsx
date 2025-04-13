@@ -6,6 +6,18 @@ interface PostProps {
 }
 
 const Post = ({ data, isExample }: PostProps) => {
+  const handleState = (state: string) => {
+    if (state === "APPROVE") return "승인됨";
+    if (state === "REJECT") return "거절됨";
+    if (state === "PENDING") return "대기중";
+    return "임시저장";
+  };
+  const handleStateColor = (state: string) => {
+    if (state === "APPROVE") return "text-green-500";
+    if (state === "REJECT") return "text-red-500";
+    if (state === "PENDING") return "text-yellow-500";
+    return "text-gray-500";
+  };
   return (
     <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px] ">
       {data.imageUrl ? (
@@ -19,7 +31,11 @@ const Post = ({ data, isExample }: PostProps) => {
           {data.categoryName}
         </p>
         {isExample && (
-          <span className="text-body5 text-[#3870F9]">{data.status}</span>
+          <span
+            className={`text-body5 text-[${handleStateColor(data.status)}]`}
+          >
+            {handleState(data.status)}
+          </span>
         )}
       </div>
     </div>
