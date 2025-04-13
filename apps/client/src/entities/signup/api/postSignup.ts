@@ -3,7 +3,7 @@ import { AuthForm } from "../../../shared/model/AuthForm";
 
 export const postSignup = async (form: AuthForm) => {
   try {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/signup`, form);
+    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signup`, form);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
