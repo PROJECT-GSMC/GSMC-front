@@ -16,8 +16,10 @@ const LoginPage = () => {
     formState: { isValid, errors },
   } = useForm<LoginFormProps>({ mode: "onChange", defaultValues: { email: "", password: "" } });
 
-  const onSubmit = (data: LoginFormProps) => {
-    usePostSignin(data);
+  const { mutate: postSignin } = usePostSignin();
+
+  const onSubmit = (form: LoginFormProps) => {
+    postSignin(form);
   };
 
   return (
