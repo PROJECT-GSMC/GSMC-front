@@ -1,6 +1,11 @@
 import { PostType } from "../../../apps/client/src/entities/posts/model/postType";
 
-const Post = ({ data }: { data: PostType }) => {
+interface PostProps {
+  data: PostType;
+  isExample?: boolean;
+}
+
+const Post = ({ data, isExample }: PostProps) => {
   return (
     <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px] ">
       {data.imageUrl ? (
@@ -13,7 +18,9 @@ const Post = ({ data }: { data: PostType }) => {
         <p className="text-gray-400 text-body5 mb-[0.75rem]">
           {data.categoryName}
         </p>
-        <span className="text-body5 text-[#3870F9]">{data.status}</span>
+        {isExample && (
+          <span className="text-body5 text-[#3870F9]">{data.status}</span>
+        )}
       </div>
     </div>
   );
