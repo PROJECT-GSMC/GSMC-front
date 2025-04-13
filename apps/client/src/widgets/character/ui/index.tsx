@@ -30,7 +30,7 @@ const CharacterWidget = () => {
     const finalData: Activity = {
       ...data,
       categoryName: data.categoryName.send,
-      activityType: "MAJOR",
+      activityType: "HUMANITIES",
     };
     try {
       await sendActivity(finalData);
