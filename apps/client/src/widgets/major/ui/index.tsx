@@ -11,14 +11,10 @@ import File from "../../../shared/ui/file";
 import { Activity } from "../../../shared/types/activity";
 import { sendActivity } from "../../../shared/api/sendActivity";
 import { toast } from "sonner";
+import { majorCategoryOptions } from "../model/category";
 
-interface beforeActivity {
-  category1: string;
-  category2: string;
-  semester: number;
-  title: string;
-  content: string;
-  file: File;
+interface FormValues extends Omit<Activity, "categoryName"> {
+  categoryName: { name: string; send: string };
 }
 
 const MajorWidget = () => {
@@ -26,19 +22,14 @@ const MajorWidget = () => {
     handleSubmit,
     control,
     formState: { errors, isValid },
-  } = useForm<beforeActivity>({ mode: "onChange" });
+  } = useForm<FormValues>({ mode: "onChange" });
 
-  const category1 = useWatch({ control, name: "category1" });
-  const category2 = useWatch({ control, name: "category2" });
   const file = useWatch({ control, name: "file" });
 
-  const categoryName = `${category1}-${category2}`;
-
-  const onSubmit = (data: beforeActivity) => {
-    const { category1, category2, ...restData } = data;
+  const onSubmit = (data: FormValues) => {
     const finalData: Activity = {
-      ...restData,
-      categoryName,
+      ...data,
+      categoryName: data.categoryName.send,
       activityType: "MAJOR",
     };
 
@@ -47,7 +38,6 @@ const MajorWidget = () => {
       ? toast.error("글 제출을 실패했습니다")
       : toast.success("글 제출을 성공했습니다");
   };
-
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -59,31 +49,16 @@ const MajorWidget = () => {
           전공 영역
         </h1>
         <Controller
-          name="category1"
-          defaultValue=""
+          name="categoryName"
+          defaultValue={{ name: "", send: "" }}
           control={control}
           rules={{
             required: "카테고리를 선택해주세요.",
           }}
           render={({ field }) => (
             <Dropdown
-              label="카테고리 1"
-              options={["example1", "example2"]}
-              {...field}
-            />
-          )}
-        />
-        <Controller
-          name="category2"
-          defaultValue=""
-          control={control}
-          rules={{
-            required: "카테고리를 선택해주세요.",
-          }}
-          render={({ field }) => (
-            <Dropdown
-              label="카테고리 2"
-              options={["example1", "example2"]}
+              label="카테고리"
+              options={majorCategoryOptions}
               {...field}
             />
           )}
