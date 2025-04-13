@@ -21,7 +21,7 @@ const MajorWidget = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<FormValues>({ mode: "onChange" });
 
   const file = useWatch({ control, name: "file" });
