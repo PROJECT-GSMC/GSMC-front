@@ -5,7 +5,7 @@ interface TextareaProps {
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const Textarea = ({ isBook = false }: TextareaProps) => {
+const Textarea = ({ isBook = false, onChange }: TextareaProps) => {
   const [length, setLength] = useState(0);
   return (
     <div>
@@ -16,7 +16,9 @@ const Textarea = ({ isBook = false }: TextareaProps) => {
         <label htmlFor="textarea">
           {" "}
           ({" "}
-          <span className={`${length === 0 ? "text-black" : "text-tropicalblue-500"}`}>
+          <span
+            className={`${length === 0 ? "text-black" : "text-tropicalblue-500"}`}
+          >
             {length}
           </span>{" "}
           )
@@ -25,6 +27,7 @@ const Textarea = ({ isBook = false }: TextareaProps) => {
       <textarea
         onChange={(e) => {
           setLength(e.target.value.length);
+          onChange(e);
         }}
         className=" resize-none w-full min-h-[20rem] border mt-[0.69rem]  rounded-[1rem] px-[1.5rem] py-[1.25rem] focus:  focus:outline-tropicalblue-400"
         name="textarea"

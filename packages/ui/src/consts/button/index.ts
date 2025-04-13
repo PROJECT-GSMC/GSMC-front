@@ -1,15 +1,22 @@
 export const variantStyles = {
   blue: {
     default: "bg-tropicalblue-500 text-white",
-    active: "bg-tropicalblue-900 text-white",
-    disabled: "bg-gray-200 text-gray-500 cursor-not-allowed",
+    active: "bg-[#1C2F8C] text-[#DBDCDE]",
+    disabled: "bg-[#CDCDCF] text-[#828387] cursor-not-allowed",
   },
   skyblue: {
-    default:
-      "border border-tropicalblue-400 text-tropicalblue-400 hover:bg-tropicalblue-500 hover:text-white hover:border-tropicalblue-500",
-    active:
-      "bg-gray-300 border border-tropicalblue-400 text-tropicalblue-400 hover:bg-tropicalblue-500 hover:text-white hover:border-tropicalblue-500",
+    default: "bg-white border border-tropicalblue-500 text-tropicalblue-500",
+    active: "bg-[#DBDCDE] border border-tropicalblue-500 text-tropicalblue-500",
     disabled:
-      "bg-white border border-gray-500 text-gray-500 cursor-not-allowed",
+      "bg-white border border-[#828387] text-[#828387] cursor-not-allowed",
+  },
+  // 메인 페이지에서 사용할 예정
+  skyblue_hover: {
+    default:
+      "bg-white border border-tropicalblue-500 text-tropicalblue-500 hover:bg-tropicalblue-500 hover:text-white ",
+    active:
+      "bg-[#DBDCDE] border border-tropicalblue-500 text-tropicalblue-500 hover:bg-tropicalblue-500 hover:text-white ",
+    disabled:
+      "bg-white border border-[#828387] text-[#828387] cursor-not-allowed",
   },
 };

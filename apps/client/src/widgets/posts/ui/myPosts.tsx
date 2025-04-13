@@ -2,7 +2,6 @@
 
 import { Button } from "@repo/ui/button";
 import Header from "../../../shared/ui/header";
-import { variantStyles } from "../../../../../../packages/ui/src/consts/button";
 import Post from "../../../entities/posts/ui/post";
 import Search from "../../../entities/posts/ui/search";
 import { useState } from "react";
@@ -14,12 +13,21 @@ const PostsWidget = () => {
       <Header />
       <div className="w-full max-w-[37.5rem]">
         <Search result={result} setResult={setResult} />
+<<<<<<< HEAD
         <div className="flex gap-[1rem] mobile:gap-0 justify-between">
           <Button label="독서" variant={variantStyles["skyblue"]} />
           <Button label="인성" variant={variantStyles["skyblue"]} />
           <Button label="전공" variant={variantStyles["skyblue"]} />
           <Button label="외국어" variant={variantStyles["skyblue"]} />
           <Button label="임시저장" variant={variantStyles["skyblue"]} />
+=======
+        <div className="flex gap-[1rem] justify-between">
+          <Button label="독서" variant="skyblue" />
+          <Button label="인성" variant="skyblue" />
+          <Button label="전공" variant="skyblue" />
+          <Button label="외국어" variant="skyblue" />
+          <Button label="임시저장" variant="skyblue" />
+>>>>>>> 0d10f325391b835385a69c3a824e1557b18ebf7e
         </div>
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
           <Post

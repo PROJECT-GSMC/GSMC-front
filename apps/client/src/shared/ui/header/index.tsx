@@ -8,8 +8,13 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
+<<<<<<< HEAD
     <header className="w-full py-[1.38rem] flex justify-center border-b">
       <div className="w-[37.5rem] flex justify-between items-center">
+=======
+    <header className="w-full py-[1.38rem] flex justify-around border-b">
+      <div className="w-full max-w-[37.5rem] flex items-center justify-between">
+>>>>>>> 0d10f325391b835385a69c3a824e1557b18ebf7e
         <Link href="/">
           <TextLogo />
         </Link>

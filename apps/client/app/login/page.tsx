@@ -3,7 +3,6 @@ import { Input } from "@repo/ui/input"
 import { Button } from "@repo/ui/button"
 import { useForm, Controller } from "react-hook-form"
 import { AuthForm } from "../../src/widgets/auth/ui"
-import { variantStyles } from "../../../../packages/ui/src/consts/button"
 
 interface LoginFormProps {
   email: string;
@@ -61,7 +60,7 @@ const LoginPage = () => {
               render={({ field }) => <Input label="비밀번호" type="password" error={errors.password?.message} {...field} />}
             />
           </div>
-          <Button label="로그인" variant={variantStyles["blue"]} isActive={isValid} />
+          <Button label="로그인" variant="blue" isActive={isValid} />
         </form>
       </AuthForm>
     </div>
