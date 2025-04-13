@@ -1,11 +1,7 @@
 import axios from "axios";
+import { AuthForm } from "../../../shared/model/AuthForm";
 
-interface SignupForm {
-  email: string;
-  password: string;
-}
-
-export const postSignup = async (form: SignupForm) => {
+export const postSignup = async (form: AuthForm) => {
   try {
     const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/signup`, form);
     return response.data;
