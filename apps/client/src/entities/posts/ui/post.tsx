@@ -1,10 +1,11 @@
+import Image from "next/image";
 import { PostType } from "../model/postType";
 
 const Post = ({ data }: { data: PostType }) => {
   return (
     <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px] ">
       {data.imageUrl ? (
-        <img className="h-[150px]" src={data.imageUrl} alt={data.title} />
+        <Image className="h-[150px]" src={data.imageUrl} alt={data.title} />
       ) : (
         <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem]"></div>
       )}
