@@ -1,9 +1,9 @@
-interface ListProps<T> {
+interface ListProps {
   children: React.ReactNode;
   title: string;
 }
 
-const List = <T,>({ children, title }: ListProps<T>) => {
+const List = ({ children, title }: ListProps) => {
   return (
     <div className="w-full h-full min-h-[27.8125rem] mb-[2.5rem] bg-tropicalblue-100 py-[2.25rem] px-[1.38rem] rounded-[1.25rem]">
       <div className="flex items-center mb-[2.2rem]">
