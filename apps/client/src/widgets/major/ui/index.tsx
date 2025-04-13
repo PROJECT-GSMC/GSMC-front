@@ -26,17 +26,18 @@ const MajorWidget = () => {
 
   const file = useWatch({ control, name: "file" });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     const finalData: Activity = {
       ...data,
       categoryName: data.categoryName.send,
       activityType: "MAJOR",
     };
-
-    sendActivity(finalData);
-    errors
-      ? toast.error("글 제출을 실패했습니다")
-      : toast.success("글 제출을 성공했습니다");
+    try {
+      await sendActivity(finalData);
+      toast.success("글 제출을 성공했습니다");
+    } catch (e) {
+      toast.error("글 제출을 실패했습니다");
+    }
   };
   return (
     <div className="flex flex-col items-center">

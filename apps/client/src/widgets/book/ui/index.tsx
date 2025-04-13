@@ -14,18 +14,20 @@ const BookWidget = () => {
   const {
     handleSubmit,
     control,
-    formState: { errors, isValid },
+    formState: { isValid },
   } = useForm<Book>({ mode: "onChange" });
   return (
     <div className="flex flex-col items-center">
       <Header />
       <form
         className="flex gap-[2rem] flex-col justify-center w-full max-w-[37.5rem]"
-        onSubmit={handleSubmit((data) => {
-          sendBook(data);
-          errors
-            ? toast.error("글 제출을 실패했습니다")
-            : toast.success("글 제출을 성공했습니다");
+        onSubmit={handleSubmit(async (data) => {
+          try {
+            await sendBook(data);
+            toast.success("글 제출을 성공했습니다");
+          } catch (e) {
+            toast.error("글 제출을 실패했습니다");
+          }
         })}
       >
         <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
