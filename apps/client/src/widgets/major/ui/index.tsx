@@ -37,6 +37,7 @@ const MajorWidget = () => {
       toast.success("글 제출을 성공했습니다");
     } catch (e) {
       toast.error("글 제출을 실패했습니다");
+      console.error(e);
     }
   };
   return (
