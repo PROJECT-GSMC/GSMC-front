@@ -2,40 +2,62 @@
 
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import Textarea from "../../../shared/ui/textarea";
 import Header from "../../../shared/ui/header";
 import Semester from "../../../shared/ui/semester";
 import Dropdown from "../../../shared/ui/dropdown";
 import File from "../../../shared/ui/file";
+import { CharacterCategory } from "../model/category";
+import { Activity } from "../../../shared/types/activity";
+import { sendActivity } from "../../../shared/api/sendActivity";
+import { toast } from "sonner";
+
+interface FormValues extends Omit<Activity, "categoryName"> {
+  categoryName: { name: string; send: string };
+}
 
 const CharacterWidget = () => {
   const {
-    register,
-    setValue,
     handleSubmit,
-    setError,
     control,
-    formState: { errors },
-  } = useForm();
+    formState: { errors, isValid },
+  } = useForm<FormValues>({ mode: "onChange" });
+
+  const file = useWatch({ control, name: "file" });
+
+  const onSubmit = (data: FormValues) => {
+    const finalData: Activity = {
+      ...data,
+      categoryName: data.categoryName.send,
+      activityType: "MAJOR",
+    };
+
+    sendActivity(finalData);
+    errors
+      ? toast.error("글 제출을 실패했습니다")
+      : toast.success("글 제출을 성공했습니다");
+  };
+
   return (
     <div className="flex flex-col items-center">
       <Header />
       <form
         className="flex gap-[2rem] flex-col justify-center w-full max-w-[37.5rem]"
-        onSubmit={handleSubmit((data) => console.log(data))}
+        onSubmit={handleSubmit(onSubmit)}
       >
         <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
           인성 영역
         </h1>
         <Controller
-          name="category"
+          name="categoryName"
+          defaultValue={{ name: "", send: "" }}
           control={control}
           rules={{
             required: "카테고리를 선택해주세요.",
           }}
           render={({ field }) => (
-            <Dropdown label="카테고리" options={["example"]} {...field} />
+            <Dropdown label="카테고리" options={CharacterCategory} {...field} />
           )}
         />
         <Controller
@@ -47,7 +69,8 @@ const CharacterWidget = () => {
           render={({ field }) => <Semester {...field} />}
         />
         <Controller
-          name="topic"
+          name="title"
+          defaultValue=""
           control={control}
           rules={{
             required: "주제를 입력해주세요.",
@@ -59,6 +82,12 @@ const CharacterWidget = () => {
           control={control}
           rules={{
             required: "내용을 입력해주세요.",
+            minLength: {
+              value: file ? 200 : 400,
+              message: file
+                ? "내용을 200자 이상 입력해주세요."
+                : "내용을 400자 이상 입력해주세요.",
+            },
           }}
           render={({ field }) => <Textarea {...field} />}
         />
@@ -72,7 +101,7 @@ const CharacterWidget = () => {
         />
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
           <Button isActive variant="skyblue" label="임시저장" />
-          <Button isActive={false} variant="blue" label="작성 완료" />
+          <Button isActive={isValid} variant="blue" label="작성 완료" />
         </div>
       </form>
     </div>
