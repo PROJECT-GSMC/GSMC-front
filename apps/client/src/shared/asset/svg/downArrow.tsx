@@ -7,7 +7,7 @@ export const DownArrow = () => {
       viewBox="0 0 24 24"
       fill="none"
     >
-      <path d="M6 10L12 16L18 10" stroke="#111111" stroke-linecap="round" />
+      <path d="M6 10L12 16L18 10" stroke="#111111" strokeLinecap="round" />
     </svg>
   );
 };

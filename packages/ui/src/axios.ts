@@ -1,3 +1,5 @@
+"use client";
+
 import axios, { InternalAxiosRequestConfig } from "axios";
 
 const instance = axios.create({

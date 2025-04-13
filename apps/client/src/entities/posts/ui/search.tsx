@@ -22,7 +22,7 @@ const Search = ({ setResult, result, type }: SearchProps) => {
     };
 
     fetchSearchResult();
-  }, [debouncedValue, setResult]);
+  }, [debouncedValue, setResult, type]);
 
   return (
     <div className="relative">
