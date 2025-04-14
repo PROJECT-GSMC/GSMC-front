@@ -1,35 +1,18 @@
 import React from "react";
+import { useController, UseControllerProps } from "react-hook-form";
 
-interface InputProps {
-  label: string;
-  value: string | number;
-  type?: string;
-  error?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface InputProps extends UseControllerProps<any> {
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Input = ({
-  label,
-  type = "text",
-  value,
-  error,
-  onChange,
-}: InputProps) => {
-  return (
-    <div className="flex flex-col w-full gap-[0.56rem]">
-      <label htmlFor={label} className="text-label">
-        {label}
-      </label>
-      <input
-        id={label}
-        name={label}
-        type={type}
-        value={value}
-        onChange={onChange}
-        className="p-[1rem] rounded-[0.5rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600"
-      />
-      {error && <small role="alert" className="text-red-500">{error}</small>}
+export const Input = ({ ...props }: InputProps) => {
+  const { field } = useController(props);
 
-    </div>
+  return (
+    <input
+      className="px-[1rem] py-[0.75rem] rounded-[0.75rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600"
+      type={field.name}
+      {...field}
+    />
   );
-};
+}
