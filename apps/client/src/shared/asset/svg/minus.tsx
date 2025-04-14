@@ -1,4 +1,8 @@
-export const Minus = () => {
+interface MinusProps {
+  className: string;
+}
+
+export const Minus = ({ className }: MinusProps) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -6,10 +10,11 @@ export const Minus = () => {
       height="24"
       viewBox="0 0 24 24"
       fill="none"
+      className={`${className} transition-colors duration-200`}
     >
       <path
         d="M5.40039 12H18.5997"
-        stroke="#5E97FC"
+        stroke="currentColor"
         stroke-width="2"
         stroke-linecap="round"
         stroke-linejoin="round"
