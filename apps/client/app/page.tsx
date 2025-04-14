@@ -10,10 +10,12 @@ import Card from "@repo/ui/card";
 import ShowLogin from "../src/entities/main/ui/showLogin";
 import { Button } from "@repo/ui/button";
 import MainDropdown from "../src/entities/main/ui/dropdown";
+import * as O from "../src/widgets/main/model/dropdownOptions";
 
-export default function page() {
+export default function Page() {
   const [certification, setCertification] = useState<Certification[]>();
   const [hoverTab, setHoverTab] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
 
   useEffect(() => {
     const Fetch = async () => {
@@ -21,46 +23,16 @@ export default function page() {
       setCertification(res);
     };
     Fetch();
+
+    const token = localStorage.getItem("accessToken");
+    setAccessToken(token);
   }, []);
-
-  const book_dropdown = [
-    {
-      title: "독서영역 작성하러가기",
-      url: "book/write"
-    },
-    {
-      title: "독서로 단계 입력",
-      url: "book/bookroad"
-    }
-  ]
-
-  const human_dropdown = [
-    {
-      title: "인성영역 작성하러가기",
-      url: "humanity/write"
-    },
-    {
-      title: "인성 자격증 입력하기",
-      url: "humanity/certificates"
-    }
-  ]
-
-  const major_dropdown = [
-    {
-      title: "전공 자격증 입력하기",
-      url: "major/certificate"
-    },
-    {
-      title: "TOPCIT 점수 입력하기",
-      url: "marjor/topcit"
-    }
-  ]
 
   return (
     <div className="flex flex-col items-center w-full h-screen">
       <Header />
       <div className="w-full max-w-[37.5rem] flex flex-col">
-        {localStorage.getItem("accessToken") ? (
+        {accessToken ? (
           <ShowInformation name="모태환" score={2300} />
         ) : (
           <ShowLogin />
@@ -76,7 +48,7 @@ export default function page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "독서" && <MainDropdown list={book_dropdown} />}
+            {hoverTab === "독서" && <MainDropdown list={O.book_dropdown} />}
           </div>
           <div
             className="relative w-full"
@@ -88,7 +60,7 @@ export default function page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "인성" && <MainDropdown list={human_dropdown} />}
+            {hoverTab === "인성" && <MainDropdown list={O.human_dropdown} />}
           </div>
           <div
             className="relative w-full"
@@ -100,9 +72,13 @@ export default function page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "전공" && <MainDropdown list={major_dropdown} />}
+            {hoverTab === "전공" && <MainDropdown list={O.major_dropdown} />}
           </div>
-          <Button label="외국어" variant="skyblue" onClick={() => console.log()} />
+          <Button
+            label="외국어"
+            variant="skyblue"
+            onClick={() => console.log()}
+          />
         </div>
         <div className="flex flex-col mt-9">
           <List title="자격증">

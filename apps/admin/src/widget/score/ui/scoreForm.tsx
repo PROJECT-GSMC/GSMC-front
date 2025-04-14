@@ -7,14 +7,7 @@ import Checkbox from "../../../entities/score/ui/checkbox";
 import Header from "../../../shared/ui/header";
 
 const ScoreForm = () => {
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    setError,
-    control,
-    formState: { errors },
-  } = useForm();
+  const { control } = useForm();
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <Header />
@@ -44,16 +37,8 @@ const ScoreForm = () => {
         />
 
         <div className="flex flex-col gap-[0.69rem]">
-          <Button
-            variant="skyblue"
-            label="뒤로가기"
-            isActive
-          />
-          <Button
-            variant="blue"
-            label="점수 주기 완료"
-            isActive
-          />
+          <Button variant="skyblue" label="뒤로가기" isActive />
+          <Button variant="blue" label="점수 주기 완료" isActive />
         </div>
       </div>
     </div>
