@@ -7,6 +7,8 @@ import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { Plus } from "../../../shared/asset/svg/plus";
 import { Minus } from "../../../shared/asset/svg/minus";
+import { majorCategoryOptions } from "../../major/model/category";
+import { CharacterCategory } from "../../character/model/category";
 
 export const Calculate = () => {
   const Buttons = ["독서", "인성", "전공", "외국어"];
@@ -50,7 +52,11 @@ export const Calculate = () => {
             required: "카테고리를 선택해주세요.",
           }}
           render={({ field }) => (
-            <Dropdown label="카테고리" options={["example"]} {...field} />
+            <Dropdown
+              label="카테고리"
+              options={majorCategoryOptions}
+              {...field}
+            />
           )}
         />
         <Controller
@@ -60,7 +66,7 @@ export const Calculate = () => {
             required: "카테고리를 선택해주세요.",
           }}
           render={({ field }) => (
-            <Dropdown label="카테고리" options={["example"]} {...field} />
+            <Dropdown label="카테고리" options={CharacterCategory} {...field} />
           )}
         />
 
@@ -69,7 +75,7 @@ export const Calculate = () => {
             isActive={fileCount === 0 ? false : true}
             variant={variantStyles["skyblue"]}
             label={
-              <Minus ClassName="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
             width="basis-1/6"
             onClick={() => {
@@ -86,7 +92,7 @@ export const Calculate = () => {
             variant={variantStyles["skyblue"]}
             className="group"
             label={
-              <Plus ClassName="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
             width="basis-1/6"
             onClick={() => setFileCount(fileCount + 1)}
@@ -100,7 +106,9 @@ export const Calculate = () => {
           <Button
             isActive={fileCount === 0 ? false : true}
             variant={variantStyles["skyblue"]}
-            label={<Minus />}
+            label={
+              <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+            }
             width="basis-1/6"
             onClick={() => {
               if (fileCount > 0) {
@@ -114,7 +122,9 @@ export const Calculate = () => {
           <Button
             isActive
             variant={variantStyles["skyblue"]}
-            label={<Plus />}
+            label={
+              <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+            }
             width="basis-1/6"
             onClick={() => setFileCount(fileCount + 1)}
           />
@@ -124,7 +134,9 @@ export const Calculate = () => {
         <Button
           isActive
           variant={variantStyles["skyblue"]}
-          label={<Minus />}
+          label={
+            <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+          }
           width="basis-1/6"
         />
         <p className="basis-5/6 bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem]">
