@@ -5,25 +5,6 @@ const config: Pick<Config, "presets" | "theme"> = {
   presets: [sharedConfig],
 
   theme: {
-    spacing: {
-      "0": "0px",
-      "1": "1px",
-      "2": "2px",
-      "4": "4px",
-      "6": "6px",
-      "8": "8px",
-      "10": "10px",
-      "12": "12px",
-      "14": "14px",
-      "16": "16px",
-      "18": "18px",
-      "20": "20px",
-      "22": "22px",
-      "24": "24px",
-      "26": "26px",
-      "28": "28px",
-      "30": "30px",
-    },
     borderRadius: {
       none: "0",
       sm: "0.375rem", // 6px
@@ -33,9 +14,6 @@ const config: Pick<Config, "presets" | "theme"> = {
       "2xl": "1.5rem", // 24px
       "3xl": "2rem", // 32px
       full: "9999px", // 완전한 원형
-    },
-    borderWidth: {
-      "1": "1px",
     },
     screens: {
       sm: "640px",
