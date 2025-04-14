@@ -2,7 +2,7 @@ import React from "react";
 
 interface InputProps {
   label: string;
-  value: string;
+  value: string | number;
   type?: string;
   error?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;

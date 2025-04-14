@@ -12,7 +12,9 @@
     "**/*.tsx",
     "next-env.d.ts",
     "next.config.ts",
-    ".next/types/**/*.ts"
+    ".next/types/**/*.ts",
+    "../../packages/ui/src/types/role.ts",
+    "../../packages/ui/src/post.tsx"
   ],
   "exclude": ["node_modules"]
 }
