@@ -33,7 +33,7 @@ export default function Page() {
       <Header />
       <div className="w-full max-w-[37.5rem] flex flex-col">
         {accessToken ? <ShowInformation name="모태환" score={2300} /> : <ShowLogin />}
-        <div className="flex items-center gap-10 mx-4">
+        <div className="flex items-center gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
           <div
             className="relative w-full"
             onMouseEnter={() => setHoverTab("독서")}
