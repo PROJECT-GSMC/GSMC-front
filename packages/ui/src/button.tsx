@@ -24,8 +24,7 @@ export const Button = ({
     : onClick
       ? "active"
       : "disabled";
-  const baseStyle =
-    "flex py-[0.8125rem] w-full text-body2 px-[1.375rem] justify-center items-center self-stretch rounded-[0.75rem] transition-colors";
+
   const buttonStyle = useMemo(
     () => variantStyles[variant][state],
     [variant, state]
@@ -34,7 +33,7 @@ export const Button = ({
   return (
     <button
       type="submit"
-      className={`${baseStyle} ${buttonStyle} ${width}`}
+      className={`${buttonStyle} ${width || "w-full"} flex justify-center items-center self-stretch px-[1rem] py-[0.75rem] text-body2 rounded-[0.75rem] transition-colors `}
       onClick={onClick}
     >
       {label}
