@@ -5,10 +5,7 @@ import { useForm } from "react-hook-form";
 import { AuthForm } from "../../src/widgets/auth/ui";
 import { usePostSignin } from "../../src/entities/signin/model/usePostSignin";
 import { AuthInput } from "@repo/ui/widgets/authInput/index";
-interface LoginFormProps {
-  email: string;
-  password: string;
-}
+import { LoginFormProps } from "../../src/shared/model/AuthForm";
 
 const LoginPage = () => {
   const {

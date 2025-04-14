@@ -4,12 +4,7 @@ import { Button } from "@repo/ui/button"
 import { useForm } from "react-hook-form"
 import { AuthForm } from "../../src/widgets/auth/ui"
 import { AuthInput } from "@repo/ui/widgets/authInput/index"
-
-interface SignupFormProps {
-  name: string
-  email: string;
-  authcode: string;
-}
+import { SignupFormProps } from "../../src/shared/model/AuthForm"
 
 const SignupPage = () => {
   const {
