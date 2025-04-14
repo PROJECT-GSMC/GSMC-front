@@ -1,9 +1,10 @@
 "use client";
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { AuthForm } from "../../src/widgets/auth/ui";
 import { usePostSignin } from "../../src/entities/signin/model/usePostSignin";
+import { AuthInput } from "@repo/ui/widgets/authInput/index";
 interface LoginFormProps {
   email: string;
   password: string;
@@ -27,36 +28,36 @@ const LoginPage = () => {
       <AuthForm label="LOG IN">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center w-[25rem] gap-[3.625rem]">
           <div className="flex flex-col gap-[0.75rem] self-stretch">
-            <Controller
-              name="email"
-              control={control}
-              rules={{
-                required: "이메일을 필수로 입력해야 합니다.",
-                pattern: {
-                  value: /^s\d{5}@gsm\.hs\.kr$/,
-                  message: "@gsm.hs.kr 학교 이메일을 입력해주세요",
-                },
-              }}
-              render={({ field }) => <Input label="이메일" type="email" error={errors.email?.message} {...field} />}
-            />
-            <Controller
-              name="password"
-              control={control}
-              rules={{
-                required: "비밀번호을 필수로 입력해야 합니다.",
-                minLength: {
-                  value: 8,
-                  message: "영문, 숫자를 포함한 8자 이상으로 입력해주세요.",
-                },
-                pattern: {
-                  value: /^(?=.*[a-zA-Z])(?=.*\d).*$/,
-                  message: "영문, 숫자를 포함한 비밀번호를 입력해주세요.",
-                },
-              }}
-              render={({ field }) => (
-                <Input label="비밀번호" type="password" error={errors.password?.message} {...field} />
-              )}
-            />
+            <AuthInput label="이메일" error={errors.email?.message}>
+              <Input
+                name="email"
+                control={control}
+                rules={{
+                  required: "이메일을 필수로 입력해야 합니다.",
+                  pattern: {
+                    value: /^s\d{5}@gsm\.hs\.kr$/,
+                    message: "@gsm.hs.kr 학교 이메일을 입력해주세요",
+                  },
+                }}
+              />
+            </AuthInput>
+            <AuthInput label="비밀번호" error={errors.password?.message}>
+              <Input
+                name="password"
+                control={control}
+                rules={{
+                  required: "비밀번호을 필수로 입력해야 합니다.",
+                  minLength: {
+                    value: 8,
+                    message: "영문, 숫자를 포함한 8자 이상으로 입력해주세요.",
+                  },
+                  pattern: {
+                    value: /^(?=.*[a-zA-Z])(?=.*\d).*$/,
+                    message: "영문, 숫자를 포함한 비밀번호를 입력해주세요.",
+                  },
+                }}
+              />
+            </AuthInput>
           </div>
           <Button label="로그인" variant="blue" isActive={isValid} />
         </form>
