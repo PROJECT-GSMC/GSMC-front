@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useState } from "react";
 import { PostType } from "../../../apps/client/src/entities/posts/model/postType";
 
 interface PostProps {
@@ -6,20 +9,30 @@ interface PostProps {
 }
 
 const Post = ({ data, isExample = true }: PostProps) => {
+  const [role, setRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setRole(localStorage.getItem("role"));
+    }
+  }, []);
+
   const handleState = (state: string) => {
     if (state === "APPROVE") return "통과";
     if (state === "REJECT") return "탈락";
     if (state === "PENDING") return "대기중..";
     return "임시저장 글";
   };
+
   const handleStateColor = (state: string) => {
     if (state === "APPROVE") return "text-tropicalblue-500";
     if (state === "REJECT") return "text-[#DF454A]";
     if (state === "PENDING") return "text-tropicalblue-800";
     return "text-gray-500";
   };
+
   return (
-    <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px] ">
+    <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px]">
       {data.imageUrl ? (
         <img className="h-[150px]" src={data.imageUrl} alt={data.title} />
       ) : (
@@ -31,13 +44,12 @@ const Post = ({ data, isExample = true }: PostProps) => {
           {data.categoryName}
         </p>
         {isExample &&
-          (localStorage.getItem("role") === "ADMIN" &&
-          data.status === "PENDING" ? (
+          (role === "ADMIN" && data.status === "PENDING" ? (
             <div className="mt-[1.25rem] flex gap-[1rem] items-center justify-center text-body5 w-full text-white">
-              <button className=" bg-tropicalblue-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]">
+              <button className="bg-tropicalblue-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]">
                 통과
               </button>
-              <button className=" bg-[#DF454A] px-[1.25rem] rounded-[0.5rem] py-[0.625rem]">
+              <button className="bg-[#DF454A] px-[1.25rem] rounded-[0.5rem] py-[0.625rem]">
                 거절
               </button>
             </div>
