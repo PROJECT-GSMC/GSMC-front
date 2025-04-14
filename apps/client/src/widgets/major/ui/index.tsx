@@ -72,8 +72,16 @@ const MajorWidget = () => {
           render={({ field }) => <File label="이미지" {...field} />}
         />
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-          <Button isActive variant={variantStyles["skyblue"]} label="임시저장" />
-          <Button isActive={false} variant={variantStyles["blue"]} label="작성 완료" />
+          <Button
+            isActive
+            variant={variantStyles["skyblue"]}
+            label="임시저장"
+          />
+          <Button
+            isActive={false}
+            variant={variantStyles["blue"]}
+            label="작성 완료"
+          />
         </div>
       </form>
     </div>
