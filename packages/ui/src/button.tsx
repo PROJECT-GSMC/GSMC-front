@@ -1,5 +1,6 @@
 "use client";
 import { useMemo } from "react";
+import { variantStyles } from "./consts/button";
 
 type Enable = "default";
 type Disable = "disabled" | "active";
@@ -11,8 +12,7 @@ interface CustomButton {
 }
 
 interface ButtonProps {
-  label: string | any;
-  className?: string;
+  label: string;
   variant: CustomButton;
   width?: string;
   isActive?: boolean;
@@ -23,7 +23,6 @@ export const Button = ({
   variant,
   isActive,
   label,
-  className,
   width,
   onClick,
 }: ButtonProps) => {
@@ -38,7 +37,7 @@ export const Button = ({
 
   return (
     <button
-      className={`${baseStyle} ${buttonStyle} ${width} ${className}`}
+      className={`${baseStyle} ${buttonStyle} ${width}`}
       disabled={state === "disabled"}
       onClick={onClick}
     >

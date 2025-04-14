@@ -3,13 +3,13 @@ import { Chain } from "../../asset/svg/chain";
 interface FileProps {
   isImg?: boolean;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
+  value: File;
   label: string;
 }
 
 const File = ({ isImg = true, value, onChange, label }: FileProps) => {
   return (
-    <div className="w-full flex flex-col gap=[0.5rem]">
+    <div className="w-full flex flex-col gap-[0.5rem]">
       <label className="text-label" htmlFor={label}>
         {label}
       </label>
@@ -18,13 +18,12 @@ const File = ({ isImg = true, value, onChange, label }: FileProps) => {
         htmlFor={label}
       >
         <Chain />
-        {value ? value : "파일 첨부"}
+        {value ? String(value) : "파일 첨부"}
       </label>
       <input
         onChange={onChange}
         className="hidden"
         id={label}
-        value={value}
         type="file"
         accept={isImg ? "image/*" : "*/*"}
       />
