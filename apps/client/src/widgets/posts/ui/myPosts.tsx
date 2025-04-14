@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/ui/button";
 import Header from "../../../shared/ui/header";
-import Post from "../../../entities/posts/ui/post";
+import Post from "@repo/ui/post";
 import Search from "../../../entities/posts/ui/search";
 import { useState } from "react";
 
@@ -11,7 +11,7 @@ const PostsWidget = () => {
   return (
     <div className="flex flex-col items-center">
       <Header />
-      <div className="w-[600px]">
+      <div className="w-full max-w-[37.5rem]">
         <Search result={result} setResult={setResult} />
         <div className="flex gap-[1rem] justify-between">
           <Button label="독서" variant="skyblue" />

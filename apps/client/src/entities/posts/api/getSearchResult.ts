@@ -1,7 +1,5 @@
-import axios from "axios";
+import instance from "../../../../../../packages/ui/src/axios";
 
 export const getSearchResult = async (query: string, type?: string) => {
-  return axios.get(
-    `${process.env.NEXT_PUBLIC_API_URL}/evidence/search?query=${query}$type=${type}`
-  );
+  return instance.get(`/evidence/search?query=${query}$type=${type}`);
 };
