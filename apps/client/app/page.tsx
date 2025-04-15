@@ -87,7 +87,7 @@ export default function Page() {
                 return <Card key={i} front={v.name} />;
               })
             ) : (
-              <div className="text-center">
+              <div className="text-center text-body3 mt-[7.5rem]">
                 등록된 자격증이 존재하지 않습니다
               </div>
             )}
