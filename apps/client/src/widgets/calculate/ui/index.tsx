@@ -1,7 +1,6 @@
 "use client";
 
 import { Button } from "@repo/ui/button";
-import { variantStyles } from "../../../../../../packages/ui/src/consts/button";
 import Dropdown from "../../../shared/ui/dropdown";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
@@ -17,14 +16,7 @@ export const Calculate = () => {
   const Buttons = ["독서", "인성", "전공", "외국어"];
   const [fileCount, setFileCount] = useState<number>(0);
   const [page, setPage] = useState<string>("독서");
-  const {
-    register,
-    setValue,
-    handleSubmit,
-    setError,
-    control,
-    formState: { errors },
-  } = useForm();
+  const { control } = useForm();
   return (
     <div className="flex flex-col gap-[1.5rem] w-full">
       <div className="flex gap-[1.57rem] w-full">
