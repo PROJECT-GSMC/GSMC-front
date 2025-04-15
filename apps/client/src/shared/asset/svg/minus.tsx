@@ -15,9 +15,9 @@ export const Minus = ({ className }: MinusProps) => {
       <path
         d="M5.40039 12H18.5997"
         stroke="currentColor"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
