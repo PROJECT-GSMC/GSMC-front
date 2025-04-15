@@ -9,8 +9,8 @@ const ShowLogin = () => {
         <h1 className="text-body3s sm:text-titleSmall"> 를 이용해주세요</h1>
       </div>
       <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-[1.88rem]">
-        <Button label="로그인" isActive variant="blue" />
-        <Button label="회원가입" isActive variant="skyblue" />
+        <Button label="로그인" variant="blue" />
+        <Button label="회원가입" variant="skyblue" />
       </div>
     </div>
   );

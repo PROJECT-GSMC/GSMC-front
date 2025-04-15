@@ -14,8 +14,8 @@ export const Information = () => {
         </div>
       </div>
       <div className="flex flex-col gap-[0.75rem]">
-        <Button isActive variant="blue" label="글 보러가기" />
-        <Button isActive variant="skyblue" label="점수 관리" />
+        <Button variant="blue" label="글 보러가기" />
+        <Button variant="skyblue" label="점수 관리" />
       </div>
     </div>
   );
