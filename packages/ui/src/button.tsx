@@ -1,19 +1,13 @@
 "use client";
-import { useMemo } from "react";
+import { ReactNode, useMemo } from "react";
+import { variantStyles } from "./consts/button";
 
-type Enable = "default";
-type Disable = "disabled" | "active";
-
-interface CustomButton {
-  default: string;
-  active: string;
-  disabled: string;
-}
+type ButtonState = "default" | "active" | "disabled";
 
 interface ButtonProps {
-  label: string | any;
+  label: string | ReactNode;
   className?: string;
-  variant: CustomButton;
+  variant: keyof typeof variantStyles;
   width?: string;
   isActive?: boolean;
   onClick?: () => void;
@@ -27,19 +21,22 @@ export const Button = ({
   width,
   onClick,
 }: ButtonProps) => {
-  const state: Enable | Disable = isActive
+  const state: ButtonState = isActive
     ? "default"
     : onClick
       ? "active"
       : "disabled";
   const baseStyle =
-    "flex py-[0.8125rem] w-full text-body2 px-[1.375rem] justify-center items-center self-stretch rounded-[0.75rem] transition-colors";
-  const buttonStyle = useMemo(() => variant[state], [variant, state]);
+    "flex py-2 sm:py-[0.8125rem] w-full text-body2 px-3 sm:px-4 md:px-5 lg:px-[1.375rem] justify-center items-center self-stretch rounded-[0.75rem] transition-colors whitespace-nowrap";
+  const buttonStyle = useMemo(
+    () => variantStyles[variant][state],
+    [variant, state]
+  );
 
   return (
     <button
+      type="submit"
       className={`${baseStyle} ${buttonStyle} ${width} ${className}`}
-      disabled={state === "disabled"}
       onClick={onClick}
     >
       {label}
