@@ -53,27 +53,25 @@ export default function Page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "독서" && (
-              <MainDropdown>
-                <Link
-                  className="w-full flex justify-between cursor-pointer text-body3s"
-                  href="/book"
-                >
-                  <p>독서 작성하러가기</p>
-                  <p>{">"}</p>
-                </Link>
-                <div
-                  onClick={async () => {
-                    await setType("READ_A_THON");
-                    setShow(true);
-                  }}
-                  className="w-full flex justify-between cursor-pointer text-body3s"
-                >
-                  <p>독서로 단계 입력</p>
-                  <p>{">"}</p>
-                </div>
-              </MainDropdown>
-            )}
+            <MainDropdown isOpen={hoverTab === "독서"}>
+              <Link
+                className="w-full flex justify-between cursor-pointer text-body3s"
+                href="/book"
+              >
+                <p>독서 작성하러가기</p>
+                <p>{">"}</p>
+              </Link>
+              <div
+                onClick={async () => {
+                  await setType("READ_A_THON");
+                  setShow(true);
+                }}
+                className="w-full flex justify-between cursor-pointer text-body3s"
+              >
+                <p>독서로 단계 입력</p>
+                <p>{">"}</p>
+              </div>
+            </MainDropdown>
           </div>
           <div
             className="relative w-full"
@@ -85,27 +83,26 @@ export default function Page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "인성" && (
-              <MainDropdown>
-                <Link
-                  className="w-full flex justify-between cursor-pointer text-body3s"
-                  href="/character"
-                >
-                  <p>인성 작성하러가기</p>
-                  <p>{">"}</p>
-                </Link>
-                <div
-                  className="w-full flex justify-between cursor-pointer text-body3s"
-                  onClick={async () => {
-                    await setType("CERTIFICATE");
-                    setShow(true);
-                  }}
-                >
-                  <p>한국사, 한자 자격증</p>
-                  <p>{">"}</p>
-                </div>
-              </MainDropdown>
-            )}
+
+            <MainDropdown isOpen={hoverTab === "인성"}>
+              <Link
+                className="w-full flex justify-between cursor-pointer text-body3s"
+                href="/character"
+              >
+                <p>인성 작성하러가기</p>
+                <p>{">"}</p>
+              </Link>
+              <div
+                className="w-full flex justify-between cursor-pointer text-body3s"
+                onClick={async () => {
+                  await setType("CERTIFICATE");
+                  setShow(true);
+                }}
+              >
+                <p>한국사, 한자 자격증</p>
+                <p>{">"}</p>
+              </div>
+            </MainDropdown>
           </div>
           <div
             className="relative w-full"
@@ -117,37 +114,36 @@ export default function Page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "전공" && (
-              <MainDropdown>
-                <Link
-                  className="w-full flex justify-between cursor-pointer text-body3s"
-                  href="/major"
-                >
-                  <p>전공 작성하러가기</p>
-                  <p>{">"}</p>
-                </Link>
-                <div
-                  className="w-full flex justify-between cursor-pointer text-body3s"
-                  onClick={async () => {
-                    await setType("TOPCIT");
-                    setShow(true);
-                  }}
-                >
-                  <p>TOPCIT 점수</p>
-                  <p>{">"}</p>
-                </div>
-                <div
-                  className="w-full flex justify-between cursor-pointer text-body3s"
-                  onClick={async () => {
-                    await setType("TOPCIT");
-                    setShow(true);
-                  }}
-                >
-                  <p>전공 자격증 추가하기</p>
-                  <p>{">"}</p>
-                </div>
-              </MainDropdown>
-            )}
+
+            <MainDropdown isOpen={hoverTab === "전공"}>
+              <Link
+                className="w-full flex justify-between cursor-pointer text-body3s"
+                href="/major"
+              >
+                <p>전공 작성하러가기</p>
+                <p>{">"}</p>
+              </Link>
+              <div
+                className="w-full flex justify-between cursor-pointer text-body3s"
+                onClick={async () => {
+                  await setType("TOPCIT");
+                  setShow(true);
+                }}
+              >
+                <p>TOPCIT 점수</p>
+                <p>{">"}</p>
+              </div>
+              <div
+                className="w-full flex justify-between cursor-pointer text-body3s"
+                onClick={async () => {
+                  await setType("TOPCIT");
+                  setShow(true);
+                }}
+              >
+                <p>전공 자격증 추가하기</p>
+                <p>{">"}</p>
+              </div>
+            </MainDropdown>
           </div>
           <Button
             label="외국어"
