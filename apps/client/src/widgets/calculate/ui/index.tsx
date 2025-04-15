@@ -32,7 +32,7 @@ export const Calculate = () => {
           return (
             <Button
               isActive
-              variant={variantStyles["skyblue"]}
+              variant="skyblue_hover"
               label={item}
               key={index}
               onClick={() => setPage(item)}
@@ -47,7 +47,8 @@ export const Calculate = () => {
         <div className="flex w-full gap-[1.25rem]">
           <Button
             isActive={fileCount === 0 ? false : true}
-            variant={variantStyles["skyblue"]}
+            variant="skyblue_hover"
+            className="group"
             label={
               <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
@@ -63,7 +64,8 @@ export const Calculate = () => {
           </p>
           <Button
             isActive
-            variant={variantStyles["skyblue"]}
+            variant="skyblue_hover"
+            className="group"
             label={
               <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
@@ -92,7 +94,8 @@ export const Calculate = () => {
         <div className="flex w-full gap-[1.25rem]">
           <Button
             isActive={fileCount === 0 ? false : true}
-            variant={variantStyles["skyblue"]}
+            variant="skyblue_hover"
+            className="group"
             label={
               <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
@@ -108,7 +111,8 @@ export const Calculate = () => {
           </p>
           <Button
             isActive
-            variant={variantStyles["skyblue"]}
+            variant="skyblue_hover"
+            className="group"
             label={
               <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
@@ -139,7 +143,8 @@ export const Calculate = () => {
         <div className="flex w-full gap-[1.25rem]">
           <Button
             isActive={fileCount === 0 ? false : true}
-            variant={variantStyles["skyblue"]}
+            variant="skyblue_hover"
+            className="group"
             label={
               <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
@@ -155,7 +160,8 @@ export const Calculate = () => {
           </p>
           <Button
             isActive
-            variant={variantStyles["skyblue"]}
+            variant="skyblue_hover"
+            className="group"
             label={
               <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
@@ -186,7 +192,8 @@ export const Calculate = () => {
         <div className="flex w-full gap-[1.25rem]">
           <Button
             isActive={fileCount === 0 ? false : true}
-            variant={variantStyles["skyblue"]}
+            variant="skyblue_hover"
+            className="group"
             label={
               <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
@@ -202,7 +209,8 @@ export const Calculate = () => {
           </p>
           <Button
             isActive
-            variant={variantStyles["skyblue"]}
+            variant="skyblue_hover"
+            className="group"
             label={
               <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
@@ -214,7 +222,8 @@ export const Calculate = () => {
       <div className="flex gap-[1.25rem]  w-full">
         <Button
           isActive
-          variant={variantStyles["skyblue"]}
+          variant="skyblue_hover"
+          className="group"
           label={
             <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
           }
