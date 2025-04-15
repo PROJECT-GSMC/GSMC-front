@@ -136,7 +136,7 @@ export default function Page() {
               <div
                 className="w-full flex justify-between cursor-pointer text-body3s"
                 onClick={async () => {
-                  await setType("TOPCIT");
+                  await setType("CERTIFICATE");
                   setShow(true);
                 }}
               >
