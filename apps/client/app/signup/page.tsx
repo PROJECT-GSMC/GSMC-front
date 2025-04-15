@@ -19,10 +19,8 @@ const SignupPage = () => {
     }
   } = useForm<SignupFormProps>({ mode: "onChange", defaultValues: { name: '', email: '', authcode: '', password: '', passwordCheck: '' } })
 
-  // Watch form values for validation
   const watchedValues = watch();
 
-  // Check if name and email are valid for auth code step
   const isAuthCodeStepValid = Boolean(
     watchedValues.name &&
     watchedValues.email &&
@@ -31,13 +29,11 @@ const SignupPage = () => {
     !errors.email
   );
 
-  // Check if auth code is valid for moving to password step
   const canProceedToPassword = isAuthCodeStepValid && Boolean(
     watchedValues.authcode &&
     !errors.authcode
   );
 
-  // Check if password fields match for final submit
   const isPasswordValid = Boolean(
     watchedValues.password &&
     watchedValues.passwordCheck &&
