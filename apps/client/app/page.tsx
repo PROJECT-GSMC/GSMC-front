@@ -32,14 +32,22 @@ export default function Page() {
     <div className="flex flex-col items-center w-full h-screen">
       <Header />
       <div className="w-full max-w-[37.5rem] flex flex-col">
-        {accessToken ? <ShowInformation name="모태환" score={2300} /> : <ShowLogin />}
+        {accessToken ? (
+          <ShowInformation name="모태환" score={2300} />
+        ) : (
+          <ShowLogin />
+        )}
         <div className="flex items-center gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
           <div
             className="relative w-full"
             onMouseEnter={() => setHoverTab("독서")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button label="독서" variant="skyblue" onClick={() => console.log()} />
+            <Button
+              label="독서"
+              variant="skyblue"
+              onClick={() => console.log()}
+            />
             {hoverTab === "독서" && <MainDropdown list={O.book_dropdown} />}
           </div>
           <div
@@ -47,7 +55,11 @@ export default function Page() {
             onMouseEnter={() => setHoverTab("인성")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button label="인성" variant="skyblue" onClick={() => console.log()} />
+            <Button
+              label="인성"
+              variant="skyblue"
+              onClick={() => console.log()}
+            />
             {hoverTab === "인성" && <MainDropdown list={O.human_dropdown} />}
           </div>
           <div
@@ -55,16 +67,30 @@ export default function Page() {
             onMouseEnter={() => setHoverTab("전공")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button label="전공" variant="skyblue" onClick={() => console.log()} />
+            <Button
+              label="전공"
+              variant="skyblue"
+              onClick={() => console.log()}
+            />
             {hoverTab === "전공" && <MainDropdown list={O.major_dropdown} />}
           </div>
-          <Button label="외국어" variant="skyblue" onClick={() => console.log()} />
+          <Button
+            label="외국어"
+            variant="skyblue"
+            onClick={() => console.log()}
+          />
         </div>
         <div className="flex flex-col mt-9 mx-4">
           <List title="자격증">
-            {certification?.map((v, i) => {
-              return <Card key={i} front={v.name} />;
-            })}
+            {certification ? (
+              certification?.map((v, i) => {
+                return <Card key={i} front={v.name} />;
+              })
+            ) : (
+              <div className="text-center">
+                등록된 자격증이 존재하지 않습니다
+              </div>
+            )}
           </List>
         </div>
       </div>
