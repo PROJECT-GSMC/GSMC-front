@@ -111,6 +111,7 @@ const MajorWidget = () => {
             label="임시저장"
           />
           <Button
+            state={isValid ? "default" : "disabled"}
             variant="blue"
             label="작성 완료"
           />
