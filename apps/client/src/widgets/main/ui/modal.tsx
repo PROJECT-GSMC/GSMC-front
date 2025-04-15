@@ -46,8 +46,16 @@ const Modal = ({ onClose, type }: ModalProps) => {
           control={control}
           render={({ field }) => <File label="" {...field} />}
         />
-        <Button isActive onClick={onClose} label="뒤로가기" variant="skyblue" />
-        <Button isActive={isValid} label="작성 완료" variant="blue" />
+        <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
+          {" "}
+          <Button
+            isActive
+            onClick={onClose}
+            label="뒤로가기"
+            variant="skyblue"
+          />
+          <Button isActive={isValid} label="작성 완료" variant="blue" />
+        </div>
       </form>
     </div>
   );
