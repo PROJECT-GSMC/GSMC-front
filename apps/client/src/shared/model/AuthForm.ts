@@ -6,4 +6,5 @@ export interface LoginFormProps {
 export interface SignupFormProps extends LoginFormProps {
   name: string;
   authcode: string;
+  passwordCheck: string;
 }
