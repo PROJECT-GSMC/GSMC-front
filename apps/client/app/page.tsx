@@ -10,12 +10,17 @@ import Card from "@repo/ui/card";
 import ShowLogin from "../src/entities/main/ui/showLogin";
 import { Button } from "@repo/ui/button";
 import MainDropdown from "../src/entities/main/ui/dropdown";
-import * as O from "../src/widgets/main/model/dropdownOptions";
+import Link from "next/link";
+import Modal from "../src/widgets/main/ui/modal";
 
 export default function Page() {
   const [certification, setCertification] = useState<Certification[]>();
   const [hoverTab, setHoverTab] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [show, setShow] = useState(false);
+  const [type, setType] = useState<"CERTIFICATE" | "TOPCIT" | "READ_A_THON">(
+    "CERTIFICATE"
+  );
 
   useEffect(() => {
     const Fetch = async () => {
@@ -48,7 +53,27 @@ export default function Page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "독서" && <MainDropdown list={O.book_dropdown} />}
+            {hoverTab === "독서" && (
+              <MainDropdown>
+                <Link
+                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  href="/book"
+                >
+                  <p>독서 작성하러가기</p>
+                  <p>{">"}</p>
+                </Link>
+                <div
+                  onClick={async () => {
+                    await setType("READ_A_THON");
+                    setShow(true);
+                  }}
+                  className="w-full flex justify-between cursor-pointer text-body3s"
+                >
+                  <p>독서로 단계 입력</p>
+                  <p>{">"}</p>
+                </div>
+              </MainDropdown>
+            )}
           </div>
           <div
             className="relative w-full"
@@ -60,7 +85,27 @@ export default function Page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "인성" && <MainDropdown list={O.human_dropdown} />}
+            {hoverTab === "인성" && (
+              <MainDropdown>
+                <Link
+                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  href="/character"
+                >
+                  <p>인성 작성하러가기</p>
+                  <p>{">"}</p>
+                </Link>
+                <div
+                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  onClick={async () => {
+                    await setType("CERTIFICATE");
+                    setShow(true);
+                  }}
+                >
+                  <p>한국사, 한자 자격증</p>
+                  <p>{">"}</p>
+                </div>
+              </MainDropdown>
+            )}
           </div>
           <div
             className="relative w-full"
@@ -72,7 +117,37 @@ export default function Page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            {hoverTab === "전공" && <MainDropdown list={O.major_dropdown} />}
+            {hoverTab === "전공" && (
+              <MainDropdown>
+                <Link
+                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  href="/major"
+                >
+                  <p>전공 작성하러가기</p>
+                  <p>{">"}</p>
+                </Link>
+                <div
+                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  onClick={async () => {
+                    await setType("TOPCIT");
+                    setShow(true);
+                  }}
+                >
+                  <p>TOPCIT 점수</p>
+                  <p>{">"}</p>
+                </div>
+                <div
+                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  onClick={async () => {
+                    await setType("TOPCIT");
+                    setShow(true);
+                  }}
+                >
+                  <p>전공 자격증 추가하기</p>
+                  <p>{">"}</p>
+                </div>
+              </MainDropdown>
+            )}
           </div>
           <Button
             label="외국어"
@@ -94,6 +169,7 @@ export default function Page() {
           </List>
         </div>
       </div>
+      {show && <Modal type={type} onClose={() => setShow(false)} />}
     </div>
   );
 }
