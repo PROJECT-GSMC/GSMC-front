@@ -4,7 +4,7 @@ import { Button } from "@repo/ui/button";
 import { useForm } from "react-hook-form";
 import { AuthForm } from "../../src/widgets/auth/ui";
 import { usePostSignin } from "../../src/entities/signin/model/usePostSignin";
-import { AuthInput } from "@repo/ui/widgets/authInput/index";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 import { LoginFormProps } from "../../src/shared/model/AuthForm";
 
 const LoginPage = () => {
@@ -25,7 +25,7 @@ const LoginPage = () => {
       <AuthForm label="LOG IN">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center w-[25rem] gap-[3.625rem]">
           <div className="flex flex-col gap-[0.75rem] self-stretch">
-            <AuthInput label="이메일" error={errors.email?.message}>
+            <InputContainer label="이메일" error={errors.email?.message}>
               <Input
                 name="email"
                 control={control}
@@ -37,8 +37,8 @@ const LoginPage = () => {
                   },
                 }}
               />
-            </AuthInput>
-            <AuthInput label="비밀번호" error={errors.password?.message}>
+            </InputContainer>
+            <InputContainer label="비밀번호" error={errors.password?.message}>
               <Input
                 name="password"
                 control={control}
@@ -54,7 +54,7 @@ const LoginPage = () => {
                   },
                 }}
               />
-            </AuthInput>
+            </InputContainer>
           </div>
           <Button label="로그인" variant="blue" isActive={isValid} />
         </form>

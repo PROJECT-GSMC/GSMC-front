@@ -5,7 +5,7 @@ import { Input } from "@repo/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import Checkbox from "../../../entities/score/ui/checkbox";
 import Header from "../../../shared/ui/header";
-import { AuthInput } from "@repo/ui/widgets/authInput/index";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 const ScoreForm = () => {
   const { control } = useForm();
@@ -16,24 +16,24 @@ const ScoreForm = () => {
         <h1 className="text-titleMedium text-tropicalblue-700 mt-[2.38rem]">
           점수 추가
         </h1>
-        <AuthInput label="1학기 봉사 시간">
+        <InputContainer label="1학기 봉사 시간">
           <Input
             control={control}
             name="oneSemester"
           />
-        </AuthInput>
-        <AuthInput label="2학기 봉사 시간">
+        </InputContainer>
+        <InputContainer label="2학기 봉사 시간">
           <Input
             control={control}
             name="twoSemester"
           />
-        </AuthInput>
-        <AuthInput label="뉴로우 참여 횟수">
+        </InputContainer>
+        <InputContainer label="뉴로우 참여 횟수">
           <Input
             control={control}
             name="newrow"
           />
-        </AuthInput>
+        </InputContainer>
         <Controller
           control={control}
           name="checkbox"

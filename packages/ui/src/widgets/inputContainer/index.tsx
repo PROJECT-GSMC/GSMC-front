@@ -1,12 +1,12 @@
 import React from "react";
 
-interface AuthInputProps {
+interface InputContainerProps {
   label: string
   error?: string
   children: React.ReactNode
 }
 
-export const AuthInput = ({ label, error, children }: AuthInputProps) => {
+export const InputContainer = ({ label, error, children }: InputContainerProps) => {
   return (
     <div className="flex flex-col w-full gap-[0.56rem]">
       <label htmlFor={label} className="text-label">{label}</label>

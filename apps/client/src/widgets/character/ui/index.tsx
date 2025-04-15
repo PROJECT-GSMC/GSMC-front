@@ -12,7 +12,7 @@ import { CharacterCategory } from "../model/category";
 import { Activity } from "../../../shared/types/activity";
 import { sendActivity } from "../../../shared/api/sendActivity";
 import { toast } from "sonner";
-import { AuthInput } from "@repo/ui/widgets/authInput/index";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
@@ -71,7 +71,7 @@ const CharacterWidget = () => {
           }}
           render={({ field }) => <Semester {...field} />}
         />
-        <AuthInput label="주제">
+        <InputContainer label="주제">
           <Input
             name="title"
             defaultValue=""
@@ -80,7 +80,7 @@ const CharacterWidget = () => {
               required: "주제를 입력해주세요.",
             }}
           />
-        </AuthInput>
+        </InputContainer>
         <Controller
           name="content"
           control={control}

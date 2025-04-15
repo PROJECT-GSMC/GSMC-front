@@ -9,7 +9,7 @@ import Semester from "../../../shared/ui/semester";
 import { sendBook } from "../api/sendBook";
 import { Book } from "../model/book";
 import { toast } from "sonner";
-import { AuthInput } from "@repo/ui/widgets/authInput/index";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 const BookWidget = () => {
   const {
@@ -35,7 +35,7 @@ const BookWidget = () => {
         <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
           독서 영역
         </h1>
-        <AuthInput label="제목" >
+        <InputContainer label="제목" >
           <Input
             name="title"
             control={control}
@@ -44,8 +44,8 @@ const BookWidget = () => {
               required: "제목을 입력해주세요.",
             }}
           />
-        </AuthInput>
-        <AuthInput label="저자">
+        </InputContainer>
+        <InputContainer label="저자">
           <Input
             name="author"
             defaultValue=""
@@ -54,8 +54,8 @@ const BookWidget = () => {
               required: "저자를 입력해주세요.",
             }}
           />
-        </AuthInput>
-        <AuthInput label="페이지">
+        </InputContainer>
+        <InputContainer label="페이지">
           <Input
             name="page"
             control={control}
@@ -64,7 +64,7 @@ const BookWidget = () => {
               required: "페이지를 입력해주세요.",
             }}
           />
-        </AuthInput>
+        </InputContainer>
         <Controller
           name="semester"
           defaultValue={0}
