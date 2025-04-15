@@ -38,7 +38,17 @@ const Modal = ({ onClose, type }: ModalProps) => {
           name="certification"
           control={control}
           render={({ field }) => (
-            <Input label="자격증" {...field} type="text" />
+            <Input
+              label={
+                type === "TOPCIT"
+                  ? "TOPCIT 점수"
+                  : type === "CERTIFICATE"
+                    ? "자격증 작성하기"
+                    : "독서로 단계"
+              }
+              {...field}
+              type="text"
+            />
           )}
         />
         <Controller
