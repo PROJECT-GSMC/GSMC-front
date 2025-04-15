@@ -29,7 +29,7 @@ export const Calculate = () => {
             label={item}
             key={index}
             onClick={() => setPage(item)}
-            width="!w-[8.125rem]"
+            className="!w-[8.125rem]"
           />
         ))}
       </div>
@@ -40,9 +40,8 @@ export const Calculate = () => {
           <Button
             state={fileCount === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
-            className="group"
             label={<Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-            width="basis-1/6"
+            className="group basis-1/6"
             onClick={() => {
               if (fileCount > 0) setFileCount(fileCount - 1);
             }}
@@ -53,9 +52,8 @@ export const Calculate = () => {
           <Button
             state="default"
             variant="skyblue_hover"
-            className="group"
             label={<Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-            width="basis-1/6"
+            className="group basis-1/6"
             onClick={() => setFileCount(fileCount + 1)}
           />
         </div>
@@ -75,9 +73,8 @@ export const Calculate = () => {
           <Button
             state={fileCount === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
-            className="group"
             label={<Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-            width="basis-1/6"
+            className="group basis-1/6"
             onClick={() => {
               if (fileCount > 0) setFileCount(fileCount - 1);
             }}
@@ -88,9 +85,8 @@ export const Calculate = () => {
           <Button
             state="default"
             variant="skyblue_hover"
-            className="group"
             label={<Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-            width="basis-1/6"
+            className="group basis-1/6"
             onClick={() => setFileCount(fileCount + 1)}
           />
         </div>
@@ -110,9 +106,8 @@ export const Calculate = () => {
           <Button
             state={fileCount === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
-            className="group"
             label={<Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-            width="basis-1/6"
+            className="group basis-1/6"
             onClick={() => {
               if (fileCount > 0) setFileCount(fileCount - 1);
             }}
@@ -123,9 +118,8 @@ export const Calculate = () => {
           <Button
             state="default"
             variant="skyblue_hover"
-            className="group"
             label={<Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-            width="basis-1/6"
+            className="group basis-1/6"
             onClick={() => setFileCount(fileCount + 1)}
           />
         </div>
@@ -145,9 +139,8 @@ export const Calculate = () => {
           <Button
             state={fileCount === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
-            className="group"
             label={<Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-            width="basis-1/6"
+            className="group basis-1/6"
             onClick={() => {
               if (fileCount > 0) setFileCount(fileCount - 1);
             }}
@@ -158,9 +151,8 @@ export const Calculate = () => {
           <Button
             state="default"
             variant="skyblue_hover"
-            className="group"
             label={<Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-            width="basis-1/6"
+            className="group basis-1/6"
             onClick={() => setFileCount(fileCount + 1)}
           />
         </div>
@@ -171,9 +163,8 @@ export const Calculate = () => {
         <Button
           state="default"
           variant="skyblue_hover"
-          className="group"
           label={<Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />}
-          width="basis-1/6"
+          className="group basis-1/6"
         />
         <p className="basis-5/6 bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem]">
           150점

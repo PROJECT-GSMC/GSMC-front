@@ -27,8 +27,8 @@ const DetailPage = () => {
           </main>
 
           <footer className="flex gap-[1.56rem] w-full">
-            <Button label="수정하기" variant="blue" width="w-full" />
-            <Button label="뒤로가기" variant="skyblue" width="w-full" />
+            <Button label="수정하기" variant="blue" className="w-full" />
+            <Button label="뒤로가기" variant="skyblue" className="w-full" />
           </footer>
 
         </div>

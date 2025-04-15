@@ -6,7 +6,6 @@ type ButtonState = "default" | "active" | "disabled";
 
 interface ButtonProps {
   className?: string;
-  width?: string;
   label: string | ReactNode;
   variant: keyof typeof variantStyles;
   state?: ButtonState
@@ -15,7 +14,6 @@ interface ButtonProps {
 
 export const Button = ({
   className,
-  width,
   label,
   variant,
   state = "default",
@@ -27,7 +25,7 @@ export const Button = ({
   return (
     <button
       type="submit"
-      className={`${baseStyle} ${buttonStyle} ${width} ${className}`}
+      className={`${baseStyle} ${buttonStyle} ${className}`}
       onClick={onClick}
     >
       {label}
