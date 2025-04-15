@@ -1,8 +1,7 @@
-import { Button } from "@repo/ui/button";
-import { Input } from "@repo/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import File from "../../../shared/ui/file";
-
+import { Button } from "@repo/ui/button";
+import { Input } from "@repo/ui/input";
 interface ModalProps {
   onClose: () => void;
   type: "CERTIFICATE" | "TOPCIT" | "READ_A_THON";
@@ -16,57 +15,66 @@ const Modal = ({ onClose, type }: ModalProps) => {
   } = useForm({ mode: "onChange" });
 
   return (
-    <div className=" inset-0  flex flex-col items-center w-[37.5rem] absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white px-[6.25rem] py-[4.94rem]">
-      <h1 className="text-title4s">
-        {type === "TOPCIT"
-          ? "TOPCIT"
-          : type === "CERTIFICATE"
-            ? "자격증"
-            : "독서로"}
-      </h1>
-
-      <form
-        className="w-full"
-        onSubmit={handleSubmit((data) => {
-          const finalData = {
-            ...data,
-            activityType: type,
-          };
-        })}
+    <div
+      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
+      onClick={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div
+        className="w-[37.5rem] bg-white px-[6.25rem] py-[4.94rem] rounded-xl"
+        onClick={(e) => e.stopPropagation()}
       >
-        <Controller
-          name="certification"
-          control={control}
-          render={({ field }) => (
-            <Input
-              label={
-                type === "TOPCIT"
-                  ? "TOPCIT 점수"
-                  : type === "CERTIFICATE"
-                    ? "자격증 작성하기"
-                    : "독서로 단계"
-              }
-              {...field}
-              type="text"
-            />
-          )}
-        />
-        <Controller
-          name="file"
-          control={control}
-          render={({ field }) => <File label="" {...field} />}
-        />
-        <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
-          {" "}
-          <Button
-            isActive
-            onClick={onClose}
-            label="뒤로가기"
-            variant="skyblue"
+        <h1 className="text-title4s mb-6 text-center">
+          {type === "TOPCIT"
+            ? "TOPCIT"
+            : type === "CERTIFICATE"
+              ? "자격증"
+              : "독서로"}
+        </h1>
+
+        <form
+          className="w-full"
+          onSubmit={handleSubmit((data) => {
+            const finalData = {
+              ...data,
+              activityType: type,
+            };
+          })}
+        >
+          <Controller
+            name="certification"
+            control={control}
+            render={({ field }) => (
+              <Input
+                label={
+                  type === "TOPCIT"
+                    ? "TOPCIT 점수"
+                    : type === "CERTIFICATE"
+                      ? "자격증 작성하기"
+                      : "독서로 단계"
+                }
+                {...field}
+                type="text"
+              />
+            )}
           />
-          <Button isActive={isValid} label="작성 완료" variant="blue" />
-        </div>
-      </form>
+          <Controller
+            name="file"
+            control={control}
+            render={({ field }) => <File label="" {...field} />}
+          />
+          <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
+            <Button
+              isActive
+              onClick={onClose}
+              label="뒤로가기"
+              variant="skyblue"
+            />
+            <Button isActive={isValid} label="작성 완료" variant="blue" />
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
