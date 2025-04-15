@@ -1,7 +1,5 @@
-import { Button } from "@repo/ui/button";
 import Header from "../../src/shared/ui/header";
 import { Calculate } from "../../src/widgets/calculate/ui";
-import { variantStyles } from "../../../../packages/ui/src/consts/button";
 
 const CalculatePage = () => {
   return (
