@@ -18,9 +18,9 @@ export default function Page() {
   const [hoverTab, setHoverTab] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [show, setShow] = useState(false);
-  const [type, setType] = useState<"CERTIFICATE" | "TOPCIT" | "READ_A_THON">(
-    "CERTIFICATE"
-  );
+  const [type, setType] = useState<
+    "CERTIFICATE" | "TOPCIT" | "READ_A_THON" | "HUMANITY"
+  >("CERTIFICATE");
 
   useEffect(() => {
     const Fetch = async () => {
@@ -95,7 +95,7 @@ export default function Page() {
               <div
                 className="w-full flex justify-between cursor-pointer text-body3s"
                 onClick={async () => {
-                  await setType("CERTIFICATE");
+                  await setType("HUMANITY");
                   setShow(true);
                 }}
               >
