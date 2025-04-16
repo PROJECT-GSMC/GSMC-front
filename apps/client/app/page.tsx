@@ -53,7 +53,7 @@ export default function Page() {
               variant="skyblue"
               onClick={() => console.log()}
             />
-            <MainDropdown isOpen={hoverTab === "독서"}>
+            <MainDropdown isOpen={!!accessToken && hoverTab === "독서"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
                 href="/book"
@@ -84,7 +84,7 @@ export default function Page() {
               onClick={() => console.log()}
             />
 
-            <MainDropdown isOpen={hoverTab === "인성"}>
+            <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
                 href="/character"
@@ -115,7 +115,7 @@ export default function Page() {
               onClick={() => console.log()}
             />
 
-            <MainDropdown isOpen={hoverTab === "전공"}>
+            <MainDropdown isOpen={!!accessToken && hoverTab === "전공"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
                 href="/major"
