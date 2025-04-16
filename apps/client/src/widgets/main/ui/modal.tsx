@@ -47,15 +47,21 @@ const Modal = ({ onClose, type }: ModalProps) => {
               await sendCertification({
                 name: data.categoryName,
                 file: data.file,
-                acquisitionDate: String(new Date()),
+                acquisitionDate: String(data.acquisitionDate),
               });
             } else if (type === "TOPCIT") {
               FixScore({
                 categoryName: "major-topcit-score",
                 score: Number(data.categoryName),
               });
-            } else {
+            } else if (type === "READ_A_THON") {
               await sendEvidence(data);
+            } else {
+              sendCertification({
+                name: data.option.send,
+                file: data.file,
+                acquisitionDate: String(data.acquisitionDate),
+              });
             }
           })}
         >
