@@ -36,7 +36,8 @@ const SignupPage = () => {
       !errors.email
   );
 
-  const canProceedToPassword = isAuthCodeStepValid && Boolean(watchedValues.authcode && !errors.authcode);
+  const canProceedToPassword =
+    isAuthCodeStepValid && Boolean(watchedValues.authcode && watchedValues.authcode.length >= 8 && !errors.authcode);
 
   const isPasswordValid = Boolean(
     watchedValues.password &&
@@ -59,11 +60,9 @@ const SignupPage = () => {
 
       if (response.status === 204) {
         setStep("password");
-      } else if (response.status === 401) {
-        toast.error("인증코드가 일치하지 않습니다.");
       }
-    } catch (error) {
-      toast.error(String(error));
+    } catch {
+      toast.error("인증코드가 일치하지 않습니다.");
     } finally {
       setIsAuthVerifying(false);
     }
@@ -82,7 +81,7 @@ const SignupPage = () => {
                 label="인증하기"
                 variant="blue"
                 isActive={canProceedToPassword && !isAuthVerifying}
-                onClick={handleVerifyEmail}
+                onClick={() => (canProceedToPassword && !isAuthVerifying ? handleVerifyEmail() : undefined)}
               />
             </>
           ) : (
