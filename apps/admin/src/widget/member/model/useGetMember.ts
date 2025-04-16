@@ -11,7 +11,7 @@ export const useGetMember = () => {
       queryClient.setQueryData(["members"], data.data);
     },
     onError: (e) => {
-      toast.error(e.message);
+      return e;
     },
   });
 };
