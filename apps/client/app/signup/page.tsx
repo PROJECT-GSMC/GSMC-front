@@ -7,9 +7,11 @@ import { useState } from "react";
 import StepAuthCode from "../../src/widgets/stepAuthCode/ui";
 import StepPassword from "../../src/widgets/stepPassword/ui";
 import { usePostSignup } from "../../src/entities/signup/model/usePostSignup";
+import { patchVerifyEmail } from "../../src/entities/signup/api/patchVerifyEmail";
 
 const SignupPage = () => {
   const [step, setStep] = useState("authCode");
+  const [isAuthVerifying, setIsAuthVerifying] = useState(false);
   const { mutate: signupMutate, isPending } = usePostSignup();
 
   const {
@@ -46,6 +48,23 @@ const SignupPage = () => {
     signupMutate(data);
   };
 
+  const handleVerifyEmail = async () => {
+    if (!canProceedToPassword || isAuthVerifying) return;
+
+    try {
+      setIsAuthVerifying(true);
+      const response = await patchVerifyEmail(Number(watchedValues.authcode));
+
+      if (response.status === 204) {
+        setStep("password");
+      }
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsAuthVerifying(false);
+    }
+  };
+
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="SIGN UP">
@@ -58,8 +77,8 @@ const SignupPage = () => {
               <Button
                 label="인증하기"
                 variant="blue"
-                isActive={canProceedToPassword}
-                onClick={() => canProceedToPassword && setStep("password")}
+                isActive={canProceedToPassword && !isAuthVerifying}
+                onClick={handleVerifyEmail}
               />
             </>
           ) : (
