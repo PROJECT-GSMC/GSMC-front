@@ -1,8 +1,9 @@
+import instance from "../../../../../../packages/ui/src/axios";
 import axios from "axios";
 
 export const patchVerifyEmail = async (code: number) => {
   try {
-    const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}/auth/verify-email`, { code });
+    const response = await instance.patch(`/auth/verify-email`, { code });
     return response;
   } catch (error) {
     console.error(error);

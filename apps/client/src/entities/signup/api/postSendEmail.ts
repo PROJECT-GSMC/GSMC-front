@@ -1,8 +1,9 @@
+import instance from "../../../../../../packages/ui/src/axios";
 import axios from "axios";
 
 export const postSendEmail = async (email: string) => {
   try {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/send-email`, { email });
+    const response = await instance.post(`/auth/send-email`, { email });
     return response;
   } catch (error) {
     console.error(error);
