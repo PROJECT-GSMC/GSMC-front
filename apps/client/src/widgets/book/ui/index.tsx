@@ -9,6 +9,7 @@ import Semester from "../../../shared/ui/semester";
 import { sendBook } from "../api/sendBook";
 import { Book } from "../model/book";
 import { toast } from "sonner";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 const BookWidget = () => {
   const {
@@ -34,35 +35,36 @@ const BookWidget = () => {
         <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
           독서 영역
         </h1>
-        <Controller
-          name="title"
-          control={control}
-          defaultValue=""
-          rules={{
-            required: "제목을 입력해주세요.",
-          }}
-          render={({ field }) => <Input label="제목" {...field} />}
-        />
-        <Controller
-          name="author"
-          defaultValue=""
-          control={control}
-          rules={{
-            required: "저자를 입력해주세요.",
-          }}
-          render={({ field }) => <Input label="저자" {...field} />}
-        />
-        <Controller
-          name="page"
-          control={control}
-          defaultValue={0}
-          rules={{
-            required: "페이지를 입력해주세요.",
-          }}
-          render={({ field }) => (
-            <Input type="number" label="페이지" {...field} />
-          )}
-        />
+        <InputContainer label="제목" >
+          <Input
+            name="title"
+            control={control}
+            defaultValue=""
+            rules={{
+              required: "제목을 입력해주세요.",
+            }}
+          />
+        </InputContainer>
+        <InputContainer label="저자">
+          <Input
+            name="author"
+            defaultValue=""
+            control={control}
+            rules={{
+              required: "저자를 입력해주세요.",
+            }}
+          />
+        </InputContainer>
+        <InputContainer label="페이지">
+          <Input
+            name="page"
+            control={control}
+            defaultValue={0}
+            rules={{
+              required: "페이지를 입력해주세요.",
+            }}
+          />
+        </InputContainer>
         <Controller
           name="semester"
           defaultValue={0}
