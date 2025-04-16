@@ -2,7 +2,6 @@ import React from "react";
 
 interface InputProps {
   label: string;
-  value: string | number;
   type?: string;
   error?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -11,7 +10,6 @@ interface InputProps {
 export const Input = ({
   label,
   type = "text",
-  value,
   error,
   onChange,
 }: InputProps) => {
@@ -24,13 +22,14 @@ export const Input = ({
         id={label}
         name={label}
         type={type}
-        value={value}
         onChange={onChange}
-        className="p-[1rem] rounded-[0.5rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600"
+        className="p-[1rem] rounded-[0.5rem] border focus:outline-tropicalblue-500 bg-white ui-outline-gray-600"
       />
-      <small role="alert" className="text-red-500">
-        {error}
-      </small>
+      {error && (
+        <small role="alert" className="text-red-500">
+          {error}
+        </small>
+      )}
     </div>
   );
 };
