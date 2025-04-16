@@ -6,9 +6,11 @@ import { Evidence } from "../model/evidence";
 import { sendCertification } from "../api/sendCertification";
 import { FixScore } from "../../../shared/api/fixScore";
 import { sendEvidence } from "../api/sendEvidence";
+import Dropdown from "../../../shared/ui/dropdown";
+
 interface ModalProps {
   onClose: () => void;
-  type: "CERTIFICATE" | "TOPCIT" | "READ_A_THON";
+  type: "CERTIFICATE" | "TOPCIT" | "READ_A_THON" | "HUMANITY";
 }
 
 const Modal = ({ onClose, type }: ModalProps) => {
@@ -56,34 +58,58 @@ const Modal = ({ onClose, type }: ModalProps) => {
             }
           })}
         >
-          <Controller
-            rules={{ required: true }}
-            name="categoryName"
-            control={control}
-            render={({ field }) => (
-              <Input
-                label={
-                  type === "TOPCIT"
-                    ? "TOPCIT 점수"
-                    : type === "CERTIFICATE"
-                      ? "자격증 작성하기"
-                      : "독서로 단계"
-                }
-                {...field}
-                type={type === "TOPCIT" ? "number" : "text"}
-              />
-            )}
-          />
-          {type === "CERTIFICATE" && (
+          {type === "HUMANITY" ? (
             <Controller
-              control={control}
-              name="acquisitionDate"
               rules={{ required: true }}
+              name="option"
+              control={control}
               render={({ field }) => (
-                <Input label="취득일" type="date" {...field} />
+                <Dropdown
+                  options={[
+                    { name: "한자 1급", send: "한자 1급" },
+                    { name: "한자 2급", send: "한자 2급" },
+                    { name: "한자 3급", send: "한자 3급" },
+                    { name: "한자 4급", send: "한자 4급" },
+                    { name: "한국사 1급", send: "한국사 능력검정(1)" },
+                    { name: "한국사 2급", send: "한국사 능력검정(2)" },
+                    { name: "한국사 3급", send: "한국사 능력검정(3)" },
+                  ]}
+                  label="자격증"
+                  {...field}
+                />
+              )}
+            />
+          ) : (
+            <Controller
+              rules={{ required: true }}
+              name="categoryName"
+              control={control}
+              render={({ field }) => (
+                <Input
+                  label={
+                    type === "TOPCIT"
+                      ? "TOPCIT 점수"
+                      : type === "CERTIFICATE"
+                        ? "자격증 작성하기"
+                        : "독서로 단계"
+                  }
+                  {...field}
+                  type={type === "TOPCIT" ? "number" : "text"}
+                />
               )}
             />
           )}
+          {type === "CERTIFICATE" ||
+            (type === "HUMANITY" && (
+              <Controller
+                control={control}
+                name="acquisitionDate"
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <Input label="취득일" type="date" {...field} />
+                )}
+              />
+            ))}
           <Controller
             name="file"
             control={control}
