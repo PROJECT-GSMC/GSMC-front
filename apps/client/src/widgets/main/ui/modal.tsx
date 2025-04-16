@@ -7,6 +7,7 @@ import { sendCertification } from "../api/sendCertification";
 import { FixScore } from "../../../shared/api/fixScore";
 import { sendEvidence } from "../api/sendEvidence";
 import Dropdown from "../../../shared/ui/dropdown";
+import { options } from "../model/options";
 
 interface ModalProps {
   onClose: () => void;
@@ -64,19 +65,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
               name="option"
               control={control}
               render={({ field }) => (
-                <Dropdown
-                  options={[
-                    { name: "한자 1급", send: "한자 1급" },
-                    { name: "한자 2급", send: "한자 2급" },
-                    { name: "한자 3급", send: "한자 3급" },
-                    { name: "한자 4급", send: "한자 4급" },
-                    { name: "한국사 1급", send: "한국사 능력검정(1)" },
-                    { name: "한국사 2급", send: "한국사 능력검정(2)" },
-                    { name: "한국사 3급", send: "한국사 능력검정(3)" },
-                  ]}
-                  label="자격증"
-                  {...field}
-                />
+                <Dropdown options={options} label="자격증" {...field} />
               )}
             />
           ) : (
