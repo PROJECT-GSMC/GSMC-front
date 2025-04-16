@@ -59,7 +59,7 @@ const SignupPage = () => {
 
       if (response.status === 204) {
         setStep("password");
-      } else if (response.status === 400) {
+      } else if (response.status === 401) {
         toast.error("인증코드가 일치하지 않습니다.");
       }
     } catch (error) {
