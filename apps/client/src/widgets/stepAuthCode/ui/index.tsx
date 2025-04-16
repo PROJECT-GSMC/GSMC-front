@@ -5,6 +5,7 @@ import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 import { Control, useWatch } from "react-hook-form";
 import { SignupFormProps } from "../../../shared/model/AuthForm";
 import { postSendEmail } from "../../../entities/signup/api/postSendEmail";
+import { toast } from "sonner";
 
 export default function StepAuthCode({
   control,
@@ -27,7 +28,7 @@ export default function StepAuthCode({
 
         await postSendEmail(email);
       } catch (error) {
-        console.error(error);
+        toast.error(String(error));
       } finally {
         setIsLoading(false);
       }

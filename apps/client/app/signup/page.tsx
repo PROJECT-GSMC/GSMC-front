@@ -9,6 +9,8 @@ import StepPassword from "../../src/widgets/stepPassword/ui";
 import { usePostSignup } from "../../src/entities/signup/model/usePostSignup";
 import { patchVerifyEmail } from "../../src/entities/signup/api/patchVerifyEmail";
 
+import { toast } from "sonner";
+
 const SignupPage = () => {
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
@@ -57,9 +59,11 @@ const SignupPage = () => {
 
       if (response.status === 204) {
         setStep("password");
+      } else if (response.status === 400) {
+        toast.error("인증코드가 일치하지 않습니다.");
       }
     } catch (error) {
-      console.error(error);
+      toast.error(String(error));
     } finally {
       setIsAuthVerifying(false);
     }
