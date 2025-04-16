@@ -1,23 +1,22 @@
-import Link from "next/link";
+import React from "react";
 
-interface Dropdown {
-  list: Array<DropdownItem>;
+interface DropdownProps {
+  children: React.ReactNode;
+  isOpen: boolean;
 }
 
-interface DropdownItem {
-  title: string;
-  url?: string;
-}
-
-const MainDropdown = ({ list }: Dropdown) => {
+const MainDropdown = ({ children, isOpen }: DropdownProps) => {
   return (
-    <div className="absolute left-0 top-full mt-2 z-10 flex flex-col gap-4 sm:gap-6 items-center justify-center rounded-lg sm:rounded-xl w-[200px] m-4 sm:w-[254px] px-6 sm:px-11 py-4 sm:py-6 bg-tropicalblue-50">
-      {list.map((li) => (
-        <Link key={li.title} className="w-full flex justify-between cursor-pointer text-body3s " href={li.url || ""}>
-          <p>{li.title}</p>
-          <p>{">"}</p>
-        </Link>
-      ))}
+    <div
+      className={`
+    absolute left-0 z-10 
+    w-[200px] sm:w-[254px] px-6 sm:px-11 py-4 sm:py-6 m-1 
+    rounded-lg sm:rounded-xl bg-tropicalblue-50
+    transition-all duration-500 ease-in-out origin-top 
+    ${isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-6 pointer-events-none"}
+  `}
+    >
+      <div className="w-full flex flex-col gap-5 text-body3s">{children}</div>
     </div>
   );
 };
