@@ -2,6 +2,10 @@ import { Controller, useForm } from "react-hook-form";
 import File from "../../../shared/ui/file";
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
+import { Evidence } from "../model/evidence";
+import { sendCertification } from "../api/sendCertification";
+import { FixScore } from "../../../shared/api/fixScore";
+import { sendEvidence } from "../api/sendEvidence";
 interface ModalProps {
   onClose: () => void;
   type: "CERTIFICATE" | "TOPCIT" | "READ_A_THON";
@@ -12,7 +16,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
     handleSubmit,
     control,
     formState: { isValid },
-  } = useForm({ mode: "onChange" });
+  } = useForm<Evidence>({ mode: "onChange" });
 
   return (
     <div
@@ -34,16 +38,27 @@ const Modal = ({ onClose, type }: ModalProps) => {
         </h1>
 
         <form
-          className="w-full"
-          onSubmit={handleSubmit((data) => {
-            const finalData = {
-              ...data,
-              activityType: type,
-            };
+          className="w-full flex flex-col gap-[1.5rem]"
+          onSubmit={handleSubmit(async (data) => {
+            if (type === "CERTIFICATE") {
+              await sendCertification({
+                name: data.categoryName,
+                file: data.file,
+                acquisitionDate: String(new Date()),
+              });
+            } else if (type === "TOPCIT") {
+              FixScore({
+                categoryName: "major-topcit-score",
+                score: Number(data.categoryName),
+              });
+            } else {
+              await sendEvidence(data);
+            }
           })}
         >
           <Controller
-            name="certification"
+            rules={{ required: true }}
+            name="categoryName"
             control={control}
             render={({ field }) => (
               <Input
@@ -55,13 +70,24 @@ const Modal = ({ onClose, type }: ModalProps) => {
                       : "독서로 단계"
                 }
                 {...field}
-                type="text"
+                type={type === "TOPCIT" ? "number" : "text"}
               />
             )}
           />
+          {type === "CERTIFICATE" && (
+            <Controller
+              control={control}
+              name="acquisitionDate"
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Input label="취득일" type="date" {...field} />
+              )}
+            />
+          )}
           <Controller
             name="file"
             control={control}
+            rules={{ required: true }}
             render={({ field }) => <File label="" {...field} />}
           />
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
