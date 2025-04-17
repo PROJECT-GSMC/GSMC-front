@@ -16,9 +16,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Providers>{children}</Providers>
-      <Toaster richColors />
-      <body>{children}</body>
+      <body>
+        <Providers>{children}</Providers>
+        <Toaster richColors />
+      </body>
     </html>
   );
 }
