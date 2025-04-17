@@ -1,6 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getMembers } from "../api/getMembers";
-import { toast } from "sonner";
 
 export const useGetMember = () => {
   const queryClient = useQueryClient();
