@@ -19,7 +19,15 @@ const MemberPage = () => {
 
   const { data, error } = useGetMember();
   if (error) toast.error(error.message);
-  const members: Member[] = data?.data;
+
+  const members: Member[] = data?.data ?? [];
+
+  const filteredMembers = members.filter((member) => {
+    const gradeMatch = grade === 0 || member.grade === grade;
+    const classMatch = classNumber === 0 || member.classNumber === classNumber;
+    return gradeMatch && classMatch;
+  });
+
   return (
     <div
       style={{ gap: "1rem" }}
@@ -30,25 +38,22 @@ const MemberPage = () => {
         className="flex justify-center items-center w-full h-full mt-[3.12rem]"
         style={{ gap: "1.8rem" }}
       >
-        <List className="h-[46rem]" title={members && String(members.length)}>
-          {members &&
-            members.map((members) => {
-              return (
-                <Card
-                  onClick={async () => {
-                    const res = await getMember(members.email);
-                    setStudent(res.data);
-                  }}
-                  key={members.email}
-                  front={members.name}
-                  back={
-                    members.grade +
-                    members.classNumber +
-                    String(members.number).padStart(2, "0")
-                  }
-                />
-              );
-            })}
+        <List className="h-[46rem]" title={String(filteredMembers.length)}>
+          {filteredMembers.map((member) => (
+            <Card
+              onClick={async () => {
+                const res = await getMember(member.email);
+                setStudent(res.data);
+              }}
+              key={member.email}
+              front={member.name}
+              back={
+                member.grade +
+                member.classNumber +
+                String(member.number).padStart(2, "0")
+              }
+            />
+          ))}
         </List>
         {student ? (
           <Information student={student} />
