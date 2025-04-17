@@ -1,6 +1,6 @@
 interface CardProps {
   front: string;
-  back?: string;
+  back?: string | number;
   onClick?: () => void;
 }
 
