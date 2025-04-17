@@ -43,7 +43,9 @@ export const Calculate = () => {
             state={fileCount === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
-              <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              <Minus
+                className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+              />
             }
             className="group basis-1/6"
             onClick={() => {
@@ -86,7 +88,9 @@ export const Calculate = () => {
             state={fileCount === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
-              <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              <Minus
+                className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+              />
             }
             className="group basis-1/6"
             onClick={() => {
@@ -129,7 +133,9 @@ export const Calculate = () => {
             state={fileCount === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
-              <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              <Minus
+                className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+              />
             }
             className="group basis-1/6"
             onClick={() => {
@@ -172,7 +178,9 @@ export const Calculate = () => {
             state={fileCount === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
-              <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              <Minus
+                className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+              />
             }
             className="group basis-1/6"
             onClick={() => {
@@ -200,7 +208,9 @@ export const Calculate = () => {
           state="default"
           variant="skyblue_hover"
           label={
-            <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+            <Minus
+              className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+            />
           }
           className="group basis-1/6"
         />
