@@ -42,7 +42,7 @@ export default function Page() {
         ) : (
           <ShowLogin />
         )}
-        <div className="flex items-center gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
+        <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
           <div
             className="relative w-full"
             onMouseEnter={() => setHoverTab("독서")}
