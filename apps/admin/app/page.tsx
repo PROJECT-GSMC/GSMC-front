@@ -60,7 +60,12 @@ const MemberPage = () => {
             </span>
           </div>
         )}
-        <Filter />
+        <Filter
+          grade={grade}
+          classNumber={classNumber}
+          ChangeClass={setClassNumber}
+          ChangeGrade={setGrade}
+        />
       </div>
     </div>
   );
