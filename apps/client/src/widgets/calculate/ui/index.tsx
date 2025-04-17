@@ -44,7 +44,7 @@ export const Calculate = () => {
             variant="skyblue_hover"
             label={
               <Minus
-                className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+                className={`${fileCount === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
               />
             }
             className="group basis-1/6"
@@ -89,7 +89,7 @@ export const Calculate = () => {
             variant="skyblue_hover"
             label={
               <Minus
-                className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+                className={`${fileCount === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
               />
             }
             className="group basis-1/6"
@@ -134,7 +134,7 @@ export const Calculate = () => {
             variant="skyblue_hover"
             label={
               <Minus
-                className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+                className={`${fileCount === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
               />
             }
             className="group basis-1/6"
@@ -179,7 +179,7 @@ export const Calculate = () => {
             variant="skyblue_hover"
             label={
               <Minus
-                className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
+                className={`${fileCount === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
               />
             }
             className="group basis-1/6"
@@ -208,9 +208,7 @@ export const Calculate = () => {
           state="default"
           variant="skyblue_hover"
           label={
-            <Minus
-              className={`text-[#5E97FC] ${fileCount === 0 ? "group-hover:text-[#828387]" : "group-hover:text-[#DFEAFE]"}`}
-            />
+            <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
           }
           className="group basis-1/6"
         />
