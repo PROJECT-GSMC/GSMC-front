@@ -6,7 +6,7 @@ interface PostProps {
   isExample?: boolean;
 }
 
-const Post = ({ data, isExample = true }: PostProps) => {
+const Post = ({ data, isExample = false }: PostProps) => {
   const handleState = (state: string) => {
     if (state === "APPROVE") return "통과";
     if (state === "REJECT") return "탈락";
