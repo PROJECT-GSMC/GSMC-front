@@ -31,7 +31,7 @@ export default function StepAuthCode({
           <Button
             label="인증번호"
             variant="blue"
-            isActive={isAuthButtonActive}
+            state={isAuthButtonActive ? "default" : "disabled"}
           />
         </div>
       </InputContainer>

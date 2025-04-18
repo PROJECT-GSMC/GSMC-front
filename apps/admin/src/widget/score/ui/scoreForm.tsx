@@ -40,8 +40,8 @@ const ScoreForm = () => {
           render={({ field }) => <Checkbox {...field} />}
         />
         <div className="flex flex-col gap-[0.69rem]">
-          <Button variant="skyblue" label="뒤로가기" isActive />
-          <Button variant="blue" label="점수 주기 완료" isActive />
+          <Button variant="skyblue" label="뒤로가기" />
+          <Button variant="blue" label="점수 주기 완료" />
         </div>
       </div>
     </div>

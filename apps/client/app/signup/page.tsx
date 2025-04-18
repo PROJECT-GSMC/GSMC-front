@@ -62,7 +62,7 @@ const SignupPage = () => {
               <Button
                 label="인증하기"
                 variant="blue"
-                isActive={canProceedToPassword}
+                className={canProceedToPassword ? "default" : "disabled"}
                 onClick={() => canProceedToPassword && setStep("password")}
               />
             </>
@@ -74,7 +74,7 @@ const SignupPage = () => {
               <Button
                 label="회원가입"
                 variant="blue"
-                isActive={isPasswordValid}
+                state={isPasswordValid ? "default" : "disabled"}
               />
             </>
           )}

@@ -56,7 +56,7 @@ const LoginPage = () => {
               />
             </InputContainer>
           </div>
-          <Button label="로그인" variant="blue" isActive={isValid} />
+          <Button label="로그인" variant="blue" state={isValid ? "default" : "disabled"} />
         </form>
       </AuthForm>
     </div>

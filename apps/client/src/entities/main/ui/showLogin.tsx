@@ -13,10 +13,10 @@ const ShowLogin = () => {
       </div>
       <div className="flex flex-col sm:flex-row gap-2 mt-4 sm:mt-[1.88rem]">
         <Link className="w-full" href="/login">
-          <Button label="로그인" isActive variant="blue" />
+          <Button label="로그인" variant="blue" />
         </Link>
         <Link className="w-full" href="/signup">
-          <Button label="회원가입" isActive variant="skyblue" />
+          <Button label="회원가입" variant="skyblue" />
         </Link>
       </div>
     </div>
