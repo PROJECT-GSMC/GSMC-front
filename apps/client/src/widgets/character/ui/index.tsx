@@ -54,7 +54,6 @@ const CharacterWidget = () => {
         </h1>
         <Controller
           name="categoryName"
-          defaultValue={{ name: "", send: "" }}
           control={control}
           rules={{ required: "카테고리를 선택해주세요." }}
           render={({ field }) => (
