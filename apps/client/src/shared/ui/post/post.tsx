@@ -1,26 +1,16 @@
-import {} from "../../../entities/posts/model/";
+import { PostType } from "../../../../../../packages/ui/src/types/postType";
 import Image from "next/image";
+import {
+  handleState,
+  handleStateColor,
+} from "../../../../../../packages/ui/src/utils/handleState";
 
 interface PostProps {
-  data: ;
+  data: PostType;
   isExample?: boolean;
 }
 
 const Post = ({ data, isExample = false }: PostProps) => {
-  const handleState = (state: string) => {
-    if (state === "APPROVE") return "통과";
-    if (state === "REJECT") return "탈락";
-    if (state === "PENDING") return "대기중..";
-    return "임시저장 글";
-  };
-
-  const handleStateColor = (state: string) => {
-    if (state === "APPROVE") return "text-tropicalblue-500";
-    if (state === "REJECT") return "text-[#DF454A]";
-    if (state === "PENDING") return "text-tropicalblue-800";
-    return "text-gray-500";
-  };
-
   return (
     <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px]">
       {data.imageUrl ? (

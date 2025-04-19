@@ -2,22 +2,16 @@ import Image from "next/image";
 import { PostType } from "../../../../../../packages/ui/src/types/postType";
 import { changeEvidenceState } from "../api/changeEvidenceState";
 import { toast } from "sonner";
+import {
+  handleStateColor,
+  handleState,
+} from "../../../../../../packages/ui/src/utils/handleState";
 
 interface PostProps {
   data: PostType;
 }
 
 const Post = ({ data }: PostProps) => {
-  const handleState = (state: string) => {
-    if (state === "APPROVE") return "통과";
-    if (state === "REJECT") return "탈락";
-  };
-
-  const handleStateColor = (state: string) => {
-    if (state === "APPROVE") return "text-tropicalblue-500";
-    if (state === "REJECT") return "text-[#DF454A]";
-  };
-
   return (
     <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px]">
       {data.imageUrl ? (
