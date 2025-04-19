@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { PostType } from "../../../../../client/src/entities/posts/model/postType";
 import { changeEvidenceState } from "../api/changeEvidenceState";
+import { toast } from "sonner";
 
 interface PostProps {
   data: PostType;
@@ -32,7 +33,14 @@ const Post = ({ data }: PostProps) => {
         {data.status === "PENDING" ? (
           <div className="mt-[1.25rem] flex gap-[1rem] items-center justify-center text-body5 w-full text-white">
             <button
-              onClick={() => changeEvidenceState(data.id, "APPROVE")}
+              onClick={async () => {
+                try {
+                  await changeEvidenceState(data.id, "APPROVE");
+                } catch (error) {
+                  console.error(error);
+                  toast.error("게시글 상태 변경에 실패했습니다.");
+                }
+              }}
               className="bg-tropicalblue-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
             >
               통과
