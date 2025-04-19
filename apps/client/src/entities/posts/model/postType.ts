@@ -1,4 +1,4 @@
-import { postState } from "../../../../../../packages/ui/src/types/postState";
+import { postState } from "../../../../../../packages/ui/src/types/evidences";
 
 export interface PostType {
   id: number;
