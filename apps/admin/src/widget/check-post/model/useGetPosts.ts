@@ -2,17 +2,16 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getPosts } from "../api/getPosts";
 import { ReviewState } from "./reviewState";
 
-interface PostSignupParams {
+interface PostParams {
   email: string;
   status: ReviewState;
 }
 
-export const useGetPosts = () => {
+export const usetPosts = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ email, status }: PostSignupParams) =>
-      getPosts(email, status),
+    mutationFn: ({ email, status }: PostParams) => getPosts(email, status),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ["posts"],
