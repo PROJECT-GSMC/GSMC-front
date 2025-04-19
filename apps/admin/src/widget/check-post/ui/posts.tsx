@@ -31,18 +31,15 @@ const PostsWidget = () => {
             onClick={() => setState("APPROVE")}
             variant={state === "APPROVE" ? "blue" : "skyblue"}
             label="통과"
-            isActive
           />
           <Button
             onClick={() => setState("REJECT")}
             variant={state === "REJECT" ? "blue" : "skyblue"}
-            isActive
             label="거절"
           />
           <Button
             onClick={() => setState("PENDING")}
             variant={state === "PENDING" ? "blue" : "skyblue"}
-            isActive
             label="대기"
           />
         </div>
