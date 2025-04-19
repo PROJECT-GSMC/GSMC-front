@@ -1,6 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getPosts } from "../api/getPosts";
 import { ReviewState } from "./reviewState";
+import { PostType } from "../../../../../client/src/entities/posts/model/postType";
 
 interface PostParams {
   email: string;
@@ -12,7 +13,7 @@ export const useGetPosts = () => {
 
   return useMutation({
     mutationFn: ({ email, status }: PostParams) => getPosts(email, status),
-    onSuccess: (data) => {
+    onSuccess: (data: PostType[]) => {
       queryClient.invalidateQueries({
         queryKey: ["posts"],
       });
