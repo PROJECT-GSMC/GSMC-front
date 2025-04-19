@@ -5,7 +5,7 @@ export const variantStyles = {
     disabled: "bg-[#CDCDCF] text-[#828387] cursor-not-allowed",
   },
   skyblue: {
-    default: "bg-inherent border border-tropicalblue-500 text-tropicalblue-500",
+    default: "bg-inherit border border-tropicalblue-500 text-tropicalblue-500",
     active: "bg-[#DBDCDE] border border-tropicalblue-500 text-tropicalblue-500",
     disabled:
       "bg-white border border-[#828387] text-[#828387] cursor-not-allowed",

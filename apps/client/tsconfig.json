@@ -14,7 +14,8 @@
     "next.config.ts",
     ".next/types/**/*.ts",
     "../../packages/ui/src/types/role.ts",
-    "../../packages/ui/src/post.tsx"
+    "../../packages/ui/src/post.tsx",
+    "../../packages/ui/src/types/postType.ts"
   ],
   "exclude": ["node_modules"]
 }
