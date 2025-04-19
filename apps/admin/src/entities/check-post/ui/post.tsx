@@ -1,4 +1,5 @@
 import { PostType } from "../../../../../client/src/entities/posts/model/postType";
+import { changeEvidenceState } from "../api/changeEvidenceState";
 
 interface PostProps {
   data: PostType;
@@ -29,10 +30,16 @@ const Post = ({ data }: PostProps) => {
         </p>
         {data.status === "PENDING" ? (
           <div className="mt-[1.25rem] flex gap-[1rem] items-center justify-center text-body5 w-full text-white">
-            <button className="bg-tropicalblue-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]">
+            <button
+              onClick={() => changeEvidenceState(data.id, "APPROVE")}
+              className="bg-tropicalblue-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
+            >
               통과
             </button>
-            <button className="bg-[#DF454A] px-[1.25rem] rounded-[0.5rem] py-[0.625rem]">
+            <button
+              onClick={() => changeEvidenceState(data.id, "REJECT")}
+              className="bg-[#DF454A] px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
+            >
               거절
             </button>
           </div>
