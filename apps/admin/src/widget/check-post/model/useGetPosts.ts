@@ -7,7 +7,7 @@ interface PostSignupParams {
   status: ReviewState;
 }
 
-export const usePostSignup = () => {
+export const useGetPosts = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
