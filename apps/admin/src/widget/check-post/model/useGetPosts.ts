@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getPosts } from "../api/getPosts";
-import { PostType } from "../../../../../client/src/entities/posts/model/postType";
+import { PostType } from "../../../../../../packages/ui/src/types/postType";
 import { postState } from "../../../../../../packages/ui/src/types/evidences";
 
 interface PostParams {

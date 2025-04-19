@@ -6,7 +6,7 @@ import { useState } from "react";
 import { postState } from "../../../../../../packages/ui/src/types/evidences";
 import Header from "../../../shared/ui/header";
 import Post from "../../../entities/check-post/ui/post";
-import { PostType } from "../../../../../client/src/entities/posts/model/postType";
+import { PostType } from "../../../../../../packages/ui/src/types/postType";
 import { toast } from "sonner";
 
 const PostsWidget = () => {

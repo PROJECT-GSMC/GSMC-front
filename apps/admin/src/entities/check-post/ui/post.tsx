@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { PostType } from "../../../../../client/src/entities/posts/model/postType";
+import { PostType } from "../../../../../../packages/ui/src/types/postType";
 import { changeEvidenceState } from "../api/changeEvidenceState";
 import { toast } from "sonner";
 

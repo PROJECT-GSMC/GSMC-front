@@ -1,8 +1,8 @@
-import { PostType } from "../../../entities/posts/model/postType";
+import {} from "../../../entities/posts/model/";
 import Image from "next/image";
 
 interface PostProps {
-  data: PostType;
+  data: ;
   isExample?: boolean;
 }
 
