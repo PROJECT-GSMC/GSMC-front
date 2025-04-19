@@ -1,11 +1,11 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { getPosts } from "../api/getPosts";
-import { ReviewState } from "./reviewState";
 import { PostType } from "../../../../../client/src/entities/posts/model/postType";
+import { postState } from "../../../../../../packages/ui/src/types/evidences";
 
 interface PostParams {
   email: string;
-  status: ReviewState;
+  status: postState;
 }
 
 export const useGetPosts = () => {
