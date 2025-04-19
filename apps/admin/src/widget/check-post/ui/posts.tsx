@@ -11,10 +11,10 @@ import { toast } from "sonner";
 
 const PostsWidget = () => {
   const [state, setState] = useState<postState | "">("");
-  const { isError, data } = useGetPosts();
-
+  const { data, isError, error } = useGetPosts("email", "PENDING");
   if (isError) {
-    toast.error("게시글을 불러오지 못했습니다.");
+    console.error(error);
+    toast.error("게시글을 불러오는 데 실패했습니다.");
   }
 
   const filteredPosts = data?.filter((post: PostType) => post.status === state);
