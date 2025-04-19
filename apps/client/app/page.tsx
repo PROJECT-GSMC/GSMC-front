@@ -42,7 +42,7 @@ export default function Page() {
         ) : (
           <ShowLogin />
         )}
-        <div className="flex items-center gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
+        <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
           <div
             className="relative w-full"
             onMouseEnter={() => setHoverTab("독서")}
@@ -51,7 +51,6 @@ export default function Page() {
             <Button
               label="독서"
               variant="skyblue"
-              onClick={() => console.log()}
             />
             <MainDropdown isOpen={!!accessToken && hoverTab === "독서"}>
               <Link
@@ -81,9 +80,7 @@ export default function Page() {
             <Button
               label="인성"
               variant="skyblue"
-              onClick={() => console.log()}
             />
-
             <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
@@ -112,9 +109,7 @@ export default function Page() {
             <Button
               label="전공"
               variant="skyblue"
-              onClick={() => console.log()}
             />
-
             <MainDropdown isOpen={!!accessToken && hoverTab === "전공"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
@@ -148,7 +143,6 @@ export default function Page() {
           <Button
             label="외국어"
             variant="skyblue"
-            onClick={() => console.log()}
           />
         </div>
         <div className="flex flex-col mt-9 mx-4">

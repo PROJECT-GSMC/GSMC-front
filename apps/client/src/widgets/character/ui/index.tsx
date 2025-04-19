@@ -54,13 +54,14 @@ const CharacterWidget = () => {
         </h1>
         <Controller
           name="categoryName"
-          defaultValue={{ name: "", send: "" }}
           control={control}
-          rules={{
-            required: "카테고리를 선택해주세요.",
-          }}
+          rules={{ required: "카테고리를 선택해주세요." }}
           render={({ field }) => (
-            <Dropdown label="카테고리" options={CharacterCategory} {...field} />
+            <Dropdown
+              label="카테고리"
+              options={CharacterCategory}
+              {...field}
+            />
           )}
         />
         <Controller
@@ -104,8 +105,8 @@ const CharacterWidget = () => {
           render={({ field }) => <File label="이미지" {...field} />}
         />
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-          <Button isActive variant="skyblue" label="임시저장" />
-          <Button isActive={isValid} variant="blue" label="작성 완료" />
+          <Button variant="skyblue" label="임시저장" />
+          <Button state={isValid ? "default" : "disabled"} variant="blue" label="작성 완료" />
         </div>
       </form>
     </div>
