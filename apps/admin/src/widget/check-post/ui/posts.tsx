@@ -11,14 +11,14 @@ import { toast } from "sonner";
 
 const PostsWidget = () => {
   const [state, setState] = useState<postState | "">("");
-  const { isError } = useGetPosts();
+  const { isError, data } = useGetPosts();
+
   if (isError) {
     toast.error("게시글을 불러오지 못했습니다.");
   }
-  const { data } = useGetPosts();
-  const filteredPosts = data?.filter((post: PostType) => {
-    post.status === state;
-  });
+
+  const filteredPosts = data?.filter((post: PostType) => post.status === state);
+
   return (
     <div className="flex items-center flex-col">
       <Header />
@@ -47,10 +47,13 @@ const PostsWidget = () => {
           />
         </div>
         <div className="flex flex-wrap">
-          {filteredPosts &&
-            filteredPosts.map((post) => {
-              return <Post key={post.id} data={post} />;
-            })}
+          {filteredPosts && filteredPosts.length > 0 ? (
+            filteredPosts.map((post) => <Post key={post.id} data={post} />)
+          ) : (
+            <p className="w-full text-center mt-4 text-gray-400">
+              게시글이 없습니다.
+            </p>
+          )}
         </div>
       </div>
     </div>
