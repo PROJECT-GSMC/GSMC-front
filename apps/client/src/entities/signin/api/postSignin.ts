@@ -1,9 +1,10 @@
+import instance from "../../../../../../packages/ui/src/axios";
 import axios from "axios";
-import { AuthForm } from "../../../shared/model/AuthForm";
+import { SignupFormProps } from "../../../shared/model/AuthForm";
 
-export const postSignin = async (form: AuthForm) => {
+export const postSignin = async (form: SignupFormProps) => {
   try {
-    const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/auth/signin`, form);
+    const response = await instance.post(`/auth/signin`, form);
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
