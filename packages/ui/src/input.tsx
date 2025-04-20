@@ -91,7 +91,13 @@ export const Input = <T extends FieldValues = FieldValues>({ type, ...props }: I
       const prefixLength = displayValue.length;
       const cursorPosition = input.selectionStart || 0;
 
-      // 접미사 부분에 입력 금지
+      if (e.key === "a" && (e.ctrlKey || e.metaKey)) {
+        e.preventDefault();
+        const fullLength = (displayValue + suffix).length;
+        input.setSelectionRange(0, fullLength);
+        return;
+      }
+
       if (cursorPosition > prefixLength) {
         const allowedKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "Tab"];
         if (!allowedKeys.includes(e.key)) {
@@ -100,9 +106,7 @@ export const Input = <T extends FieldValues = FieldValues>({ type, ...props }: I
         return;
       }
 
-      // 이메일 접두사 입력 제한 처리
       if (isEmail) {
-        // 백스페이스와 삭제 키, 화살표 등 항상 허용
         const alwaysAllowedKeys = [
           "Backspace",
           "Delete",
@@ -118,20 +122,16 @@ export const Input = <T extends FieldValues = FieldValues>({ type, ...props }: I
           return;
         }
 
-        // 첫 글자에는 숫자와 's'만 허용
         if (cursorPosition === 0) {
           if (!/^[0-9s]$/.test(e.key)) {
             e.preventDefault();
           }
-        }
-        // 나머지 글자는 숫자만 허용
-        else {
+        } else {
           if (!/^[0-9]$/.test(e.key)) {
             e.preventDefault();
           }
         }
 
-        // 최대 6글자까지만 입력 가능
         if (
           displayValue.length >= 6 &&
           !e.ctrlKey &&
