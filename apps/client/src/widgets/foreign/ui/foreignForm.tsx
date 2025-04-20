@@ -1,13 +1,14 @@
 "use client";
 
 import { Input } from "@repo/ui/input";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import Dropdown from "../../../shared/ui/dropdown";
 import { foreignOptions } from "../model/foreignOptions";
 import File from "../../../shared/ui/file";
 import { ForeignForm } from "../model/foreign";
 import { Button } from "@repo/ui/button";
 import Header from "../../../shared/ui/header";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 const ForeignFormWidget = () => {
   const {
@@ -24,6 +25,8 @@ const ForeignFormWidget = () => {
     };
     console.log(final);
   };
+
+  const category = useWatch();
 
   return (
     <div className="flex flex-col items-center h-[100vh]">
@@ -48,13 +51,15 @@ const ForeignFormWidget = () => {
               />
             )}
           />
-          <Input
-            name="value"
-            control={control}
-            rules={{
-              required: "값을 입력해주세요.",
-            }}
-          />
+          <InputContainer label="점수">
+            <Input
+              name="value"
+              control={control}
+              rules={{
+                required: "값을 입력해주세요.",
+              }}
+            />
+          </InputContainer>
           <Controller
             control={control}
             name="file"
