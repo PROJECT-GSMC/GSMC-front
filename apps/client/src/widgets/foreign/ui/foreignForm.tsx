@@ -17,8 +17,8 @@ const ForeignFormWidget = () => {
   } = useForm<ForeignForm>({ mode: "onChange" });
 
   const onSubmit = (data: ForeignForm) => {
-    const final: ForeignForm = {
-      categoryName: data.categoryName,
+    const final = {
+      categoryName: data.categoryName.send,
       value: data.value,
       file: data.file,
     };
