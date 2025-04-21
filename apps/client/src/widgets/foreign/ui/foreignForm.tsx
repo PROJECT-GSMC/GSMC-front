@@ -9,6 +9,7 @@ import { ForeignForm } from "../model/foreign";
 import { Button } from "@repo/ui/button";
 import Header from "../../../shared/ui/header";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+import { chooseDropdownOption } from "../lib/chooseDropdownOption";
 
 const ForeignFormWidget = () => {
   const {
@@ -31,7 +32,7 @@ const ForeignFormWidget = () => {
     console.log(final);
   };
 
-  const needsStepDropdown =
+  const needDropdown =
     category?.name === "OPIC" ||
     category?.name === "TOEIC SPEAKING" ||
     category?.name === "HSK";
@@ -59,7 +60,7 @@ const ForeignFormWidget = () => {
               />
             )}
           />
-          {needsStepDropdown ? (
+          {needDropdown ? (
             <Controller
               control={control}
               name="value"
@@ -67,7 +68,7 @@ const ForeignFormWidget = () => {
               render={({ field }) => (
                 <Dropdown
                   label="단계"
-                  options={foreignOptions}
+                  options={chooseDropdownOption(category.name)}
                   onChange={(option) => field.onChange(option)}
                 />
               )}
