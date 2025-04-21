@@ -3,7 +3,7 @@ export const foreignOptions = [
   { name: "TOEFL", send: "foreign_lang-test-toefl-score" },
   { name: "TEPS", send: "foreign_lang-test-teps-score" },
   {
-    name: "TOEIC_SPEAKING",
+    name: "TOEIC SPEAKING",
     send: "level foreign_lang-test-toeic_speaking-level",
   },
   { name: "OPIC", send: "foreign_lang-test-opic-grade" },
