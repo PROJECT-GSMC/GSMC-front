@@ -25,11 +25,6 @@ const ForeignFormWidget = () => {
   });
 
   const onSubmit = (data: ForeignForm) => {
-    const final = {
-      categoryName: data.categoryName.send,
-      value: data.value,
-      file: data.file,
-    };
     sendForeign(data.categoryName.send, data.value.send, data.file);
   };
 

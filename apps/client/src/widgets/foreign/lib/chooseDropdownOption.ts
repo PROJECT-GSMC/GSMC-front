@@ -1,5 +1,3 @@
-import { send } from "process";
-
 export const chooseDropdownOption = (category: string) => {
   if (category === "OPIC") {
     return [
