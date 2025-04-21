@@ -45,6 +45,7 @@ const MemberPage = () => {
                 const res = await getMember(member.email);
                 setStudent(res.data);
               }}
+              id={member.email}
               key={member.email}
               front={member.name}
               back={
