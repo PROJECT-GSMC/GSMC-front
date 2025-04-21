@@ -25,7 +25,11 @@ export const Information = ({ student }: InformationProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-[0.75rem]">
-        <Button variant="blue" label="글 보러가기" />
+        <Button
+          variant="blue"
+          onClick={() => R.push(`/check-post/${student.email}`)}
+          label="글 보러가기"
+        />
         <Button
           variant="skyblue"
           onClick={() => R.push(`/score/${student.email}`)}
