@@ -1,8 +1,8 @@
 import instance from "../../../../../../packages/ui/src/axios";
 import axios from "axios";
-import { SignupFormProps } from "../../../shared/model/AuthForm";
+import { SigninFormProps } from "../../../shared/model/AuthForm";
 
-export const postSignin = async (form: SignupFormProps) => {
+export const postSignin = async (form: SigninFormProps) => {
   try {
     const response = await instance.post(`/auth/signin`, form);
     return response.data;
