@@ -10,6 +10,7 @@ import { Button } from "@repo/ui/button";
 import Header from "../../../shared/ui/header";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 import { chooseDropdownOption } from "../lib/chooseDropdownOption";
+import { sendForeign } from "../api/sendForeign";
 
 const ForeignFormWidget = () => {
   const {
@@ -29,7 +30,7 @@ const ForeignFormWidget = () => {
       value: data.value,
       file: data.file,
     };
-    console.log(final);
+    sendForeign(data.categoryName.send, data.value.send, data.file);
   };
 
   const needDropdown =
