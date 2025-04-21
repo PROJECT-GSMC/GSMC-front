@@ -1,5 +1,5 @@
 export interface ForeignForm {
   categoryName: { name: string; send: string };
-  value: string;
+  value: { name: string; send: string };
   file: File;
 }

@@ -53,11 +53,7 @@ const ForeignFormWidget = () => {
             name="categoryName"
             rules={{ required: "카테고리를 선택해주세요." }}
             render={({ field }) => (
-              <Dropdown
-                label="카테고리"
-                options={foreignOptions}
-                onChange={(option) => field.onChange(option)}
-              />
+              <Dropdown label="카테고리" options={foreignOptions} {...field} />
             )}
           />
           {needDropdown ? (
@@ -68,22 +64,20 @@ const ForeignFormWidget = () => {
               render={({ field }) => (
                 <Dropdown
                   label="단계"
-                  options={chooseDropdownOption(category.name)}
-                  onChange={(option) => field.onChange(option)}
+                  options={chooseDropdownOption(category?.name)}
+                  {...field}
                 />
               )}
             />
           ) : (
-            <Controller
-              control={control}
-              name="value"
-              rules={{ required: "점수를 입력해주세요." }}
-              render={({ field }) => (
-                <InputContainer label="점수">
-                  <Input type="number" {...field} />
-                </InputContainer>
-              )}
-            />
+            <InputContainer label="점수">
+              <Input
+                type="number"
+                control={control}
+                name="value"
+                rules={{ required: "점수를 입력해주세요" }}
+              />
+            </InputContainer>
           )}
           <Controller
             control={control}
@@ -92,6 +86,8 @@ const ForeignFormWidget = () => {
             render={({ field }) => <File label="이미지" {...field} />}
           />
         </div>
+
+        {/* 버튼 영역 */}
         <div className="flex flex-col gap-[0.81rem] mb-[3.38rem]">
           <Button variant="skyblue" label="임시저장" />
           <Button
