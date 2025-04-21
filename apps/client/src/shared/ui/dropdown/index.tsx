@@ -1,10 +1,12 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 
 interface Option {
   name: string;
   score?: string;
   max_number?: string;
-  send: string;
+  send: string | number;
 }
 
 interface DropdownProps {
