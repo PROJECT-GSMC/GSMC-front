@@ -17,6 +17,11 @@ const ForeignFormWidget = () => {
     formState: { isValid },
   } = useForm<ForeignForm>({ mode: "onChange" });
 
+  const category = useWatch({
+    control,
+    name: "categoryName",
+  });
+
   const onSubmit = (data: ForeignForm) => {
     const final = {
       categoryName: data.categoryName.send,
@@ -26,7 +31,10 @@ const ForeignFormWidget = () => {
     console.log(final);
   };
 
-  const category = useWatch();
+  const needsStepDropdown =
+    category?.name === "OPIC" ||
+    category?.name === "TOEIC SPEAKING" ||
+    category?.name === "HSK";
 
   return (
     <div className="flex flex-col items-center h-[100vh]">
@@ -51,15 +59,31 @@ const ForeignFormWidget = () => {
               />
             )}
           />
-          <InputContainer label="점수">
-            <Input
-              name="value"
+          {needsStepDropdown ? (
+            <Controller
               control={control}
-              rules={{
-                required: "값을 입력해주세요.",
-              }}
+              name="value"
+              rules={{ required: "단계를 선택해주세요." }}
+              render={({ field }) => (
+                <Dropdown
+                  label="단계"
+                  options={foreignOptions}
+                  onChange={(option) => field.onChange(option)}
+                />
+              )}
             />
-          </InputContainer>
+          ) : (
+            <Controller
+              control={control}
+              name="value"
+              rules={{ required: "점수를 입력해주세요." }}
+              render={({ field }) => (
+                <InputContainer label="점수">
+                  <Input type="number" {...field} />
+                </InputContainer>
+              )}
+            />
+          )}
           <Controller
             control={control}
             name="file"
