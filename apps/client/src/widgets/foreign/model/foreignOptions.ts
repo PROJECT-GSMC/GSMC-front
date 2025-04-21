@@ -4,7 +4,7 @@ export const foreignOptions = [
   { name: "TEPS", send: "foreign_lang-test-teps-score" },
   {
     name: "TOEIC SPEAKING",
-    send: "level foreign_lang-test-toeic_speaking-level",
+    send: "foreign_lang-test-toeic_speaking-level",
   },
   { name: "OPIC", send: "foreign_lang-test-opic-grade" },
   { name: "JPT", send: "foreign_lang-test-jpt-score" },
