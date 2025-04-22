@@ -74,7 +74,7 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
               <div className="flex gap-2">
                 <span>{option.name}</span>
                 {option.score && <span>/ {option.score}</span>}
-                {option.max_number && <span>/ {option.max_number}</span>}
+                {option.max_number && <span>/ 최대 {option.max_number}</span>}
               </div>
             </li>
           ))}
