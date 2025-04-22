@@ -1,8 +1,9 @@
 "use client";
 
-import Post from "@repo/ui/post";
 import Header from "../../src/shared/ui/header";
 import Mock from "../../src/shared/mocks/data/evidenceMock.json";
+import Post from "../../src/shared/ui/post/post";
+import { postState } from "../../../../packages/ui/src/types/evidences";
 
 const ExamplePage = () => {
   return (
@@ -22,7 +23,7 @@ const ExamplePage = () => {
                     title: data.title ?? data.evidenceType,
                     content: data.content ?? "",
                     imageUrl: data.imageUri ?? data.fileUri ?? "",
-                    status: data.status,
+                    status: data.status as postState,
                     categoryName: data.categoryName ?? data.author,
                   }}
                   isExample={true}
