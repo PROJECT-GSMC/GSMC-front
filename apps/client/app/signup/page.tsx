@@ -30,10 +30,10 @@ const SignupPage = () => {
 
   const isAuthCodeStepValid = Boolean(
     watchedValues.name &&
-      watchedValues.email &&
-      /^s\d{5}@gsm\.hs\.kr$/.test(watchedValues.email) &&
-      !errors.name &&
-      !errors.email
+    watchedValues.email &&
+    /^s\d{5}@gsm\.hs\.kr$/.test(watchedValues.email) &&
+    !errors.name &&
+    !errors.email
   );
 
   const canProceedToPassword =
@@ -41,10 +41,10 @@ const SignupPage = () => {
 
   const isPasswordValid = Boolean(
     watchedValues.password &&
-      watchedValues.passwordCheck &&
-      watchedValues.password === watchedValues.passwordCheck &&
-      !errors.password &&
-      !errors.passwordCheck
+    watchedValues.passwordCheck &&
+    watchedValues.password === watchedValues.passwordCheck &&
+    !errors.password &&
+    !errors.passwordCheck
   );
 
   const onSubmit = async (data: SignupFormProps) => {
@@ -80,7 +80,7 @@ const SignupPage = () => {
               <Button
                 label="인증하기"
                 variant="blue"
-                isActive={canProceedToPassword && !isAuthVerifying}
+                state={canProceedToPassword && !isAuthVerifying ? "default" : "disabled"}
                 onClick={() => (canProceedToPassword && !isAuthVerifying ? handleVerifyEmail() : undefined)}
               />
             </>
@@ -92,7 +92,7 @@ const SignupPage = () => {
               <Button
                 label="회원가입"
                 variant="blue"
-                isActive={isPasswordValid && !isPending}
+                state={isPasswordValid && !isPending ? "default" : "disabled"}
                 onClick={() => (isPasswordValid && !isPending ? handleSubmit(onSubmit)() : undefined)}
               />
             </>

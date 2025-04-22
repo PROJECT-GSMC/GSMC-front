@@ -13,13 +13,11 @@ const Semester = ({ value, onChange }: SemesterProps) => {
         <Button
           label="1학기"
           variant={value === 1 ? "blue" : "skyblue"}
-          isActive
           onClick={() => onChange(1)}
         />
         <Button
           label="2학기"
           variant={value === 2 ? "blue" : "skyblue"}
-          isActive
           onClick={() => onChange(2)}
         />
       </div>

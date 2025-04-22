@@ -8,6 +8,7 @@ import { FixScore } from "../../../shared/api/fixScore";
 import { sendEvidence } from "../api/sendEvidence";
 import Dropdown from "../../../shared/ui/dropdown";
 import { options } from "../model/options";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 interface ModalProps {
   onClose: () => void;
@@ -75,35 +76,31 @@ const Modal = ({ onClose, type }: ModalProps) => {
               )}
             />
           ) : (
-            <Controller
-              rules={{ required: true }}
-              name="categoryName"
-              control={control}
-              render={({ field }) => (
-                <Input
-                  label={
-                    type === "TOPCIT"
-                      ? "TOPCIT 점수"
-                      : type === "CERTIFICATE"
-                        ? "자격증 작성하기"
-                        : "독서로 단계"
-                  }
-                  {...field}
-                  type={type === "TOPCIT" ? "number" : "text"}
-                />
-              )}
-            />
+            <InputContainer
+              label={
+                type === "TOPCIT"
+                  ? "TOPCIT 점수"
+                  : type === "CERTIFICATE"
+                    ? "자격증 작성하기"
+                    : "독서로 단계"
+              }>
+              <Input
+                control={control}
+                rules={{ required: true }}
+                name="categoryName"
+              />
+            </InputContainer>
           )}
           {type === "CERTIFICATE" ||
             (type === "HUMANITY" && (
-              <Controller
-                control={control}
-                name="acquisitionDate"
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <Input label="취득일" type="date" {...field} />
-                )}
-              />
+              <InputContainer label="취득일">
+                <Input
+                  control={control}
+                  rules={{ required: true }}
+                  name="acquisitionDate"
+                  type="date"
+                />
+              </InputContainer>
             ))}
           <Controller
             name="file"
@@ -113,12 +110,11 @@ const Modal = ({ onClose, type }: ModalProps) => {
           />
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
             <Button
-              isActive
               onClick={onClose}
               label="뒤로가기"
               variant="skyblue"
             />
-            <Button isActive={isValid} label="작성 완료" variant="blue" />
+            <Button state={isValid ? "default" : "disabled"} label="작성 완료" variant="blue" />
           </div>
         </form>
       </div>
