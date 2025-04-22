@@ -1,10 +1,14 @@
+import { toast } from "sonner";
+import { removeCertification } from "./api/deleteCertification";
+
 interface CardProps {
   front: string;
-  back?: string;
+  back?: string | number;
   onClick?: () => void;
+  id: string;
 }
 
-const Card = ({ front, back, onClick }: CardProps) => {
+const Card = ({ front, back, onClick, id }: CardProps) => {
   return (
     <div
       onClick={onClick}
@@ -15,6 +19,14 @@ const Card = ({ front, back, onClick }: CardProps) => {
         <span>{back}</span>
       ) : (
         <svg
+          onClick={() => {
+            try {
+              removeCertification(id);
+            } catch (e) {
+              console.log(e);
+              toast.error("자격증 삭제에 실패했습니다.");
+            }
+          }}
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="25"

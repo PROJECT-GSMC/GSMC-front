@@ -1,8 +1,12 @@
+"use client";
+
 import { useState, useEffect, useRef } from "react";
 
 interface Option {
   name: string;
-  send: string;
+  score?: string;
+  max_number?: string;
+  send: string | number;
 }
 
 interface DropdownProps {
@@ -51,7 +55,11 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >
-        {value?.name ?? "선택해주세요"}
+        <div className="flex gap-2">
+          <span>{value?.name ?? "선택해주세요"}</span>
+          {value?.score && <span>/ {value?.score ?? ""}</span>}
+          {value?.max_number && <span>/ {value?.max_number ?? ""}</span>}
+        </div>
       </button>
 
       {isOpen && (
@@ -65,7 +73,11 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
                 setIsOpen(false);
               }}
             >
-              {option.name}
+              <div className="flex gap-2">
+                <span>{option.name}</span>
+                {option.score && <span>/ {option.score}</span>}
+                {option.max_number && <span>/ {option.max_number}</span>}
+              </div>
             </li>
           ))}
         </ul>

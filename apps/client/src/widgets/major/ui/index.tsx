@@ -53,7 +53,6 @@ const MajorWidget = () => {
         </h1>
         <Controller
           name="categoryName"
-          defaultValue={{ name: "", send: "" }}
           control={control}
           rules={{
             required: "카테고리를 선택해주세요.",
@@ -108,8 +107,8 @@ const MajorWidget = () => {
           render={({ field }) => <File label="이미지" {...field} />}
         />
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-          <Button isActive variant="skyblue" label="임시저장" />
-          <Button isActive={isValid} variant="blue" label="작성 완료" />
+          <Button variant="skyblue" label="임시저장" />
+          <Button state={isValid ? "default" : "disabled"} variant="blue" label="작성 완료" />
         </div>
       </form>
     </div>

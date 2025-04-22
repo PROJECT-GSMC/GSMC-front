@@ -1,12 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postSignin } from "../api/postSignin";
-import { AuthForm } from "../../../shared/model/AuthForm";
+import { SigninFormProps } from "../../../shared/model/AuthForm";
 
 export const usePostSignin = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (form: AuthForm) => postSignin(form),
+    mutationFn: (form: SigninFormProps) => postSignin(form),
     onSuccess: (data) => {
       if (data.accessToken) {
         localStorage.setItem("accessToken", data.accessToken);
