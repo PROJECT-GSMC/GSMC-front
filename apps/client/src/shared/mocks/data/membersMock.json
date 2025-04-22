@@ -1,0 +1,20 @@
+[
+	{
+		"email": "s24058@gsm.hs.kr",
+		"name": "김태은",
+		"grade": 2,
+		"classNumber": 4,
+		"number": 4,
+		"totalScore": 2300,
+		"role": "ROLE_ADMIN"
+	},
+  {
+		"email": "s2416@gsm.hs.kr",
+		"name": "주여진",
+		"grade": 2,
+		"classNumber": 2,
+		"number": 16,
+		"totalScore": 1800,
+		"role": "ROLE_STUDENT"
+	}
+]
