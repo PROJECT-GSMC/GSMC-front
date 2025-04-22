@@ -62,7 +62,8 @@ export default function StepAuthCode({
           <Button
             label={isLoading ? "전송 중..." : "인증번호"}
             variant="blue"
-            state={isAuthButtonActive ? "default" : "disabled"}
+            state={isAuthButtonActive && !isLoading ? "active" : "default"}
+            onClick={handleAuthButtonClick}
           />
         </div>
       </InputContainer>

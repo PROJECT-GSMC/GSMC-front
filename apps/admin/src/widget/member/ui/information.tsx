@@ -1,11 +1,15 @@
+"use client";
+
 import { Button } from "@repo/ui/button";
 import { Member } from "../model/member";
+import { useRouter } from "next/navigation";
 
 interface InformationProps {
   student: Member;
 }
 
 export const Information = ({ student }: InformationProps) => {
+  const R = useRouter();
   return (
     <div className="w-[350px] min-w-[18rem] bg-tropicalblue-100 py-[2.25rem] flex flex-col justify-between rounded-[1.25rem] h-[46rem] px-[2.45rem]">
       <h3 className="text-titleSmall text-tropicalblue-700 mb-[3.5rem]">
@@ -21,8 +25,16 @@ export const Information = ({ student }: InformationProps) => {
         </div>
       </div>
       <div className="flex flex-col gap-[0.75rem]">
-        <Button variant="blue" label="글 보러가기" />
-        <Button variant="skyblue" label="점수 관리" />
+        <Button
+          variant="blue"
+          onClick={() => R.push(`/check-post/${student.email}`)}
+          label="글 보러가기"
+        />
+        <Button
+          variant="skyblue"
+          onClick={() => R.push(`/score/${student.email}`)}
+          label="점수 관리"
+        />
       </div>
     </div>
   );

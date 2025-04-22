@@ -5,18 +5,18 @@ import { useForm } from "react-hook-form";
 import { AuthForm } from "../../src/widgets/auth/ui";
 import { usePostSignin } from "../../src/entities/signin/model/usePostSignin";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
-import { LoginFormProps } from "../../src/shared/model/AuthForm";
+import { SigninFormProps } from "../../src/shared/model/AuthForm";
 
 const LoginPage = () => {
   const {
     control,
     handleSubmit,
     formState: { isValid },
-  } = useForm<LoginFormProps>({ mode: "onChange", defaultValues: { email: "", password: "" } });
+  } = useForm<SigninFormProps>({ mode: "onChange", defaultValues: { email: "", password: "" } });
 
   const { mutate: postSignin } = usePostSignin();
 
-  const onSubmit = (form: LoginFormProps) => {
+  const onSubmit = (form: SigninFormProps) => {
     postSignin(form);
   };
 
@@ -25,7 +25,7 @@ const LoginPage = () => {
       <AuthForm label="LOG IN">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center w-[25rem] gap-[3.625rem]">
           <div className="flex flex-col gap-[0.75rem] self-stretch">
-            <InputContainer label="이메일" >
+            <InputContainer label="이메일">
               <Input
                 name="email"
                 control={control}
@@ -38,7 +38,7 @@ const LoginPage = () => {
                 }}
               />
             </InputContainer>
-            <InputContainer label="비밀번호" >
+            <InputContainer label="비밀번호">
               <Input
                 name="password"
                 control={control}
