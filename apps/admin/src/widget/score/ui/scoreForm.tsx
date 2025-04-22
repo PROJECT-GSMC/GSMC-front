@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import Checkbox from "../../../entities/score/ui/checkbox";
 import Header from "../../../shared/ui/header";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
@@ -14,33 +14,44 @@ const ScoreForm = () => {
   const P = useParams<{ email: string }>();
   const email = P.email;
 
-  const {
-    handleSubmit,
-    control,
-    formState: { isValid },
-  } = useForm<ScoreFormType>({ mode: "onChange" });
+  const { handleSubmit, control } = useForm<ScoreFormType>({
+    mode: "onChange",
+  });
+
+  const { oneSemester, twoSemester, newrow, checkbox } =
+    useWatch({ control }) || {};
+
+  const isFormValid = !!oneSemester || !!twoSemester || !!newrow || checkbox;
 
   return (
     <div className="w-full flex flex-col items-center justify-center">
       <Header />
       <form
         onSubmit={handleSubmit((data) => {
-          featScore(
-            email,
-            "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
-            data.oneSemester
-          );
-          featScore(
-            email,
-            "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
-            data.twoSemester
-          );
-          featScore(email, "HUMANITIES-ACTIVITIES-NEWRROW_S", data.newrow);
-          featScore(
-            email,
-            "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADMY_STATUS",
-            data.checkbox ? 1 : 0
-          );
+          if (data.oneSemester) {
+            featScore(
+              email,
+              "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
+              data.oneSemester
+            );
+          }
+          if (data.twoSemester) {
+            featScore(
+              email,
+              "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
+              data.twoSemester
+            );
+          }
+          if (data.newrow) {
+            featScore(email, "HUMANITIES-ACTIVITIES-NEWRROW_S", data.newrow);
+          }
+          if (data.checkbox !== undefined) {
+            featScore(
+              email,
+              "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADMY_STATUS",
+              data.checkbox ? 1 : 0
+            );
+          }
         })}
         className="flex flex-col gap-[2rem] w-[600px]"
       >
@@ -64,7 +75,7 @@ const ScoreForm = () => {
         <div className="flex flex-col gap-[0.69rem]">
           <Button variant="skyblue" label="뒤로가기" />
           <Button
-            state={isValid ? "default" : "disabled"}
+            state={isFormValid ? "default" : "disabled"}
             variant="blue"
             label="점수 주기 완료"
           />
