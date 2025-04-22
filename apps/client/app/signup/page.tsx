@@ -14,7 +14,7 @@ import { toast } from "sonner";
 const SignupPage = () => {
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const { mutate: signupMutate, isPending } = usePostSignup();
+  const { mutate: signupMutate } = usePostSignup();
 
   const {
     control,
@@ -81,7 +81,7 @@ const SignupPage = () => {
                 label="인증하기"
                 variant="blue"
                 className={canProceedToPassword ? "default" : "disabled"}
-                onClick={() => canProceedToPassword && setStep("password")}
+                onClick={handleVerifyEmail}
               />
             </>
           ) : (
