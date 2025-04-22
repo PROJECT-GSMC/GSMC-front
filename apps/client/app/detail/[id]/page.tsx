@@ -19,7 +19,8 @@ const DetailPage = ({ data }: DetailProps) => {
               {(isActivity(data) || isReading(data)) ? data.title : "Title"}
             </h1>
             <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
-              {(isReading(data) && data.author) ? data.author : "Author"}
+              {/* 게시물을 작성한 사람 이름 -> 현재 로그인 된 사람 이름*/}
+              {"모태환"}
               {" . "}
               {(isActivity(data) || isOthers(data)) ? data.categoryName : "Area"}
             </h3>
@@ -34,7 +35,7 @@ const DetailPage = ({ data }: DetailProps) => {
             )}
             <section className="flex flex-col gap-[1rem]">
               <h2 className="text-[1.5rem] font-semibold">
-                카테고리: {(isActivity(data) || isOthers(data)) ? data.categoryName : (isReading(data) ? "독서" : "")}
+                {(isActivity(data) || isOthers(data)) ? `카테고리: ${data.categoryName}` : (isReading(data) && data.author) ? data.author : "Author"}
               </h2>
               <p className="text-[1.25rem] font-normal min-h-[29.9375rem]">
                 {(isActivity(data) || isReading(data)) ? data.content : ""}
