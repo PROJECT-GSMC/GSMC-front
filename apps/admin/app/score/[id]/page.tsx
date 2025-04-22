@@ -1,4 +1,4 @@
-import ScoreForm from "../../src/widget/score/ui/scoreForm";
+import ScoreForm from "../../../src/widget/score/ui/scoreForm";
 
 const ScorePage = () => {
   return <ScoreForm />;
