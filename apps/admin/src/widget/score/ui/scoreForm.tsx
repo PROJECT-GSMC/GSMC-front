@@ -25,12 +25,20 @@ const ScoreForm = () => {
       <Header />
       <form
         onSubmit={handleSubmit((data) => {
-          featScore(email, "humanities-service-activity", data.oneSemester);
-          featScore(email, "humanities-service-activity", data.twoSemester);
-          featScore(email, "humanities-activities-newrrow_s", data.newrow);
           featScore(
             email,
-            "foreign_lang-attendance_toeic_academy-status",
+            "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
+            data.oneSemester
+          );
+          featScore(
+            email,
+            "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
+            data.twoSemester
+          );
+          featScore(email, "HUMANITIES-ACTIVITIES-NEWRROW_S", data.newrow);
+          featScore(
+            email,
+            "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADMY_STATUS",
             data.checkbox ? 1 : 0
           );
         })}
