@@ -32,7 +32,7 @@ const Post = ({ data, isExample = true }: PostProps) => {
   };
 
   return (
-    <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px]">
+    <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px] overflow-hidden">
       {data.imageUrl ? (
         <img className="h-[150px]" src={data.imageUrl} alt={data.title} />
       ) : (
