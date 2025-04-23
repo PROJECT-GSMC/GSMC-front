@@ -38,7 +38,7 @@ const ForeignFormWidget = () => {
       <Header />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="flex flex-col w-full justify-between h-full max-w-[37.5rem]"
+        className="flex flex-col px-4 w-full justify-between h-full max-w-[37.5rem]"
       >
         <div className="flex flex-col w-full gap-[2rem] max-w-[37.5rem]">
           <h1 className="text-tropicalblue-700 mt-[2.37rem] text-titleMedium">
