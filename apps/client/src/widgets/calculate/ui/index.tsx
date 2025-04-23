@@ -21,7 +21,7 @@ export const Calculate = () => {
   return (
     <div className="flex flex-col gap-[1.5rem] w-full h-[30rem]">
       {/* 탭 버튼 */}
-      <div className="flex gap-[1.57rem] w-full">
+      <div className="grid grid-cols-4 gap-[1.57rem] w-full">
         {Buttons.map((item, index) => (
           <Button
             state={page === item ? "default" : "default"} // 탭은 모두 default로, 필요시 "active"로 변경
@@ -29,7 +29,6 @@ export const Calculate = () => {
             label={item}
             key={index}
             onClick={() => setPage(item)}
-            className="!w-[8.125rem]"
           />
         ))}
       </div>
