@@ -65,14 +65,6 @@ const HumanityWidget = () => {
               />
             )}
           />
-          <Controller
-            name="semester"
-            control={control}
-            rules={{
-              required: "학기를 선택해주세요.",
-            }}
-            render={({ field }) => <Semester {...field} />}
-          />
           <InputContainer label="주제">
             <Input
               name="title"
