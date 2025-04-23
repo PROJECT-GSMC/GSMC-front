@@ -15,7 +15,14 @@ const Post = ({ data }: PostProps) => {
   return (
     <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px]">
       {data.imageUrl ? (
-        <Image className="h-[150px]" src={data.imageUrl} alt={data.title} />
+        <Image
+          src={data.imageUrl}
+          width={188}
+          height={170}
+          alt={data.title}
+          className="object-cover w-[188px] rounded-t-[0.625rem] h-[150px]"
+          style={{ objectFit: "cover" }}
+        />
       ) : (
         <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem]"></div>
       )}
