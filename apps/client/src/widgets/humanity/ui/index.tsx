@@ -18,7 +18,7 @@ interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
 }
 
-const CharacterWidget = () => {
+const HumanityWidget = () => {
   const {
     handleSubmit,
     control,
@@ -57,11 +57,7 @@ const CharacterWidget = () => {
           control={control}
           rules={{ required: "카테고리를 선택해주세요." }}
           render={({ field }) => (
-            <Dropdown
-              label="카테고리"
-              options={CharacterCategory}
-              {...field}
-            />
+            <Dropdown label="카테고리" options={CharacterCategory} {...field} />
           )}
         />
         <Controller
@@ -106,11 +102,15 @@ const CharacterWidget = () => {
         />
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
           <Button variant="skyblue" label="임시저장" />
-          <Button state={isValid ? "default" : "disabled"} variant="blue" label="작성 완료" />
+          <Button
+            state={isValid ? "default" : "disabled"}
+            variant="blue"
+            label="작성 완료"
+          />
         </div>
       </form>
     </div>
   );
 };
 
-export default CharacterWidget;
+export default HumanityWidget;
