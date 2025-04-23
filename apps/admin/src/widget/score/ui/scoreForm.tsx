@@ -23,56 +23,51 @@ const ScoreForm = () => {
 
   const isFormValid = !!oneSemester || !!twoSemester || !!newrow || checkbox;
 
+  const onSubmit = (data: ScoreFormType) => {
+    if (data.oneSemester) {
+      featScore(email, "HUMANITIES-SERVICE-CLUB_SEMESTER_1", data.oneSemester);
+    }
+    if (data.twoSemester) {
+      featScore(email, "HUMANITIES-SERVICE-CLUB_SEMESTER_2", data.twoSemester);
+    }
+    if (data.newrow) {
+      featScore(email, "HUMANITIES-ACTIVITIES-NEWRROW_S", data.newrow);
+    }
+    if (data.checkbox !== undefined) {
+      featScore(
+        email,
+        "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADMY_STATUS",
+        data.checkbox ? 1 : 0
+      );
+    }
+  };
   return (
-    <div className="w-full flex flex-col items-center justify-center">
+    <div className="flex flex-col items-center justify-center">
       <Header />
       <form
-        onSubmit={handleSubmit((data) => {
-          if (data.oneSemester) {
-            featScore(
-              email,
-              "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
-              data.oneSemester
-            );
-          }
-          if (data.twoSemester) {
-            featScore(
-              email,
-              "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
-              data.twoSemester
-            );
-          }
-          if (data.newrow) {
-            featScore(email, "HUMANITIES-ACTIVITIES-NEWRROW_S", data.newrow);
-          }
-          if (data.checkbox !== undefined) {
-            featScore(
-              email,
-              "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADMY_STATUS",
-              data.checkbox ? 1 : 0
-            );
-          }
-        })}
-        className="flex flex-col gap-[2rem] w-[600px]"
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-[37.5rem] flex px-4 flex-col "
       >
-        <h1 className="text-titleMedium text-tropicalblue-700 mt-[2.38rem]">
-          점수 추가
-        </h1>
-        <InputContainer label="1학기 봉사 시간">
-          <Input control={control} name="oneSemester" />
-        </InputContainer>
-        <InputContainer label="2학기 봉사 시간">
-          <Input control={control} name="twoSemester" />
-        </InputContainer>
-        <InputContainer label="뉴로우 참여 횟수">
-          <Input control={control} name="newrow" />
-        </InputContainer>
-        <Controller
-          control={control}
-          name="checkbox"
-          render={({ field }) => <Checkbox {...field} />}
-        />
-        <div className="flex flex-col gap-[0.69rem]">
+        <div className="flex flex-col gap-[2rem]">
+          <h1 className="sm:text-titleMedium text-title4s text-tropicalblue-700 mt-[2.38rem]">
+            점수 추가
+          </h1>
+          <InputContainer label="1학기 봉사 시간">
+            <Input control={control} name="oneSemester" />
+          </InputContainer>
+          <InputContainer label="2학기 봉사 시간">
+            <Input control={control} name="twoSemester" />
+          </InputContainer>
+          <InputContainer label="뉴로우 참여 횟수">
+            <Input control={control} name="newrow" />
+          </InputContainer>
+          <Controller
+            control={control}
+            name="checkbox"
+            render={({ field }) => <Checkbox {...field} />}
+          />
+        </div>
+        <div className="flex flex-col mt-[10vh] mb-[2rem] gap-[0.69rem]">
           <Button variant="skyblue" label="뒤로가기" />
           <Button
             state={isFormValid ? "default" : "disabled"}
