@@ -1,23 +1,23 @@
 "use client";
 
-import { useForm, Controller, useWatch } from "react-hook-form";
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
+import { Controller, useForm, useWatch } from "react-hook-form";
+import Textarea from "../../../shared/ui/textarea";
 import Header from "../../../shared/ui/header";
 import Dropdown from "../../../shared/ui/dropdown";
-import Textarea from "../../../shared/ui/textarea";
 import File from "../../../shared/ui/file";
+import { CharacterCategory } from "../model/category";
 import { Activity } from "../../../shared/types/activity";
 import { sendActivity } from "../../../shared/api/sendActivity";
 import { toast } from "sonner";
-import { majorCategoryOptions } from "../model/category";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
 }
 
-const MajorWidget = () => {
+const HumanityWidget = () => {
   const {
     handleSubmit,
     control,
@@ -30,7 +30,7 @@ const MajorWidget = () => {
     const finalData: Activity = {
       ...data,
       categoryName: data.categoryName.send,
-      activityType: "MAJOR",
+      activityType: "HUMANITIES",
     };
     try {
       await sendActivity(finalData);
@@ -40,27 +40,26 @@ const MajorWidget = () => {
       console.error(e);
     }
   };
+
   return (
     <div className="flex flex-col items-center">
       <Header />
-      <form className=" flex-col px-4 justify-center w-full max-w-[37.5rem]">
+      <div className="px-4 flex-col justify-center w-full max-w-[37.5rem]">
         <h1 className="text-tropicalblue-700 text-title4s sm:text-titleMedium my-[1rem] sm:my-[2.38rem] mb-6">
-          전공 영역
+          인성 영역
         </h1>
         <form
-          className="flex sm:gap-[2rem] gap-[1.5rem] flex-col"
           onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col sm:gap-[2rem] gap-[1.5rem]"
         >
           <Controller
             name="categoryName"
             control={control}
-            rules={{
-              required: "카테고리를 선택해주세요.",
-            }}
+            rules={{ required: "카테고리를 선택해주세요." }}
             render={({ field }) => (
               <Dropdown
                 label="카테고리"
-                options={majorCategoryOptions}
+                options={CharacterCategory}
                 {...field}
               />
             )}
@@ -106,9 +105,9 @@ const MajorWidget = () => {
             />
           </div>
         </form>
-      </form>
+      </div>
     </div>
   );
 };
 
-export default MajorWidget;
+export default HumanityWidget;
