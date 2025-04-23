@@ -46,9 +46,9 @@ const ScoreForm = () => {
       <Header />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-[37.5rem] flex px-4 flex-col "
+        className="w-full max-w-[37.5rem] flex px-4 flex-col  justify-between h-[90vh]"
       >
-        <div className="flex flex-col gap-[2rem]">
+        <div className="flex flex-col sm:gap-[2rem] gap-[1.5rem]">
           <h1 className="sm:text-titleMedium text-title4s text-tropicalblue-700 mt-[2.38rem]">
             점수 추가
           </h1>
@@ -67,7 +67,7 @@ const ScoreForm = () => {
             render={({ field }) => <Checkbox {...field} />}
           />
         </div>
-        <div className="flex flex-col mt-[10vh] mb-[2rem] gap-[0.69rem]">
+        <div className="flex flex-col mt-4 mb-[2rem] gap-[0.69rem]">
           <Button variant="skyblue" label="뒤로가기" />
           <Button
             state={isFormValid ? "default" : "disabled"}
