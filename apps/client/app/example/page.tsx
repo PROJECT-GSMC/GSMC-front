@@ -13,24 +13,23 @@ const ExamplePage = () => {
         <h1 className="text-tropicalblue-700 text-titleMedium text-left my-[2.38rem]">
           쓰기 예시 페이지
         </h1>
-        <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
-          {
-            Mock.map(data => {
-              return(
-                <Post key={data.id}
-                  data={{
-                    id: data.id,
-                    title: data.title ?? data.evidenceType,
-                    content: data.content ?? "",
-                    imageUrl: data.imageUri ?? data.fileUri ?? "",
-                    status: data.status as postState,
-                    categoryName: data.categoryName ?? data.author,
-                  }}
-                  isExample={true}
-                />
-              );
-            })
-          }
+        <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full gap-[1.12rem]">
+          {Mock.map((data) => {
+            return (
+              <Post
+                key={data.id}
+                data={{
+                  id: data.id,
+                  title: data.title ?? data.evidenceType,
+                  content: data.content ?? "",
+                  imageUrl: data.imageUri ?? data.fileUri ?? "",
+                  status: data.status as postState,
+                  categoryName: data.categoryName ?? data.author,
+                }}
+                isExample={true}
+              />
+            );
+          })}
         </div>
       </div>
     </div>
