@@ -40,8 +40,8 @@ const ForeignFormWidget = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="flex flex-col px-4 w-full justify-between h-full max-w-[37.5rem]"
       >
-        <div className="flex flex-col w-full gap-[2rem] max-w-[37.5rem]">
-          <h1 className="text-tropicalblue-700 mt-[2.37rem] text-titleMedium">
+        <div className="flex flex-col w-full sm:gap-[2rem] gap-[1.5rem] max-w-[37.5rem]">
+          <h1 className="text-tropicalblue-700 text-title4s mt-[1.5rem] sm:mt-[2.37rem] sm:text-titleMedium">
             외국어 영역
           </h1>
           <Controller
@@ -83,8 +83,7 @@ const ForeignFormWidget = () => {
           />
         </div>
 
-        {/* 버튼 영역 */}
-        <div className="flex flex-col gap-[0.81rem] mb-[3.38rem]">
+        <div className="flex flex-col gap-[0.81rem] sm:mb-[3.38rem] mb-2">
           <Button variant="skyblue" label="임시저장" />
           <Button
             state={isValid ? "default" : "disabled"}
