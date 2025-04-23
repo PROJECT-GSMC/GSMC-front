@@ -45,10 +45,10 @@ const MajorWidget = () => {
     <div className="flex flex-col items-center">
       <Header />
       <form
-        className="flex gap-[2rem] flex-col justify-center w-full max-w-[37.5rem]"
+        className="flex sm:gap-[2rem] gap-[1.5rem] flex-col px-4 justify-center w-full max-w-[37.5rem]"
         onSubmit={handleSubmit(onSubmit)}
       >
-        <h1 className="text-tropicalblue-700 text-titleMedium my-[2.38rem]">
+        <h1 className="text-tropicalblue-700 text-title4s sm:text-titleMedium my-[1rem] sm:my-[2.38rem]">
           전공 영역
         </h1>
         <Controller
@@ -64,15 +64,6 @@ const MajorWidget = () => {
               {...field}
             />
           )}
-        />
-        <Controller
-          name="semester"
-          control={control}
-          defaultValue={0}
-          rules={{
-            required: "학기를 선택해주세요.",
-          }}
-          render={({ field }) => <Semester {...field} />}
         />
         <InputContainer label="주제">
           <Input
@@ -108,7 +99,11 @@ const MajorWidget = () => {
         />
         <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
           <Button variant="skyblue" label="임시저장" />
-          <Button state={isValid ? "default" : "disabled"} variant="blue" label="작성 완료" />
+          <Button
+            state={isValid ? "default" : "disabled"}
+            variant="blue"
+            label="작성 완료"
+          />
         </div>
       </form>
     </div>
