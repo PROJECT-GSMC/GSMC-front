@@ -44,14 +44,14 @@ const HumanityWidget = () => {
   return (
     <div className="flex flex-col items-center">
       <Header />
-      <div
-        className=" px-4 flex-col justify-center w-full max-w-[37.5rem]"
-        onSubmit={handleSubmit(onSubmit)}
-      >
+      <div className="px-4 flex-col justify-center w-full max-w-[37.5rem]">
         <h1 className="text-tropicalblue-700 text-title4s sm:text-titleMedium my-[1rem] sm:my-[2.38rem] mb-6">
           인성 영역
         </h1>
-        <form className="flex flex-col sm:gap-[2rem] gap-[1.5rem]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col sm:gap-[2rem] gap-[1.5rem]"
+        >
           <Controller
             name="categoryName"
             control={control}
