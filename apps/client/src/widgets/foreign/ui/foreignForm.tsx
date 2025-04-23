@@ -83,7 +83,7 @@ const ForeignFormWidget = () => {
           />
         </div>
 
-        <div className="flex flex-col gap-[0.81rem] sm:mb-[3.38rem] mb-2">
+        <div className="flex flex-col sm:gap-[0.81rem] gap-[0.5rem] sm:mb-[3.38rem] mb-2">
           <Button variant="skyblue" label="임시저장" />
           <Button
             state={isValid ? "default" : "disabled"}
