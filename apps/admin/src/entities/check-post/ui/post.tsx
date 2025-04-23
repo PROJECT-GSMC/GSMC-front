@@ -13,7 +13,7 @@ interface PostProps {
 
 const Post = ({ data }: PostProps) => {
   return (
-    <div className="flex flex-col w-[188px] rounded-[0.625rem] h-[276px]">
+    <div className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]">
       {data.imageUrl ? (
         <Image
           src={data.imageUrl}
