@@ -5,7 +5,6 @@ import { Input } from "@repo/ui/input";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import Textarea from "../../../shared/ui/textarea";
 import Header from "../../../shared/ui/header";
-import Semester from "../../../shared/ui/semester";
 import Dropdown from "../../../shared/ui/dropdown";
 import File from "../../../shared/ui/file";
 import { CharacterCategory } from "../model/category";

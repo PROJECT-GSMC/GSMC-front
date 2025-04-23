@@ -5,7 +5,6 @@ import { Input } from "@repo/ui/input";
 import { Controller, useForm } from "react-hook-form";
 import Textarea from "../../../shared/ui/textarea";
 import Header from "../../../shared/ui/header";
-import Semester from "../../../shared/ui/semester";
 import { sendBook } from "../api/sendBook";
 import { Book } from "../model/book";
 import { toast } from "sonner";
