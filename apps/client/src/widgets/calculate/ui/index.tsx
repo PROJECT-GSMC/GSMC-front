@@ -19,7 +19,7 @@ export const Calculate = () => {
   const { control } = useForm();
 
   return (
-    <div className="flex flex-col gap-[1.5rem] w-full">
+    <div className="flex flex-col gap-[1.5rem] w-full h-[30rem]">
       {/* 탭 버튼 */}
       <div className="flex gap-[1.57rem] w-full">
         {Buttons.map((item, index) => (
@@ -203,7 +203,7 @@ export const Calculate = () => {
       </div>
 
       {/* 점수 표시 */}
-      <div className="flex gap-[1.25rem] w-full">
+      <div className="flex gap-[1.25rem] w-full mt-auto">
         <Button
           state="default"
           variant="skyblue_hover"
