@@ -4,7 +4,6 @@ import { useForm, Controller, useWatch } from "react-hook-form";
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import Header from "../../../shared/ui/header";
-import Semester from "../../../shared/ui/semester";
 import Dropdown from "../../../shared/ui/dropdown";
 import Textarea from "../../../shared/ui/textarea";
 import File from "../../../shared/ui/file";
