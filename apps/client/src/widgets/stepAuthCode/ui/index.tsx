@@ -47,7 +47,7 @@ export default function StepAuthCode({
         />
       </InputContainer>
       <InputContainer label="이메일">
-        <div className="flex items-center justify-between gap-4 max-lg:flex-wrap max-xl:flex-nowrap">
+        <div className="flex items-center justify-between gap-4">
           <Input
             name="email"
             control={control}
@@ -62,7 +62,7 @@ export default function StepAuthCode({
           <Button
             label={isLoading ? "전송 중..." : "인증번호"}
             variant="blue"
-            className="lg:max-w-max"
+            className="max-w-max"
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
             onClick={handleAuthButtonClick}
           />
