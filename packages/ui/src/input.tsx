@@ -4,10 +4,11 @@ import { useController, UseControllerProps, FieldValues } from "react-hook-form"
 
 interface InputProps<T extends FieldValues = FieldValues> extends UseControllerProps<T> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  className?: string;
   type?: string;
 }
 
-export const Input = <T extends FieldValues = FieldValues>({ type, ...props }: InputProps<T>) => {
+export const Input = <T extends FieldValues = FieldValues>({ type, className, ...props }: InputProps<T>) => {
   const { field } = useController(props);
   const [displayValue, setDisplayValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
@@ -147,7 +148,7 @@ export const Input = <T extends FieldValues = FieldValues>({ type, ...props }: I
   return (
     <input
       ref={inputRef}
-      className="px-[1rem] py-[0.75rem] rounded-[0.75rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600"
+      className={`px-[1rem] py-[0.75rem] rounded-[0.75rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600 w-full ${className}`}
       type={field.name === "password" ? "password" : type || "text"}
       value={isEmail ? `${displayValue}${suffix}` : displayValue}
       onChange={handleChange}
