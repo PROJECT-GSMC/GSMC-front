@@ -1,4 +1,4 @@
-import instance from "../../../../../../packages/ui/src/axios";
+import FormInstance from "../../../../../../packages/ui/src/formAxios";
 
 export const sendForeign = async (
   categoryName: string,
@@ -10,9 +10,5 @@ export const sendForeign = async (
   formData.append("value", value.toString());
   formData.append("file", file);
 
-  await instance.post("/evidence/current/foreign", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
+  await FormInstance.post("/evidence/current/foreign", formData);
 };
