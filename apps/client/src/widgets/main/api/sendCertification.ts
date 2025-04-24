@@ -4,7 +4,7 @@ import { Certification } from "../model/certification";
 export const sendCertification = async (data: Certification) => {
   return instance.post("/certificates", {
     headers: {
-      "Content-Type": "mulitpart/form-data",
+      "Content-Type": "multipart/form-data",
     },
     data: {
       ...data,

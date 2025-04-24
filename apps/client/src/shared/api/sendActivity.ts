@@ -10,7 +10,7 @@ export const sendActivity = async (activity: Activity) => {
   formData.append("activityType", activity.activityType);
   await instance.post("evidence/current/activity", {
     headers: {
-      "Content-Type": "mulitpart/form-data",
+      "Content-Type": "multipart/form-data",
     },
     data: {
       formData,
