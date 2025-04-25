@@ -23,7 +23,7 @@ const LoginWidget = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="LOG IN">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center w-[25rem] gap-[3.625rem]">
+        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center w-full gap-[3.625rem]">
           <div className="flex flex-col gap-[0.75rem] self-stretch">
             <InputContainer label="이메일">
               <Input
