@@ -18,10 +18,9 @@ const LoginWidget = () => {
     formState: { isValid },
   } = useForm<SigninFormProps>({ mode: "onChange", defaultValues: { email: "", password: "" } });
 
-  const onSubmit = (form: SigninFormProps) => {
+  const onSubmit = async (form: SigninFormProps) => {
     try {
-      postSignin(form);
-      toast.success("로그인에 성공했습니다.");
+      await postSignin(form);
       router.push("/");
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "로그인에 실패했습니다.");
