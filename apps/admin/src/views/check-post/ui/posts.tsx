@@ -24,8 +24,8 @@ export const PostsView = () => {
   return (
     <div className="flex items-center flex-col">
       <Header />
-      <div className="w-full max-w-[37.5rem]">
-        <h1 className="text-tropicalblue-700 text-h4s mb-[2.06rem] mt-[2.94rem]">
+      <div className="w-full max-w-[37.5rem] px-[1rem] sm:px-[0rem]">
+        <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
           모태환님의 글
         </h1>
         <div className="flex gap-[5%] justify-between">
@@ -45,7 +45,7 @@ export const PostsView = () => {
             label="대기"
           />
         </div>
-        <div className="flex flex-wrap">
+        <div className="flex flex-wrap justify-center">
           {filteredPosts && filteredPosts.length > 0 ? (
             filteredPosts.map((post) => <Post key={post.id} data={post} />)
           ) : (
