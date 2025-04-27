@@ -10,7 +10,7 @@ import { ScoreFormType } from "../model/score";
 import { featScore } from "../api/featScore";
 import { useParams } from "next/navigation";
 
-const ScoreForm = () => {
+export const ScoreForm = () => {
   const P = useParams<{ email: string }>();
   const email = P.email;
 
@@ -80,4 +80,3 @@ const ScoreForm = () => {
   );
 };
 
-export default ScoreForm;

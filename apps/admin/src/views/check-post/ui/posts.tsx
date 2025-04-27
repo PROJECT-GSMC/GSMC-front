@@ -9,7 +9,7 @@ import Post from "../../../entities/check-post/ui/post";
 import { PostType } from "../../../../../../packages/ui/src/types/postType";
 import { toast } from "sonner";
 
-const PostsWidget = () => {
+export const PostsView = () => {
   const [state, setState] = useState<postState | "">("");
   const { data, isError, error } = useGetPosts("email", "PENDING");
   if (isError) {
@@ -57,4 +57,3 @@ const PostsWidget = () => {
   );
 };
 
-export default PostsWidget;
