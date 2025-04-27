@@ -1,0 +1,30 @@
+const getCookie = (name: string): string | null => {
+  if (typeof document === "undefined") return null;
+
+  try {
+    const cookies = (document as unknown as { cookie: string }).cookie?.split(";") || [];
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i]?.trim();
+      if (cookie?.startsWith(name + "=")) {
+        return cookie.substring(name.length + 1);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+};
+
+const setCookie = (name: string, value: string, days = 7): void => {
+  if (typeof document === "undefined") return;
+
+  try {
+    const expires = new Date();
+    expires.setTime(expires.getTime() + days * 24 * 60 * 60 * 1000);
+    (document as unknown as { cookie: string }).cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export { getCookie, setCookie };
