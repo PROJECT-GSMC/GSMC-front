@@ -1,4 +1,4 @@
-import { PostsView } from "@/views/check-post/ui/posts";
+import PostsView from "@/views/check-post/ui/posts";
 
 const CheckPostPage = () => {
   return <PostsView />;

@@ -11,7 +11,7 @@ import Header from "../../../shared/ui/header";
 import { Post } from "../../../entities/check-post/ui/post";
 import { useGetPosts } from "../model/useGetPosts";
 
-export const PostsView = () => {
+const PostsView = () => {
   const [state, setState] = useState<postState | "">("");
   const { data, isError, error } = useGetPosts("email", "PENDING");
   if (isError) {
@@ -59,3 +59,4 @@ export const PostsView = () => {
   );
 };
 
+export default PostsView;

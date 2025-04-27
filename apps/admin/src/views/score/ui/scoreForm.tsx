@@ -12,7 +12,7 @@ import Header from "../../../shared/ui/header";
 import { ScoreFormType } from "../model/score";
 import { featScore } from "../api/featScore";
 
-export const ScoreForm = () => {
+const ScoreForm = () => {
   const P = useParams<{ email: string }>();
   const email = P.email;
 
@@ -82,3 +82,4 @@ export const ScoreForm = () => {
   );
 };
 
+export default ScoreForm;
