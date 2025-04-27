@@ -7,6 +7,7 @@ import { useForm } from "react-hook-form";
 import { postSignin } from "../../../entities/signin/api/postSignin";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 import { SigninFormProps } from "../../../shared/model/AuthForm";
+import { toast } from "sonner";
 
 const LoginWidget = () => {
   const {
@@ -16,7 +17,12 @@ const LoginWidget = () => {
   } = useForm<SigninFormProps>({ mode: "onChange", defaultValues: { email: "", password: "" } });
 
   const onSubmit = (form: SigninFormProps) => {
-    postSignin(form);
+    try {
+      postSignin(form);
+    } catch (error) {
+      toast.error(String(error));
+      console.error(error);
+    }
   };
 
   return (
