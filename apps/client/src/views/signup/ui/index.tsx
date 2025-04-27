@@ -1,15 +1,18 @@
 "use client";
-import { Button } from "@repo/ui/button";
-import { useForm } from "react-hook-form";
-import { AuthForm } from "../../auth/ui";
-import { SignupFormProps } from "../../../shared/model/AuthForm";
-import { useState } from "react";
-import StepAuthCode from "../../stepAuthCode/ui";
-import StepPassword from "../../stepPassword/ui";
-import { usePostSignup } from "../../../entities/signup/model/usePostSignup";
-import { patchVerifyEmail } from "../../../entities/signup/api/patchVerifyEmail";
 
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+import { Button } from "@repo/ui/button";
+
+import { AuthForm } from "@widgets/auth/ui";
+import StepPassword from "@widgets/stepPassword/ui";
+import StepAuthCode from "@widgets/stepAuthCode/ui";
+import { usePostSignup } from "@entities/signup/model/usePostSignup";
+import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
+import { SignupFormProps } from "@shared/model/AuthForm";
+
 
 const SignupWidget = () => {
   const [step, setStep] = useState("authCode");
