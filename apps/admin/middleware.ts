@@ -5,7 +5,12 @@ const LOGIN_PATH = "/login";
 
 const PROTECTED_ROUTES = ["/", "/check-post", "/score"];
 
-function decodeJWT(token: string): { payload: any; isValid: boolean } {
+interface JWTPayload {
+  exp?: number;
+  [key: string]: unknown;
+}
+
+function decodeJWT(token: string): { payload: JWTPayload | null; isValid: boolean } {
   try {
     const parts = token.split(".");
     if (parts.length !== 3) {
