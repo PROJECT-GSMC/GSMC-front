@@ -4,12 +4,14 @@ import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import { AuthForm } from "../../../widget/auth/ui";
 import { useForm } from "react-hook-form";
-import { postSignin } from "../../../entities/signin/api/postSignin";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 import { SigninFormProps } from "../../../shared/model/AuthForm";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { postSignin } from "../../../entities/signin/api/postSignin";
 
 const LoginWidget = () => {
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -19,8 +21,10 @@ const LoginWidget = () => {
   const onSubmit = (form: SigninFormProps) => {
     try {
       postSignin(form);
+      toast.success("로그인에 성공했습니다.");
+      router.push("/");
     } catch (error) {
-      toast.error(String(error));
+      toast.error(error instanceof Error ? error.message : "로그인에 실패했습니다.");
       console.error(error);
     }
   };
