@@ -3,7 +3,7 @@ import type { NextRequest } from "next/server";
 
 const LOGIN_PATH = "/login";
 
-const PROTECTED_ROUTES = ["/", "/dashboard", "/settings", "/users", "/products"];
+const PROTECTED_ROUTES = ["/", "/check-post", "/score"];
 
 function decodeJWT(token: string): { payload: any; isValid: boolean } {
   try {
@@ -22,6 +22,7 @@ function decodeJWT(token: string): { payload: any; isValid: boolean } {
 
     return { payload, isValid: true };
   } catch (error) {
+    console.error(error);
     return { payload: null, isValid: false };
   }
 }
