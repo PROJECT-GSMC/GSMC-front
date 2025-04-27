@@ -26,19 +26,19 @@ export const Filter = ({
           <Button
             onClick={() => ChangeGrade(1)}
             variant={grade === 1 ? "blue" : "skyblue"}
-            className="w-[25%]"
+            className="w-[60px]"
             label="1"
           />
           <Button
             onClick={() => ChangeGrade(2)}
             variant={grade === 2 ? "blue" : "skyblue"}
-            className="w-[25%]"
+            className="w-[60px]"
             label="2"
           />
           <Button
             onClick={() => ChangeGrade(3)}
             variant={grade === 3 ? "blue" : "skyblue"}
-            className="w-[25%]"
+            className="w-[60px]"
             label="3"
           />
         </div>
@@ -49,26 +49,26 @@ export const Filter = ({
           <Button
             onClick={() => ChangeClass(1)}
             variant={classNumber === 1 ? "blue" : "skyblue"}
-            className="w-[25%]"
+            className="w-[60px]"
             label="1"
           />
           <Button
             onClick={() => ChangeClass(2)}
             variant={classNumber === 2 ? "blue" : "skyblue"}
-            className="w-[25%]"
+            className="w-[60px]"
             label="2"
           />
           <Button
             onClick={() => ChangeClass(3)}
             variant={classNumber === 3 ? "blue" : "skyblue"}
-            className="w-[25%]"
+            className="w-[60px]"
             label="3"
           />
         </div>
         <Button
           onClick={() => ChangeClass(4)}
           variant={classNumber === 4 ? "blue" : "skyblue"}
-          className="w-[25%]"
+          className="w-[60px]"
           label="4"
         />
       </div>
