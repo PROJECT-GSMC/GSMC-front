@@ -25,7 +25,11 @@ function decodeJWT(token: string): { payload: JWTPayload | null; isValid: boolea
     const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
     const payload = JSON.parse(Buffer.from(base64, "base64").toString("utf-8"));
 
-    return { payload, isValid: true };
+    if (payload.role === "ROLE_STUDENT") {
+      return { payload: null, isValid: false };
+    } else {
+      return { payload, isValid: true };
+    }
   } catch (error) {
     console.error(error);
     return { payload: null, isValid: false };
