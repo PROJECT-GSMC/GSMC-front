@@ -1,14 +1,16 @@
 "use client";
 
+import { useParams } from "next/navigation";
+import { Controller, useForm, useWatch } from "react-hook-form";
+
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
-import { Controller, useForm, useWatch } from "react-hook-form";
-import Checkbox from "../../../entities/score/ui/checkbox";
-import Header from "../../../shared/ui/header";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+
+import { Checkbox } from "../../../entities/score/ui/checkbox";
+import Header from "../../../shared/ui/header";
 import { ScoreFormType } from "../model/score";
 import { featScore } from "../api/featScore";
-import { useParams } from "next/navigation";
 
 export const ScoreForm = () => {
   const P = useParams<{ email: string }>();

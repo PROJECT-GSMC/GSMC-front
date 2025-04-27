@@ -1,13 +1,15 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
-import { useGetPosts } from "../model/useGetPosts";
 import { useState } from "react";
-import { postState } from "../../../../../../packages/ui/src/types/evidences";
-import Header from "../../../shared/ui/header";
-import Post from "../../../entities/check-post/ui/post";
-import { PostType } from "../../../../../../packages/ui/src/types/postType";
 import { toast } from "sonner";
+
+import { Button } from "@repo/ui/button";
+import { postState } from "../../../../../../packages/ui/src/types/evidences";
+import { PostType } from "../../../../../../packages/ui/src/types/postType";
+
+import Header from "../../../shared/ui/header";
+import { Post } from "../../../entities/check-post/ui/post";
+import { useGetPosts } from "../model/useGetPosts";
 
 export const PostsView = () => {
   const [state, setState] = useState<postState | "">("");

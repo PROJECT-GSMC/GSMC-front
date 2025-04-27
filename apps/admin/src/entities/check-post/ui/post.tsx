@@ -1,17 +1,14 @@
 import Image from "next/image";
-import { PostType } from "../../../../../../packages/ui/src/types/postType";
-import { changeEvidenceState } from "../api/changeEvidenceState";
 import { toast } from "sonner";
-import {
-  handleStateColor,
-  handleState,
-} from "../../../../../../packages/ui/src/utils/handleState";
+import { changeEvidenceState } from "../api/changeEvidenceState";
+import { PostType } from "../../../../../../packages/ui/src/types/postType";
+import { handleStateColor, handleState } from "../../../../../../packages/ui/src/utils/handleState";
 
 interface PostProps {
   data: PostType;
 }
 
-const Post = ({ data }: PostProps) => {
+export const Post = ({ data }: PostProps) => {
   return (
     <div className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]">
       {data.imageUrl ? (
@@ -63,4 +60,4 @@ const Post = ({ data }: PostProps) => {
   );
 };
 
-export default Post;
+
