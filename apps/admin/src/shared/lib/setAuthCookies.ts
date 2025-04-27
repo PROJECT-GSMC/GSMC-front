@@ -7,13 +7,11 @@ export async function setAuthCookies(accessToken: string, refreshToken: string) 
     httpOnly: true,
     secure: true,
     sameSite: "lax",
-    maxAge: Number.MAX_SAFE_INTEGER,
   });
 
   cookieStore.set("refreshToken", refreshToken, {
     httpOnly: true,
     secure: true,
     sameSite: "lax",
-    maxAge: Number.MAX_SAFE_INTEGER,
   });
 }
