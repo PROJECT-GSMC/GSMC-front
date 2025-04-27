@@ -20,7 +20,7 @@ interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
 }
 
-const MajorWidget = () => {
+const MajorView = () => {
   const {
     handleSubmit,
     control,
@@ -114,4 +114,4 @@ const MajorWidget = () => {
   );
 };
 
-export default MajorWidget;
+export default MajorView;

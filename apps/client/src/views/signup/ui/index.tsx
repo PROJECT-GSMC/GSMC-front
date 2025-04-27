@@ -14,7 +14,7 @@ import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
 import { SignupFormProps } from "@shared/model/AuthForm";
 
 
-const SignupWidget = () => {
+const SignupView = () => {
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
   const { mutate: signupMutate, isPending } = usePostSignup();
@@ -106,4 +106,4 @@ const SignupWidget = () => {
   );
 };
 
-export default SignupWidget;
+export default SignupView;

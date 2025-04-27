@@ -8,7 +8,7 @@ import Header from "@shared/ui/header";
 import Post from "@shared/ui/post/post";
 import Search from "@entities/posts/ui/search";
 
-const PostsWidget = () => {
+const PostsView = () => {
   const [result, setResult] = useState<string>("");
   return (
     <div className="flex flex-col items-center">
@@ -89,4 +89,4 @@ const PostsWidget = () => {
   );
 };
 
-export default PostsWidget;
+export default PostsView;

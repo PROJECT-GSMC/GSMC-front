@@ -12,7 +12,7 @@ import Header from "@shared/ui/header";
 import { sendBook } from "../api/sendBook";
 import { Book } from "../model/book";
 
-const BookWidget = () => {
+const BookView = () => {
   const {
     handleSubmit,
     control,
@@ -91,4 +91,4 @@ const BookWidget = () => {
   );
 };
 
-export default BookWidget;
+export default BookView;

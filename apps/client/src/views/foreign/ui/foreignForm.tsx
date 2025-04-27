@@ -15,7 +15,7 @@ import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
 import Header from "@shared/ui/header";
 
-const ForeignFormWidget = () => {
+const ForeignFormView = () => {
   const {
     handleSubmit,
     control,
@@ -99,4 +99,4 @@ const ForeignFormWidget = () => {
   );
 };
 
-export default ForeignFormWidget;
+export default ForeignFormView;

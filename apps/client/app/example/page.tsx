@@ -1,9 +1,10 @@
 "use client";
 
-import Header from "../../src/shared/ui/header";
-import Mock from "../../src/shared/mocks/data/evidenceMock.json";
-import Post from "../../src/shared/ui/post/post";
 import { postState } from "../../../../packages/ui/src/types/evidences";
+
+import Header from "@shared/ui/header";
+import Mock from "@shared/mocks/data/evidenceMock.json";
+import Post from "@shared/ui/post/post";
 
 const ExamplePage = () => {
   return (

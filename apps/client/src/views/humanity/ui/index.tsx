@@ -20,7 +20,7 @@ interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
 }
 
-const HumanityWidget = () => {
+const HumanityView = () => {
   const {
     handleSubmit,
     control,
@@ -113,4 +113,4 @@ const HumanityWidget = () => {
   );
 };
 
-export default HumanityWidget;
+export default HumanityView;

@@ -1,7 +1,7 @@
-import SignupWidget from "../../src/widgets/signup/ui";
+import SignupView from "@views/signup/ui/";
 
 const SignupPage = () => {
-  return <SignupWidget />;
+  return <SignupView />;
 }
 
 export default SignupPage;

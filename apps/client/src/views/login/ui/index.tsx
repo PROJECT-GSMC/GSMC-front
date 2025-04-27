@@ -9,7 +9,7 @@ import { AuthForm } from "@widgets/auth/ui";
 import { usePostSignin } from "@entities/signin/model/usePostSignin";
 import { SigninFormProps } from "@shared/model/AuthForm";
 
-const LoginWidget = () => {
+const LoginView = () => {
   const {
     control,
     handleSubmit,
@@ -65,4 +65,4 @@ const LoginWidget = () => {
   );
 };
 
-export default LoginWidget;
+export default LoginView;
