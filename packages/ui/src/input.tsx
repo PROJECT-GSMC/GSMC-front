@@ -6,15 +6,21 @@ interface InputProps<T extends FieldValues = FieldValues> extends UseControllerP
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   type?: string;
+  suffix?: string;
 }
 
-export const Input = <T extends FieldValues = FieldValues>({ type, className, ...props }: InputProps<T>) => {
+export const Input = <T extends FieldValues = FieldValues>({
+  type,
+  className,
+  suffix = "",
+  ...props
+}: InputProps<T>) => {
   const { field } = useController(props);
   const [displayValue, setDisplayValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
   const isEmail = field.name === "email";
-  const suffix = "@gsm.hs.kr";
+  const hasSuffix = suffix !== "";
 
   const isValidEmailPrefix = (value: string): boolean => {
     if (value.length > 6) return false;
@@ -24,18 +30,18 @@ export const Input = <T extends FieldValues = FieldValues>({ type, className, ..
   };
 
   useEffect(() => {
-    if (isEmail && typeof field.value === "string") {
+    if (isEmail && hasSuffix && typeof field.value === "string") {
       const valueWithoutSuffix = field.value.endsWith(suffix) ? field.value.slice(0, -suffix.length) : field.value;
       setDisplayValue(valueWithoutSuffix);
     } else {
       setDisplayValue(field.value || "");
     }
-  }, [field.value, isEmail]);
+  }, [field.value, isEmail, hasSuffix, suffix]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
 
-    if (isEmail) {
+    if (isEmail && hasSuffix) {
       if (newValue.endsWith(suffix)) {
         const prefix = newValue.slice(0, newValue.length - suffix.length);
         if (isValidEmailPrefix(prefix)) {
@@ -65,7 +71,7 @@ export const Input = <T extends FieldValues = FieldValues>({ type, className, ..
   };
 
   const handleSelect = (e: React.SyntheticEvent<HTMLInputElement>) => {
-    if (isEmail && inputRef.current) {
+    if (isEmail && hasSuffix && inputRef.current) {
       const input = e.target as HTMLInputElement;
       const prefixLength = displayValue.length;
 
@@ -76,7 +82,7 @@ export const Input = <T extends FieldValues = FieldValues>({ type, className, ..
   };
 
   const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
-    if (isEmail && inputRef.current) {
+    if (isEmail && hasSuffix && inputRef.current) {
       const input = e.target as HTMLInputElement;
       const prefixLength = displayValue.length;
 
@@ -87,7 +93,7 @@ export const Input = <T extends FieldValues = FieldValues>({ type, className, ..
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (isEmail && inputRef.current) {
+    if (isEmail && hasSuffix && inputRef.current) {
       const input = e.target as HTMLInputElement;
       const prefixLength = displayValue.length;
       const cursorPosition = input.selectionStart || 0;
@@ -150,7 +156,7 @@ export const Input = <T extends FieldValues = FieldValues>({ type, className, ..
       ref={inputRef}
       className={`px-[1rem] py-[0.75rem] rounded-[0.75rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600 w-full ${className}`}
       type={field.name === "password" ? "password" : type || "text"}
-      value={isEmail ? `${displayValue}${suffix}` : displayValue}
+      value={isEmail && hasSuffix ? `${displayValue}${suffix}` : displayValue}
       onChange={handleChange}
       onSelect={handleSelect}
       onClick={handleClick}

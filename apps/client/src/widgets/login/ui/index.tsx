@@ -29,6 +29,7 @@ const LoginWidget = () => {
               <Input
                 name="email"
                 control={control}
+                suffix="@gsm.hs.kr"
                 rules={{
                   required: "이메일을 필수로 입력해야 합니다.",
                   pattern: {
