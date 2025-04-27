@@ -3,9 +3,9 @@ import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import { AuthForm } from "../../../widgets/auth/ui";
 import { useForm } from "react-hook-form";
-import { usePostSignin } from "../../../entities/signin/model/usePostSignin";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 import { SigninFormProps } from "../../../shared/model/AuthForm";
+import { postSignin } from "../../../entities/signin/api/postSignin";
 
 const LoginWidget = () => {
   const {
@@ -13,8 +13,6 @@ const LoginWidget = () => {
     handleSubmit,
     formState: { isValid },
   } = useForm<SigninFormProps>({ mode: "onChange", defaultValues: { email: "", password: "" } });
-
-  const { mutate: postSignin } = usePostSignin();
 
   const onSubmit = (form: SigninFormProps) => {
     postSignin(form);
