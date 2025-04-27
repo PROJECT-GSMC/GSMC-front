@@ -1,16 +1,19 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
-import Dropdown from "../../../shared/ui/dropdown";
-import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
-import { Plus } from "../../../shared/asset/svg/plus";
-import { Minus } from "../../../shared/asset/svg/minus";
+import { Controller, useForm } from "react-hook-form";
+
+import { Button } from "@repo/ui/button";
+
 import {
   foreignCategoryOptions,
   humanCategoryOptions,
   majorCategoryOptions,
 } from "../model/category";
+
+import Dropdown from "@shared/ui/dropdown";
+import { Plus } from "@shared/asset/svg/plus";
+import { Minus } from "@shared/asset/svg/minus";
 
 export const Calculate = () => {
   const Buttons = ["독서", "인성", "전공", "외국어"];

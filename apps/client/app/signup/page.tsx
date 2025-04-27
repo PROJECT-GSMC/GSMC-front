@@ -1,9 +1,10 @@
 "use client";
-import { Button } from "@repo/ui/button";
-import { useForm } from "react-hook-form";
-import { AuthForm } from "../../src/widgets/auth/ui";
-import { SignupFormProps } from "../../src/shared/model/AuthForm";
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Button } from "@repo/ui/button";
+
+import { SignupFormProps } from "../../src/shared/model/AuthForm";
+import { AuthForm } from "../../src/widgets/auth/ui";
 import StepAuthCode from "../../src/widgets/stepAuthCode/ui";
 import StepPassword from "../../src/widgets/stepPassword/ui";
 import { usePostSignup } from "../../src/entities/signup/model/usePostSignup";

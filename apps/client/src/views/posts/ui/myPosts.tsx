@@ -1,10 +1,12 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
-import Header from "../../../shared/ui/header";
-import Search from "../../../entities/posts/ui/search";
 import { useState } from "react";
-import Post from "../../../shared/ui/post/post";
+
+import { Button } from "@repo/ui/button";
+
+import Header from "@shared/ui/header";
+import Post from "@shared/ui/post/post";
+import Search from "@entities/posts/ui/search";
 
 const PostsWidget = () => {
   const [result, setResult] = useState<string>("");

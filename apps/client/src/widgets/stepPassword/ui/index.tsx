@@ -1,8 +1,10 @@
 import React from 'react'
+import { Control } from 'react-hook-form';
+
 import { Input } from '@repo/ui/input'
 import { InputContainer } from '@repo/ui/widgets/inputContainer/index'
-import { Control } from 'react-hook-form';
-import { SignupFormProps } from '../../../shared/model/AuthForm';
+
+import { SignupFormProps } from '@shared/model/AuthForm';
 
 export default function StepPassword({ control }: { control: Control<SignupFormProps> }) {
   return (

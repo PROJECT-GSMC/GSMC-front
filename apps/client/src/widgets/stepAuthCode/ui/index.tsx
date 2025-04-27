@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { Control, useWatch } from "react-hook-form";
+import { toast } from "sonner";
+
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
-import { Control, useWatch } from "react-hook-form";
-import { SignupFormProps } from "../../../shared/model/AuthForm";
-import { postSendEmail } from "../../../entities/signup/api/postSendEmail";
-import { toast } from "sonner";
+
+import { SignupFormProps } from "@shared/model/AuthForm";
+import { postSendEmail } from "@entities/signup/api/postSendEmail";
 
 export default function StepAuthCode({
   control,

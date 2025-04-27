@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import SearchIcon from "@repo/ui/search";
-import { getSearchResult } from "../api/getSearchResult";
 import { useDebounce } from "../../../../../../packages/ui/src/hooks/useDebounce";
+import { getSearchResult } from "../api/getSearchResult";
 
 interface SearchProps {
   setResult: (result: string) => void;

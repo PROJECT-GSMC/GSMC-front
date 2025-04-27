@@ -1,6 +1,6 @@
 import instance from "../../../../../../packages/ui/src/axios";
 import axios from "axios";
-import { SigninFormProps } from "../../../shared/model/AuthForm";
+import { SigninFormProps } from "@shared/model/AuthForm";
 
 export const postSignin = async (form: SigninFormProps) => {
   try {

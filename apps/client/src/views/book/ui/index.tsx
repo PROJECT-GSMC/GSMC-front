@@ -1,14 +1,16 @@
 "use client";
 
+import { Controller, useForm } from "react-hook-form";
+import { toast } from "sonner";
+
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
-import { Controller, useForm } from "react-hook-form";
-import Textarea from "../../../shared/ui/textarea";
-import Header from "../../../shared/ui/header";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+
+import Textarea from "@shared/ui/textarea";
+import Header from "@shared/ui/header";
 import { sendBook } from "../api/sendBook";
 import { Book } from "../model/book";
-import { toast } from "sonner";
-import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 const BookWidget = () => {
   const {
