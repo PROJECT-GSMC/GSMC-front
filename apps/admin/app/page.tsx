@@ -5,8 +5,8 @@ import { toast } from "sonner";
 import Card from "@repo/ui/card";
 import List from "@repo/ui/list";
 
-import Header from "@shared/ui/header";
-import Question from "@shared/asset/svg/question";
+import { Header } from "@shared/ui";
+import { Question } from "@shared/asset";
 
 import { Filter } from "@widgets/member/ui/filter";
 import { Information } from "@widgets/member/ui/information";

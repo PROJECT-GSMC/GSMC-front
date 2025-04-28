@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Checked from "@shared/asset/svg/checked";
+import { Checked } from "@shared/asset";
 
 interface CheckboxProps {
   check?: boolean;
