@@ -1,15 +1,17 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
-import { useGetPosts } from "../model/useGetPosts";
 import { useState } from "react";
-import { postState } from "../../../../../../packages/ui/src/types/evidences";
-import Header from "../../../shared/ui/header";
-import Post from "../../../entities/check-post/ui/post";
-import { PostType } from "../../../../../../packages/ui/src/types/postType";
 import { toast } from "sonner";
 
-const PostsWidget = () => {
+import { Button } from "@repo/ui/button";
+import { postState } from "../../../../../../packages/ui/src/types/evidences";
+import { PostType } from "../../../../../../packages/ui/src/types/postType";
+
+import Header from "../../../shared/ui/header";
+import { Post } from "../../../entities/check-post/ui/post";
+import { useGetPosts } from "../model/useGetPosts";
+
+const PostsView = () => {
   const [state, setState] = useState<postState | "">("");
   const { data, isError, error } = useGetPosts("email", "PENDING");
   if (isError) {
@@ -57,4 +59,4 @@ const PostsWidget = () => {
   );
 };
 
-export default PostsWidget;
+export default PostsView;

@@ -1,5 +1,5 @@
 import { Button } from "@repo/ui/button";
-import { Search } from "../../../entities/member/ui/search";
+import { Search } from "@entities/member/ui/search";
 
 interface FilterPropps {
   ChangeGrade: (grade: number) => void;

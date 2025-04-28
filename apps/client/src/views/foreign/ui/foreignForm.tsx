@@ -1,18 +1,21 @@
 "use client";
 
-import { Input } from "@repo/ui/input";
 import { Controller, useForm, useWatch } from "react-hook-form";
-import Dropdown from "../../../shared/ui/dropdown";
-import { foreignOptions } from "../model/foreignOptions";
-import File from "../../../shared/ui/file";
-import { ForeignForm } from "../model/foreign";
+
+import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
-import Header from "../../../shared/ui/header";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+
+import { foreignOptions } from "../model/foreignOptions";
+import { ForeignForm } from "../model/foreign";
 import { chooseDropdownOption } from "../lib/chooseDropdownOption";
 import { sendForeign } from "../api/sendForeign";
 
-const ForeignFormWidget = () => {
+import Dropdown from "@shared/ui/dropdown";
+import File from "@shared/ui/file";
+import Header from "@shared/ui/header";
+
+const ForeignFormView = () => {
   const {
     handleSubmit,
     control,
@@ -96,4 +99,4 @@ const ForeignFormWidget = () => {
   );
 };
 
-export default ForeignFormWidget;
+export default ForeignFormView;

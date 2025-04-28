@@ -1,7 +1,7 @@
-import HumanityWidget from "../../src/widgets/humanity/ui";
+import HumanityView from "@views/humanity/ui";
 
 const HumanityPage = () => {
-  return <HumanityWidget />;
+  return <HumanityView />;
 };
 
 export default HumanityPage;
