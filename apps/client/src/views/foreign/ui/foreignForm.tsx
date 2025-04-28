@@ -11,9 +11,7 @@ import { ForeignForm } from "../model/foreign";
 import { chooseDropdownOption } from "../lib/chooseDropdownOption";
 import { sendForeign } from "../api/sendForeign";
 
-import Dropdown from "@shared/ui/dropdown";
-import File from "@shared/ui/file";
-import Header from "@shared/ui/header";
+import { Dropdown, File, Header } from "@shared/ui";
 
 const ForeignFormView = () => {
   const {

@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { postSignup } from "../api/postSignup";
-import { SignupFormProps } from "@shared/model/AuthForm";
+import { SignupFormProps } from "@shared/model";
 
 export const usePostSignup = () => {
   const queryClient = useQueryClient();

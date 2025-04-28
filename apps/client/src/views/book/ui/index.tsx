@@ -7,8 +7,7 @@ import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
-import Textarea from "@shared/ui/textarea";
-import Header from "@shared/ui/header";
+import { Textarea, Header } from "@shared/ui";
 import { sendBook } from "../api/sendBook";
 import { Book } from "../model/book";
 

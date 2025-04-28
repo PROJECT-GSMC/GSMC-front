@@ -11,7 +11,7 @@ import StepPassword from "@widgets/stepPassword/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
 import { usePostSignup } from "@entities/signup/model/usePostSignup";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-import { SignupFormProps } from "@shared/model/AuthForm";
+import { SignupFormProps } from "@shared/model";
 
 
 const SignupView = () => {

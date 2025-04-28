@@ -11,9 +11,8 @@ import {
   majorCategoryOptions,
 } from "../model/category";
 
-import Dropdown from "@shared/ui/dropdown";
-import { Plus } from "@shared/asset/svg/plus";
-import { Minus } from "@shared/asset/svg/minus";
+import { Dropdown } from "@shared/ui";
+import { Plus, Minus } from "@shared/asset";
 
 export const Calculate = () => {
   const Buttons = ["독서", "인성", "전공", "외국어"];

@@ -9,12 +9,9 @@ import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { majorCategoryOptions } from "../model/category";
 
-import Header from "@shared/ui/header";
-import Dropdown from "@shared/ui/dropdown";
-import Textarea from "@shared/ui/textarea";
-import File from "@shared/ui/file";
-import { Activity } from "@shared/types/activity";
-import { sendActivity } from "@shared/api/sendActivity";
+import { Header, Dropdown, Textarea, File } from "@shared/ui";
+import { Activity } from "@shared/types";
+import { sendActivity } from "@shared/api";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };

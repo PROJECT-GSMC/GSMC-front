@@ -1,4 +1,4 @@
-import Header from "@shared/ui/header";
+import { Header } from "@shared/ui";
 import { Calculate } from "@widgets/calculate/ui";
 
 const CalculatePage = () => {

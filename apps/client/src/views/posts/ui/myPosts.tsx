@@ -4,8 +4,7 @@ import { useState } from "react";
 
 import { Button } from "@repo/ui/button";
 
-import Header from "@shared/ui/header";
-import Post from "@shared/ui/post/post";
+import { Header, Post } from "@shared/ui";
 import Search from "@entities/posts/ui/search";
 
 const PostsView = () => {

@@ -6,8 +6,8 @@ import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
-import { SignupFormProps } from "@shared/model/AuthForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
+import { SignupFormProps } from "@shared/model";
 
 export default function StepAuthCode({
   control,

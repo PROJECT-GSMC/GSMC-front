@@ -9,9 +9,8 @@ import { options } from "../model/options";
 import { sendCertification } from "../api/sendCertification";
 import { sendEvidence } from "../api/sendEvidence";
 
-import File from "@shared/ui/file";
-import { FixScore } from "@shared/api/fixScore";
-import Dropdown from "@shared/ui/dropdown";
+import { File, Dropdown } from "@shared/ui";
+import { FixScore } from "@shared/api";
 
 interface ModalProps {
   onClose: () => void;

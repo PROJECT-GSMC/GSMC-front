@@ -5,8 +5,7 @@ import { useState } from "react";
 import { Button } from "@repo/ui/button";
 
 import Search from "@entities/posts/ui/search";
-import Header from "@shared/ui/header";
-import Post from "@shared/ui/post/post";
+import { Header, Post } from "@shared/ui";
 
 const PostsWidget = () => {
   const [result, setResult] = useState<string>("");

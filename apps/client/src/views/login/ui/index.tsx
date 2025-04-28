@@ -7,7 +7,7 @@ import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { AuthForm } from "@widgets/auth/ui";
 import { usePostSignin } from "@entities/signin/model/usePostSignin";
-import { SigninFormProps } from "@shared/model/AuthForm";
+import { SigninFormProps } from "@shared/model";
 
 const LoginView = () => {
   const {

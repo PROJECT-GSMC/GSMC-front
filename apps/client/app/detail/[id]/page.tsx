@@ -4,7 +4,7 @@ import { Button } from "@repo/ui/button";
 import { Activity, Others, Reading } from "../../../../../packages/ui/src/types/evidences";
 import { isActivity, isOthers, isReading } from "../../../../../packages/ui/src/utils/handlePost";
 
-import Header from "@shared/ui/header";
+import { Header } from "@shared/ui";
 
 interface DetailProps {
   data: Activity | Reading | Others
