@@ -8,7 +8,7 @@ interface FilterPropps {
   classNumber: number;
 }
 
-export const Filter = ({
+const Filter = ({
   ChangeGrade,
   grade,
   ChangeClass,

@@ -8,7 +8,7 @@ interface InformationProps {
   student: Member;
 }
 
-export const Information = ({ student }: InformationProps) => {
+const Information = ({ student }: InformationProps) => {
   const R = useRouter();
   return (
     <div className="w-[350px] min-w-[18rem] bg-tropicalblue-100 py-[2.25rem] flex flex-col justify-between rounded-[1.25rem] h-[46rem] px-[2.45rem]">
@@ -39,3 +39,5 @@ export const Information = ({ student }: InformationProps) => {
     </div>
   );
 };
+
+export default Information;

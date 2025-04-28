@@ -8,14 +8,9 @@ import List from "@repo/ui/list";
 import { Header } from "@shared/ui";
 import { Question } from "@shared/asset";
 
-import { Filter } from "@widgets/member/ui/filter";
-import { Information } from "@widgets/member/ui/information";
-
-import { useGetMember } from "@widgets/member/model/useGetMember";
-import { Member } from "@widgets/member/model/member";
-
-import { getMember } from "@widgets/member/api/getMember";
-
+import { Filter, Information } from "@widgets/member/ui";
+import { useGetMember, Member } from "@widgets/member/model";
+import { getMember } from "@widgets/member/api";
 
 const MemberPage = () => {
   const [student, setStudent] = useState<Member>();
