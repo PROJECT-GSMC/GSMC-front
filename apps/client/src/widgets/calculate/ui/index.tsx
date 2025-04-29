@@ -14,7 +14,13 @@ import {
 
 export const Calculate = () => {
   const Buttons = ["독서", "인성", "전공", "외국어"];
-  const [fileCount, setFileCount] = useState<number>(0);
+  const [fileCount, setFileCount] = useState({
+    독서: 0,
+    인성: 0,
+    전공: 0,
+    외국어: 0,
+  });
+  const [totalScore, setTotalScore] = useState<number>(0);
   const [page, setPage] = useState<string>("독서");
   const { control } = useForm();
 
@@ -32,40 +38,47 @@ export const Calculate = () => {
           />
         ))}
       </div>
-
       {/* 독서 */}
       <div
         className={page === "독서" ? "flex flex-col gap-[1.5rem]" : "hidden"}
       >
         <div className="flex w-full gap-[1.25rem]">
           <Button
-            state={fileCount === 0 ? "disabled" : "default"}
+            state={fileCount["독서"] === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
               <Minus
-                className={`${fileCount === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
+                className={`${fileCount["독서"] === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
               />
             }
             className="group basis-1/6"
             onClick={() => {
-              if (fileCount > 0) setFileCount(fileCount - 1);
+              if (fileCount["독서"] > 0)
+                setFileCount((prev) => ({ ...prev, 독서: prev["독서"] - 1 }));
+              if (fileCount["독서"] > 0) setTotalScore(totalScore - 10);
             }}
           />
           <p className="w-basis-4/6 w-full bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
-            {fileCount}
+            {fileCount["독서"]}
           </p>
           <Button
-            state="default"
+            state={fileCount["독서"] === 10 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
-              <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              <Plus
+                className={`${fileCount["독서"] === 10 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
+              />
             }
             className="group basis-1/6"
-            onClick={() => setFileCount(fileCount + 1)}
+            onClick={() => {
+              if (fileCount["독서"] < 10)
+                setFileCount((prev) => ({ ...prev, 독서: prev["독서"] + 1 }));
+
+              if (fileCount["독서"] < 10) setTotalScore(totalScore + 10);
+            }}
           />
         </div>
       </div>
-
       {/* 인성 */}
       <div
         className={page === "인성" ? "flex flex-col gap-[1.5rem]" : "hidden"}
@@ -84,20 +97,21 @@ export const Calculate = () => {
         />
         <div className="flex w-full gap-[1.25rem]">
           <Button
-            state={fileCount === 0 ? "disabled" : "default"}
+            state={fileCount["인성"] === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
               <Minus
-                className={`${fileCount === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
+                className={`${fileCount["인성"] === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
               />
             }
             className="group basis-1/6"
             onClick={() => {
-              if (fileCount > 0) setFileCount(fileCount - 1);
+              if (fileCount["인성"] > 0)
+                setFileCount((prev) => ({ ...prev, 인성: prev["인성"] - 1 }));
             }}
           />
           <p className="w-basis-4/6 w-full bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
-            {fileCount}
+            {fileCount["인성"]}
           </p>
           <Button
             state="default"
@@ -106,11 +120,12 @@ export const Calculate = () => {
               <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
             className="group basis-1/6"
-            onClick={() => setFileCount(fileCount + 1)}
+            onClick={() => {
+              setFileCount((prev) => ({ ...prev, 인성: prev["인성"] + 1 }));
+            }}
           />
         </div>
       </div>
-
       {/* 전공 */}
       <div
         className={`${page === "전공" ? "block" : "hidden"} flex flex-col gap-[1.5rem]`}
@@ -129,20 +144,21 @@ export const Calculate = () => {
         />
         <div className="flex w-full gap-[1.25rem]">
           <Button
-            state={fileCount === 0 ? "disabled" : "default"}
+            state={fileCount["전공"] === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
               <Minus
-                className={`${fileCount === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
+                className={`${fileCount["전공"] === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
               />
             }
             className="group basis-1/6"
             onClick={() => {
-              if (fileCount > 0) setFileCount(fileCount - 1);
+              if (fileCount["전공"] > 0)
+                setFileCount((prev) => ({ ...prev, 전공: prev["전공"] - 1 }));
             }}
           />
           <p className="w-basis-4/6 w-full bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
-            {fileCount}
+            {fileCount["전공"]}
           </p>
           <Button
             state="default"
@@ -151,11 +167,12 @@ export const Calculate = () => {
               <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
             className="group basis-1/6"
-            onClick={() => setFileCount(fileCount + 1)}
+            onClick={() =>
+              setFileCount((prev) => ({ ...prev, 전공: prev["전공"] + 1 }))
+            }
           />
         </div>
       </div>
-
       {/* 외국어 */}
       <div
         className={`${page === "외국어" ? "block" : "hidden"} flex flex-col gap-[1.5rem]`}
@@ -174,20 +191,24 @@ export const Calculate = () => {
         />
         <div className="flex w-full gap-[1.25rem]">
           <Button
-            state={fileCount === 0 ? "disabled" : "default"}
+            state={fileCount["외국어"] === 0 ? "disabled" : "default"}
             variant="skyblue_hover"
             label={
               <Minus
-                className={`${fileCount === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
+                className={`${fileCount["외국어"] === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
               />
             }
             className="group basis-1/6"
             onClick={() => {
-              if (fileCount > 0) setFileCount(fileCount - 1);
+              if (fileCount["외국어"] > 0)
+                setFileCount((prev) => ({
+                  ...prev,
+                  외국어: prev["외국어"] - 1,
+                }));
             }}
           />
           <p className="w-basis-4/6 w-full bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
-            {fileCount}
+            {fileCount["외국어"]}
           </p>
           <Button
             state="default"
@@ -196,11 +217,12 @@ export const Calculate = () => {
               <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
             }
             className="group basis-1/6"
-            onClick={() => setFileCount(fileCount + 1)}
+            onClick={() =>
+              setFileCount((prev) => ({ ...prev, 외국어: prev["외국어"] + 1 }))
+            }
           />
         </div>
       </div>
-
       {/* 점수 표시 */}
       <div className="flex gap-[1.25rem] w-full mt-auto">
         <Button
@@ -212,7 +234,7 @@ export const Calculate = () => {
           className="group basis-1/6"
         />
         <p className="basis-5/6 bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem]">
-          150점
+          {totalScore}점
         </p>
       </div>
     </div>
