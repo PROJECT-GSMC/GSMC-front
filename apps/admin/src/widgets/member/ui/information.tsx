@@ -11,7 +11,7 @@ interface InformationProps {
 export const Information = ({ student }: InformationProps) => {
   const R = useRouter();
   return (
-    <div className="w-[350px] min-w-[18rem] bg-tropicalblue-100 py-[2.25rem] flex flex-col justify-between rounded-[1.25rem] h-[46rem] px-[2.45rem]">
+    <div className="flex flex-col w-[17.5rem] h-[46rem] bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] justify-between ">
       <h3 className="text-titleSmall text-tropicalblue-700 mb-[3.5rem]">
         인적사항
       </h3>

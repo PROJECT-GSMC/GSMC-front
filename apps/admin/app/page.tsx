@@ -34,49 +34,49 @@ const MemberPage = () => {
   });
 
   return (
-    <div
-      style={{ gap: "1rem" }}
-      className="flex overflow-hidden h-full flex-col"
-    >
+    <div className="flex overflow-hidden h-full flex-col gap-[1rem]">
       <Header />
-      <div
-        className="flex justify-center items-center w-full h-full mt-[3.12rem]"
-        style={{ gap: "1.8rem" }}
-      >
-        <List className="h-[46rem]" title={String(filteredMembers.length)}>
-          {filteredMembers.map((member) => (
-            <Card
-              onClick={async () => {
-                const res = await getMember(member.email);
-                setStudent(res.data);
-              }}
-              id={member.email}
-              key={member.email}
-              front={member.name}
-              back={
-                member.grade +
-                member.classNumber +
-                String(member.number).padStart(2, "0")
-              }
-            />
-          ))}
-        </List>
-        {student ? (
-          <Information student={student} />
-        ) : (
-          <div className="w-[350px] min-w-[18rem] bg-tropicalblue-100 py-[2.25rem] flex flex-col justify-center items-center rounded-[1.25rem] h-[46rem] px-[2.45rem]">
-            <Question />
-            <span className="text-titleSmall text-[#68696C]">
-              학생을 선택해주세요
-            </span>
+      <div className="flex justify-center">
+        <div className="grid gap-[1.8rem] justify-center w-[37.5rem] h-full mt-[3.12rem] " >
+          <div className="max-md:col-span-1 col-span-2 ">
+            <List className="h-[46rem]" title={String(filteredMembers.length)}>
+              {filteredMembers.map((member) => (
+                <Card
+                  onClick={async () => {
+                    const res = await getMember(member.email);
+                    setStudent(res.data);
+                  }}
+                  id={member.email}
+                  key={member.email}
+                  front={member.name}
+                  back={
+                    member.grade +
+                    member.classNumber +
+                    String(member.number).padStart(2, "0")
+                  }
+                />
+              ))}
+            </List>
           </div>
-        )}
-        <Filter
-          grade={grade}
-          classNumber={classNumber}
-          ChangeClass={setClassNumber}
-          ChangeGrade={setGrade}
-        />
+          {student ? (
+            <Information student={student} />
+          ) : (
+            <div className="flex flex-col w-[17.5rem] h-[46rem] bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] justify-center items-center ">
+              <Question />
+              <span className="text-titleSmall text-[#68696C]">
+                학생을 선택해주세요
+              </span>
+            </div>
+          )}
+          <div className="max-md:hidden">
+            <Filter
+              grade={grade}
+              classNumber={classNumber}
+              ChangeClass={setClassNumber}
+              ChangeGrade={setGrade}
+            />
+          </div>
+        </div>
       </div>
     </div>
   );
