@@ -4,8 +4,8 @@ import { useState, useEffect, useRef } from "react";
 
 interface Option {
   name: string;
-  score?: string;
-  max_number?: string;
+  score?: number;
+  max_number?: number;
   send: string | number;
 }
 
