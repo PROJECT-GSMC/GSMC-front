@@ -21,6 +21,7 @@ const MemberPage = () => {
   const [student, setStudent] = useState<Member>();
   const [grade, setGrade] = useState<number>(0);
   const [classNumber, setClassNumber] = useState<number>(0);
+  const [open, setOpen] = useState<boolean>(false)
 
   const { data, error } = useGetMember();
   if (error) toast.error(error.message);
@@ -39,7 +40,7 @@ const MemberPage = () => {
       <div className="flex justify-center">
         <div className="grid gap-[1.8rem] justify-center w-[37.5rem] h-full mt-[3.12rem] " >
           <div className="max-md:col-span-1 col-span-2 ">
-            <List className="h-[46rem]" title={String(filteredMembers.length)}>
+            <List onClick={() => setOpen(!open)} title={String(filteredMembers.length)}>
               {filteredMembers.map((member) => (
                 <Card
                   onClick={async () => {
@@ -68,7 +69,7 @@ const MemberPage = () => {
               </span>
             </div>
           )}
-          <div className="max-md:hidden">
+          <div className="max-md:hidden bg-tropicalblue-100 w-[17.5rem] py-[2.25rem] rounded-[1.25rem] px-[2.45rem]">
             <Filter
               grade={grade}
               classNumber={classNumber}
@@ -76,6 +77,20 @@ const MemberPage = () => {
               ChangeGrade={setGrade}
             />
           </div>
+          {open ? (
+            <>
+              <div className="md:hidden fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" onClick={() => setOpen(false)}></div>
+              <div className="md:hidden z-20 bg-white w-[17.5rem] py-[2.25rem] rounded-[1.25rem] px-[2.45rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+                <Filter
+                  grade={grade}
+                  classNumber={classNumber}
+                  ChangeClass={setClassNumber}
+                  ChangeGrade={setGrade}
+                />
+              </div>
+            </>
+          ) : ("")
+          }
         </div>
       </div>
     </div>
