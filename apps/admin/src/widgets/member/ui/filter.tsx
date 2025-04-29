@@ -45,7 +45,7 @@ export const Filter = ({
       </div>
       <div className="flex flex-col gap-[1.38rem] mt-[2.19rem]">
         <h5 className="text-tropicalblue-700 text-label">반</h5>
-        <div className="flex justify-between mt">
+        <div className="flex justify-between">
           <Button
             onClick={() => ChangeClass(1)}
             variant={classNumber === 1 ? "blue" : "skyblue"}

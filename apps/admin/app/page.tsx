@@ -38,7 +38,7 @@ const MemberPage = () => {
     <div className="flex overflow-hidden h-full flex-col gap-[1rem]">
       <Header />
       <div className="flex justify-center">
-        <div className="grid gap-[1.8rem] justify-center w-[37.5rem] h-full mt-[3.12rem] " >
+        <div className="grid gap-[1.8rem] justify-center w-[37.5rem] h-full mt-[3.12rem] mb-[1.44rem] " >
           <div className="max-md:col-span-1 col-span-2 ">
             <List onClick={() => setOpen(!open)} title={String(filteredMembers.length)}>
               {filteredMembers.map((member) => (
@@ -62,7 +62,7 @@ const MemberPage = () => {
           {student ? (
             <Information student={student} />
           ) : (
-            <div className="flex flex-col w-[17.5rem] h-[46rem] bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] justify-center items-center ">
+            <div className="flex flex-col w-[17.5rem] bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] justify-center items-center ">
               <Question />
               <span className="text-titleSmall text-[#68696C]">
                 학생을 선택해주세요
