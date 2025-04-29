@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Checked from "../../../shared/asset/svg/checked";
+import Checked from "@shared/asset/svg/checked";
 
 interface CheckboxProps {
   check?: boolean;
   onChange?: (checked: boolean | null) => void;
 }
 
-const Checkbox = ({ check, onChange }: CheckboxProps) => {
+export const Checkbox = ({ check, onChange }: CheckboxProps) => {
   const [checked, setChecked] = useState<boolean | null>(check ?? null);
 
   const handleClick = (value: boolean) => {
@@ -34,4 +34,3 @@ const Checkbox = ({ check, onChange }: CheckboxProps) => {
   );
 };
 
-export default Checkbox;

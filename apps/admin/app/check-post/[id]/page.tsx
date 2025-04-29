@@ -1,7 +1,7 @@
-import PostsWidget from "../../../src/widget/check-post/ui/posts";
+import PostsView from "@/views/check-post/ui/posts";
 
 const CheckPostPage = () => {
-  return <PostsWidget />;
+  return <PostsView />;
 };
 
 export default CheckPostPage;

@@ -1,8 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { Button } from "@repo/ui/button";
 import { Member } from "../model/member";
-import { useRouter } from "next/navigation";
 
 interface InformationProps {
   student: Member;

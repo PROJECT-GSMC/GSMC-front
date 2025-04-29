@@ -1,7 +1,7 @@
-import LoginWidget from "../../src/widgets/login/ui"
+import LoginView from "@views/login/ui";
 
 const LoginPage = () => {
-  return <LoginWidget />
+  return <LoginView />
 }
 
 export default LoginPage

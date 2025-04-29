@@ -1,16 +1,21 @@
 "use client";
+import { useState } from "react";
 
-import Header from "../src/shared/ui/header";
-import Filter from "../src/widget/member/ui/filter";
-import { Information } from "../src/widget/member/ui/information";
-import { useGetMember } from "../src/widget/member/model/useGetMember";
-import { Member } from "../src/widget/member/model/member";
 import { toast } from "sonner";
 import Card from "@repo/ui/card";
-import { useState } from "react";
-import { getMember } from "../src/widget/member/api/getMember";
 import List from "@repo/ui/list";
-import Question from "../src/shared/asset/svg/question";
+
+import Header from "@shared/ui/header";
+import Question from "@shared/asset/svg/question";
+
+import { Filter } from "@widgets/member/ui/filter";
+import { Information } from "@widgets/member/ui/information";
+
+import { useGetMember } from "@widgets/member/model/useGetMember";
+import { Member } from "@widgets/member/model/member";
+
+import { getMember } from "@widgets/member/api/getMember";
+
 
 const MemberPage = () => {
   const [student, setStudent] = useState<Member>();

@@ -1,23 +1,26 @@
 "use client";
 
+import { Controller, useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
+
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
-import { Controller, useForm, useWatch } from "react-hook-form";
-import Textarea from "../../../shared/ui/textarea";
-import Header from "../../../shared/ui/header";
-import Dropdown from "../../../shared/ui/dropdown";
-import File from "../../../shared/ui/file";
-import { CharacterCategory } from "../model/category";
-import { Activity } from "../../../shared/types/activity";
-import { sendActivity } from "../../../shared/api/sendActivity";
-import { toast } from "sonner";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+
+import { CharacterCategory } from "../model/category";
+
+import Textarea from "@shared/ui/textarea";
+import Header from "@shared/ui/header";
+import Dropdown from "@shared/ui/dropdown";
+import File from "@shared/ui/file";
+import { Activity } from "@shared/types/activity";
+import { sendActivity } from "@shared/api/sendActivity";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
 }
 
-const HumanityWidget = () => {
+const HumanityView = () => {
   const {
     handleSubmit,
     control,
@@ -110,4 +113,4 @@ const HumanityWidget = () => {
   );
 };
 
-export default HumanityWidget;
+export default HumanityView;

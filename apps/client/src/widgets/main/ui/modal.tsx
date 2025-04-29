@@ -1,14 +1,17 @@
 import { Controller, useForm } from "react-hook-form";
-import File from "../../../shared/ui/file";
+
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
-import { Evidence } from "../model/evidence";
-import { sendCertification } from "../api/sendCertification";
-import { FixScore } from "../../../shared/api/fixScore";
-import { sendEvidence } from "../api/sendEvidence";
-import Dropdown from "../../../shared/ui/dropdown";
-import { options } from "../model/options";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+
+import { Evidence } from "../model/evidence";
+import { options } from "../model/options";
+import { sendCertification } from "../api/sendCertification";
+import { sendEvidence } from "../api/sendEvidence";
+
+import File from "@shared/ui/file";
+import { FixScore } from "@shared/api/fixScore";
+import Dropdown from "@shared/ui/dropdown";
 
 interface ModalProps {
   onClose: () => void;

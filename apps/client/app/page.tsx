@@ -1,16 +1,18 @@
 "use client";
 
-import List from "@repo/ui/list";
-import { ShowInformation } from "../src/entities/main/ui/showInformation";
-import Header from "../src/shared/ui/header";
 import { useEffect, useState } from "react";
+import Link from "next/link";
+
+import List from "@repo/ui/list";
+import Card from "@repo/ui/card";
+import { Button } from "@repo/ui/button";
+
+import Header from "../src/shared/ui/header";
+import { ShowInformation } from "../src/entities/main/ui/showInformation";
 import { getCertification } from "../src/entities/main/api/getCertification";
 import { Certification } from "../src/entities/main/model/certification";
-import Card from "@repo/ui/card";
 import ShowLogin from "../src/entities/main/ui/showLogin";
-import { Button } from "@repo/ui/button";
 import MainDropdown from "../src/entities/main/ui/dropdown";
-import Link from "next/link";
 import Modal from "../src/widgets/main/ui/modal";
 
 export default function Page() {

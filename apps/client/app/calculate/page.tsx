@@ -1,5 +1,5 @@
-import Header from "../../src/shared/ui/header";
-import { Calculate } from "../../src/widgets/calculate/ui";
+import Header from "@shared/ui/header";
+import { Calculate } from "@widgets/calculate/ui";
 
 const CalculatePage = () => {
   return (

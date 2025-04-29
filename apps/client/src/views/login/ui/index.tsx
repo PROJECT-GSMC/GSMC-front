@@ -1,13 +1,23 @@
 "use client";
+import { useForm } from "react-hook-form";
+
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
+<<<<<<< HEAD:apps/client/src/widgets/login/ui/index.tsx
 import { AuthForm } from "../../../widgets/auth/ui";
 import { useForm } from "react-hook-form";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 import { SigninFormProps } from "../../../shared/model/AuthForm";
 import { postSignin } from "../../../entities/signin/api/postSignin";
+=======
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+>>>>>>> 389aa171a86d32087fda5a5d1903074ee13f20e0:apps/client/src/views/login/ui/index.tsx
 
-const LoginWidget = () => {
+import { AuthForm } from "@widgets/auth/ui";
+import { usePostSignin } from "@entities/signin/model/usePostSignin";
+import { SigninFormProps } from "@shared/model/AuthForm";
+
+const LoginView = () => {
   const {
     control,
     handleSubmit,
@@ -62,4 +72,4 @@ const LoginWidget = () => {
   );
 };
 
-export default LoginWidget;
+export default LoginView;

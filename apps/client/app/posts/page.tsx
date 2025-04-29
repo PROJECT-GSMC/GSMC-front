@@ -1,7 +1,7 @@
-import PostsWidget from "../../src/widgets/posts/ui/myPosts";
+import PostsView from "@widgets/posts/ui/myPosts";
 
 const PostsPage = () => {
-  return <PostsWidget />;
+  return <PostsView />;
 };
 
 export default PostsPage;
