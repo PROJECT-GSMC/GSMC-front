@@ -80,7 +80,7 @@ const MemberPage = () => {
           {open ? (
             <>
               <div className="md:hidden fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" onClick={() => setOpen(false)}></div>
-              <div className="md:hidden z-20 bg-white w-[17.5rem] py-[2.25rem] rounded-[1.25rem] px-[2.45rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+              <div className="md:hidden z-20 bg-white w-[20.5rem] py-[2.25rem] rounded-[1.25rem] px-[2.45rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
                 <Filter
                   grade={grade}
                   classNumber={classNumber}

@@ -22,55 +22,51 @@ export const Filter = ({
       <Search />
       <div>
         <h5 className="text-tropicalblue-700 text-label mt-[3.06rem]">학년</h5>
-        <div className="flex  justify-between mt-[1.5rem]">
+        <div className="grid grid-cols-3 gap-3 mt-[1.5rem]">
           <Button
             onClick={() => ChangeGrade(1)}
             variant={grade === 1 ? "blue" : "skyblue"}
-            className="w-[25%]"
+
             label="1"
           />
           <Button
             onClick={() => ChangeGrade(2)}
             variant={grade === 2 ? "blue" : "skyblue"}
-            className="w-[25%]"
+
             label="2"
           />
           <Button
             onClick={() => ChangeGrade(3)}
             variant={grade === 3 ? "blue" : "skyblue"}
-            className="w-[25%]"
+
             label="3"
           />
         </div>
       </div>
       <div className="flex flex-col gap-[1.38rem] mt-[2.19rem]">
         <h5 className="text-tropicalblue-700 text-label">반</h5>
-        <div className="flex justify-between">
+        <div className="grid grid-cols-3 gap-3">
           <Button
             onClick={() => ChangeClass(1)}
             variant={classNumber === 1 ? "blue" : "skyblue"}
-            className="w-[25%]"
             label="1"
           />
           <Button
             onClick={() => ChangeClass(2)}
             variant={classNumber === 2 ? "blue" : "skyblue"}
-            className="w-[25%]"
             label="2"
           />
           <Button
             onClick={() => ChangeClass(3)}
             variant={classNumber === 3 ? "blue" : "skyblue"}
-            className="w-[25%]"
             label="3"
           />
+          <Button
+            onClick={() => ChangeClass(4)}
+            variant={classNumber === 4 ? "blue" : "skyblue"}
+            label="4"
+          />
         </div>
-        <Button
-          onClick={() => ChangeClass(4)}
-          variant={classNumber === 4 ? "blue" : "skyblue"}
-          className="w-[25%]"
-          label="4"
-        />
       </div>
     </>
   );
