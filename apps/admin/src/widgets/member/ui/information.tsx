@@ -20,7 +20,7 @@ export const Information = ({ student }: InformationProps) => {
           <span className="text-body1 text-gray-600">{student?.name}</span>
           <small className="text-body2 text-gray-600">{`${student?.grade}학년 ${student?.classNumber}반 ${student?.number}번`}</small>
         </div>
-        <div className="text-tropicalblue-700 mt-[1.25rem] mb-[2.56rem] text-titleMedium w-[17rem] h-[20rem] flex items-center justify-center rounded-[0.75rem] bg-white">
+        <div className="text-tropicalblue-700 mt-[1.25rem] mb-[2.56rem] text-titleMedium h-[20rem] flex items-center justify-center rounded-[0.75rem] bg-white">
           {student?.totalScore + "점"}
         </div>
       </div>
