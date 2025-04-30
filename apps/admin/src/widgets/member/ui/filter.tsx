@@ -6,6 +6,8 @@ interface FilterPropps {
   grade: number;
   ChangeClass: (classNumber: number) => void;
   classNumber: number;
+  ChangeName: (name: string) => void;
+  name: string;
 }
 
 export const Filter = ({
@@ -13,32 +15,31 @@ export const Filter = ({
   grade,
   ChangeClass,
   classNumber,
+  ChangeName,
+  name
 }: FilterPropps) => {
   return (
     <>
       <h3 className="text-titleSmall text-tropicalblue-700 mb-[2.2rem]">
         필터
       </h3>
-      <Search />
+      <Search ChangeName={ChangeName} name={name} />
       <div>
         <h5 className="text-tropicalblue-700 text-label mt-[3.06rem]">학년</h5>
         <div className="grid grid-cols-3 gap-3 mt-[1.5rem]">
           <Button
             onClick={() => ChangeGrade(1)}
             variant={grade === 1 ? "blue" : "skyblue"}
-
             label="1"
           />
           <Button
             onClick={() => ChangeGrade(2)}
             variant={grade === 2 ? "blue" : "skyblue"}
-
             label="2"
           />
           <Button
             onClick={() => ChangeGrade(3)}
             variant={grade === 3 ? "blue" : "skyblue"}
-
             label="3"
           />
         </div>
