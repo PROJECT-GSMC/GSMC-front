@@ -1,4 +1,5 @@
 "use client";
+
 import { useForm } from "react-hook-form";
 
 import { Input } from "@repo/ui/input";
@@ -6,20 +7,47 @@ import { Button } from "@repo/ui/button";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { AuthForm } from "@widgets/auth/ui";
-import { usePostSignin } from "@entities/signin/model/usePostSignin";
 import { SigninFormProps } from "@shared/model/AuthForm";
 
+import { postSignin } from "@/entities/signin/api/postSignin";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+
 const LoginView = () => {
+  const queryClient = useQueryClient();
+
   const {
     control,
     handleSubmit,
     formState: { isValid },
-  } = useForm<SigninFormProps>({ mode: "onChange", defaultValues: { email: "", password: "" } });
+  } = useForm<SigninFormProps>({
+    mode: "onChange", defaultValues: { email: "", password: "" }
+  });
 
-  const { mutate: postSignin } = usePostSignin();
+  const { mutate: signinMutate } = useMutation(
+    {
+      mutationFn: (form: SigninFormProps) => postSignin(form),
+      onSuccess: (data) => {
+        if (data.accessToken) {
+          localStorage.setItem("accessToken", data.accessToken);
+        }
+        if (data.refreshToken) {
+          localStorage.setItem("refreshToken", data.refreshToken);
+        }
+
+        queryClient.invalidateQueries({
+          queryKey: ["auth"],
+          exact: false,
+        });
+        return data;
+      },
+      onError: (error: Error) => {
+        throw error;
+      },
+    }
+  )
 
   const onSubmit = (form: SigninFormProps) => {
-    postSignin(form);
+    signinMutate(form);
   };
 
   return (
