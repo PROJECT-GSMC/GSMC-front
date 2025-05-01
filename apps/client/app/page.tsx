@@ -7,22 +7,20 @@ import List from "@repo/ui/list";
 import Card from "@repo/ui/card";
 import { Button } from "@repo/ui/button";
 
-import Header from "../src/shared/ui/header";
-import { ShowInformation } from "../src/entities/main/ui/showInformation";
-import { getCertification } from "../src/entities/main/api/getCertification";
-import { Certification } from "../src/entities/main/model/certification";
-import ShowLogin from "../src/entities/main/ui/showLogin";
-import MainDropdown from "../src/entities/main/ui/dropdown";
-import Modal from "../src/widgets/main/ui/modal";
+import Header from "@shared/ui/header";
+import { ShowInformation } from "@entities/main/ui/showInformation";
+import { getCertification } from "@entities/main/api/getCertification";
+import { Certification } from "@entities/main/model/certification";
+import ShowLogin from "@entities/main/ui/showLogin";
+import MainDropdown from "@entities/main/ui/dropdown";
+import Modal from "@widgets/main/ui/modal";
 
 export default function Page() {
   const [certification, setCertification] = useState<Certification[]>();
   const [hoverTab, setHoverTab] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [show, setShow] = useState(false);
-  const [type, setType] = useState<
-    "CERTIFICATE" | "TOPCIT" | "READ_A_THON" | "HUMANITY"
-  >("CERTIFICATE");
+  const [type, setType] = useState<"CERTIFICATE" | "TOPCIT" | "READ_A_THON" | "HUMANITY">("CERTIFICATE");
 
   useEffect(() => {
     const Fetch = async () => {
@@ -149,10 +147,8 @@ export default function Page() {
         </div>
         <div className="flex flex-col mt-9 mx-4">
           <List title="자격증">
-            {certification ? (
-              certification?.map((v, i) => {
-                return <Card key={i} front={v.name} />;
-              })
+            {certification && certification?.length > 0 ? (
+              certification?.map((v, i) => <Card key={i} front={v.name} id={v.id} />)
             ) : (
               <div className="text-center text-body3 mt-[7.5rem]">
                 등록된 자격증이 존재하지 않습니다
