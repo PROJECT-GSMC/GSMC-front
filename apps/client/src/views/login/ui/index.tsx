@@ -41,6 +41,7 @@ const LoginView = () => {
           queryKey: ["auth"],
           exact: false,
         });
+        router.push('/');
         return data;
       },
       onError: (error: Error) => {
@@ -51,9 +52,6 @@ const LoginView = () => {
 
   const onSubmit = (form: SigninFormProps) => {
     signinMutate(form);
-    if (isSuccess) {
-      router.push('/')
-    }
   };
 
   return (
