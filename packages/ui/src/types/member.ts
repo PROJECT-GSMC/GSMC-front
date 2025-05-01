@@ -1,11 +1,13 @@
 export interface Member {
-  email: string;
-  name: string;
-  grade: number;
-  classNumber: number;
-  number: number;
-  totalScore: number;
-  role: role;
+  data: {
+    email: string;
+    name: string;
+    grade: number;
+    classNumber: number;
+    number: number;
+    totalScore: number;
+    role: role;
+  };
 }
 
 export type role =
