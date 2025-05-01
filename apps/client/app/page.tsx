@@ -14,9 +14,12 @@ import { Certification } from "@entities/main/model/certification";
 import ShowLogin from "@entities/main/ui/showLogin";
 import MainDropdown from "@entities/main/ui/dropdown";
 import Modal from "@widgets/main/ui/modal";
+import { getCurrentMember } from "@/shared/api/getCurrentMember";
+import { Member } from "node_modules/@repo/ui/src/types/member";
 
 export default function Page() {
   const [certification, setCertification] = useState<Certification[]>();
+  const [currentUser, setCurrentUser] = useState<Member>();
   const [hoverTab, setHoverTab] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [show, setShow] = useState(false);
@@ -27,7 +30,13 @@ export default function Page() {
       const res = await getCertification();
       setCertification(res);
     };
+
+    const currentUserFetch = async () => {
+      const res = await getCurrentMember();
+      setCurrentUser(res);
+    }
     Fetch();
+    currentUserFetch();
 
     const token = localStorage.getItem("accessToken");
     setAccessToken(token);
@@ -38,7 +47,7 @@ export default function Page() {
       <Header />
       <div className="w-full max-w-[37.5rem] flex flex-col">
         {accessToken ? (
-          <ShowInformation name="모태환" score={2300} />
+          <ShowInformation name={currentUser?.name ?? ""} score={currentUser?.totalScore ?? 0} />
         ) : (
           <ShowLogin />
         )}
