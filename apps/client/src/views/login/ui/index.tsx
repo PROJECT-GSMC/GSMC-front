@@ -2,7 +2,6 @@
 
 import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
-import { toast } from "sonner";
 
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
@@ -26,7 +25,7 @@ const LoginView = () => {
     mode: "onChange", defaultValues: { email: "", password: "" }
   });
 
-  const { mutate: signinMutate, isSuccess } = useMutation(
+  const { mutate: signinMutate } = useMutation(
     {
       mutationFn: (form: SigninFormProps) => postSignin(form),
       onSuccess: (data) => {
