@@ -96,8 +96,6 @@ const SignupView = () => {
     }
   };
 
-
-
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="SIGN UP">
