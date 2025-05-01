@@ -44,7 +44,7 @@ export default function Page() {
   });
 
   return (
-    <div className="flex flex-col items-center w-full h-screen">
+    <div className="flex flex-col justify-center items-center w-full h-full">
       <Header />
       <div className="w-full max-w-[37.5rem] flex flex-col">
         {accessToken ? (
