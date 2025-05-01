@@ -92,7 +92,9 @@ const SignupView = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="SIGN UP">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full items-center gap-[3.625rem]">
+        <form onSubmit={handleSubmit((data) => step === "password" && isPasswordValid && !isPending && onSubmit(data))}
+          className="flex flex-col w-full items-center gap-[3.625rem]"
+        >
           {step === "authCode" ? (
             <>
               <div className="flex flex-col gap-[0.75rem] self-stretch">
@@ -114,7 +116,6 @@ const SignupView = () => {
                 label="회원가입"
                 variant="blue"
                 state={isPasswordValid && !isPending ? "default" : "disabled"}
-                onClick={() => (isPasswordValid && !isPending ? handleSubmit(onSubmit)() : undefined)}
               />
             </>
           )}
