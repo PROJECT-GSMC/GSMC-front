@@ -1,53 +1,57 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
 import List from "@repo/ui/list";
 import Card from "@repo/ui/card";
 import { Button } from "@repo/ui/button";
+import { Member } from "node_modules/@repo/ui/src/types/member";
 
-import Header from "@shared/ui/header";
+import { getCurrentMember } from "@/shared/api/getCurrentMember";
+
 import { ShowInformation } from "@entities/main/ui/showInformation";
 import { getCertification } from "@entities/main/api/getCertification";
 import { Certification } from "@entities/main/model/certification";
 import ShowLogin from "@entities/main/ui/showLogin";
 import MainDropdown from "@entities/main/ui/dropdown";
+
+import Header from "@shared/ui/header";
 import Modal from "@widgets/main/ui/modal";
-import { getCurrentMember } from "@/shared/api/getCurrentMember";
-import { Member } from "node_modules/@repo/ui/src/types/member";
 
 export default function Page() {
-  const [certification, setCertification] = useState<Certification[]>();
-  const [currentUser, setCurrentUser] = useState<Member>();
   const [hoverTab, setHoverTab] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [show, setShow] = useState(false);
   const [type, setType] = useState<"CERTIFICATE" | "TOPCIT" | "READ_A_THON" | "HUMANITY">("CERTIFICATE");
 
   useEffect(() => {
-    const Fetch = async () => {
-      const res = await getCertification();
-      setCertification(res);
-    };
-
-    const currentUserFetch = async () => {
-      const res = await getCurrentMember();
-      setCurrentUser(res);
-    }
-    Fetch();
-    currentUserFetch();
-
     const token = localStorage.getItem("accessToken");
     setAccessToken(token);
   }, []);
+
+  const { data: currentUser } = useQuery<Member>({
+    queryKey: ['currentUser'],
+    queryFn: getCurrentMember,
+    enabled: !!accessToken
+  })
+
+  const { data: certification } = useQuery<Certification[]>({
+    queryKey: ['certifications'],
+    queryFn: getCertification,
+    enabled: !!accessToken
+  });
 
   return (
     <div className="flex flex-col items-center w-full h-screen">
       <Header />
       <div className="w-full max-w-[37.5rem] flex flex-col">
         {accessToken ? (
-          <ShowInformation name={currentUser?.name ?? ""} score={currentUser?.totalScore ?? 0} />
+          <ShowInformation
+            name={currentUser?.data?.name ?? ""}
+            score={currentUser?.data?.totalScore ?? 0}
+          />
         ) : (
           <ShowLogin />
         )}
