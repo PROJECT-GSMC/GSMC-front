@@ -6,18 +6,36 @@ import { toast } from "sonner";
 
 import { Button } from "@repo/ui/button";
 
-import { AuthForm } from "@widgets/auth/ui";
 import StepPassword from "@widgets/stepPassword/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
-import { usePostSignup } from "@entities/signup/model/usePostSignup";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
+
+import { AuthForm } from "@widgets/auth/ui";
 import { SignupFormProps } from "@shared/model/AuthForm";
+
+import { postSignup } from "@/entities/signup/api/postSignup";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 const SignupView = () => {
+  const queryClient = useQueryClient();
+
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const { mutate: signupMutate, isPending } = usePostSignup();
+
+  const { mutate: signupMutate, isPending } = useMutation({
+    mutationFn: (form: SignupFormProps) => postSignup(form),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["auth"],
+        exact: false,
+      });
+      return data;
+    },
+    onError: (error: Error) => {
+      throw error;
+    },
+  })
 
   const {
     control,
