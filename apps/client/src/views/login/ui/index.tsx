@@ -1,6 +1,8 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
@@ -14,6 +16,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 const LoginView = () => {
   const queryClient = useQueryClient();
+  const router = useRouter()
 
   const {
     control,
@@ -23,7 +26,7 @@ const LoginView = () => {
     mode: "onChange", defaultValues: { email: "", password: "" }
   });
 
-  const { mutate: signinMutate } = useMutation(
+  const { mutate: signinMutate, isSuccess } = useMutation(
     {
       mutationFn: (form: SigninFormProps) => postSignin(form),
       onSuccess: (data) => {
@@ -48,6 +51,9 @@ const LoginView = () => {
 
   const onSubmit = (form: SigninFormProps) => {
     signinMutate(form);
+    if (isSuccess) {
+      router.push('/')
+    }
   };
 
   return (
