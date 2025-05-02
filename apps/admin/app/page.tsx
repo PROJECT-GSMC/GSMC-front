@@ -45,7 +45,7 @@ const MemberPage = () => {
   return (
     <div className="flex flex-col items-center gap-4 h-screen">
       <Header />
-      <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] px-[30rem] ">
+      <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] max-sm:px-[2.75rem] max-md:px-[4.75rem] md:px-[6.75rem] ">
         <div className="h-full grid grid-cols-8 max-sm:grid-cols-1 max-sm:grid-rows-2 gap-[1.8rem]" >
           <section className="col-span-5 max-sm:col-span-1">
             <List onClick={() => setOpen(!open)} title={String(members.length)}>
@@ -83,7 +83,7 @@ const MemberPage = () => {
             <>
               <div className="fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" onClick={() => setOpen(false)}></div>
               <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-20
-                rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-w-[20.5rem]"
+                rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-sm:w-[20.5rem] max-md:w-[22.5rem] md:w-[24.5rem]"
               >
                 <Filter
                   grade={grade}
