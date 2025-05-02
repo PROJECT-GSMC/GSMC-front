@@ -16,7 +16,7 @@ function isProtectedRoute(path: string): boolean {
   if (Protected.includes(path)) {
     return true;
   }
-  return Protected.some((route) => route !== "/" && path.startsWith(route));
+  return Protected.some((route) => path.startsWith(route));
 }
 
 export function middleware(request: NextRequest) {
