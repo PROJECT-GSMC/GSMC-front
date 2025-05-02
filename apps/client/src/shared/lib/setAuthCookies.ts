@@ -1,20 +1,29 @@
-import { cookies } from "next/headers";
+import { NextResponse } from "next/server";
 
-export async function setAuthCookies(
+export function setAuthCookies(
   accessToken: string,
   refreshToken: string
-) {
-  const cookieStore = await cookies();
-
-  cookieStore.set("accessToken", accessToken, {
-    httpOnly: true,
-    secure: true,
-    sameSite: "lax",
+): NextResponse {
+  const response = NextResponse.json({
+    success: true,
+    message: "로그인에 성공했습니다.",
   });
 
-  cookieStore.set("refreshToken", refreshToken, {
+  response.cookies.set("accessToken", accessToken, {
+    path: "/",
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production",
     sameSite: "lax",
+    maxAge: 60 * 60 * 24,
   });
+
+  response.cookies.set("refreshToken", refreshToken, {
+    path: "/",
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    maxAge: 60 * 60 * 24 * 7,
+  });
+
+  return response;
 }
