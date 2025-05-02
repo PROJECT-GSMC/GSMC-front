@@ -14,7 +14,7 @@ import { getCurrentMember } from "@/shared/api/getCurrentMember";
 import { ShowInformation } from "@entities/main/ui/showInformation";
 import { getCertification } from "@entities/main/api/getCertification";
 import { Certification } from "@entities/main/model/certification";
-import ShowLogin from "@entities/main/ui/showLogin";
+import ShowSignin from "@/entities/main/ui/showSignin";
 import MainDropdown from "@entities/main/ui/dropdown";
 
 import Header from "@shared/ui/header";
@@ -24,7 +24,9 @@ export default function Page() {
   const [hoverTab, setHoverTab] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [show, setShow] = useState(false);
-  const [type, setType] = useState<"CERTIFICATE" | "TOPCIT" | "READ_A_THON" | "HUMANITY">("CERTIFICATE");
+  const [type, setType] = useState<
+    "CERTIFICATE" | "TOPCIT" | "READ_A_THON" | "HUMANITY"
+  >("CERTIFICATE");
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -32,15 +34,15 @@ export default function Page() {
   }, []);
 
   const { data: currentUser } = useQuery<Member>({
-    queryKey: ['currentUser'],
+    queryKey: ["currentUser"],
     queryFn: getCurrentMember,
-    enabled: !!accessToken
-  })
+    enabled: !!accessToken,
+  });
 
   const { data: certification } = useQuery<Certification[]>({
-    queryKey: ['certifications'],
+    queryKey: ["certifications"],
     queryFn: getCertification,
-    enabled: !!accessToken
+    enabled: !!accessToken,
   });
 
   return (
@@ -53,7 +55,7 @@ export default function Page() {
             score={currentUser?.data?.totalScore ?? 0}
           />
         ) : (
-          <ShowLogin />
+          <ShowSignin />
         )}
         <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
           <div
@@ -61,10 +63,7 @@ export default function Page() {
             onMouseEnter={() => setHoverTab("독서")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button
-              label="독서"
-              variant="skyblue"
-            />
+            <Button label="독서" variant="skyblue" />
             <MainDropdown isOpen={!!accessToken && hoverTab === "독서"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
@@ -90,10 +89,7 @@ export default function Page() {
             onMouseEnter={() => setHoverTab("인성")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button
-              label="인성"
-              variant="skyblue"
-            />
+            <Button label="인성" variant="skyblue" />
             <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
@@ -119,10 +115,7 @@ export default function Page() {
             onMouseEnter={() => setHoverTab("전공")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button
-              label="전공"
-              variant="skyblue"
-            />
+            <Button label="전공" variant="skyblue" />
             <MainDropdown isOpen={!!accessToken && hoverTab === "전공"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
@@ -153,15 +146,14 @@ export default function Page() {
               </div>
             </MainDropdown>
           </div>
-          <Button
-            label="외국어"
-            variant="skyblue"
-          />
+          <Button label="외국어" variant="skyblue" />
         </div>
         <div className="flex flex-col mt-9 mx-4">
           <List title="자격증">
             {certification && certification?.length > 0 ? (
-              certification?.map((v, i) => <Card key={i} front={v.name} id={v.id} />)
+              certification?.map((v, i) => (
+                <Card key={i} front={v.name} id={v.id} />
+              ))
             ) : (
               <div className="text-center text-body3 mt-[7.5rem]">
                 등록된 자격증이 존재하지 않습니다

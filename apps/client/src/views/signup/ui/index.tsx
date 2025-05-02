@@ -17,15 +17,18 @@ import { SignupFormProps } from "@shared/model/AuthForm";
 import { postSignup } from "@/entities/signup/api/postSignup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-
 const SignupView = () => {
   const queryClient = useQueryClient();
-  const router = useRouter()
+  const router = useRouter();
 
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
 
-  const { mutate: signupMutate, isPending, isSuccess } = useMutation({
+  const {
+    mutate: signupMutate,
+    isPending,
+    isSuccess,
+  } = useMutation({
     mutationFn: (form: SignupFormProps) => postSignup(form),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
@@ -37,7 +40,7 @@ const SignupView = () => {
     onError: (error: Error) => {
       throw error;
     },
-  })
+  });
 
   const {
     control,
@@ -46,28 +49,39 @@ const SignupView = () => {
     formState: { errors },
   } = useForm<SignupFormProps>({
     mode: "onChange",
-    defaultValues: { name: "", email: "", authcode: "", password: "", passwordCheck: "" },
+    defaultValues: {
+      name: "",
+      email: "",
+      authcode: "",
+      password: "",
+      passwordCheck: "",
+    },
   });
 
   const watchedValues = watch();
 
   const isAuthCodeStepValid = Boolean(
     watchedValues.name &&
-    watchedValues.email &&
-    /^s\d{5}@gsm\.hs\.kr$/.test(watchedValues.email) &&
-    !errors.name &&
-    !errors.email
+      watchedValues.email &&
+      /^s\d{5}@gsm\.hs\.kr$/.test(watchedValues.email) &&
+      !errors.name &&
+      !errors.email
   );
 
   const canProceedToPassword =
-    isAuthCodeStepValid && Boolean(watchedValues.authcode && watchedValues.authcode.length >= 8 && !errors.authcode);
+    isAuthCodeStepValid &&
+    Boolean(
+      watchedValues.authcode &&
+        watchedValues.authcode.length >= 8 &&
+        !errors.authcode
+    );
 
   const isPasswordValid = Boolean(
     watchedValues.password &&
-    watchedValues.passwordCheck &&
-    watchedValues.password === watchedValues.passwordCheck &&
-    !errors.password &&
-    !errors.passwordCheck
+      watchedValues.passwordCheck &&
+      watchedValues.password === watchedValues.passwordCheck &&
+      !errors.password &&
+      !errors.passwordCheck
   );
 
   const onSubmit = async (data: SignupFormProps) => {
@@ -75,7 +89,7 @@ const SignupView = () => {
       signupMutate(data);
     }
     if (isSuccess) {
-      router.push('/login')
+      router.push("/signin");
     }
   };
 
@@ -99,19 +113,31 @@ const SignupView = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="SIGN UP">
-        <form onSubmit={handleSubmit((data) => onSubmit(data))}
+        <form
+          onSubmit={handleSubmit((data) => onSubmit(data))}
           className="flex flex-col w-full items-center gap-[3.625rem]"
         >
           {step === "authCode" ? (
             <>
               <div className="flex flex-col gap-[0.75rem] self-stretch">
-                <StepAuthCode control={control} isAuthButtonActive={isAuthCodeStepValid} />
+                <StepAuthCode
+                  control={control}
+                  isAuthButtonActive={isAuthCodeStepValid}
+                />
               </div>
               <Button
                 label="인증하기"
                 variant="blue"
-                state={canProceedToPassword && !isAuthVerifying ? "default" : "disabled"}
-                onClick={() => (canProceedToPassword && !isAuthVerifying ? handleVerifyEmail() : undefined)}
+                state={
+                  canProceedToPassword && !isAuthVerifying
+                    ? "default"
+                    : "disabled"
+                }
+                onClick={() =>
+                  canProceedToPassword && !isAuthVerifying
+                    ? handleVerifyEmail()
+                    : undefined
+                }
               />
             </>
           ) : (

@@ -13,41 +13,40 @@ import { SigninFormProps } from "@shared/model/AuthForm";
 import { postSignin } from "@/entities/signin/api/postSignin";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-const LoginView = () => {
+const SigninView = () => {
   const queryClient = useQueryClient();
-  const router = useRouter()
+  const router = useRouter();
 
   const {
     control,
     handleSubmit,
     formState: { isValid },
   } = useForm<SigninFormProps>({
-    mode: "onChange", defaultValues: { email: "", password: "" }
+    mode: "onChange",
+    defaultValues: { email: "", password: "" },
   });
 
-  const { mutate: signinMutate } = useMutation(
-    {
-      mutationFn: (form: SigninFormProps) => postSignin(form),
-      onSuccess: (data) => {
-        if (data.accessToken) {
-          localStorage.setItem("accessToken", data.accessToken);
-        }
-        if (data.refreshToken) {
-          localStorage.setItem("refreshToken", data.refreshToken);
-        }
+  const { mutate: signinMutate } = useMutation({
+    mutationFn: (form: SigninFormProps) => postSignin(form),
+    onSuccess: (data) => {
+      if (data.accessToken) {
+        localStorage.setItem("accessToken", data.accessToken);
+      }
+      if (data.refreshToken) {
+        localStorage.setItem("refreshToken", data.refreshToken);
+      }
 
-        queryClient.invalidateQueries({
-          queryKey: ["auth"],
-          exact: false,
-        });
-        router.push('/');
-        return data;
-      },
-      onError: (error: Error) => {
-        throw error;
-      },
-    }
-  )
+      queryClient.invalidateQueries({
+        queryKey: ["auth"],
+        exact: false,
+      });
+      router.push("/");
+      return data;
+    },
+    onError: (error: Error) => {
+      throw error;
+    },
+  });
 
   const onSubmit = (form: SigninFormProps) => {
     signinMutate(form);
@@ -56,7 +55,10 @@ const LoginView = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="LOG IN">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col items-center w-full gap-[3.625rem]">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col items-center w-full gap-[3.625rem]"
+        >
           <div className="flex flex-col gap-[0.75rem] self-stretch">
             <InputContainer label="이메일">
               <Input
@@ -89,11 +91,15 @@ const LoginView = () => {
               />
             </InputContainer>
           </div>
-          <Button label="로그인" variant="blue" state={isValid ? "default" : "disabled"} />
+          <Button
+            label="로그인"
+            variant="blue"
+            state={isValid ? "default" : "disabled"}
+          />
         </form>
       </AuthForm>
     </div>
   );
 };
 
-export default LoginView;
+export default SigninView;

@@ -12,7 +12,7 @@ if (typeof window !== "undefined") {
     (config: InternalAxiosRequestConfig) => {
       if (
         localStorage.getItem("accessToken") &&
-        !["/login", "/signup"].includes(window.location.pathname)
+        !["/signin", "/signup"].includes(window.location.pathname)
       ) {
         config.headers.set(
           "Authorization",
