@@ -12,6 +12,7 @@ import { SigninFormProps } from "@shared/model/AuthForm";
 
 import { postSignin } from "@/entities/signin/api/postSignin";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { setCookie } from "node_modules/@repo/ui/src/utils/setCookie";
 
 const SigninView = () => {
   const queryClient = useQueryClient();
@@ -30,10 +31,10 @@ const SigninView = () => {
     mutationFn: (form: SigninFormProps) => postSignin(form),
     onSuccess: (data) => {
       if (data.accessToken) {
-        localStorage.setItem("accessToken", data.accessToken);
+        setCookie("accessToken", data.accessToken, 1);
       }
       if (data.refreshToken) {
-        localStorage.setItem("refreshToken", data.refreshToken);
+        setCookie("refreshToken", data.refreshToken);
       }
 
       queryClient.invalidateQueries({
