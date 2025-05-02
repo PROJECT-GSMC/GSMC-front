@@ -19,6 +19,7 @@ import MainDropdown from "@entities/main/ui/dropdown";
 
 import Header from "@shared/ui/header";
 import Modal from "@widgets/main/ui/modal";
+import { getCookie } from "node_modules/@repo/ui/src/utils/getCookie";
 
 export default function Page() {
   const [hoverTab, setHoverTab] = useState<string | null>(null);
@@ -29,7 +30,7 @@ export default function Page() {
   >("CERTIFICATE");
 
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const token = getCookie("accessToken");
     setAccessToken(token);
   }, []);
 
