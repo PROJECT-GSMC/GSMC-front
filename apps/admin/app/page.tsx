@@ -43,11 +43,11 @@ const MemberPage = () => {
   }
 
   return (
-    <div className="flex overflow-hidden h-full flex-col gap-[1rem]">
+    <div className="flex flex-col items-center gap-4 h-screen">
       <Header />
-      <div className="flex justify-center">
-        <div className="grid grid-cols-8 max-sm:grid-cols-1 max-sm:grid-rows-2 gap-[1.8rem] w-[59.5625rem] h-full mt-[3.12rem] mb-[1.44rem] mx-[2.75rem]" >
-          <div className="col-span-5 max-sm:col-span-1">
+      <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] px-[30rem] ">
+        <div className="h-full grid grid-cols-8 max-sm:grid-cols-1 max-sm:grid-rows-2 gap-[1.8rem]" >
+          <section className="col-span-5 max-sm:col-span-1">
             <List onClick={() => setOpen(!open)} title={String(members.length)}>
               {members.map((member) => (
                 <Card
@@ -66,8 +66,8 @@ const MemberPage = () => {
                 />
               ))}
             </List>
-          </div>
-          <div className="col-span-3 max-sm:col-span-1">
+          </section>
+          <section className="col-span-3 max-sm:col-span-1">
             {student ? (
               <Information student={student} />
             ) : (
@@ -78,11 +78,13 @@ const MemberPage = () => {
                 </span>
               </div>
             )}
-          </div>
-          {open ? (
+          </section>
+          {open &&
             <>
               <div className="fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" onClick={() => setOpen(false)}></div>
-              <div className="z-20 bg-white w-[20.5rem] py-[2.25rem] rounded-[1.25rem] px-[2.45rem] fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 ">
+              <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-20
+                rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-w-[20.5rem]"
+              >
                 <Filter
                   grade={grade}
                   classNumber={classNumber}
@@ -97,10 +99,9 @@ const MemberPage = () => {
                 </div>
               </div>
             </>
-          ) : ("")
           }
         </div>
-      </div>
+      </main>
     </div>
   );
 };
