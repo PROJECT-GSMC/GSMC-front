@@ -1,4 +1,4 @@
-import PostsView from "@widgets/posts/ui/myPosts";
+import PostsView from "@views/posts/ui/myPosts";
 
 const PostsPage = () => {
   return <PostsView />;

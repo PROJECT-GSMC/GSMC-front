@@ -1,16 +1,16 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { getMembers } from "../api/getMembers";
+import { useQuery } from "@tanstack/react-query";
+import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
+import { SearchParams } from "@/entities/member/model/search";
 
-export const useGetMember = () => {
-  const queryClient = useQueryClient();
-
-  return useMutation({
-    mutationFn: getMembers,
-    onSuccess: (data) => {
-      queryClient.setQueryData(["members"], data.data);
-    },
-    onError: (e) => {
-      return e;
-    },
+export const useGetMember = ({
+  grade,
+  classNumber,
+  name,
+  page,
+  size,
+}: SearchParams) => {
+  return useQuery({
+    queryKey: ["members"],
+    queryFn: () => getSearchedMembers({ grade, classNumber, name, page, size }),
   });
 };
