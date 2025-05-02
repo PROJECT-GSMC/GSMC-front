@@ -3,21 +3,41 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 import { Button } from "@repo/ui/button";
 
-import { AuthForm } from "@widgets/auth/ui";
 import StepPassword from "@widgets/stepPassword/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
-import { usePostSignup } from "@entities/signup/model/usePostSignup";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
+
+import { AuthForm } from "@widgets/auth/ui";
 import { SignupFormProps } from "@shared/model/AuthForm";
+
+import { postSignup } from "@/entities/signup/api/postSignup";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 const SignupView = () => {
+  const queryClient = useQueryClient();
+  const router = useRouter()
+
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const { mutate: signupMutate, isPending } = usePostSignup();
+
+  const { mutate: signupMutate, isPending, isSuccess } = useMutation({
+    mutationFn: (form: SignupFormProps) => postSignup(form),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["auth"],
+        exact: false,
+      });
+      return data;
+    },
+    onError: (error: Error) => {
+      throw error;
+    },
+  })
 
   const {
     control,
@@ -51,7 +71,12 @@ const SignupView = () => {
   );
 
   const onSubmit = async (data: SignupFormProps) => {
-    signupMutate(data);
+    if (step === "password" && isPasswordValid && !isPending) {
+      signupMutate(data);
+    }
+    if (isSuccess) {
+      router.push('/login')
+    }
   };
 
   const handleVerifyEmail = async () => {
@@ -74,7 +99,9 @@ const SignupView = () => {
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="SIGN UP">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col w-full items-center gap-[3.625rem]">
+        <form onSubmit={handleSubmit((data) => onSubmit(data))}
+          className="flex flex-col w-full items-center gap-[3.625rem]"
+        >
           {step === "authCode" ? (
             <>
               <div className="flex flex-col gap-[0.75rem] self-stretch">
@@ -96,7 +123,6 @@ const SignupView = () => {
                 label="회원가입"
                 variant="blue"
                 state={isPasswordValid && !isPending ? "default" : "disabled"}
-                onClick={() => (isPasswordValid && !isPending ? handleSubmit(onSubmit)() : undefined)}
               />
             </>
           )}
