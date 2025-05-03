@@ -93,5 +93,7 @@ export const config = {
     "/posts/:path*",
     "/calculate/:path*",
     "/book/:path*",
+    "/signin",
+    "/signup",
   ],
 };
