@@ -1,6 +1,7 @@
 "use client";
 
 import axios, { InternalAxiosRequestConfig } from "axios";
+import { getCookie } from "./utils/getCookie";
 
 const FormInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -11,12 +12,12 @@ if (typeof window !== "undefined") {
   FormInstance.interceptors.request.use(
     (config: InternalAxiosRequestConfig) => {
       if (
-        localStorage.getItem("accessToken") &&
+        getCookie("accessToken") &&
         !["/signin", "/signup"].includes(window.location.pathname)
       ) {
         config.headers.set(
           "Authorization",
-          `Bearer ${localStorage.getItem("accessToken")}`
+          `Bearer ${getCookie("accessToken")}`
         );
       }
 
