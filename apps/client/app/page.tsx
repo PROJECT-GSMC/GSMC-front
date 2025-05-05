@@ -34,13 +34,13 @@ export default function Page() {
     setAccessToken(token);
   }, []);
 
-  const { data: currentUser } = useQuery<Member>({
+  const { data: currentUser, isLoading: isCurrentUserLoading } = useQuery<Member>({
     queryKey: ["currentUser"],
     queryFn: getCurrentMember,
     enabled: !!accessToken,
   });
 
-  const { data: certification } = useQuery<Certification[]>({
+  const { data: certification, isLoading: isCertificationLoading } = useQuery<Certification[]>({
     queryKey: ["certifications"],
     queryFn: getCertification,
     enabled: !!accessToken,
@@ -50,7 +50,9 @@ export default function Page() {
     <div className="flex flex-col justify-center items-center w-full h-full">
       <Header />
       <div className="w-full max-w-[37.5rem] flex flex-col">
-        {accessToken ? (
+        {isCurrentUserLoading ? (
+          <div className="text-center m-8">로딩중...</div>
+        ) : accessToken ? (
           <ShowInformation
             name={currentUser?.data?.name ?? ""}
             score={currentUser?.data?.totalScore ?? 0}
@@ -151,8 +153,10 @@ export default function Page() {
         </div>
         <div className="flex flex-col mt-9 mx-4">
           <List title="자격증">
-            {certification && certification?.length > 0 ? (
-              certification?.map((v, i) => (
+            {isCertificationLoading ? (
+              <div className="text-center mt-8">로딩중...</div>
+            ) : certification && certification.length > 0 ? (
+              certification.map((v, i) => (
                 <Card key={i} front={v.name} id={v.id} />
               ))
             ) : (
@@ -160,6 +164,7 @@ export default function Page() {
                 등록된 자격증이 존재하지 않습니다
               </div>
             )}
+
           </List>
         </div>
       </div>
