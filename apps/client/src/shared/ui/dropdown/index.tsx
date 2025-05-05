@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 
-interface Option {
+export interface Option {
   name: string;
-  score?: number;
-  max_number?: number;
+  score: string;
+  max_number?: string;
   send: string | number;
+  id: number;
 }
 
 interface DropdownProps {
@@ -57,8 +58,8 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
       >
         <div className="flex gap-2">
           <span>{value?.name ?? "선택해주세요"}</span>
-          {value?.score && <span>/ {value?.score ?? ""}</span>}
-          {value?.max_number && <span>/ 최대 {value?.max_number ?? ""}</span>}
+          {value?.score && <span>/ {value?.score}</span>}
+          {value?.max_number && <span>/ {value?.max_number}</span>}
         </div>
       </button>
 
@@ -76,7 +77,7 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
               <div className="flex gap-2">
                 <span>{option.name}</span>
                 {option.score && <span>/ {option.score}</span>}
-                {option.max_number && <span>/ 최대 {option.max_number}</span>}
+                {option.max_number && <span>/ {option.max_number}</span>}
               </div>
             </li>
           ))}
