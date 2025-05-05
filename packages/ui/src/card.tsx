@@ -5,7 +5,7 @@ interface CardProps {
   front: string;
   back?: string | number;
   onClick?: () => void;
-  id: string;
+  id: string | number;
 }
 
 const Card = ({ front, back, onClick, id }: CardProps) => {

@@ -1,7 +1,7 @@
-import ForeignFormWidget from "../../src/widgets/foreign/ui/foreignForm";
+import ForeignFormView from "@views/foreign/ui/foreignForm";
 
 const ForeignPage = () => {
-  return <ForeignFormWidget />;
+  return <ForeignFormView />;
 };
 
 export default ForeignPage;

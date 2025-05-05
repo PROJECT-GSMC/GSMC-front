@@ -8,12 +8,12 @@ const Header = () => {
   const pathname = usePathname();
 
   return (
-    <header className="w-full py-[1.38rem] flex justify-around border-b">
+    <header className="w-full py-[1.38rem] flex justify-around border-b px-4">
       <div className="w-full max-w-[37.5rem] flex items-center justify-between">
         <Link href="/">
           <TextLogo />
         </Link>
-        <ul className="gap-[2rem] flex text-label text-gray-500 items-center text-body3">
+        <ul className="gap-[2rem]  flex text-label text-gray-500 items-center text-body4 sm:text-body3">
           <li>
             <Link
               className={pathname === "/calculate" ? "text-black" : ""}

@@ -4,5 +4,4 @@ export interface Activity {
   content: string;
   file: File;
   activityType: "MAJOR" | "HUMANITIES";
-  semester: number;
 }

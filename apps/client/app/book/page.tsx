@@ -1,7 +1,7 @@
-import BookWidget from "../../src/widgets/book/ui";
+import BookView from "@views/book/ui";
 
 const BookPage = () => {
-  return <BookWidget />;
+  return <BookView />;
 };
 
 export default BookPage;

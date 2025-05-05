@@ -1,13 +1,11 @@
-import instance from "../../../../../../packages/ui/src/axios";
+import FormInstance from "../../../../../../packages/ui/src/formAxios";
 import { Evidence } from "../model/evidence";
 
 export const sendEvidence = async (data: Evidence) => {
-  return instance.post("/evidence/current/other", {
-    headers: {
-      "Content-Type": "mulitpart/form-data",
-    },
-    data: {
-      ...data,
-    },
+  const formData = new FormData();
+  formData.append("file", data.file);
+  formData.append("categoryName", data.categoryName);
+  return await FormInstance.post("/evidence/current/other", {
+    ...data,
   });
 };
