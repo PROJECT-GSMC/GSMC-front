@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@repo/ui/button";
-import Dropdown from "../../../shared/ui/dropdown";
+import Dropdown, { Option } from "../../../shared/ui/dropdown";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import { Plus } from "../../../shared/asset/svg/plus";
@@ -14,226 +14,155 @@ import {
 
 export const Calculate = () => {
   const Buttons = ["독서", "인성", "전공", "외국어"];
-  const [fileCount, setFileCount] = useState({
-    독서: 0,
-    인성: 0,
-    전공: 0,
-    외국어: 0,
-  });
-  const [totalScore, setTotalScore] = useState<number>(0);
   const [page, setPage] = useState<string>("독서");
+
+  const [bookCount, setBookCount] = useState(0);
+
+  const [totalScore, setTotalScore] = useState<number>(0);
+  const [selectedOptions, setSelectedOptions] = useState<{
+    [key: string]: Option | null;
+  }>({
+    인성: null,
+    전공: null,
+    외국어: null,
+  });
+  const [categoryCounts, setCategoryCounts] = useState<{
+    [key: string]: number;
+  }>({});
   const { control } = useForm();
 
+  const handlePlusWithScore = (page: string) => {
+    const selected = selectedOptions[page];
+    if (!selected) return;
+
+    const currentCount = categoryCounts[selected.id] ?? 0;
+    const max = parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "");
+    const scores = selected.score?.match(/\d+/)?.[0] ?? "0";
+    if (currentCount < (isNaN(max) ? 1 : max)) {
+      setCategoryCounts((prev) => ({
+        ...prev,
+        [selected.id]: currentCount + 1,
+      }));
+      setTotalScore((prev) => prev + parseInt(scores));
+    }
+  };
+  const handleMinusWithScore = (page: string) => {
+    const selected = selectedOptions[page];
+    if (!selected) return;
+    const scores = selected.score?.match(/\d+/)?.[0] ?? "0";
+    const currentCount = categoryCounts[selected.id] ?? 0;
+    if (currentCount) {
+      setCategoryCounts((prev) => ({
+        ...prev,
+        [selected.id]: currentCount - 1,
+      }));
+      setTotalScore((prev) => prev - parseInt(scores ?? 0));
+    }
+  };
   return (
     <div className="flex flex-col gap-[1.5rem] w-full h-[30rem]">
       {/* 탭 버튼 */}
       <div className="grid grid-cols-4 gap-[1.57rem] w-full">
-        {Buttons.map((item, index) => (
+        {Buttons.map((item) => (
           <Button
-            state={page === item ? "default" : "default"} // 탭은 모두 default로, 필요시 "active"로 변경
+            key={item}
+            state="default"
             variant={page === item ? "blue" : "skyblue_hover"}
             label={item}
-            key={index}
             onClick={() => setPage(item)}
           />
         ))}
       </div>
-      {/* 독서 */}
-      <div
-        className={page === "독서" ? "flex flex-col gap-[1.5rem]" : "hidden"}
-      >
-        <div className="flex w-full gap-[1.25rem]">
-          <Button
-            state={fileCount["독서"] === 0 ? "disabled" : "default"}
-            variant="skyblue_hover"
-            label={
-              <Minus
-                className={`${fileCount["독서"] === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
-              />
-            }
-            className="group basis-1/6"
-            onClick={() => {
-              if (fileCount["독서"] > 0)
-                setFileCount((prev) => ({ ...prev, 독서: prev["독서"] - 1 }));
-              if (fileCount["독서"] > 0) setTotalScore(totalScore - 10);
-            }}
-          />
-          <p className="w-basis-4/6 w-full bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
-            {fileCount["독서"]}
-          </p>
-          <Button
-            state={fileCount["독서"] === 10 ? "disabled" : "default"}
-            variant="skyblue_hover"
-            label={
-              <Plus
-                className={`${fileCount["독서"] === 10 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
-              />
-            }
-            className="group basis-1/6"
-            onClick={() => {
-              if (fileCount["독서"] < 10)
-                setFileCount((prev) => ({ ...prev, 독서: prev["독서"] + 1 }));
-
-              if (fileCount["독서"] < 10) setTotalScore(totalScore + 10);
-            }}
-          />
-        </div>
-      </div>
-      {/* 인성 */}
-      <div
-        className={page === "인성" ? "flex flex-col gap-[1.5rem]" : "hidden"}
-      >
-        <Controller
-          name="category1"
-          control={control}
-          rules={{ required: "카테고리를 선택해주세요." }}
-          render={({ field }) => (
-            <Dropdown
-              label="카테고리"
-              options={humanCategoryOptions}
-              {...field}
+      {page === "독서" && (
+        <div className="flex flex-col gap-[1.5rem]">
+          <div className="flex w-full gap-[1.25rem]">
+            <Button
+              state={bookCount === 0 ? "disabled" : "default"}
+              variant="skyblue_hover"
+              label={
+                <Minus className="text-[#828387] group-hover:text-[#828387]" />
+              }
+              className="group basis-1/6"
+              onClick={() => {
+                if (bookCount > 0) {
+                  setBookCount((prev) => prev - 1);
+                  setTotalScore((prev) => prev - 10);
+                }
+              }}
             />
-          )}
-        />
-        <div className="flex w-full gap-[1.25rem]">
-          <Button
-            state={fileCount["인성"] === 0 ? "disabled" : "default"}
-            variant="skyblue_hover"
-            label={
-              <Minus
-                className={`${fileCount["인성"] === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
-              />
-            }
-            className="group basis-1/6"
-            onClick={() => {
-              if (fileCount["인성"] > 0)
-                setFileCount((prev) => ({ ...prev, 인성: prev["인성"] - 1 }));
-            }}
-          />
-          <p className="w-basis-4/6 w-full bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
-            {fileCount["인성"]}
-          </p>
-          <Button
-            state="default"
-            variant="skyblue_hover"
-            label={
-              <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
-            }
-            className="group basis-1/6"
-            onClick={() => {
-              setFileCount((prev) => ({ ...prev, 인성: prev["인성"] + 1 }));
-            }}
-          />
-        </div>
-      </div>
-      {/* 전공 */}
-      <div
-        className={`${page === "전공" ? "block" : "hidden"} flex flex-col gap-[1.5rem]`}
-      >
-        <Controller
-          name="category2"
-          control={control}
-          rules={{ required: "카테고리를 선택해주세요." }}
-          render={({ field }) => (
-            <Dropdown
-              label="카테고리"
-              options={majorCategoryOptions}
-              {...field}
+            <p className="basis-4/6 bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
+              {bookCount}
+            </p>
+            <Button
+              state={bookCount === 10 ? "disabled" : "default"}
+              variant="skyblue_hover"
+              label={
+                <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              }
+              className="group basis-1/6"
+              onClick={() => {
+                if (bookCount < 10) {
+                  setBookCount((prev) => prev + 1);
+                  setTotalScore((prev) => prev + 10);
+                }
+              }}
             />
-          )}
-        />
-        <div className="flex w-full gap-[1.25rem]">
-          <Button
-            state={fileCount["전공"] === 0 ? "disabled" : "default"}
-            variant="skyblue_hover"
-            label={
-              <Minus
-                className={`${fileCount["전공"] === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
-              />
-            }
-            className="group basis-1/6"
-            onClick={() => {
-              if (fileCount["전공"] > 0)
-                setFileCount((prev) => ({ ...prev, 전공: prev["전공"] - 1 }));
-            }}
-          />
-          <p className="w-basis-4/6 w-full bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
-            {fileCount["전공"]}
-          </p>
-          <Button
-            state="default"
-            variant="skyblue_hover"
-            label={
-              <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
-            }
-            className="group basis-1/6"
-            onClick={() =>
-              setFileCount((prev) => ({ ...prev, 전공: prev["전공"] + 1 }))
-            }
-          />
+          </div>
         </div>
-      </div>
-      {/* 외국어 */}
-      <div
-        className={`${page === "외국어" ? "block" : "hidden"} flex flex-col gap-[1.5rem]`}
-      >
-        <Controller
-          name="category3"
-          control={control}
-          rules={{ required: "카테고리를 선택해주세요." }}
-          render={({ field }) => (
-            <Dropdown
-              label="카테고리"
-              options={foreignCategoryOptions}
-              {...field}
+      )}
+      {["인성", "전공", "외국어"].includes(page) && (
+        <div className="flex flex-col gap-[1.5rem]">
+          <Controller
+            name={`category-${page}`}
+            control={control}
+            rules={{ required: "카테고리를 선택해주세요." }}
+            render={({ field }) => (
+              <Dropdown
+                label="카테고리"
+                options={
+                  page === "인성"
+                    ? humanCategoryOptions
+                    : page === "전공"
+                      ? majorCategoryOptions
+                      : foreignCategoryOptions
+                }
+                value={selectedOptions[page] ?? undefined}
+                onChange={(option) => {
+                  setSelectedOptions((prev) => ({ ...prev, [page]: option }));
+                  field.onChange(option);
+                }}
+              />
+            )}
+          />
+          <div className="flex w-full gap-[1.25rem]">
+            <Button
+              state="default"
+              variant="skyblue_hover"
+              label={
+                <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              }
+              className="group basis-1/6"
+              onClick={() => handleMinusWithScore(page)}
             />
-          )}
-        />
-        <div className="flex w-full gap-[1.25rem]">
-          <Button
-            state={fileCount["외국어"] === 0 ? "disabled" : "default"}
-            variant="skyblue_hover"
-            label={
-              <Minus
-                className={`${fileCount["외국어"] === 0 ? "group-hover:text-[#828387] text-[#828387]" : "group-hover:text-[#DFEAFE] text-[#5E97FC]"}`}
-              />
-            }
-            className="group basis-1/6"
-            onClick={() => {
-              if (fileCount["외국어"] > 0)
-                setFileCount((prev) => ({
-                  ...prev,
-                  외국어: prev["외국어"] - 1,
-                }));
-            }}
-          />
-          <p className="w-basis-4/6 w-full bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
-            {fileCount["외국어"]}
-          </p>
-          <Button
-            state="default"
-            variant="skyblue_hover"
-            label={
-              <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
-            }
-            className="group basis-1/6"
-            onClick={() =>
-              setFileCount((prev) => ({ ...prev, 외국어: prev["외국어"] + 1 }))
-            }
-          />
+            <p className="basis-4/6 bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
+              {selectedOptions[page]
+                ? (categoryCounts[selectedOptions[page]!.id] ?? 0)
+                : 0}
+            </p>
+            <Button
+              state="default"
+              variant="skyblue_hover"
+              label={
+                <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+              }
+              className="group basis-1/6"
+              onClick={() => handlePlusWithScore(page)}
+            />
+          </div>
         </div>
-      </div>
-      {/* 점수 표시 */}
+      )}
       <div className="flex gap-[1.25rem] w-full mt-auto">
-        <Button
-          state="default"
-          variant="skyblue_hover"
-          label={
-            <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
-          }
-          className="group basis-1/6"
-        />
-        <p className="basis-5/6 bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem]">
+        <p className="basis-full bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem]">
           {totalScore}점
         </p>
       </div>
