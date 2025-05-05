@@ -1,8 +1,10 @@
-import { Button } from "@repo/ui/button";
-import Header from "../../../src/shared/ui/header";
 import Image from "next/image";
+
+import { Button } from "@repo/ui/button";
 import { Activity, Others, Reading } from "../../../../../packages/ui/src/types/evidences";
 import { isActivity, isOthers, isReading } from "../../../../../packages/ui/src/utils/handlePost";
+
+import Header from "@shared/ui/header";
 
 interface DetailProps {
   data: Activity | Reading | Others

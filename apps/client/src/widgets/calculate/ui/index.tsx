@@ -1,11 +1,11 @@
 "use client";
 
 import { Button } from "@repo/ui/button";
-import Dropdown, { Option } from "../../../shared/ui/dropdown";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
-import { Plus } from "../../../shared/asset/svg/plus";
-import { Minus } from "../../../shared/asset/svg/minus";
+import Dropdown, { Option } from "@shared/ui/dropdown";
+import { Plus } from "@shared/asset/svg/plus";
+import { Minus } from "@shared/asset/svg/minus";
 import {
   foreignCategoryOptions,
   humanCategoryOptions,

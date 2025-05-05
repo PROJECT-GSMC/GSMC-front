@@ -1,14 +1,14 @@
 "use client";
 
 import { useState } from "react";
-import Checked from "../../../shared/asset/svg/checked";
+import Checked from "@shared/asset/svg/checked";
 
 interface CheckboxProps {
   check?: boolean;
   onChange?: (checked: boolean | null) => void;
 }
 
-const Checkbox = ({ check, onChange }: CheckboxProps) => {
+export const Checkbox = ({ check, onChange }: CheckboxProps) => {
   const [checked, setChecked] = useState<boolean | null>(check ?? null);
 
   const handleClick = (value: boolean) => {
@@ -18,7 +18,7 @@ const Checkbox = ({ check, onChange }: CheckboxProps) => {
   };
 
   return (
-    <div className="flex flex-col gap-[1.25rem]">
+    <div className="flex flex-col sm:gap-[1.25rem] gap-[0.5rem]">
       <h3 className="text-label">토익사관학교 이수 여부</h3>
       <div className="flex gap-[1rem]">
         <div onClick={() => handleClick(true)} className="flex cursor-pointer">
@@ -34,4 +34,3 @@ const Checkbox = ({ check, onChange }: CheckboxProps) => {
   );
 };
 
-export default Checkbox;

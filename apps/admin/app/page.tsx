@@ -1,78 +1,107 @@
 "use client";
+import { useState } from "react";
 
-import Header from "../src/shared/ui/header";
-import Filter from "../src/widget/member/ui/filter";
-import { Information } from "../src/widget/member/ui/information";
-import { useGetMember } from "../src/widget/member/model/useGetMember";
-import { Member } from "../src/widget/member/model/member";
 import { toast } from "sonner";
 import Card from "@repo/ui/card";
-import { useState } from "react";
-import { getMember } from "../src/widget/member/api/getMember";
 import List from "@repo/ui/list";
-import Question from "../src/shared/asset/svg/question";
+
+import Header from "@shared/ui/header";
+import Question from "@shared/asset/svg/question";
+
+import { Filter } from "@widgets/member/ui/filter";
+import { Information } from "@widgets/member/ui/information";
+import { useGetMember } from "@widgets/member/model/useGetMember";
+import { Member } from "@widgets/member/model/member";
+import { getMember } from "@widgets/member/api/getMember";
+import { Button } from "@repo/ui/button";
 
 const MemberPage = () => {
+  const [open, setOpen] = useState<boolean>(false)
+
   const [student, setStudent] = useState<Member>();
+
   const [grade, setGrade] = useState<number>(0);
   const [classNumber, setClassNumber] = useState<number>(0);
+  const [name, setName] = useState<string>('');
 
-  const { data, error } = useGetMember();
+  const { data, error, refetch, isFetching } = useGetMember({ grade, classNumber, name });
+
   if (error) toast.error(error.message);
 
   const members: Member[] = data?.data ?? [];
 
-  const filteredMembers = members.filter((member) => {
-    const gradeMatch = grade === 0 || member.grade === grade;
-    const classMatch = classNumber === 0 || member.classNumber === classNumber;
-    return gradeMatch && classMatch;
-  });
+  const resetFilter = () => {
+    setGrade(0)
+    setClassNumber(0)
+    setName('')
+  }
+
+  const reSearch = () => {
+    if (!isFetching) {
+      refetch()
+    }
+  }
 
   return (
-    <div
-      style={{ gap: "1rem" }}
-      className="flex overflow-hidden h-full flex-col"
-    >
+    <div className="flex flex-col items-center gap-4 h-screen">
       <Header />
-      <div
-        className="flex justify-center items-center w-full h-full mt-[3.12rem]"
-        style={{ gap: "1.8rem" }}
-      >
-        <List className="h-[46rem]" title={String(filteredMembers.length)}>
-          {filteredMembers.map((member) => (
-            <Card
-              onClick={async () => {
-                const res = await getMember(member.email);
-                setStudent(res.data);
-              }}
-              id={member.email}
-              key={member.email}
-              front={member.name}
-              back={
-                member.grade +
-                member.classNumber +
-                String(member.number).padStart(2, "0")
-              }
-            />
-          ))}
-        </List>
-        {student ? (
-          <Information student={student} />
-        ) : (
-          <div className="w-[350px] min-w-[18rem] bg-tropicalblue-100 py-[2.25rem] flex flex-col justify-center items-center rounded-[1.25rem] h-[46rem] px-[2.45rem]">
-            <Question />
-            <span className="text-titleSmall text-[#68696C]">
-              학생을 선택해주세요
-            </span>
-          </div>
-        )}
-        <Filter
-          grade={grade}
-          classNumber={classNumber}
-          ChangeClass={setClassNumber}
-          ChangeGrade={setGrade}
-        />
-      </div>
+      <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] max-sm:px-[2.75rem] max-md:px-[4.75rem] md:px-[6.75rem] ">
+        <div className="h-full grid grid-cols-8 max-sm:grid-cols-1 max-sm:grid-rows-2 gap-[1.8rem]" >
+          <section className="col-span-5 max-sm:col-span-1">
+            <List onClick={() => setOpen(!open)} title={String(members.length)}>
+              {members.map((member) => (
+                <Card
+                  onClick={async () => {
+                    const res = await getMember(member.email);
+                    setStudent(res.data);
+                  }}
+                  id={member.email}
+                  key={member.email}
+                  front={member.name}
+                  back={
+                    member.grade +
+                    member.classNumber +
+                    String(member.number).padStart(2, "0")
+                  }
+                />
+              ))}
+            </List>
+          </section>
+          <section className="col-span-3 max-sm:col-span-1">
+            {student ? (
+              <Information student={student} />
+            ) : (
+              <div className="flex flex-col bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] h-full justify-center items-center ">
+                <Question />
+                <span className="text-titleSmall text-[#68696C]">
+                  학생을 선택해주세요
+                </span>
+              </div>
+            )}
+          </section>
+          {open &&
+            <>
+              <div className="fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]" onClick={() => setOpen(false)}></div>
+              <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white z-20
+                rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-sm:w-[20.5rem] max-md:w-[22.5rem] md:w-[24.5rem]"
+              >
+                <Filter
+                  grade={grade}
+                  classNumber={classNumber}
+                  name={name}
+                  ChangeClass={setClassNumber}
+                  ChangeGrade={setGrade}
+                  ChangeName={setName}
+                />
+                <div className="flex flex-col gap-[0.75rem] mt-[2rem]">
+                  <Button label="초기화" variant="skyblue" onClick={() => resetFilter()} />
+                  <Button label="적용하기" variant="blue" onClick={() => reSearch()} />
+                </div>
+              </div>
+            </>
+          }
+        </div>
+      </main>
     </div>
   );
 };

@@ -1,7 +1,7 @@
-import MajorWidget from "../../src/widgets/major/ui";
+import MajorView from "@views/major/ui";
 
 const MajorPage = () => {
-  return <MajorWidget />;
+  return <MajorView />;
 };
 
 export default MajorPage;

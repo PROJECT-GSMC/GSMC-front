@@ -1,20 +1,27 @@
 "use client";
 
-import List from "@repo/ui/list";
-import { ShowInformation } from "../src/entities/main/ui/showInformation";
-import Header from "../src/shared/ui/header";
 import { useEffect, useState } from "react";
-import { getCertification } from "../src/entities/main/api/getCertification";
-import { Certification } from "../src/entities/main/model/certification";
-import Card from "@repo/ui/card";
-import ShowLogin from "../src/entities/main/ui/showLogin";
-import { Button } from "@repo/ui/button";
-import MainDropdown from "../src/entities/main/ui/dropdown";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import Modal from "../src/widgets/main/ui/modal";
+
+import List from "@repo/ui/list";
+import Card from "@repo/ui/card";
+import { Button } from "@repo/ui/button";
+import { Member } from "node_modules/@repo/ui/src/types/member";
+
+import { getCurrentMember } from "@/shared/api/getCurrentMember";
+
+import { ShowInformation } from "@entities/main/ui/showInformation";
+import { getCertification } from "@entities/main/api/getCertification";
+import { Certification } from "@entities/main/model/certification";
+import ShowSignin from "@/entities/main/ui/showSignin";
+import MainDropdown from "@entities/main/ui/dropdown";
+
+import Header from "@shared/ui/header";
+import Modal from "@widgets/main/ui/modal";
+import { getCookie } from "node_modules/@repo/ui/src/utils/getCookie";
 
 export default function Page() {
-  const [certification, setCertification] = useState<Certification[]>();
   const [hoverTab, setHoverTab] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [show, setShow] = useState(false);
@@ -23,24 +30,33 @@ export default function Page() {
   >("CERTIFICATE");
 
   useEffect(() => {
-    const Fetch = async () => {
-      const res = await getCertification();
-      setCertification(res);
-    };
-    Fetch();
-
-    const token = localStorage.getItem("accessToken");
+    const token = getCookie("accessToken");
     setAccessToken(token);
   }, []);
 
+  const { data: currentUser } = useQuery<Member>({
+    queryKey: ["currentUser"],
+    queryFn: getCurrentMember,
+    enabled: !!accessToken,
+  });
+
+  const { data: certification } = useQuery<Certification[]>({
+    queryKey: ["certifications"],
+    queryFn: getCertification,
+    enabled: !!accessToken,
+  });
+
   return (
-    <div className="flex flex-col items-center w-full h-screen">
+    <div className="flex flex-col justify-center items-center w-full h-full">
       <Header />
       <div className="w-full max-w-[37.5rem] flex flex-col">
         {accessToken ? (
-          <ShowInformation name="모태환" score={2300} />
+          <ShowInformation
+            name={currentUser?.data?.name ?? ""}
+            score={currentUser?.data?.totalScore ?? 0}
+          />
         ) : (
-          <ShowLogin />
+          <ShowSignin />
         )}
         <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
           <div
@@ -48,10 +64,7 @@ export default function Page() {
             onMouseEnter={() => setHoverTab("독서")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button
-              label="독서"
-              variant="skyblue"
-            />
+            <Button label="독서" variant="skyblue" />
             <MainDropdown isOpen={!!accessToken && hoverTab === "독서"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
@@ -77,10 +90,7 @@ export default function Page() {
             onMouseEnter={() => setHoverTab("인성")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button
-              label="인성"
-              variant="skyblue"
-            />
+            <Button label="인성" variant="skyblue" />
             <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
@@ -106,10 +116,7 @@ export default function Page() {
             onMouseEnter={() => setHoverTab("전공")}
             onMouseLeave={() => setHoverTab(null)}
           >
-            <Button
-              label="전공"
-              variant="skyblue"
-            />
+            <Button label="전공" variant="skyblue" />
             <MainDropdown isOpen={!!accessToken && hoverTab === "전공"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body3s"
@@ -140,17 +147,14 @@ export default function Page() {
               </div>
             </MainDropdown>
           </div>
-          <Button
-            label="외국어"
-            variant="skyblue"
-          />
+          <Button label="외국어" variant="skyblue" />
         </div>
         <div className="flex flex-col mt-9 mx-4">
           <List title="자격증">
-            {certification ? (
-              certification?.map((v, i) => {
-                return <Card key={i} front={v.name} />;
-              })
+            {certification && certification?.length > 0 ? (
+              certification?.map((v, i) => (
+                <Card key={i} front={v.name} id={v.id} />
+              ))
             ) : (
               <div className="text-center text-body3 mt-[7.5rem]">
                 등록된 자격증이 존재하지 않습니다
