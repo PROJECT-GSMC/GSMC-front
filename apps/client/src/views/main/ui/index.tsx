@@ -158,12 +158,12 @@ const MainView = () => {
                     <Card key={i} front={v.name} id={v.id} />
                   ))
                 ) : (
-                  <div className="text-center text-body3 mt-[7.5rem]">
-                    등록된 자격증이 존재하지 않습니다
+                  <div className="text-center text-body3 my-[13rem]">
+                    등록된 자격증이 존재하지 않습니다.
                   </div>
                 )
               ) : (
-                <div className="text-center text-body3 mt-[7.5rem]">
+                <div className="text-center text-body3 my-[13rem]">
                   로그인 후 확인가능합니다.
                 </div>
               )}
