@@ -86,7 +86,8 @@ const Modal = ({ onClose, type }: ModalProps) => {
                   : type === "CERTIFICATE"
                     ? "자격증 작성하기"
                     : "독서로 단계"
-              }>
+              }
+            >
               <Input
                 control={control}
                 rules={{ required: true }}
@@ -112,12 +113,12 @@ const Modal = ({ onClose, type }: ModalProps) => {
             render={({ field }) => <File label="" {...field} />}
           />
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
+            <Button onClick={onClose} label="뒤로가기" variant="skyblue" />
             <Button
-              onClick={onClose}
-              label="뒤로가기"
-              variant="skyblue"
+              state={isValid ? "default" : "disabled"}
+              label="작성 완료"
+              variant="blue"
             />
-            <Button state={isValid ? "default" : "disabled"} label="작성 완료" variant="blue" />
           </div>
         </form>
       </div>

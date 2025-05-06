@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from "react";
 
 export interface Option {
   name: string;
-  score: string;
+  score?: string;
   max_number?: string;
   send: string | number;
-  id: number;
+  id?: number;
 }
 
 interface DropdownProps {
