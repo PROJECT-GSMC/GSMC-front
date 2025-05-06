@@ -110,7 +110,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
             name="file"
             control={control}
             rules={{ required: true }}
-            render={({ field }) => <File label="" {...field} />}
+            render={({ field }) => <File label="파일 첨부" {...field} />}
           />
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
             <Button onClick={onClose} label="뒤로가기" variant="skyblue" />
