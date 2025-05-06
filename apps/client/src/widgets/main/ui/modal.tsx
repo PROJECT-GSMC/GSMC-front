@@ -5,7 +5,7 @@ import { Input } from "@repo/ui/input";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { Evidence } from "../model/evidence";
-import { options } from "../model/options";
+import { bookOption, options } from "../model/options";
 import { sendCertification } from "../api/sendCertification";
 import { sendEvidence } from "../api/sendEvidence";
 
@@ -69,24 +69,22 @@ const Modal = ({ onClose, type }: ModalProps) => {
             }
           })}
         >
-          {type === "HUMANITY" ? (
+          {type === "HUMANITY" || type === "READ_A_THON" ? (
             <Controller
               rules={{ required: true }}
               name="option"
               control={control}
               render={({ field }) => (
-                <Dropdown options={options} label="자격증" {...field} />
+                <Dropdown
+                  options={type === "HUMANITY" ? options : bookOption}
+                  label={type === "HUMANITY" ? "자격증" : "독서로"}
+                  {...field}
+                />
               )}
             />
           ) : (
             <InputContainer
-              label={
-                type === "TOPCIT"
-                  ? "TOPCIT 점수"
-                  : type === "CERTIFICATE"
-                    ? "자격증 작성하기"
-                    : "독서로 단계"
-              }
+              label={type === "TOPCIT" ? "TOPCIT 점수" : "자격증 작성하기"}
             >
               <Input
                 control={control}
