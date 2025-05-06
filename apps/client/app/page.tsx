@@ -151,16 +151,23 @@ export default function Page() {
             <Button label="외국어" variant="skyblue" />
           </div>
           <div className="flex flex-col mt-9 mx-4">
-            <List title="자격증">
-              {certification && certification.length > 0 ? (
-                certification.map((v, i) => (
-                  <Card key={i} front={v.name} id={v.id} />
-                ))
+            <List title="자격증" accessToken={accessToken ?? undefined}>
+              {accessToken ? (
+                certification && certification.length > 0 ? (
+                  certification?.map((v, i) => (
+                    <Card key={i} front={v.name} id={v.id} />
+                  ))
+                ) : (
+                  <div className="text-center text-body3 mt-[7.5rem]">
+                    등록된 자격증이 존재하지 않습니다
+                  </div>
+                )
               ) : (
                 <div className="text-center text-body3 mt-[7.5rem]">
-                  등록된 자격증이 존재하지 않습니다
+                  로그인 후 확인가능합니다.
                 </div>
               )}
+
             </List>
           </div>
         </div>) : (<p className="text-center m-8">로딩중...</p>)}
