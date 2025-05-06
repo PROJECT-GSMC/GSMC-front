@@ -151,7 +151,7 @@ export default function Page() {
             <Button label="외국어" variant="skyblue" />
           </div>
           <div className="flex flex-col mt-9 mx-4">
-            <List title="자격증" accessToken={accessToken ?? undefined}>
+            <List title="자격증">
               {accessToken ? (
                 certification && certification.length > 0 ? (
                   certification?.map((v, i) => (
