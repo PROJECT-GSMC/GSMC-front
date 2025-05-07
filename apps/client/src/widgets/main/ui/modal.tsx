@@ -49,7 +49,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
           onSubmit={handleSubmit(async (data) => {
             if (type === "CERTIFICATE") {
               await sendCertification({
-                name: data.categoryName,
+                name: data.option.send,
                 file: data.file,
                 acquisitionDate: String(data.acquisitionDate),
               });
