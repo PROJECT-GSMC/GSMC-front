@@ -33,7 +33,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
       }}
     >
       <div
-        className="w-[37.5rem] bg-white px-[6.25rem] py-[4.94rem] rounded-xl"
+        className="w-[37.5rem] bg-white md:px-[6.25rem] px-[1.5rem] py-[4.94rem] rounded-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <h1 className="text-title4s mb-6 text-center">
