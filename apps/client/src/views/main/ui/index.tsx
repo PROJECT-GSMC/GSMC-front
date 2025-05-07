@@ -74,7 +74,7 @@ const MainView = () => {
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/book"
                 >
-                  <p>독서 작성하러가기</p>
+                  <p>독서영역 작성</p>
                   <p>{">"}</p>
                 </Link>
                 <div
@@ -100,7 +100,7 @@ const MainView = () => {
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/character"
                 >
-                  <p>인성 작성하러가기</p>
+                  <p>인성영역 작성</p>
                   <p>{">"}</p>
                 </Link>
                 <div
@@ -110,7 +110,7 @@ const MainView = () => {
                     setShow(true);
                   }}
                 >
-                  <p>한국사, 한자 자격증</p>
+                  <p>인성영역 자격증</p>
                   <p>{">"}</p>
                 </div>
               </MainDropdown>
@@ -126,7 +126,7 @@ const MainView = () => {
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/major"
                 >
-                  <p>전공 작성하러가기</p>
+                  <p>전공영역 작성</p>
                   <p>{">"}</p>
                 </Link>
                 <div
@@ -146,7 +146,7 @@ const MainView = () => {
                     setShow(true);
                   }}
                 >
-                  <p>전공 자격증 추가하기</p>
+                  <p>전공 자격증</p>
                   <p>{">"}</p>
                 </div>
               </MainDropdown>
