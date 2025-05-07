@@ -11,6 +11,7 @@ import {
   humanCategoryOptions,
   majorCategoryOptions,
 } from "../model/category";
+import { number } from "prop-types";
 
 export const Calculate = () => {
   const Buttons = ["독서", "인성", "전공", "외국어"];
@@ -80,7 +81,13 @@ export const Calculate = () => {
               state={bookCount === 0 ? "disabled" : "default"}
               variant="skyblue_hover"
               label={
-                <Minus className="text-[#828387] group-hover:text-[#828387]" />
+                <Minus
+                  className={
+                    bookCount === 0
+                      ? `text-[#828387] group-hover:text-[#828387]`
+                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                  }
+                />
               }
               className="group basis-1/6"
               onClick={() => {
@@ -136,10 +143,22 @@ export const Calculate = () => {
           />
           <div className="flex w-full gap-[1.25rem]">
             <Button
-              state="default"
+              state={
+                !selectedOptions[page] ||
+                (categoryCounts[selectedOptions[page]!.id] ?? 0) === 0
+                  ? "disabled"
+                  : "default"
+              }
               variant="skyblue_hover"
               label={
-                <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+                <Minus
+                  className={
+                    !selectedOptions[page] ||
+                    (categoryCounts[selectedOptions[page]!.id] ?? 0) === 0
+                      ? "text-[#828387] group-hover:text-[#828387]"
+                      : "text-[#5E97FC] group-hover:text-[#DFEAFE]"
+                  }
+                />
               }
               className="group basis-1/6"
               onClick={() => handleMinusWithScore(page)}
