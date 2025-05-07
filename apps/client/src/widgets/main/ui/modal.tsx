@@ -39,7 +39,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
         <h1 className="text-title4s mb-6 text-center">
           {type === "TOPCIT"
             ? "TOPCIT"
-            : type === "CERTIFICATE"
+            : type !== "READ_A_THON"
               ? "자격증"
               : "독서로"}
         </h1>
