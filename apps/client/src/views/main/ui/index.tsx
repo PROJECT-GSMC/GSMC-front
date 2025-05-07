@@ -34,13 +34,16 @@ const MainView = () => {
     setAccessToken(token);
   }, []);
 
-  const { data: currentUser, isLoading: isCurrentUserLoading } = useQuery<Member>({
-    queryKey: ["currentUser"],
-    queryFn: getCurrentMember,
-    enabled: !!accessToken,
-  });
+  const { data: currentUser, isLoading: isCurrentUserLoading } =
+    useQuery<Member>({
+      queryKey: ["currentUser"],
+      queryFn: getCurrentMember,
+      enabled: !!accessToken,
+    });
 
-  const { data: certification, isLoading: isCertificationLoading } = useQuery<Certification[]>({
+  const { data: certification, isLoading: isCertificationLoading } = useQuery<
+    Certification[]
+  >({
     queryKey: ["certifications"],
     queryFn: getCertification,
     enabled: !!accessToken,
@@ -68,7 +71,7 @@ const MainView = () => {
               <Button label="독서" variant="skyblue" />
               <MainDropdown isOpen={!!accessToken && hoverTab === "독서"}>
                 <Link
-                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/book"
                 >
                   <p>독서 작성하러가기</p>
@@ -79,7 +82,7 @@ const MainView = () => {
                     await setType("READ_A_THON");
                     setShow(true);
                   }}
-                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                 >
                   <p>독서로 단계 입력</p>
                   <p>{">"}</p>
@@ -94,14 +97,14 @@ const MainView = () => {
               <Button label="인성" variant="skyblue" />
               <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
                 <Link
-                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/character"
                 >
                   <p>인성 작성하러가기</p>
                   <p>{">"}</p>
                 </Link>
                 <div
-                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   onClick={async () => {
                     await setType("HUMANITY");
                     setShow(true);
@@ -120,14 +123,14 @@ const MainView = () => {
               <Button label="전공" variant="skyblue" />
               <MainDropdown isOpen={!!accessToken && hoverTab === "전공"}>
                 <Link
-                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/major"
                 >
                   <p>전공 작성하러가기</p>
                   <p>{">"}</p>
                 </Link>
                 <div
-                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   onClick={async () => {
                     await setType("TOPCIT");
                     setShow(true);
@@ -137,7 +140,7 @@ const MainView = () => {
                   <p>{">"}</p>
                 </div>
                 <div
-                  className="w-full flex justify-between cursor-pointer text-body3s"
+                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   onClick={async () => {
                     await setType("CERTIFICATE");
                     setShow(true);
@@ -158,7 +161,7 @@ const MainView = () => {
                     <Card key={i} front={v.name} id={v.id} />
                   ))
                 ) : (
-                  <div className="text-center text-body3 my-[13rem]">
+                  <div className="text-center text-body3 my-[13rem] ">
                     등록된 자격증이 존재하지 않습니다.
                   </div>
                 )
@@ -167,13 +170,15 @@ const MainView = () => {
                   로그인 후 확인가능합니다.
                 </div>
               )}
-
             </List>
           </div>
-        </div>) : (<p className="text-center m-8">로딩중...</p>)}
+        </div>
+      ) : (
+        <p className="text-center m-8">로딩중...</p>
+      )}
       {show && <Modal type={type} onClose={() => setShow(false)} />}
     </div>
   );
-}
+};
 
 export default MainView;
