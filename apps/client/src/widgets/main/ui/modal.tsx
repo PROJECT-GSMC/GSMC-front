@@ -56,7 +56,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
             } else if (type === "TOPCIT") {
               FixScore({
                 categoryName: "major-topcit-score",
-                score: Number(data.categoryName),
+                score: Number(data.option.send),
               });
             } else if (type === "READ_A_THON") {
               await sendEvidence(data);
