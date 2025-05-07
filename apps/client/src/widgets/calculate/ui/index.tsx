@@ -11,7 +11,6 @@ import {
   humanCategoryOptions,
   majorCategoryOptions,
 } from "../model/category";
-import { number } from "prop-types";
 
 export const Calculate = () => {
   const Buttons = ["독서", "인성", "전공", "외국어"];
