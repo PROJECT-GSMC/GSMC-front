@@ -151,7 +151,9 @@ const MainView = () => {
                 </div>
               </MainDropdown>
             </div>
-            <Button label="외국어" variant="skyblue" />
+            <Link href="/foreign">
+              <Button label="외국어" variant="skyblue" />
+            </Link>
           </div>
           <div className="flex flex-col mt-9 mx-4">
             <List title="자격증">
