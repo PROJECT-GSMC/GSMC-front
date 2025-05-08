@@ -62,7 +62,7 @@ export const Calculate = () => {
   return (
     <div className="flex flex-col gap-[1.5rem] w-full h-[30rem]">
       {/* 탭 버튼 */}
-      <div className="grid grid-cols-4 gap-[1.57rem] w-full">
+      <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
         {Buttons.map((item) => (
           <Button
             key={item}
@@ -74,13 +74,19 @@ export const Calculate = () => {
         ))}
       </div>
       {page === "독서" && (
-        <div className="flex flex-col gap-[1.5rem]">
+        <div className="flex flex-col gap-[1.5rem] mx-4">
           <div className="flex w-full gap-[1.25rem]">
             <Button
               state={bookCount === 0 ? "disabled" : "default"}
               variant="skyblue_hover"
               label={
-                <Minus className="text-[#828387] group-hover:text-[#828387]" />
+                <Minus
+                  className={
+                    bookCount === 0
+                      ? `text-[#828387] group-hover:text-[#828387]`
+                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                  }
+                />
               }
               className="group basis-1/6"
               onClick={() => {
@@ -111,7 +117,7 @@ export const Calculate = () => {
         </div>
       )}
       {["인성", "전공", "외국어"].includes(page) && (
-        <div className="flex flex-col gap-[1.5rem]">
+        <div className="flex flex-col gap-[1.5rem] mx-4">
           <Controller
             name={`category-${page}`}
             control={control}
@@ -136,10 +142,22 @@ export const Calculate = () => {
           />
           <div className="flex w-full gap-[1.25rem]">
             <Button
-              state="default"
+              state={
+                !selectedOptions[page] ||
+                (categoryCounts[selectedOptions[page]!.id] ?? 0) === 0
+                  ? "disabled"
+                  : "default"
+              }
               variant="skyblue_hover"
               label={
-                <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+                <Minus
+                  className={
+                    !selectedOptions[page] ||
+                    (categoryCounts[selectedOptions[page]!.id] ?? 0) === 0
+                      ? "text-[#828387] group-hover:text-[#828387]"
+                      : "text-[#5E97FC] group-hover:text-[#DFEAFE]"
+                  }
+                />
               }
               className="group basis-1/6"
               onClick={() => handleMinusWithScore(page)}
@@ -162,7 +180,7 @@ export const Calculate = () => {
         </div>
       )}
       <div className="flex gap-[1.25rem] w-full mt-auto">
-        <p className="basis-full bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem]">
+        <p className="basis-full bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem] mx-4">
           {totalScore}점
         </p>
       </div>
