@@ -5,7 +5,7 @@ import { Input } from "@repo/ui/input";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { Evidence } from "../model/evidence";
-import { options } from "../model/options";
+import { bookOption, options } from "../model/options";
 import { sendCertification } from "../api/sendCertification";
 import { sendEvidence } from "../api/sendEvidence";
 
@@ -33,13 +33,13 @@ const Modal = ({ onClose, type }: ModalProps) => {
       }}
     >
       <div
-        className="w-[37.5rem] bg-white px-[6.25rem] py-[4.94rem] rounded-xl"
+        className="w-[37.5rem] bg-white md:px-[6.25rem] px-[1.5rem] py-[4.94rem] rounded-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <h1 className="text-title4s mb-6 text-center">
           {type === "TOPCIT"
             ? "TOPCIT"
-            : type === "CERTIFICATE"
+            : type !== "READ_A_THON"
               ? "자격증"
               : "독서로"}
         </h1>
@@ -49,14 +49,14 @@ const Modal = ({ onClose, type }: ModalProps) => {
           onSubmit={handleSubmit(async (data) => {
             if (type === "CERTIFICATE") {
               await sendCertification({
-                name: data.categoryName,
+                name: data.option.send,
                 file: data.file,
                 acquisitionDate: String(data.acquisitionDate),
               });
             } else if (type === "TOPCIT") {
               FixScore({
                 categoryName: "major-topcit-score",
-                score: Number(data.categoryName),
+                score: Number(data.option.send),
               });
             } else if (type === "READ_A_THON") {
               await sendEvidence(data);
@@ -69,24 +69,23 @@ const Modal = ({ onClose, type }: ModalProps) => {
             }
           })}
         >
-          {type === "HUMANITY" ? (
+          {type === "HUMANITY" || type === "READ_A_THON" ? (
             <Controller
               rules={{ required: true }}
               name="option"
               control={control}
               render={({ field }) => (
-                <Dropdown options={options} label="자격증" {...field} />
+                <Dropdown
+                  options={type === "HUMANITY" ? options : bookOption}
+                  label={type === "HUMANITY" ? "자격증" : "독서로"}
+                  {...field}
+                />
               )}
             />
           ) : (
             <InputContainer
-              label={
-                type === "TOPCIT"
-                  ? "TOPCIT 점수"
-                  : type === "CERTIFICATE"
-                    ? "자격증 작성하기"
-                    : "독서로 단계"
-              }>
+              label={type === "TOPCIT" ? "TOPCIT 점수" : "자격증 작성하기"}
+            >
               <Input
                 control={control}
                 rules={{ required: true }}
@@ -109,15 +108,15 @@ const Modal = ({ onClose, type }: ModalProps) => {
             name="file"
             control={control}
             rules={{ required: true }}
-            render={({ field }) => <File label="" {...field} />}
+            render={({ field }) => <File label="파일 첨부" {...field} />}
           />
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
+            <Button onClick={onClose} label="뒤로가기" variant="skyblue" />
             <Button
-              onClick={onClose}
-              label="뒤로가기"
-              variant="skyblue"
+              state={isValid ? "default" : "disabled"}
+              label="작성 완료"
+              variant="blue"
             />
-            <Button state={isValid ? "default" : "disabled"} label="작성 완료" variant="blue" />
           </div>
         </form>
       </div>

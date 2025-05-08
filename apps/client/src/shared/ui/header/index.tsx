@@ -13,7 +13,7 @@ const Header = () => {
         <Link href="/">
           <TextLogo />
         </Link>
-        <ul className="gap-[2rem]  flex text-label text-gray-500 items-center text-body4 sm:text-body3">
+        <ul className="gap-[2rem] flex text-gray-500 items-center text-body3 sm:text-label">
           <li>
             <Link
               className={pathname === "/calculate" ? "text-black" : ""}
