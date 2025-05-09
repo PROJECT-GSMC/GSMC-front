@@ -1,4 +1,4 @@
-import instance from "../../../../../packages/ui/src/axios";
+import instance from "node_modules/@repo/ui/src/axios";
 import { Activity } from "../types/activity";
 
 export const sendActivity = async (activity: Activity) => {
@@ -8,12 +8,5 @@ export const sendActivity = async (activity: Activity) => {
   formData.append("title", activity.title);
   formData.append("content", activity.content);
   formData.append("activityType", activity.activityType);
-  await instance.post("evidence/current/activity", {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    data: {
-      formData,
-    },
-  });
+  await instance.post("evidence/current/activity", formData);
 };

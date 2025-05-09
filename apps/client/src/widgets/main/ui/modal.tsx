@@ -12,6 +12,7 @@ import { sendEvidence } from "../api/sendEvidence";
 import File from "@shared/ui/file";
 import { FixScore } from "@shared/api/fixScore";
 import Dropdown from "@shared/ui/dropdown";
+import { toast } from "sonner";
 
 interface ModalProps {
   onClose: () => void;
@@ -48,11 +49,17 @@ const Modal = ({ onClose, type }: ModalProps) => {
           className="w-full flex flex-col gap-[1.5rem]"
           onSubmit={handleSubmit(async (data) => {
             if (type === "CERTIFICATE") {
-              await sendCertification({
-                name: data.option.send,
+              const res = await sendCertification({
+                name: data.categoryName,
                 file: data.file,
                 acquisitionDate: String(data.acquisitionDate),
               });
+              if (res.status === 201) {
+                toast.success("자격증이 등록되었습니다.");
+                onClose();
+              } else {
+                toast.error("자격증 등록에 실패했습니다.");
+              }
             } else if (type === "TOPCIT") {
               FixScore({
                 categoryName: "major-topcit-score",
@@ -93,17 +100,16 @@ const Modal = ({ onClose, type }: ModalProps) => {
               />
             </InputContainer>
           )}
-          {type === "CERTIFICATE" ||
-            (type === "HUMANITY" && (
-              <InputContainer label="취득일">
-                <Input
-                  control={control}
-                  rules={{ required: true }}
-                  name="acquisitionDate"
-                  type="date"
-                />
-              </InputContainer>
-            ))}
+          {(type === "CERTIFICATE" || type === "HUMANITY") && (
+            <InputContainer label="취득일">
+              <Input
+                control={control}
+                rules={{ required: true }}
+                name="acquisitionDate"
+                type="date"
+              />
+            </InputContainer>
+          )}
           <Controller
             name="file"
             control={control}
