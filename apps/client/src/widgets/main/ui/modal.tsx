@@ -93,17 +93,16 @@ const Modal = ({ onClose, type }: ModalProps) => {
               />
             </InputContainer>
           )}
-          {type === "CERTIFICATE" ||
-            (type === "HUMANITY" && (
-              <InputContainer label="취득일">
-                <Input
-                  control={control}
-                  rules={{ required: true }}
-                  name="acquisitionDate"
-                  type="date"
-                />
-              </InputContainer>
-            ))}
+          {(type === "CERTIFICATE" || type === "HUMANITY") && (
+            <InputContainer label="취득일">
+              <Input
+                control={control}
+                rules={{ required: true }}
+                name="acquisitionDate"
+                type="date"
+              />
+            </InputContainer>
+          )}
           <Controller
             name="file"
             control={control}
