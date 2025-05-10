@@ -1,5 +1,5 @@
-import axios from "axios";
+import instance from "node_modules/@repo/ui/src/axios";
 
 export const getPosts = async () => {
-  return await axios.get(`/evidence/current`);
+  return await instance.get(`/evidence/current`);
 };
