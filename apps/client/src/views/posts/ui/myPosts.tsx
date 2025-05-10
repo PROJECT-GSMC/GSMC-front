@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Button } from "@repo/ui/button";
 
 import Header from "@shared/ui/header";
-import Post from "@shared/ui/post/post";
+import Post from "@/shared/ui/post/post";
 import Search from "@entities/posts/ui/search";
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 
