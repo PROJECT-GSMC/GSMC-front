@@ -1,7 +1,6 @@
 "use client";
 
 import { Controller, useForm, useWatch } from "react-hook-form";
-import { toast } from "sonner";
 
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
@@ -9,18 +8,17 @@ import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { CharacterCategory } from "../model/category";
 
-import Textarea from "@shared/ui/textarea";
-import Header from "@shared/ui/header";
-import Dropdown from "@shared/ui/dropdown";
-import File from "@shared/ui/file";
 import { Activity } from "@shared/types/activity";
-import { sendActivity } from "@shared/api/sendActivity";
+import { handleSubmitActivity } from "@/shared/lib/handleSubmitActivity";
+import { useState } from "react";
+import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
 }
 
 const HumanityView = () => {
+  const [submitType, setSubmitType] = useState<"submit" | "draft">("submit");
   const {
     handleSubmit,
     control,
@@ -35,13 +33,7 @@ const HumanityView = () => {
       categoryName: data.categoryName.send,
       activityType: "HUMANITIES",
     };
-    try {
-      await sendActivity(finalData);
-      toast.success("글 제출을 성공했습니다");
-    } catch (e) {
-      toast.error("글 제출을 실패했습니다");
-      console.error(e);
-    }
+    handleSubmitActivity(finalData, submitType);
   };
 
   return (
@@ -100,8 +92,15 @@ const HumanityView = () => {
             render={({ field }) => <File label="이미지" {...field} />}
           />
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-            <Button variant="skyblue" label="임시저장" />
             <Button
+              type="submit"
+              onClick={() => setSubmitType("draft")}
+              variant="skyblue"
+              label="임시저장"
+            />
+            <Button
+              type="submit"
+              onClick={() => setSubmitType("submit")}
               state={isValid ? "default" : "disabled"}
               variant="blue"
               label="작성 완료"
