@@ -1,10 +1,7 @@
-import instance from "../../../../../../packages/ui/src/axios";
-import { Book } from "../model/book";
+import instance from "node_modules/@repo/ui/src/axios";
 
-export const sendBook = async (bookData: Book) => {
+export const sendBook = async (bookData: FormData) => {
   await instance.post("evidence/current/reading", {
-    data: {
-      bookData,
-    },
+    bookData,
   });
 };
