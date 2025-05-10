@@ -1,18 +1,18 @@
 "use client";
 
 import { Controller, useForm } from "react-hook-form";
-import { toast } from "sonner";
 
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
-import Textarea from "@shared/ui/textarea";
-import Header from "@shared/ui/header";
-import { sendBook } from "../api/sendBook";
 import { Book } from "../model/book";
+import { Header, Textarea } from "@/shared/ui";
+import { useState } from "react";
+import { handleSubmitBook } from "../lib/handleBookSubmit";
 
 const BookView = () => {
+  const [submit, setSubmit] = useState<"submit" | "draft">("submit");
   const {
     handleSubmit,
     control,
@@ -27,13 +27,7 @@ const BookView = () => {
         </h1>
         <form
           onSubmit={handleSubmit(async (data) => {
-            try {
-              await sendBook(data);
-              toast.success("글 제출을 성공했습니다");
-            } catch (e) {
-              toast.error("글 제출을 실패했습니다");
-              console.error(e);
-            }
+            handleSubmitBook(data, submit);
           })}
           className="flex gap-[2rem] flex-col"
         >
