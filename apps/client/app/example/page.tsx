@@ -1,10 +1,9 @@
 "use client";
 
-import { postState } from "../../../../packages/ui/src/types/evidences";
-
 import Header from "@shared/ui/header";
 import Mock from "@shared/mocks/data/evidenceMock.json";
-import Post from "@shared/ui/post/post";
+import Post from "@/shared/ui/post/post";
+import { postState } from "node_modules/@repo/ui/src/types/evidences";
 
 const ExamplePage = () => {
   return (

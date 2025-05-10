@@ -1,7 +1,6 @@
 "use client";
 
 import { useForm, Controller, useWatch } from "react-hook-form";
-import { toast } from "sonner";
 
 import { Button } from "@repo/ui/button";
 import { Input } from "@repo/ui/input";
@@ -9,18 +8,17 @@ import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { majorCategoryOptions } from "../model/category";
 
-import Header from "@shared/ui/header";
-import Dropdown from "@shared/ui/dropdown";
-import Textarea from "@shared/ui/textarea";
-import File from "@shared/ui/file";
 import { Activity } from "@shared/types/activity";
-import { sendActivity } from "@shared/api/sendActivity";
+import { Dropdown, File, Header, Textarea } from "@/shared/ui";
+import { useState } from "react";
+import { handleSubmitActivity } from "@/shared/lib/handleSubmitActivity";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
 }
 
 const MajorView = () => {
+  const [submitType, setSubmitType] = useState<"submit" | "draft">("submit");
   const {
     handleSubmit,
     control,
@@ -35,13 +33,7 @@ const MajorView = () => {
       categoryName: data.categoryName.send,
       activityType: "MAJOR",
     };
-    try {
-      await sendActivity(finalData);
-      toast.success("글 제출을 성공했습니다");
-    } catch (e) {
-      toast.error("글 제출을 실패했습니다");
-      console.error(e);
-    }
+    handleSubmitActivity(finalData, submitType);
   };
   return (
     <div className="flex flex-col items-center">
@@ -101,8 +93,15 @@ const MajorView = () => {
             render={({ field }) => <File label="이미지" {...field} />}
           />
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-            <Button variant="skyblue" label="임시저장" />
             <Button
+              type="submit"
+              onClick={() => setSubmitType("draft")}
+              variant="skyblue"
+              label="임시저장"
+            />
+            <Button
+              type="submit"
+              onClick={() => setSubmitType("submit")}
               state={isValid ? "default" : "disabled"}
               variant="blue"
               label="작성 완료"
