@@ -5,5 +5,5 @@ export const changeEvidenceState = async (
   evidenceId: number,
   status: postState
 ) => {
-  return instance.patch(`/evidence/${evidenceId}/status`, status);
+  return await instance.patch(`/evidence/${evidenceId}/status`, status);
 };
