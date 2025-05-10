@@ -2,8 +2,8 @@ import { Chain } from "../../asset/svg/chain";
 
 interface FileProps {
   isImg?: boolean;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: File;
+  onChange: (file: File) => void;
+  value?: File;
   label: string;
 }
 
@@ -18,10 +18,13 @@ const File = ({ isImg = true, value, onChange, label }: FileProps) => {
         htmlFor={label}
       >
         <Chain />
-        {value ? String(value) : "파일 첨부"}
+        {value ? value.name : "파일 첨부"}
       </label>
       <input
-        onChange={onChange}
+        onChange={(e) => {
+          const file = e.target.files?.[0];
+          if (file) onChange(file);
+        }}
         className="hidden"
         id={label}
         type="file"

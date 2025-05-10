@@ -5,13 +5,14 @@ import { Input } from "@repo/ui/input";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { Evidence } from "../model/evidence";
-import { options } from "../model/options";
+import { bookOption, options } from "../model/options";
 import { sendCertification } from "../api/sendCertification";
 import { sendEvidence } from "../api/sendEvidence";
 
 import File from "@shared/ui/file";
 import { FixScore } from "@shared/api/fixScore";
 import Dropdown from "@shared/ui/dropdown";
+import { toast } from "sonner";
 
 interface ModalProps {
   onClose: () => void;
@@ -33,13 +34,13 @@ const Modal = ({ onClose, type }: ModalProps) => {
       }}
     >
       <div
-        className="w-[37.5rem] bg-white px-[6.25rem] py-[4.94rem] rounded-xl"
+        className="w-[37.5rem] bg-white md:px-[6.25rem] px-[1.5rem] py-[4.94rem] rounded-xl"
         onClick={(e) => e.stopPropagation()}
       >
         <h1 className="text-title4s mb-6 text-center">
           {type === "TOPCIT"
             ? "TOPCIT"
-            : type === "CERTIFICATE"
+            : type !== "READ_A_THON"
               ? "자격증"
               : "독서로"}
         </h1>
@@ -48,15 +49,21 @@ const Modal = ({ onClose, type }: ModalProps) => {
           className="w-full flex flex-col gap-[1.5rem]"
           onSubmit={handleSubmit(async (data) => {
             if (type === "CERTIFICATE") {
-              await sendCertification({
+              const res = await sendCertification({
                 name: data.categoryName,
                 file: data.file,
                 acquisitionDate: String(data.acquisitionDate),
               });
+              if (res.status === 201) {
+                toast.success("자격증이 등록되었습니다.");
+                onClose();
+              } else {
+                toast.error("자격증 등록에 실패했습니다.");
+              }
             } else if (type === "TOPCIT") {
               FixScore({
                 categoryName: "major-topcit-score",
-                score: Number(data.categoryName),
+                score: Number(data.option.send),
               });
             } else if (type === "READ_A_THON") {
               await sendEvidence(data);
@@ -69,24 +76,23 @@ const Modal = ({ onClose, type }: ModalProps) => {
             }
           })}
         >
-          {type === "HUMANITY" ? (
+          {type === "HUMANITY" || type === "READ_A_THON" ? (
             <Controller
               rules={{ required: true }}
               name="option"
               control={control}
               render={({ field }) => (
-                <Dropdown options={options} label="자격증" {...field} />
+                <Dropdown
+                  options={type === "HUMANITY" ? options : bookOption}
+                  label={type === "HUMANITY" ? "자격증" : "독서로"}
+                  {...field}
+                />
               )}
             />
           ) : (
             <InputContainer
-              label={
-                type === "TOPCIT"
-                  ? "TOPCIT 점수"
-                  : type === "CERTIFICATE"
-                    ? "자격증 작성하기"
-                    : "독서로 단계"
-              }>
+              label={type === "TOPCIT" ? "TOPCIT 점수" : "자격증 작성하기"}
+            >
               <Input
                 control={control}
                 rules={{ required: true }}
@@ -94,30 +100,29 @@ const Modal = ({ onClose, type }: ModalProps) => {
               />
             </InputContainer>
           )}
-          {type === "CERTIFICATE" ||
-            (type === "HUMANITY" && (
-              <InputContainer label="취득일">
-                <Input
-                  control={control}
-                  rules={{ required: true }}
-                  name="acquisitionDate"
-                  type="date"
-                />
-              </InputContainer>
-            ))}
+          {(type === "CERTIFICATE" || type === "HUMANITY") && (
+            <InputContainer label="취득일">
+              <Input
+                control={control}
+                rules={{ required: true }}
+                name="acquisitionDate"
+                type="date"
+              />
+            </InputContainer>
+          )}
           <Controller
             name="file"
             control={control}
             rules={{ required: true }}
-            render={({ field }) => <File label="" {...field} />}
+            render={({ field }) => <File label="파일 첨부" {...field} />}
           />
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
+            <Button onClick={onClose} label="뒤로가기" variant="skyblue" />
             <Button
-              onClick={onClose}
-              label="뒤로가기"
-              variant="skyblue"
+              state={isValid ? "default" : "disabled"}
+              label="작성 완료"
+              variant="blue"
             />
-            <Button state={isValid ? "default" : "disabled"} label="작성 완료" variant="blue" />
           </div>
         </form>
       </div>
