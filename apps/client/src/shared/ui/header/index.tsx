@@ -57,11 +57,12 @@ const Header = () => {
             </Link>
           </li>
           {accessToken && <>
-            <li
+            <Link
               className="hover:text-black cursor-pointer"
+              href="/changePassword"
             >
               비밀번호 변경
-            </li>
+            </Link>
             <li
               className="hover:text-black cursor-pointer"
               onClick={() => signout()}
