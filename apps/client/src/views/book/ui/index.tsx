@@ -72,8 +72,15 @@ const BookView = () => {
           />
 
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-            <Button variant="skyblue" label="임시저장" />
             <Button
+              type="submit"
+              onClick={() => setSubmit("draft")}
+              variant="skyblue"
+              label="임시저장"
+            />
+            <Button
+              onClick={() => setSubmit("submit")}
+              type="submit"
               state={isValid ? "default" : "disabled"}
               variant="blue"
               label="작성 완료"
