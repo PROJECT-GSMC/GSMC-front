@@ -7,6 +7,7 @@ import { Button } from "@repo/ui/button";
 import Header from "@shared/ui/header";
 import Post from "@shared/ui/post/post";
 import Search from "@entities/posts/ui/search";
+import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 
 const PostsView = () => {
   const [result, setResult] = useState<string>("");
@@ -20,7 +21,7 @@ const PostsView = () => {
           <Button label="인성" variant="skyblue" />
           <Button label="전공" variant="skyblue" />
           <Button label="외국어" variant="skyblue" />
-          <Button label="임시저장" variant="skyblue" />
+          <Button onClick={useGetDraft} label="임시저장" variant="skyblue" />
         </div>
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
           <Post
