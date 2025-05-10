@@ -10,6 +10,7 @@ interface ButtonProps {
   variant: keyof typeof variantStyles;
   state?: ButtonState;
   onClick?: () => void;
+  type?: "button" | "submit" | "reset";
 }
 
 export const Button = ({
@@ -17,6 +18,7 @@ export const Button = ({
   label,
   variant,
   state = "default",
+  type = "button",
   onClick,
 }: ButtonProps) => {
   const baseStyle =
@@ -28,7 +30,7 @@ export const Button = ({
 
   return (
     <button
-      type="submit"
+      type={type}
       className={`${baseStyle} ${buttonStyle} ${className}`}
       onClick={onClick}
     >
