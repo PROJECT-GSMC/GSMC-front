@@ -2,7 +2,7 @@
 
 
 import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
 import TextLogo from "@repo/ui/textLogo";
@@ -12,6 +12,7 @@ import { deleteCookie } from "node_modules/@repo/ui/src/utils/deleteCookie";
 const Header = () => {
   const pathname = usePathname();
   const [accessToken, setAccessToken] = useState<string | null>(null);
+  const router = useRouter()
 
   useEffect(() => {
     const token = getCookie("accessToken");
@@ -21,6 +22,7 @@ const Header = () => {
   const deleteToken = () => {
     deleteCookie("accessToken")
     deleteCookie("refreshToken")
+    router.push('/signin')
   }
 
   return (
