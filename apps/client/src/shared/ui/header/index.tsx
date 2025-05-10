@@ -19,7 +19,7 @@ const Header = () => {
     setAccessToken(token);
   }, []);
 
-  const deleteToken = () => {
+  const signout = () => {
     deleteCookie("accessToken")
     deleteCookie("refreshToken")
     router.push('/signin')
@@ -56,18 +56,19 @@ const Header = () => {
               내 글 목록
             </Link>
           </li>
-          <li
-            className="hover:text-black cursor-pointer"
-          >
-            비밀번호 변경
-          </li>
-          {accessToken &&
+          {accessToken && <>
             <li
               className="hover:text-black cursor-pointer"
-              onClick={() => deleteToken()}
+            >
+              비밀번호 변경
+            </li>
+            <li
+              className="hover:text-black cursor-pointer"
+              onClick={() => signout()}
             >
               로그아웃
-            </li>}
+            </li>
+          </>}
         </ul>
       </div>
     </header>
