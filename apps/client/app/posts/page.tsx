@@ -1,4 +1,4 @@
-import { PostProvider } from "@/shared/store/postProvider";
+import { PostProvider } from "@repo/ui/store/postProvider";
 import PostsView from "@views/posts/ui/myPosts";
 
 const PostsPage = () => {

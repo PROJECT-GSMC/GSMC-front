@@ -1,5 +1,5 @@
-import { PostProvider } from "@/shared/store/postProvider";
 import DetailView from "@/views/detail";
+import { PostProvider } from "@repo/ui/store/postProvider";
 
 const DetailPage = () => {
   return (
