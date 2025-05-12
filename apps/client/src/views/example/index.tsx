@@ -1,10 +1,14 @@
+"use client";
+
 import { Header, Post } from "@/shared/ui";
 import { usePost } from "@repo/ui/store/postProvider";
 import Mock from "@shared/mocks/data/evidenceMock.json";
+import { useRouter } from "next/navigation";
 import { post } from "node_modules/@repo/ui/src/types/evidences";
 
 export default function ExampleView() {
   const { setPost } = usePost();
+  const R = useRouter();
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -18,6 +22,7 @@ export default function ExampleView() {
               <Post
                 onClick={() => {
                   setPost(data as post);
+                  R.push(`/detail/${data.id}`);
                 }}
                 key={data.id}
                 data={data as post}

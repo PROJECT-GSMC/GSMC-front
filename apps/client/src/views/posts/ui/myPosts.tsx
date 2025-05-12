@@ -8,16 +8,18 @@ import Header from "@shared/ui/header";
 import Post from "@/shared/ui/post/post";
 import Search from "@entities/posts/ui/search";
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
-import { usePost } from "@/shared/store/postProvider";
 import { EvidenceType, post } from "node_modules/@repo/ui/src/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { toast } from "sonner";
+import { usePost } from "@repo/ui/store/postProvider";
+import { useRouter } from "next/navigation";
 
 const PostsView = () => {
   const [result, setResult] = useState<string>("");
   const [categoryName, setCategoryName] = useState<EvidenceType>("MAJOR");
   const { setPost } = usePost();
   const { data, isError } = useGetPosts(categoryName);
+  const R = useRouter();
 
   if (isError) {
     toast.error("게시물을 불러오지 못했습니다.");
@@ -53,7 +55,14 @@ const PostsView = () => {
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
           {data?.data.map((post: post) => {
             return (
-              <Post onClick={() => setPost(post)} data={post} key={post.id} />
+              <Post
+                onClick={() => {
+                  setPost(post);
+                  R.push(`/detail/${post.id}`);
+                }}
+                data={post}
+                key={post.id}
+              />
             );
           })}
         </div>
