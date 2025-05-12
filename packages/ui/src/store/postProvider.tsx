@@ -1,5 +1,5 @@
-import { post } from "node_modules/@repo/ui/src/types/evidences";
 import { createContext, useContext, ReactNode, useState } from "react";
+import { post } from "../types/evidences";
 
 interface PostContextType {
   post: post | null;
