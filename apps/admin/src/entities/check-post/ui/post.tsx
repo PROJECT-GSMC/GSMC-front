@@ -1,11 +1,15 @@
 import Image from "next/image";
 import { toast } from "sonner";
 import { changeEvidenceState } from "../api/changeEvidenceState";
-import { PostType } from "../../../../../../packages/ui/src/types/postType";
-import { handleStateColor, handleState } from "../../../../../../packages/ui/src/utils/handleState";
+import { PostType } from "node_modules/@repo/ui/src/types/postType";
+import {
+  handleState,
+  handleStateColor,
+} from "node_modules/@repo/ui/src/utils/handleState";
 
 interface PostProps {
   data: PostType;
+  onClick?: () => void;
 }
 
 export const Post = ({ data }: PostProps) => {
@@ -59,5 +63,3 @@ export const Post = ({ data }: PostProps) => {
     </div>
   );
 };
-
-
