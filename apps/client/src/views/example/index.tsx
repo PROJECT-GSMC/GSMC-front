@@ -1,8 +1,10 @@
 import { Header, Post } from "@/shared/ui";
+import { usePost } from "@repo/ui/store/postProvider";
 import Mock from "@shared/mocks/data/evidenceMock.json";
-import { postState } from "node_modules/@repo/ui/src/types/evidences";
+import { post } from "node_modules/@repo/ui/src/types/evidences";
 
 export default function ExampleView() {
+  const { setPost } = usePost();
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -14,15 +16,11 @@ export default function ExampleView() {
           {Mock.map((data) => {
             return (
               <Post
-                key={data.id}
-                data={{
-                  id: data.id as number,
-                  title: data.title ?? data.evidenceType,
-                  content: data.content ?? "",
-                  imageUrl: data.imageUri ?? data.fileUri ?? "",
-                  status: data.status as postState,
-                  categoryName: data.categoryName ?? data.author,
+                onClick={() => {
+                  setPost(data as post);
                 }}
+                key={data.id}
+                data={data as post}
                 isExample={true}
               />
             );
