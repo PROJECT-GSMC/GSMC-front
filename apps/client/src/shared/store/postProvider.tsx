@@ -1,25 +1,15 @@
+import { post } from "node_modules/@repo/ui/src/types/evidences";
 import { createContext, useContext, ReactNode, useState } from "react";
-import {
-  Activity,
-  Others,
-  Reading,
-} from "node_modules/@repo/ui/src/types/evidences";
 
 interface PostContextType {
-  post: Activity | Reading | Others | null;
-  setPost: (post: Activity | Reading | Others) => void;
+  post: post | null;
+  setPost: (post: post) => void;
 }
 
 const postContext = createContext<PostContextType | undefined>(undefined);
 
-export const PostProvider = ({
-  children,
-  value,
-}: {
-  children: ReactNode;
-  value: Activity | Reading | Others;
-}) => {
-  const [post, setPost] = useState<Activity | Reading | Others | null>(value);
+export const PostProvider = ({ children }: { children: ReactNode }) => {
+  const [post, setPost] = useState<post | null>(null);
 
   return (
     <postContext.Provider value={{ post, setPost }}>
