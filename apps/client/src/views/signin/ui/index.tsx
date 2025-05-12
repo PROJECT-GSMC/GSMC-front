@@ -98,9 +98,15 @@ const SigninView = () => {
               label="로그인"
               variant="blue"
               state={isValid ? "default" : "disabled"}
+              type="submit"
             />
           </form>
-          <Link className="text-blue-400 text-sm mt-2 underline-offset-auto underline" href={"/signup"}>회원가입</Link>
+          <Link
+            className="text-blue-400 text-sm mt-2 underline-offset-auto underline"
+            href={"/signup"}
+          >
+            회원가입
+          </Link>
         </>
       </AuthForm>
     </div>
