@@ -1,24 +1,21 @@
 "use client";
 
 import Image from "next/image";
+import { post } from "node_modules/@repo/ui/src/types/evidences";
+import {
+  isActivity,
+  isOthers,
+  isReading,
+} from "node_modules/@repo/ui/src/utils/handlePost";
 import {
   handleState,
   handleStateColor,
-} from "../../../../../../packages/ui/src/utils/handleState";
-import {
-  Others,
-  Reading,
-  Activity,
-} from "../../../../../../packages/ui/src/types/evidences";
-import {
-  isActivity,
-  isReading,
-  isOthers,
-} from "../../../../../../packages/ui/src/utils/handlePost";
+} from "node_modules/@repo/ui/src/utils/handleState";
 
 interface PostProps {
-  data: Activity | Reading | Others;
+  data: post;
   isExample?: boolean;
+  onClick?: () => void;
 }
 
 const Post = ({ data, isExample = false }: PostProps) => {
