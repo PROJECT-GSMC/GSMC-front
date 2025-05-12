@@ -18,9 +18,12 @@ interface PostProps {
   onClick?: () => void;
 }
 
-const Post = ({ data, isExample = false }: PostProps) => {
+const Post = ({ data, isExample = false, onClick }: PostProps) => {
   return (
-    <div className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem] h-[276px]">
+    <div
+      onClick={onClick}
+      className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem] h-[276px]"
+    >
       <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
         {isActivity(data) && data.imageUrl && (
           <Image

@@ -12,9 +12,12 @@ interface PostProps {
   onClick?: () => void;
 }
 
-export const Post = ({ data }: PostProps) => {
+export const Post = ({ data, onClick }: PostProps) => {
   return (
-    <div className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]">
+    <div
+      onClick={onClick}
+      className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]"
+    >
       {data.imageUrl ? (
         <Image
           src={data.imageUrl}
