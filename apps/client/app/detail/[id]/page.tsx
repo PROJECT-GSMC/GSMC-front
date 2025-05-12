@@ -1,7 +1,12 @@
+import { PostProvider } from "@/shared/store/postProvider";
 import DetailView from "@/views/detail";
 
 const DetailPage = () => {
-  return <DetailView />;
+  return (
+    <PostProvider>
+      <DetailView />
+    </PostProvider>
+  );
 };
 
 export default DetailPage;
