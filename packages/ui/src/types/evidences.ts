@@ -26,6 +26,8 @@ export interface Others {
 
 export type postState = "APPROVE" | "PENDING" | "REJECT";
 
+export type post = Activity | Reading | Others;
+
 export type EvidenceType =
   | "MAJOR"
   | "HUMANITIES"
