@@ -1,3 +1,5 @@
+"use client";
+
 import { createContext, useContext, ReactNode, useState } from "react";
 import { post } from "../types/evidences";
 
