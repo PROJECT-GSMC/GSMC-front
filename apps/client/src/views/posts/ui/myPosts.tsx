@@ -23,7 +23,7 @@ const PostsView = () => {
   if (isError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
-  let posts: post[] = [
+  const posts: post[] = [
     ...(data?.data?.majorActivityEvidence ?? []),
     ...(data?.data?.humanitiesActivityEvidence ?? []),
     ...(data?.data?.readingEvidence ?? []),

@@ -20,13 +20,13 @@ const DetailView = () => {
   if (isError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
-  let posts: postType[] = [
+  const posts: postType[] = [
     ...(data?.data?.majorActivityEvidence ?? []),
     ...(data?.data?.humanitiesActivityEvidence ?? []),
     ...(data?.data?.readingEvidence ?? []),
     ...(data?.data?.otherEvidence ?? []),
   ];
-  let post = posts.filter((post) => post.id === Number(id));
+  const post = posts.filter((post) => post.id === Number(id));
   return (
     <>
       <Header />
