@@ -2,7 +2,7 @@ export interface Activity {
   id: number;
   title: string;
   content: string;
-  imageUrl: string;
+  imageUrl?: string;
   status: postState;
   categoryName: string;
 }
@@ -18,13 +18,15 @@ export interface Reading {
 
 export interface Others {
   id: number;
-  fileUrl: string;
+  fileUrl?: string;
   evidenceType: EvidenceType;
   status: postState;
   categoryName: string;
 }
 
 export type postState = "APPROVE" | "PENDING" | "REJECT";
+
+export type post = Activity | Reading | Others;
 
 export type EvidenceType =
   | "MAJOR"
@@ -44,3 +46,10 @@ export type EvidenceType =
   | "HSK";
 
 export type ACTIVITY_TYP = "MAJOR" | "HUMANITIES";
+
+export interface EvidenceResponse {
+  majorActivityEvidence: Activity[];
+  humanitiesActivityEvidence: Activity[];
+  readingEvidence: Reading[];
+  otherEvidence: Others[];
+}

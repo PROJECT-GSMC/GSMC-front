@@ -4,16 +4,21 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { Button } from "@repo/ui/button";
-import { postState } from "../../../../../../packages/ui/src/types/evidences";
-import { PostType } from "../../../../../../packages/ui/src/types/postType";
 
 import Header from "../../../shared/ui/header";
 import { Post } from "../../../entities/check-post/ui/post";
 import { useGetPosts } from "../model/useGetPosts";
+import { postState } from "node_modules/@repo/ui/src/types/evidences";
+import { PostType } from "node_modules/@repo/ui/src/types/postType";
+import { useParams, useRouter } from "next/navigation";
+import { usePost } from "@repo/ui/store/postProvider";
 
 const PostsView = () => {
+  const { setPost } = usePost();
   const [state, setState] = useState<postState | "">("");
-  const { data, isError, error } = useGetPosts("email", "PENDING");
+  const params = useParams();
+  const R = useRouter();
+  const { data, isError, error } = useGetPosts(params.id as string, "PENDING");
   if (isError) {
     console.error(error);
     toast.error("게시글을 불러오는 데 실패했습니다.");
@@ -47,7 +52,16 @@ const PostsView = () => {
         </div>
         <div className="flex flex-wrap justify-center">
           {filteredPosts && filteredPosts.length > 0 ? (
-            filteredPosts.map((post) => <Post key={post.id} data={post} />)
+            filteredPosts.map((post) => (
+              <Post
+                onClick={() => {
+                  R.push(`/detail/${post.id}`);
+                  setPost(post);
+                }}
+                key={post.id}
+                data={post}
+              />
+            ))
           ) : (
             <p className="w-full text-center mt-4 text-gray-400">
               게시글이 없습니다.

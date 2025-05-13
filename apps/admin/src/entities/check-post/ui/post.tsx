@@ -1,16 +1,23 @@
 import Image from "next/image";
 import { toast } from "sonner";
 import { changeEvidenceState } from "../api/changeEvidenceState";
-import { PostType } from "../../../../../../packages/ui/src/types/postType";
-import { handleStateColor, handleState } from "../../../../../../packages/ui/src/utils/handleState";
+import { PostType } from "node_modules/@repo/ui/src/types/postType";
+import {
+  handleState,
+  handleStateColor,
+} from "node_modules/@repo/ui/src/utils/handleState";
 
 interface PostProps {
   data: PostType;
+  onClick?: () => void;
 }
 
-export const Post = ({ data }: PostProps) => {
+export const Post = ({ data, onClick }: PostProps) => {
   return (
-    <div className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]">
+    <div
+      onClick={onClick}
+      className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]"
+    >
       {data.imageUrl ? (
         <Image
           src={data.imageUrl}
@@ -59,5 +66,3 @@ export const Post = ({ data }: PostProps) => {
     </div>
   );
 };
-
-
