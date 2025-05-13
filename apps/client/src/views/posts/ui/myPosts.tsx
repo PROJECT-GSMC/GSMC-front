@@ -20,10 +20,16 @@ const PostsView = () => {
   const { setPost } = usePost();
   const { data, isError } = useGetPosts(categoryName);
   const R = useRouter();
-
   if (isError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
+  let posts: post[] = [
+    ...(data?.data?.majorActivityEvidence ?? []),
+    ...(data?.data?.humanitiesActivityEvidence ?? []),
+    ...(data?.data?.readingEvidence ?? []),
+    ...(data?.data?.otherEvidence ?? []),
+  ];
+
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -53,18 +59,19 @@ const PostsView = () => {
           <Button onClick={useGetDraft} label="임시저장" variant="skyblue" />
         </div>
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
-          {data?.data.map((post: post) => {
-            return (
-              <Post
-                onClick={() => {
-                  setPost(post);
-                  R.push(`/detail/${post.id}`);
-                }}
-                data={post}
-                key={post.id}
-              />
-            );
-          })}
+          {posts &&
+            posts.map((post: post) => {
+              return (
+                <Post
+                  onClick={() => {
+                    setPost(post);
+                    R.push(`/detail/${post.id}`);
+                  }}
+                  data={post}
+                  key={post.id}
+                />
+              );
+            })}
         </div>
       </div>
     </div>

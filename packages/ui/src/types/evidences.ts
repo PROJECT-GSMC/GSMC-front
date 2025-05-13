@@ -46,3 +46,10 @@ export type EvidenceType =
   | "HSK";
 
 export type ACTIVITY_TYP = "MAJOR" | "HUMANITIES";
+
+export interface EvidenceResponse {
+  majorActivityEvidence: Activity[];
+  humanitiesActivityEvidence: Activity[];
+  readingEvidence: Reading[];
+  otherEvidence: Others[];
+}
