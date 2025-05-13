@@ -8,10 +8,25 @@ import {
   isOthers,
   isReading,
 } from "node_modules/@repo/ui/src/utils/handlePost";
-import { usePost } from "@repo/ui/store/postProvider";
+import { useParams } from "next/navigation";
+import { toast } from "sonner";
+import { post as postType } from "node_modules/@repo/ui/src/types/evidences";
+import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 
 const DetailView = () => {
-  const { post } = usePost();
+  const params = useParams();
+  const { id } = params;
+  const { data, isError } = useGetPosts(null);
+  if (isError) {
+    toast.error("게시물을 불러오지 못했습니다.");
+  }
+  let posts: postType[] = [
+    ...(data?.data?.majorActivityEvidence ?? []),
+    ...(data?.data?.humanitiesActivityEvidence ?? []),
+    ...(data?.data?.readingEvidence ?? []),
+    ...(data?.data?.otherEvidence ?? []),
+  ];
+  let post = posts.filter((post) => post.id === Number(id));
   return (
     <>
       <Header />
@@ -19,26 +34,26 @@ const DetailView = () => {
         <div className="flex flex-col w-[37.5rem] gap-[1.75rem]">
           <header className="flex flex-col w-full gap-[0.5rem]">
             <h1 className="text-[2.25rem] font-semibold">
-              {post && (isActivity(post) || isReading(post))
-                ? post.title
+              {post[0] && (isActivity(post[0]) || isReading(post[0]))
+                ? post[0].title
                 : "Title"}
             </h1>
             <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
               {/* 게시물을 작성한 사람 이름 -> 현재 로그인 된 사람 이름 */}
               {"모태환"} {" . "}
-              {post && (isActivity(post) || isOthers(post))
-                ? post.categoryName
+              {post[0] && (isActivity(post[0]) || isOthers(post[0]))
+                ? post[0].categoryName
                 : "Area"}
             </h3>
             <div className="w-full h-[0.5px] bg-[#A6A6A6]"></div>
           </header>
 
           <main className="flex flex-col gap-[3rem]">
-            {post && isActivity(post) && post.imageUrl && (
+            {post[0] && isActivity(post[0]) && post[0].imageUrl && (
               <div className="h-[21.215rem] bg-slate-600">
                 <Image
-                  src={post.imageUrl}
-                  alt={post.title ?? "img"}
+                  src={post[0].imageUrl}
+                  alt={post[0].title ?? "img"}
                   width={188}
                   height={150}
                   className="object-cover w-full h-full"
@@ -47,15 +62,15 @@ const DetailView = () => {
             )}
             <section className="flex flex-col gap-[1rem]">
               <h2 className="text-[1.5rem] font-semibold">
-                {post && (isActivity(post) || isOthers(post))
-                  ? `카테고리: ${post.categoryName}`
-                  : post && isReading(post) && post.author
-                    ? post.author
+                {post[0] && (isActivity(post[0]) || isOthers(post[0]))
+                  ? `카테고리: ${post[0].categoryName}`
+                  : post[0] && isReading(post[0]) && post[0].author
+                    ? post[0].author
                     : "Author"}
               </h2>
               <p className="text-[1.25rem] font-normal min-h-[29s.9375rem]">
-                {post && (isActivity(post) || isReading(post))
-                  ? post.content
+                {post[0] && (isActivity(post[0]) || isReading(post[0]))
+                  ? post[0].content
                   : ""}
               </p>
             </section>
