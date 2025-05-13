@@ -1,3 +1,5 @@
+"use client";
+
 import { Button } from "@repo/ui/button";
 import Image from "next/image";
 import Header from "@shared/ui/header";
@@ -6,7 +8,7 @@ import {
   isOthers,
   isReading,
 } from "node_modules/@repo/ui/src/utils/handlePost";
-import { usePost } from "@/shared/store/postProvider";
+import { usePost } from "@repo/ui/store/postProvider";
 
 const DetailView = () => {
   const { post } = usePost();
