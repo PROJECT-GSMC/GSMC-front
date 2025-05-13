@@ -39,8 +39,9 @@ const DetailView = () => {
                 <Image
                   src={post.imageUrl}
                   alt={post.title ?? "img"}
-                  fill
-                  className="w-full"
+                  width={188}
+                  height={150}
+                  className="object-cover w-full h-full"
                 />
               </div>
             )}
