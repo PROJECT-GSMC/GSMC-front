@@ -7,16 +7,11 @@ export const handleSubmitBook = async (
   data: Book,
   submitType: "submit" | "draft"
 ) => {
-  const formData = new FormData();
-  formData.append("title", data.title);
-  formData.append("content", data.content);
-  formData.append("author", data.author);
-  formData.append("page", data.page.toString());
   try {
     if (submitType === "draft") {
-      await saveBookDraft(formData);
+      await saveBookDraft(data);
     } else {
-      await sendBook(formData);
+      await sendBook(data);
     }
     toast.success(submitType === "draft" ? "임시저장 완료" : "제출 완료");
   } catch (e) {
