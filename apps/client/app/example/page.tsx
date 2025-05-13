@@ -1,12 +1,7 @@
 import ExampleView from "@/views/example";
-import { PostProvider } from "@repo/ui/store/postProvider";
 
 const ExamplePage = () => {
-  return (
-    <PostProvider>
-      <ExampleView />
-    </PostProvider>
-  );
+  return <ExampleView />;
 };
 
 export default ExamplePage;

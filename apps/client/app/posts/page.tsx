@@ -1,12 +1,7 @@
-import { PostProvider } from "@repo/ui/store/postProvider";
 import PostsView from "@views/posts/ui/myPosts";
 
 const PostsPage = () => {
-  return (
-    <PostProvider>
-      <PostsView />
-    </PostProvider>
-  );
+  return <PostsView />;
 };
 
 export default PostsPage;

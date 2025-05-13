@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Providers from "./providers";
 import { Toaster } from "sonner";
+import { PostProvider } from "@repo/ui/store/postProvider";
 
 export const metadata: Metadata = {
   title: "GSMC",
@@ -17,7 +18,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <PostProvider>
+          <Providers>{children}</Providers>
+        </PostProvider>
         <Toaster richColors />
       </body>
     </html>
