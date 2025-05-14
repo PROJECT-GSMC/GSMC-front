@@ -231,30 +231,15 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/tailwind-config':
-        specifier: workspace:*
-        version: link:../tailwind-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/axios':
         specifier: ^0.14.0
         version: 0.14.4
-      '@types/react':
-        specifier: ^19.0.10
-        version: 19.0.10
-      autoprefixer:
-        specifier: ^10.4.20
-        version: 10.4.21(postcss@8.5.3)
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
       typescript:
         specifier: 5.8.2
         version: 5.8.2
@@ -264,27 +249,12 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/tailwind-config':
-        specifier: workspace:*
-        version: link:../tailwind-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@types/react':
-        specifier: ^19.0.10
-        version: 19.0.10
-      autoprefixer:
-        specifier: ^10.4.20
-        version: 10.4.21(postcss@8.5.3)
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
       typescript:
         specifier: 5.8.2
         version: 5.8.2
@@ -343,33 +313,27 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/tailwind-config':
-        specifier: workspace:*
-        version: link:../tailwind-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.10
-      autoprefixer:
-        specifier: ^10.4.20
-        version: 10.4.21(postcss@8.5.3)
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
       typescript:
         specifier: 5.8.2
         version: 5.8.2
 
   packages/shared:
     dependencies:
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../api
+      '@repo/consts':
+        specifier: workspace:*
+        version: link:../consts
       '@repo/hooks':
         specifier: workspace:*
         version: link:../hooks
@@ -453,27 +417,12 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/tailwind-config':
-        specifier: workspace:*
-        version: link:../tailwind-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@types/react':
-        specifier: ^19.0.10
-        version: 19.0.10
-      autoprefixer:
-        specifier: ^10.4.20
-        version: 10.4.21(postcss@8.5.3)
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
       typescript:
         specifier: 5.8.2
         version: 5.8.2
@@ -489,57 +438,43 @@ importers:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/tailwind-config':
-        specifier: workspace:*
-        version: link:../tailwind-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      '@types/react':
-        specifier: ^19.0.10
-        version: 19.0.10
-      autoprefixer:
-        specifier: ^10.4.20
-        version: 10.4.21(postcss@8.5.3)
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
       typescript:
         specifier: 5.8.2
         version: 5.8.2
 
   packages/widgets:
+    dependencies:
+      '@repo/hooks':
+        specifier: workspace:*
+        version: link:../hooks
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
         version: link:../eslint-config
-      '@repo/tailwind-config':
-        specifier: workspace:*
-        version: link:../tailwind-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
       '@types/react':
         specifier: ^19.0.10
         version: 19.0.10
-      autoprefixer:
-        specifier: ^10.4.20
-        version: 10.4.21(postcss@8.5.3)
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
       typescript:
         specifier: 5.8.2
         version: 5.8.2

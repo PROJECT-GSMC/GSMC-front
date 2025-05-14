@@ -2,29 +2,23 @@
   "name": "@repo/shared",
   "version": "0.0.0",
   "private": true,
-  "sideEffects": [
-    "**/*.css"
-  ],
-  "files": [
-    "dist"
-  ],
-  "exports": {
-    "./styles.css": "./dist/index.css",
-    "./*": "./src/*.js"
-  },
   "main": "./src/index.ts",
   "types": "./src/index.ts",
+  "exports": {
+    "./*": "./src/*.js"
+  },
   "license": "MIT",
   "scripts": {
-    "build": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
+    "build": "tsc",
     "check-types": "tsc --noEmit",
-    "dev": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
     "lint": "eslint src --max-warnings 0"
   },
   "dependencies": {
     "@repo/types": "workspace:*",
     "@repo/utils": "workspace:*",
     "@repo/hooks": "workspace:*",
+    "@repo/api": "workspace:*",
+    "@repo/consts": "workspace:*",
     "react": "^19.0.0"
   },
   "devDependencies": {
