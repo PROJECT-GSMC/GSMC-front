@@ -70,6 +70,10 @@ const BookView = () => {
             control={control}
             rules={{
               required: "내용을 입력해주세요.",
+              minLength: {
+                value: 600,
+                message: "600자 이상 입력해주세요.",
+              },
             }}
             render={({ field }) => <Textarea isBook {...field} />}
           />
