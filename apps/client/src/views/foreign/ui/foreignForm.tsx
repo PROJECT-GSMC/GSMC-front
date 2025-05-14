@@ -9,13 +9,13 @@ import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 import { foreignOptions } from "../model/foreignOptions";
 import { ForeignForm } from "../model/foreign";
 import { chooseDropdownOption } from "../lib/chooseDropdownOption";
-import { sendForeign } from "../api/sendForeign";
 
 import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
 import Header from "@shared/ui/header";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { sendScore } from "@/shared/api/sendScore";
 
 const ForeignFormView = () => {
   const {
@@ -31,7 +31,7 @@ const ForeignFormView = () => {
   });
 
   const onSubmit = async (data: ForeignForm) => {
-    const res = await sendForeign(
+    const res = await sendScore(
       data.categoryName.send,
       data.value.send,
       data.file

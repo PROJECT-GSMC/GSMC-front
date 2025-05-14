@@ -1,6 +1,6 @@
 import instance from "node_modules/@repo/ui/src/axios";
 
-export const sendForeign = async (
+export const sendScore = async (
   categoryName: string,
   value: number,
   file: File
@@ -10,5 +10,5 @@ export const sendForeign = async (
   formData.append("value", value.toString());
   formData.append("file", file);
 
-  return await instance.post("/evidence/current/foreign", formData);
+  return await instance.post("/evidence/current/scoring", formData);
 };
