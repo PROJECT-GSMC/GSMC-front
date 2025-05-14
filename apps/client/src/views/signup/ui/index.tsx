@@ -12,7 +12,7 @@ import StepAuthCode from "@widgets/stepAuthCode/ui";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
 
 import { AuthForm } from "@widgets/auth/ui";
-import { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
+import { AuthStepForm, SignupStepForm } from "@shared/model/AuthForm";
 
 import { postSignup } from "@/entities/signup/api/postSignup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
