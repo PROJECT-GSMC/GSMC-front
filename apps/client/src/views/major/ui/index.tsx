@@ -12,6 +12,7 @@ import { Activity } from "@shared/types/activity";
 import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 import { useState } from "react";
 import { handleSubmitActivity } from "@/shared/lib/handleSubmitActivity";
+import { useRouter } from "next/navigation";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
@@ -19,6 +20,7 @@ interface FormValues extends Omit<Activity, "categoryName"> {
 
 const MajorView = () => {
   const [submitType, setSubmitType] = useState<"submit" | "draft">("submit");
+  const R = useRouter();
   const {
     handleSubmit,
     control,
@@ -33,12 +35,13 @@ const MajorView = () => {
       categoryName: data.categoryName.send,
       activityType: "MAJOR",
     };
-    handleSubmitActivity(finalData, submitType);
+    const res = await handleSubmitActivity(finalData, submitType);
+    if (res) R.push("/");
   };
   return (
     <div className="flex flex-col items-center">
       <Header />
-      <form className=" flex-col px-4 justify-center w-full max-w-[37.5rem]">
+      <div className=" flex-col px-4 justify-center w-full max-w-[37.5rem]">
         <h1 className="text-tropicalblue-700 text-title4s sm:text-titleMedium my-[1rem] sm:my-[2.38rem] mb-6">
           전공 영역
         </h1>
@@ -87,9 +90,6 @@ const MajorView = () => {
           <Controller
             name="file"
             control={control}
-            rules={{
-              required: "파일을 선택해주세요.",
-            }}
             render={({ field }) => <File label="이미지" {...field} />}
           />
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
@@ -108,7 +108,7 @@ const MajorView = () => {
             />
           </div>
         </form>
-      </form>
+      </div>
     </div>
   );
 };

@@ -98,7 +98,7 @@ const MainView = () => {
               <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
                 <Link
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                  href="/character"
+                  href="/humanity"
                 >
                   <p>인성영역 작성</p>
                   <p>{">"}</p>

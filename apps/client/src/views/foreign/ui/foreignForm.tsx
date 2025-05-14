@@ -1,19 +1,26 @@
 "use client";
 
 import { Controller, useForm, useWatch } from "react-hook-form";
+<<<<<<< HEAD
 
 import { Input } from "@repo/shared/input";
 import { Button } from "@repo/shared/button";
 import { InputContainer } from "@repo/widgets/inputContainer";
+=======
+import { Input } from "@repo/ui/input";
+import { Button } from "@repo/ui/button";
+import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+>>>>>>> 3e18071d27bb47e1b992fae608d9cab63a7923b7
 
 import { foreignOptions } from "../model/foreignOptions";
-import { ForeignForm } from "../model/foreign";
 import { chooseDropdownOption } from "../lib/chooseDropdownOption";
-import { sendForeign } from "../api/sendForeign";
 
 import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
 import Header from "@shared/ui/header";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
+import { sendScore } from "@/shared/api/sendScore";
 
 const ForeignFormView = () => {
   const {
@@ -21,14 +28,36 @@ const ForeignFormView = () => {
     control,
     formState: { isValid },
   } = useForm<ForeignForm>({ mode: "onChange" });
+  const R = useRouter();
+
+  interface ForeignForm {
+    categoryName: { name: string; send: string };
+    value: { name: string; send: number } | number;
+    file: File;
+  }
 
   const category = useWatch({
     control,
     name: "categoryName",
   });
 
-  const onSubmit = (data: ForeignForm) => {
-    sendForeign(data.categoryName.send, data.value.send, data.file);
+  const onSubmit = async (data: ForeignForm) => {
+    console.log("Form data:", data);
+
+    const value =
+      typeof data.value === "number" || typeof data.value === "string"
+        ? { name: data.value.toString(), send: data.value }
+        : data.value;
+
+    console.log("Converted value:", value);
+
+    const res = await sendScore(data.categoryName.send, value.send, data.file);
+    if (res) {
+      toast.success("외국어 영역이 등록되었습니다.");
+      R.push("/");
+    } else {
+      toast.error("외국어 영역 등록에 실패했습니다.");
+    }
   };
 
   const needDropdown =
@@ -60,24 +89,35 @@ const ForeignFormView = () => {
               control={control}
               name="value"
               rules={{ required: "단계를 선택해주세요." }}
-              render={({ field }) => (
-                <Dropdown
-                  label="단계"
-                  options={chooseDropdownOption(category?.name)}
-                  {...field}
-                />
-              )}
+              render={({ field }) => {
+                const options = chooseDropdownOption(category?.name);
+                const selectedOption =
+                  typeof field.value === "number"
+                    ? options.find((opt) => opt.send === field.value)
+                    : field.value;
+
+                return (
+                  <Dropdown
+                    label="단계"
+                    options={options}
+                    value={selectedOption}
+                    onChange={(val) => field.onChange(val)}
+                  />
+                );
+              }}
             />
           ) : (
             <InputContainer label="점수">
               <Input
+                name="value"
                 type="number"
                 control={control}
-                name="value"
                 rules={{ required: "점수를 입력해주세요" }}
+                defaultValue={0}
               />
             </InputContainer>
           )}
+
           <Controller
             control={control}
             name="file"
@@ -87,8 +127,8 @@ const ForeignFormView = () => {
         </div>
 
         <div className="flex flex-col sm:gap-[0.81rem] gap-[0.5rem] sm:mb-[3.38rem] mb-2">
-          <Button variant="skyblue" label="임시저장" />
           <Button
+            type="submit"
             state={isValid ? "default" : "disabled"}
             variant="blue"
             label="작성 완료"
