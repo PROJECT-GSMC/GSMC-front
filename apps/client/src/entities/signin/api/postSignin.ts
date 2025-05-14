@@ -8,7 +8,7 @@ export const postSignin = async (form: SigninFormProps) => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "로그인 실패");
+      throw error.response.data || "로그인 실패";
     }
     throw error;
   }

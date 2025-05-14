@@ -6,14 +6,14 @@ import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
-import { SignupFormProps } from "@shared/model/AuthForm";
+import { AuthStepForm } from "@shared/model/AuthForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
 
 export default function StepAuthCode({
   control,
   isAuthButtonActive,
 }: {
-  control: Control<SignupFormProps>;
+  control: Control<AuthStepForm>;
   isAuthButtonActive: boolean;
 }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -63,6 +63,7 @@ export default function StepAuthCode({
           />
           <Button
             label={isLoading ? "전송 중..." : "인증번호"}
+            type="submit"
             variant="blue"
             className="max-w-max"
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}

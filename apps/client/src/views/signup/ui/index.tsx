@@ -12,10 +12,11 @@ import StepAuthCode from "@widgets/stepAuthCode/ui";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
 
 import { AuthForm } from "@widgets/auth/ui";
-import { SignupFormProps } from "@shared/model/AuthForm";
+import { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
 
 import { postSignup } from "@/entities/signup/api/postSignup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { HttpError } from "@/shared/types/error";
 
 const SignupView = () => {
   const queryClient = useQueryClient();
@@ -23,6 +24,7 @@ const SignupView = () => {
 
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
+  const [verifiedInfo, setVerifiedInfo] = useState<{ name: string; email: string } | null>(null);
 
   const {
     mutate: signupMutate,
@@ -37,71 +39,81 @@ const SignupView = () => {
       });
       return data;
     },
-    onError: (error: Error) => {
+    onError: (error: HttpError) => {
+      if (error.httpStatus == 401) {
+        toast.error("이메일 인증을 먼저 진행해주세요.")
+      }
+      else if (error.httpStatus == 409) {
+        toast.error("이미 회원가입 된 계정입니다.")
+      }
       throw error;
     },
   });
 
   const {
-    control,
-    handleSubmit,
-    watch,
-    formState: { errors },
-  } = useForm<SignupFormProps>({
+    control: authControl,
+    handleSubmit: handleAuthSubmit,
+    watch: watchAuth,
+    formState: { errors: authErrors },
+  } = useForm<AuthStepForm>({
     mode: "onChange",
     defaultValues: {
       name: "",
       email: "",
       authcode: "",
+    },
+  });
+
+  const {
+    control: signupControl,
+    handleSubmit: handleSignupSubmit,
+    formState: { errors: signupErrors },
+  } = useForm<SignupStepForm>({
+    mode: "onChange",
+    defaultValues: {
       password: "",
       passwordCheck: "",
     },
   });
 
-  const watchedValues = watch();
+  const watchedAuthValues = watchAuth();
 
   const isAuthCodeStepValid = Boolean(
-    watchedValues.name &&
-      watchedValues.email &&
-      /^s\d{5}@gsm\.hs\.kr$/.test(watchedValues.email) &&
-      !errors.name &&
-      !errors.email
+    watchedAuthValues.name &&
+    watchedAuthValues.email &&
+    /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
+    !authErrors.name &&
+    !authErrors.email
   );
 
   const canProceedToPassword =
     isAuthCodeStepValid &&
     Boolean(
-      watchedValues.authcode &&
-        watchedValues.authcode.length >= 8 &&
-        !errors.authcode
+      watchedAuthValues.authcode &&
+      watchedAuthValues.authcode.length >= 8 &&
+      !authErrors.authcode
     );
 
-  const isPasswordValid = Boolean(
-    watchedValues.password &&
-      watchedValues.passwordCheck &&
-      watchedValues.password === watchedValues.passwordCheck &&
-      !errors.password &&
-      !errors.passwordCheck
-  );
+  const isPasswordValid = (data: SignupStepForm) =>
+    Boolean(
+      data.password &&
+      data.passwordCheck &&
+      data.password === data.passwordCheck &&
+      !signupErrors.password &&
+      !signupErrors.passwordCheck
+    );
 
-  const onSubmit = async (data: SignupFormProps) => {
-    if (step === "password" && isPasswordValid && !isPending) {
-      signupMutate(data);
-    }
-    if (isSuccess) {
-      router.push("/signin");
-    }
-  };
-
-  const handleVerifyEmail = async () => {
+  const handleVerifyEmail = async (data: AuthStepForm) => {
     if (!canProceedToPassword || isAuthVerifying) return;
 
     try {
       setIsAuthVerifying(true);
-      const response = await patchVerifyEmail(Number(watchedValues.authcode));
+      const response = await patchVerifyEmail(Number(data.authcode));
 
       if (response.status === 204) {
+        setVerifiedInfo({ name: data.name, email: data.email });
         setStep("password");
+        toast.success("이메일 인증이 완료되었습니다.");
       }
     } catch {
       toast.error("인증코드가 일치하지 않습니다.");
@@ -110,49 +122,62 @@ const SignupView = () => {
     }
   };
 
+  const onSubmit = async (data: SignupStepForm) => {
+    if (!verifiedInfo) {
+      toast.error("이메일 인증이 필요합니다.");
+      setStep("authCode");
+      return;
+    }
+
+    if (step === "password" && isPasswordValid(data) && !isPending) {
+      signupMutate({
+        email: verifiedInfo.email,
+        name: verifiedInfo.name,
+        password: data.password
+      });
+    }
+    if (isSuccess) {
+      router.push("/signin");
+    }
+  };
+
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="SIGN UP">
-        <form
-          onSubmit={handleSubmit((data) => onSubmit(data))}
-          className="flex flex-col w-full items-center gap-[3.625rem]"
-        >
-          {step === "authCode" ? (
-            <>
-              <div className="flex flex-col gap-[0.75rem] self-stretch">
-                <StepAuthCode
-                  control={control}
-                  isAuthButtonActive={isAuthCodeStepValid}
-                />
-              </div>
-              <Button
-                label="인증하기"
-                variant="blue"
-                state={
-                  canProceedToPassword && !isAuthVerifying
-                    ? "default"
-                    : "disabled"
-                }
-                onClick={() =>
-                  canProceedToPassword && !isAuthVerifying
-                    ? handleVerifyEmail()
-                    : undefined
-                }
+        {step === "authCode" ? (
+          <form
+            onSubmit={handleAuthSubmit(handleVerifyEmail)}
+            className="flex flex-col w-full items-center gap-[3.625rem]"
+          >
+            <div className="flex flex-col gap-[0.75rem] self-stretch">
+              <StepAuthCode
+                control={authControl}
+                isAuthButtonActive={isAuthCodeStepValid}
               />
-            </>
-          ) : (
-            <>
-              <div className="flex flex-col gap-[0.75rem] self-stretch">
-                <StepPassword control={control} />
-              </div>
-              <Button
-                label="회원가입"
-                variant="blue"
-                state={isPasswordValid && !isPending ? "default" : "disabled"}
-              />
-            </>
-          )}
-        </form>
+            </div>
+            <Button
+              label="인증하기"
+              variant="blue"
+              type="submit"
+              state={canProceedToPassword && !isAuthVerifying ? "default" : "disabled"}
+            />
+          </form>
+        ) : (
+          <form
+            onSubmit={handleSignupSubmit(onSubmit)}
+            className="flex flex-col w-full items-center gap-[3.625rem]"
+          >
+            <div className="flex flex-col gap-[0.75rem] self-stretch">
+              <StepPassword control={signupControl} />
+            </div>
+            <Button
+              label="회원가입"
+              type="submit"
+              variant="blue"
+              state={!isPending ? "default" : "disabled"}
+            />
+          </form>
+        )}
       </AuthForm>
     </div>
   );

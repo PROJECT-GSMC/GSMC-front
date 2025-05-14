@@ -8,7 +8,7 @@ export const postSignup = async (form: SignupFormProps) => {
     return response.data;
   } catch (error) {
     if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "회원가입 실패");
+      throw error.response.data || "회원가입 실패";
     }
     throw error;
   }
