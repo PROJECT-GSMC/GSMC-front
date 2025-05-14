@@ -12,6 +12,7 @@ import { Activity } from "@shared/types/activity";
 import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 import { useState } from "react";
 import { handleSubmitActivity } from "@/shared/lib/handleSubmitActivity";
+import { useRouter } from "next/router";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
@@ -19,6 +20,7 @@ interface FormValues extends Omit<Activity, "categoryName"> {
 
 const MajorView = () => {
   const [submitType, setSubmitType] = useState<"submit" | "draft">("submit");
+  const R = useRouter();
   const {
     handleSubmit,
     control,
@@ -33,7 +35,8 @@ const MajorView = () => {
       categoryName: data.categoryName.send,
       activityType: "MAJOR",
     };
-    handleSubmitActivity(finalData, submitType);
+    const res = await handleSubmitActivity(finalData, submitType);
+    if (res) R.push("/");
   };
   return (
     <div className="flex flex-col items-center">

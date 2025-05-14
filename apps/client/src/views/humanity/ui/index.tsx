@@ -12,6 +12,7 @@ import { Activity } from "@shared/types/activity";
 import { handleSubmitActivity } from "@/shared/lib/handleSubmitActivity";
 import { useState } from "react";
 import { Dropdown, File, Header, Textarea } from "@/shared/ui";
+import { useRouter } from "next/navigation";
 
 interface FormValues extends Omit<Activity, "categoryName"> {
   categoryName: { name: string; send: string };
@@ -19,6 +20,7 @@ interface FormValues extends Omit<Activity, "categoryName"> {
 
 const HumanityView = () => {
   const [submitType, setSubmitType] = useState<"submit" | "draft">("submit");
+  const R = useRouter();
   const {
     handleSubmit,
     control,
@@ -33,7 +35,8 @@ const HumanityView = () => {
       categoryName: data.categoryName.send,
       activityType: "HUMANITIES",
     };
-    handleSubmitActivity(finalData, submitType);
+    const res = await handleSubmitActivity(finalData, submitType);
+    if (res) R.push("/");
   };
 
   return (
