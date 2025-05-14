@@ -64,8 +64,8 @@ const Modal = ({ onClose, type }: ModalProps) => {
               }
             } else if (type === "TOPCIT") {
               const res = await FixScore({
-                categoryName: "major-topcit-score",
-                score: Number(data.option.send),
+                categoryName: "MAJOR-TOPCIT_SCORE",
+                score: data.value as number,
               });
               if (res.status === 201) {
                 toast.success("TOPCIT 점수가 등록되었습니다.");
@@ -112,9 +112,10 @@ const Modal = ({ onClose, type }: ModalProps) => {
               label={type === "TOPCIT" ? "TOPCIT 점수" : "자격증 작성하기"}
             >
               <Input
+                type={type === "TOPCIT" ? "number" : "text"}
                 control={control}
                 rules={{ required: true }}
-                name="categoryName"
+                name={type === "TOPCIT" ? "value" : "categoryName"}
               />
             </InputContainer>
           )}
