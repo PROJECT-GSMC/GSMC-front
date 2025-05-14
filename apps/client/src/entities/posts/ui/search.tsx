@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect } from "react";
-import SearchIcon from "@repo/ui/search";
-import { useDebounce } from "../../../../../../packages/ui/src/hooks/useDebounce";
+import SearchIcon from "@repo/shared/search";
+import { useDebounce } from "@repo/hooks/useDebounce";
 import { getSearchResult } from "../api/getSearchResult";
 
 interface SearchProps {

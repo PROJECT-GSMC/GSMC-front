@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import Providers from "./providers";
 import { Toaster } from "sonner";
-import { PostProvider } from "@repo/ui/store/postProvider";
+import { PostProvider } from "@repo/store/postProvider";
 
 export const metadata: Metadata = {
   title: "GSMC",

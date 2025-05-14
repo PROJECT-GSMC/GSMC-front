@@ -1,5 +1,5 @@
 import { Certification } from "../model/certification";
-import instance from "node_modules/@repo/ui/src/axios";
+import instance from "@repo/api/axios";
 
 export const sendCertification = async (data: Certification) => {
   const formData = new FormData();

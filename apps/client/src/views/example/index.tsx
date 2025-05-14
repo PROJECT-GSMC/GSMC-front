@@ -1,10 +1,10 @@
 "use client";
 
 import { Header, Post } from "@/shared/ui";
-import { usePost } from "@repo/ui/store/postProvider";
+import { usePost } from "@repo/store/postProvider";
 import Mock from "@shared/mocks/data/evidenceMock.json";
 import { useRouter } from "next/navigation";
-import { post } from "node_modules/@repo/ui/src/types/evidences";
+import { post } from "@repo/types/evidences";
 
 export default function ExampleView() {
   const { setPost } = usePost();

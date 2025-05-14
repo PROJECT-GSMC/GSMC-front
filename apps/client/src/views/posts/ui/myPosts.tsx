@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 
 import Header from "@shared/ui/header";
 import Post from "@/shared/ui/post/post";
 import Search from "@entities/posts/ui/search";
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
-import { EvidenceType, post } from "node_modules/@repo/ui/src/types/evidences";
+import { EvidenceType, post } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { toast } from "sonner";
-import { usePost } from "@repo/ui/store/postProvider";
+import { usePost } from "@repo/store/postProvider";
 import { useRouter } from "next/navigation";
 
 const PostsView = () => {

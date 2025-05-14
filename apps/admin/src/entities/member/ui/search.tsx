@@ -1,4 +1,4 @@
-import SearchIcon from "@repo/ui/search";
+import SearchIcon from "@repo/shared/search";
 
 interface SearchProps {
   ChangeName: (name: string) => void;

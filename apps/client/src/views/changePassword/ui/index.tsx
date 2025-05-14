@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 
 import { AuthForm } from "@widgets/auth/ui";
 

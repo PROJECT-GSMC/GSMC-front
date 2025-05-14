@@ -1,16 +1,16 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 import Image from "next/image";
 import Header from "@shared/ui/header";
 import {
   isActivity,
   isOthers,
   isReading,
-} from "node_modules/@repo/ui/src/utils/handlePost";
+} from "@repo/utils/handlePost";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
-import { post as postType } from "node_modules/@repo/ui/src/types/evidences";
+import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 
 const DetailView = () => {

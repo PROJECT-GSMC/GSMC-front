@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getPosts } from "../api/getPosts";
-import { PostType } from "node_modules/@repo/ui/src/types/postType";
-import { postState } from "node_modules/@repo/ui/src/types/evidences";
+import { PostType } from "@repo/types/postType";
+import { postState } from "@repo/types/evidences";
 
 export const useGetPosts = (email: string, status: postState) => {
   return useQuery<PostType[], Error>({

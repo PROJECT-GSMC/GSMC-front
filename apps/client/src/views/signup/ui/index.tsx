@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 
 import StepPassword from "@widgets/stepPassword/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";

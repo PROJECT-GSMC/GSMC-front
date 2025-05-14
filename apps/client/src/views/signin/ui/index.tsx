@@ -4,16 +4,16 @@ import { useForm } from "react-hook-form";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
-import { Input } from "@repo/ui/input";
-import { Button } from "@repo/ui/button";
-import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+import { Input } from "@repo/shared/input";
+import { Button } from "@repo/shared/button";
+import { InputContainer } from "@repo/widgets/inputContainer";
 
 import { AuthForm } from "@widgets/auth/ui";
 import { SigninFormProps } from "@shared/model/AuthForm";
 
 import { postSignin } from "@/entities/signin/api/postSignin";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { setCookie } from "node_modules/@repo/ui/src/utils/setCookie";
+import { setCookie } from "@repo/utils/setCookie";
 import { HttpError } from "@/shared/types/error";
 import { toast } from "sonner";
 
