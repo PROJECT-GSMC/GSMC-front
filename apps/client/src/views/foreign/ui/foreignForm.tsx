@@ -87,8 +87,9 @@ const ForeignFormView = () => {
         </div>
 
         <div className="flex flex-col sm:gap-[0.81rem] gap-[0.5rem] sm:mb-[3.38rem] mb-2">
-          <Button variant="skyblue" label="임시저장" />
+          <Button type="submit" variant="skyblue" label="임시저장" />
           <Button
+            type="submit"
             state={isValid ? "default" : "disabled"}
             variant="blue"
             label="작성 완료"
