@@ -57,16 +57,34 @@ const Modal = ({ onClose, type }: ModalProps) => {
               if (res.status === 201) {
                 toast.success("자격증이 등록되었습니다.");
                 onClose();
+              } else if (res.status === 422) {
+                toast.error("이미 등록된 자격증입니다.");
               } else {
                 toast.error("자격증 등록에 실패했습니다.");
               }
             } else if (type === "TOPCIT") {
-              FixScore({
-                categoryName: "major-topcit-score",
-                score: Number(data.option.send),
+              const res = await FixScore({
+                categoryName: "MAJOR-TOPCIT_SCORE",
+                score: data.value as number,
               });
+              if (res.status === 201) {
+                toast.success("TOPCIT 점수가 등록되었습니다.");
+                onClose();
+              } else {
+                toast.error("TOPCIT 점수 등록에 실패했습니다.");
+              }
             } else if (type === "READ_A_THON") {
-              await sendEvidence(data);
+              const res = await sendEvidence(data);
+              if (res.status === 201) {
+                toast.success("독서로가 등록되었습니다.");
+                onClose();
+              } else if (res.status === 422) {
+                toast.error(
+                  "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요"
+                );
+              } else {
+                toast.error("독서로 등록에 실패했습니다.");
+              }
             } else {
               sendCertification({
                 name: data.option.send,
@@ -94,9 +112,10 @@ const Modal = ({ onClose, type }: ModalProps) => {
               label={type === "TOPCIT" ? "TOPCIT 점수" : "자격증 작성하기"}
             >
               <Input
+                type={type === "TOPCIT" ? "number" : "text"}
                 control={control}
                 rules={{ required: true }}
-                name="categoryName"
+                name={type === "TOPCIT" ? "value" : "categoryName"}
               />
             </InputContainer>
           )}
@@ -119,6 +138,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
             <Button onClick={onClose} label="뒤로가기" variant="skyblue" />
             <Button
+              type="submit"
               state={isValid ? "default" : "disabled"}
               label="작성 완료"
               variant="blue"
