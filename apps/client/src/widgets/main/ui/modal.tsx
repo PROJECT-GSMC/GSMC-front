@@ -63,10 +63,16 @@ const Modal = ({ onClose, type }: ModalProps) => {
                 toast.error("자격증 등록에 실패했습니다.");
               }
             } else if (type === "TOPCIT") {
-              FixScore({
+              const res = await FixScore({
                 categoryName: "major-topcit-score",
                 score: Number(data.option.send),
               });
+              if (res.status === 201) {
+                toast.success("TOPCIT 점수가 등록되었습니다.");
+                onClose();
+              } else {
+                toast.error("TOPCIT 점수 등록에 실패했습니다.");
+              }
             } else if (type === "READ_A_THON") {
               const res = await sendEvidence(data);
               if (res.status === 201) {
