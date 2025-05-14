@@ -12,7 +12,7 @@ import StepAuthCode from "@widgets/stepAuthCode/ui";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
 
 import { AuthForm } from "@widgets/auth/ui";
-import { AuthStepForm, SignupStepForm } from "@shared/model/AuthForm";
+import { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
 
 import { postSignup } from "@/entities/signup/api/postSignup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -31,7 +31,7 @@ const SignupView = () => {
     isPending,
     isSuccess,
   } = useMutation({
-    mutationFn: (form: { email: string; password: string; name: string }) => postSignup(form),
+    mutationFn: (form: SignupFormProps) => postSignup(form),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ["auth"],
