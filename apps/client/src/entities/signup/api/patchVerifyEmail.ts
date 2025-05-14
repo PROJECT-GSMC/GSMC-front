@@ -8,7 +8,7 @@ export const patchVerifyEmail = async (code: number) => {
   } catch (error) {
     console.error(error);
     if (axios.isAxiosError(error) && error.response) {
-      throw new Error(error.response.data.error || "인증코드가 일치하지 않습니다.");
+      throw error.response.data || "인증코드가 일치하지 않습니다.";
     }
     throw error;
   }
