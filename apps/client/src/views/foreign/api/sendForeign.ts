@@ -10,5 +10,5 @@ export const sendForeign = async (
   formData.append("value", value.toString());
   formData.append("file", file);
 
-  await instance.post("/evidence/current/foreign", formData);
+  return await instance.post("/evidence/current/foreign", formData);
 };
