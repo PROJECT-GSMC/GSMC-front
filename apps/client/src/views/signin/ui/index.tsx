@@ -53,6 +53,7 @@ const SigninView = () => {
       }
       else if (error.httpStatus == 404) {
         toast.error("회원가입되지 않은 계정입니다.")
+        router.push("signup")
       }
       throw error;
     },
