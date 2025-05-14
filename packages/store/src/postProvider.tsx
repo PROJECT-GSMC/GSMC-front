@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode, useState } from "react";
-import { post } from "../types/evidences";
+import { post } from "@repo/types/evidences";
 
 interface PostContextType {
   post: post | null;

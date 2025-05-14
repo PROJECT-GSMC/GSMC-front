@@ -1,4 +1,4 @@
-import { Activity, Others, Reading } from "../types/evidences";
+import { Activity, Others, Reading } from "@repo/types/evidences";
 
 export const isActivity = (
   data: Activity | Reading | Others

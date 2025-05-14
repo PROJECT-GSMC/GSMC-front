@@ -1,7 +1,7 @@
 "use client";
 
 import axios, { InternalAxiosRequestConfig } from "axios";
-import { getCookie } from "./utils/getCookie";
+import { getCookie } from "@repo/utils/getCookie";
 
 const instance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
