@@ -89,9 +89,6 @@ const HumanityView = () => {
           <Controller
             name="file"
             control={control}
-            rules={{
-              required: "파일을 선택해주세요.",
-            }}
             render={({ field }) => <File label="이미지" {...field} />}
           />
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
