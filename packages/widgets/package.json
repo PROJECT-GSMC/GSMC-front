@@ -11,11 +11,8 @@
     "dist"
   ],
   "exports": {
-    "./*": {
-      "types": "./src/*.ts",
-      "default": "./dist/*.js"
-    },
-    "./styles.css": "./dist/index.css"
+    "./styles.css": "./dist/index.css",
+    "./*": "./src/*.tsx"
   },
   "license": "MIT",
   "scripts": {
