@@ -14,6 +14,8 @@ import { SigninFormProps } from "@shared/model/AuthForm";
 import { postSignin } from "@/entities/signin/api/postSignin";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "node_modules/@repo/ui/src/utils/setCookie";
+import { HttpError } from "@/shared/types/error";
+import { toast } from "sonner";
 
 const SigninView = () => {
   const queryClient = useQueryClient();
@@ -45,7 +47,13 @@ const SigninView = () => {
       router.push("/");
       return data;
     },
-    onError: (error: Error) => {
+    onError: (error: HttpError) => {
+      if (error.httpStatus == 401) {
+        toast.error("비밀번호가 올바르지 않습니다.")
+      }
+      else if (error.httpStatus == 404) {
+        toast.error("회원가입되지 않은 계정입니다.")
+      }
       throw error;
     },
   });
