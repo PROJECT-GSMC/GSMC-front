@@ -119,6 +119,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
             <Button onClick={onClose} label="뒤로가기" variant="skyblue" />
             <Button
+              type="submit"
               state={isValid ? "default" : "disabled"}
               label="작성 완료"
               variant="blue"
