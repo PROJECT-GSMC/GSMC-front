@@ -14,6 +14,8 @@ import { sendForeign } from "../api/sendForeign";
 import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
 import Header from "@shared/ui/header";
+import { toast } from "sonner";
+import { useRouter } from "next/navigation";
 
 const ForeignFormView = () => {
   const {
@@ -21,14 +23,25 @@ const ForeignFormView = () => {
     control,
     formState: { isValid },
   } = useForm<ForeignForm>({ mode: "onChange" });
+  const R = useRouter();
 
   const category = useWatch({
     control,
     name: "categoryName",
   });
 
-  const onSubmit = (data: ForeignForm) => {
-    sendForeign(data.categoryName.send, data.value.send, data.file);
+  const onSubmit = async (data: ForeignForm) => {
+    const res = await sendForeign(
+      data.categoryName.send,
+      data.value.send,
+      data.file
+    );
+    if (res) {
+      toast.success("외국어 영역이 등록되었습니다.");
+      R.push("/");
+    } else {
+      toast.error("외국어 영역 등록에 실패했습니다.");
+    }
   };
 
   const needDropdown =
