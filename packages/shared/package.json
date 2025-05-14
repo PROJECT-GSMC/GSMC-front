@@ -1,6 +1,7 @@
 {
-  "name": "@repo/ui",
+  "name": "@repo/shared",
   "version": "0.0.0",
+  "private": true,
   "sideEffects": [
     "**/*.css"
   ],
@@ -9,8 +10,10 @@
   ],
   "exports": {
     "./styles.css": "./dist/index.css",
-    "./*": "./src/*.tsx"
+    "./*": "./src/*.js"
   },
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "license": "MIT",
   "scripts": {
     "build": "tailwindcss -i ./src/styles.css -o ./dist/index.css",
@@ -18,8 +21,11 @@
     "dev": "tailwindcss -i ./src/styles.css -o ./dist/index.css --watch",
     "lint": "eslint src --max-warnings 0"
   },
-  "peerDependencies": {
-    "react": "^19"
+  "dependencies": {
+    "@repo/types": "workspace:*",
+    "@repo/utils": "workspace:*",
+    "@repo/hooks": "workspace:*",
+    "react": "^19.0.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
