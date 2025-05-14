@@ -41,7 +41,7 @@ const MajorView = () => {
   return (
     <div className="flex flex-col items-center">
       <Header />
-      <form className=" flex-col px-4 justify-center w-full max-w-[37.5rem]">
+      <div className=" flex-col px-4 justify-center w-full max-w-[37.5rem]">
         <h1 className="text-tropicalblue-700 text-title4s sm:text-titleMedium my-[1rem] sm:my-[2.38rem] mb-6">
           전공 영역
         </h1>
@@ -108,7 +108,7 @@ const MajorView = () => {
             />
           </div>
         </form>
-      </form>
+      </div>
     </div>
   );
 };
