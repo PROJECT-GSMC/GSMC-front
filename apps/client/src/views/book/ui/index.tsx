@@ -10,9 +10,11 @@ import { Book } from "../model/book";
 import { Header, Textarea } from "@/shared/ui";
 import { useState } from "react";
 import { handleSubmitBook } from "../lib/handleBookSubmit";
+import { useRouter } from "next/navigation";
 
 const BookView = () => {
   const [submit, setSubmit] = useState<"submit" | "draft">("submit");
+  const R = useRouter();
   const {
     handleSubmit,
     control,
@@ -27,7 +29,8 @@ const BookView = () => {
         </h1>
         <form
           onSubmit={handleSubmit(async (data) => {
-            handleSubmitBook(data, submit);
+            const res = await handleSubmitBook(data, submit);
+            if (res) R.push("/");
           })}
           className="flex gap-[2rem] flex-col"
         >
