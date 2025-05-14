@@ -1,13 +1,11 @@
 "use client";
 
 import { Controller, useForm, useWatch } from "react-hook-form";
-
 import { Input } from "@repo/ui/input";
 import { Button } from "@repo/ui/button";
 import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
 
 import { foreignOptions } from "../model/foreignOptions";
-import { ForeignForm } from "../model/foreign";
 import { chooseDropdownOption } from "../lib/chooseDropdownOption";
 
 import Dropdown from "@shared/ui/dropdown";
@@ -25,17 +23,28 @@ const ForeignFormView = () => {
   } = useForm<ForeignForm>({ mode: "onChange" });
   const R = useRouter();
 
+  interface ForeignForm {
+    categoryName: { name: string; send: string };
+    value: { name: string; send: number } | number;
+    file: File;
+  }
+
   const category = useWatch({
     control,
     name: "categoryName",
   });
 
   const onSubmit = async (data: ForeignForm) => {
-    const res = await sendScore(
-      data.categoryName.send,
-      data.value.send,
-      data.file
-    );
+    console.log("Form data:", data);
+
+    const value =
+      typeof data.value === "number" || typeof data.value === "string"
+        ? { name: data.value.toString(), send: data.value }
+        : data.value;
+
+    console.log("Converted value:", value);
+
+    const res = await sendScore(data.categoryName.send, value.send, data.file);
     if (res) {
       toast.success("외국어 영역이 등록되었습니다.");
       R.push("/");
@@ -73,24 +82,35 @@ const ForeignFormView = () => {
               control={control}
               name="value"
               rules={{ required: "단계를 선택해주세요." }}
-              render={({ field }) => (
-                <Dropdown
-                  label="단계"
-                  options={chooseDropdownOption(category?.name)}
-                  {...field}
-                />
-              )}
+              render={({ field }) => {
+                const options = chooseDropdownOption(category?.name);
+                const selectedOption =
+                  typeof field.value === "number"
+                    ? options.find((opt) => opt.send === field.value)
+                    : field.value;
+
+                return (
+                  <Dropdown
+                    label="단계"
+                    options={options}
+                    value={selectedOption}
+                    onChange={(val) => field.onChange(val)}
+                  />
+                );
+              }}
             />
           ) : (
             <InputContainer label="점수">
               <Input
+                name="value"
                 type="number"
                 control={control}
-                name="value"
                 rules={{ required: "점수를 입력해주세요" }}
+                defaultValue={0}
               />
             </InputContainer>
           )}
+
           <Controller
             control={control}
             name="file"
