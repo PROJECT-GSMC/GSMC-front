@@ -1,6 +1,6 @@
 "use client";
 
-import instance from "../../../../../../packages/ui/src/axios";
+import instance from "@repo/api/axios";
 
 export const featScore = async (
   email: string,
