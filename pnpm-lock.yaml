@@ -227,6 +227,9 @@ importers:
       axios:
         specifier: ^1.6.7
         version: 1.8.4
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -245,6 +248,10 @@ importers:
         version: 5.8.2
 
   packages/consts:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -413,6 +420,10 @@ importers:
         version: 3.4.17
 
   packages/types:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*
@@ -434,6 +445,9 @@ importers:
       '@repo/types':
         specifier: workspace:*
         version: link:../types
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
     devDependencies:
       '@repo/eslint-config':
         specifier: workspace:*

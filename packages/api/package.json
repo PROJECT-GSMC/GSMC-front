@@ -17,7 +17,8 @@
   "dependencies": {
     "@repo/types": "workspace:*",
     "@repo/utils": "workspace:*",
-    "axios": "^1.6.7"
+    "axios": "^1.6.7",
+    "react": "^19.0.0"
   },
   "devDependencies": {
     "@repo/eslint-config": "workspace:*",
