@@ -16,6 +16,7 @@ import { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/Aut
 
 import { postSignup } from "@/entities/signup/api/postSignup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { HttpError } from "@/shared/types/error";
 
 const SignupView = () => {
   const queryClient = useQueryClient();
@@ -38,7 +39,13 @@ const SignupView = () => {
       });
       return data;
     },
-    onError: (error: Error) => {
+    onError: (error: HttpError) => {
+      if (error.httpStatus == 401) {
+        toast.error("이메일 인증을 먼저 진행해주세요.")
+      }
+      else if (error.httpStatus == 409) {
+        toast.error("이미 회원가입 된 계정입니다.")
+      }
       throw error;
     },
   });
