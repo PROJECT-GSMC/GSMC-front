@@ -6,7 +6,7 @@ import Link from "next/link";
 
 import { Input } from "@repo/shared/input";
 import { Button } from "@repo/shared/button";
-import { InputContainer } from "@repo/widgets/inputContainer";
+import { InputContainer } from "@repo/shared/inputContainer";
 
 import { AuthForm } from "@widgets/auth/ui";
 import { SigninFormProps } from "@shared/model/AuthForm";

@@ -4,7 +4,7 @@ import { Controller, useForm, useWatch } from "react-hook-form";
 
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
-import { InputContainer } from "@repo/widgets/inputContainer";
+import { InputContainer } from "@repo/shared/inputContainer";
 
 import { CharacterCategory } from "../model/category";
 

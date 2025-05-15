@@ -16,7 +16,6 @@
     "@repo/types": "workspace:*",
     "@repo/utils": "workspace:*",
     "@repo/api": "workspace:*",
-    "@repo/widgets": "workspace:*",
     "@repo/hooks": "workspace:*",
     "@repo/consts": "workspace:*",
     "@tanstack/react-query": "^5.69.0",

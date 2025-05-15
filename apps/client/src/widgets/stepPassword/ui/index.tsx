@@ -2,7 +2,7 @@ import React from 'react'
 import { Control } from 'react-hook-form';
 
 import { Input } from '@repo/shared/input'
-import { InputContainer } from '@repo/widgets/inputContainer'
+import { InputContainer } from '@repo/shared/inputContainer'
 
 import { SignupStepForm } from '@shared/model/AuthForm';
 

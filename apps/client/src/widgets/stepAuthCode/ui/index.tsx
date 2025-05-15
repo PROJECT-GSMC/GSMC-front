@@ -4,7 +4,7 @@ import { toast } from "sonner";
 
 import { Input } from "@repo/shared/input";
 import { Button } from "@repo/shared/button";
-import { InputContainer } from "@repo/widgets/inputContainer";
+import { InputContainer } from "@repo/shared/inputContainer";
 
 import { AuthStepForm } from "@shared/model/AuthForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
