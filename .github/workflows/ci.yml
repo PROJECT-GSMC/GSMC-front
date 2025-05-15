@@ -25,9 +25,14 @@ jobs:
           version: 8
 
       - name: pnpm 바이너리 경로 확인용 링크 생성
+        shell: bash
         run: |
-          mkdir -p /home/runner/.local/share/pnpm/.tools/pnpm/8.15.6/bin
-          ln -sf $(which pnpm) /home/runner/.local/share/pnpm/.tools/pnpm/8.15.6/bin/pnpm
+          # 설치된 pnpm 버전을 읽어와서 변수에 저장
+          PNPM_VERSION=$(pnpm --version)
+          # 해당 버전 디렉터리 생성
+          mkdir -p "/home/runner/.local/share/pnpm/.tools/pnpm/${PNPM_VERSION}/bin"
+          # 실제 pnpm 바이너리를 링크
+          ln -sf "$(which pnpm)" "/home/runner/.local/share/pnpm/.tools/pnpm/${PNPM_VERSION}/bin/pnpm"
 
       - name: pnpm store 경로 가져오기
         shell: bash
