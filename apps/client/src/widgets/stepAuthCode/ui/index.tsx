@@ -38,9 +38,6 @@ export default function StepAuthCode({
   };
 
   const [show, setShow] = useState(false);
-  const showTrue = () => {
-    return setShow(!show);
-  };
 
   return (
     <>
@@ -74,7 +71,7 @@ export default function StepAuthCode({
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
             onClick={ () => {
               handleAuthButtonClick();
-              showTrue();
+              setShow(true);
             }}
           />
         </div>
