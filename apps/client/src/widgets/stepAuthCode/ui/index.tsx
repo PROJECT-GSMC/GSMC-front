@@ -37,6 +37,11 @@ export default function StepAuthCode({
     }
   };
 
+  const [show, setShow] = useState(false);
+  const showFuntion = () => {
+    return setShow(!show);
+  };
+
   return (
     <>
       <InputContainer label="이름">
@@ -67,7 +72,10 @@ export default function StepAuthCode({
             variant="blue"
             className="max-w-max"
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
-            onClick={handleAuthButtonClick}
+            onClick={ () => {
+              handleAuthButtonClick();
+              showFuntion();
+            }}
           />
         </div>
       </InputContainer>
@@ -80,6 +88,7 @@ export default function StepAuthCode({
           }}
         />
       </InputContainer>
+      {show && <div className="text-sm text-[#e61919]"><strong>인증 코드를 찾을 수 없나요?</strong> 스팸메일함을 확인해 주세요.</div>}
     </>
   );
 }
