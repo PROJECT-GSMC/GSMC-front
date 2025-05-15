@@ -24,6 +24,11 @@ jobs:
         with:
           version: 8
 
+      - name: pnpm 바이너리 경로 확인용 링크 생성
+        run: |
+          mkdir -p /home/runner/.local/share/pnpm/.tools/pnpm/8.15.6/bin
+          ln -sf $(which pnpm) /home/runner/.local/share/pnpm/.tools/pnpm/8.15.6/bin/pnpm
+
       - name: pnpm store 경로 가져오기
         shell: bash
         run: |
@@ -79,4 +84,3 @@ jobs:
               repo: context.repo.repo,
               body: message
             });
-
