@@ -2,7 +2,7 @@ import { Controller, useForm } from "react-hook-form";
 
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
-import { InputContainer } from "@repo/widgets/inputContainer";
+import { InputContainer } from "@repo/shared/inputContainer";
 
 import { Evidence } from "../model/evidence";
 import { bookOption, options } from "../model/options";
