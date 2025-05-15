@@ -2,9 +2,9 @@
 
 import { useForm, Controller, useWatch } from "react-hook-form";
 
-import { Button } from "@repo/ui/button";
-import { Input } from "@repo/ui/input";
-import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+import { Button } from "@repo/shared/button";
+import { Input } from "@repo/shared/input";
+import { InputContainer } from "@repo/widgets/inputContainer";
 
 import { majorCategoryOptions } from "../model/category";
 

@@ -1,11 +1,11 @@
 import type { Config } from "tailwindcss";
 
-const config: Omit<Config, "content"> = {
+const config: Config = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@repo/ui/dist/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@repo/ui/**/*.{js,ts,jsx,tsx}",
+    "./packages/*/src/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@repo/*/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {

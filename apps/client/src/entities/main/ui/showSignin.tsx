@@ -1,4 +1,4 @@
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 import Link from "next/link";
 
 const ShowSignin = () => {

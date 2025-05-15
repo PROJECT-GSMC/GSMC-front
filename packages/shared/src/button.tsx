@@ -1,6 +1,6 @@
 "use client";
 import { ReactNode, useMemo } from "react";
-import { variantStyles } from "./consts/button";
+import { variantStyles } from "@repo/consts/button";
 
 type ButtonState = "default" | "active" | "disabled";
 

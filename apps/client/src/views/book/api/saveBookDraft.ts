@@ -1,4 +1,4 @@
-import instance from "node_modules/@repo/ui/src/axios";
+import instance from "@repo/api/axios";
 import { Book } from "../model/book";
 
 export const saveBookDraft = async (data: Book) => {

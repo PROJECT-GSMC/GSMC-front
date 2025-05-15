@@ -4,10 +4,10 @@ import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 
-import List from "@repo/ui/list";
-import Card from "@repo/ui/card";
-import { Button } from "@repo/ui/button";
-import { Member } from "node_modules/@repo/ui/src/types/member";
+import List from "@repo/shared/list";
+import Card from "@repo/shared/card";
+import { Button } from "@repo/shared/button";
+import { Member } from "@repo/types/member";
 
 import { getCurrentMember } from "@/shared/api/getCurrentMember";
 
@@ -19,7 +19,7 @@ import MainDropdown from "@entities/main/ui/dropdown";
 
 import Header from "@shared/ui/header";
 import Modal from "@widgets/main/ui/modal";
-import { getCookie } from "node_modules/@repo/ui/src/utils/getCookie";
+import { getCookie } from "@repo/utils/getCookie";
 
 const MainView = () => {
   const [hoverTab, setHoverTab] = useState<string | null>(null);

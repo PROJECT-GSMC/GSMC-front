@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 import { Member } from "../model/member";
 
 interface InformationProps {

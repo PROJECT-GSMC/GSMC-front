@@ -3,15 +3,15 @@
 import { useState } from "react";
 import { toast } from "sonner";
 
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 
 import Header from "../../../shared/ui/header";
 import { Post } from "../../../entities/check-post/ui/post";
 import { useGetPosts } from "../model/useGetPosts";
-import { postState } from "node_modules/@repo/ui/src/types/evidences";
-import { PostType } from "node_modules/@repo/ui/src/types/postType";
+import { postState } from "@repo/types/evidences";
+import { PostType } from "@repo/types/postType";
 import { useParams, useRouter } from "next/navigation";
-import { usePost } from "@repo/ui/store/postProvider";
+import { usePost } from "@repo/store/postProvider";
 
 const PostsView = () => {
   const { setPost } = usePost();

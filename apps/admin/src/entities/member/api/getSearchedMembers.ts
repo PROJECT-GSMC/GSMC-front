@@ -1,4 +1,4 @@
-import instance from "../../../../../../packages/ui/src/axios";
+import instance from "@repo/api/axios";
 
 import { SearchParams } from "../model/search";
 

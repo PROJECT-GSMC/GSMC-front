@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import { Control, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Input } from "@repo/ui/input";
-import { Button } from "@repo/ui/button";
-import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+import { Input } from "@repo/shared/input";
+import { Button } from "@repo/shared/button";
+import { InputContainer } from "@repo/widgets/inputContainer";
 
 import { AuthStepForm } from "@shared/model/AuthForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";

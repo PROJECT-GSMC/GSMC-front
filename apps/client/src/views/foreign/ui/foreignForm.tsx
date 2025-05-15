@@ -1,9 +1,11 @@
 "use client";
 
 import { Controller, useForm, useWatch } from "react-hook-form";
-import { Input } from "@repo/ui/input";
-import { Button } from "@repo/ui/button";
-import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+
+import { Input } from "@repo/shared/input";
+import { Button } from "@repo/shared/button";
+import { InputContainer } from "@repo/widgets/inputContainer";
+
 
 import { foreignOptions } from "../model/foreignOptions";
 import { chooseDropdownOption } from "../lib/chooseDropdownOption";

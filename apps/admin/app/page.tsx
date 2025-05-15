@@ -2,8 +2,9 @@
 import { useState } from "react";
 
 import { toast } from "sonner";
-import Card from "@repo/ui/card";
-import List from "@repo/ui/list";
+import Card from "@repo/shared/card";
+import List from "@repo/shared/list";
+import { Button } from "@repo/shared/button";
 
 import Header from "@shared/ui/header";
 import Question from "@shared/asset/svg/question";
@@ -13,7 +14,6 @@ import { Information } from "@widgets/member/ui/information";
 import { useGetMember } from "@widgets/member/model/useGetMember";
 import { Member } from "@widgets/member/model/member";
 import { getMember } from "@widgets/member/api/getMember";
-import { Button } from "@repo/ui/button";
 
 const MemberPage = () => {
   const [open, setOpen] = useState<boolean>(false)

@@ -5,9 +5,9 @@ import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
 
-import TextLogo from "@repo/ui/textLogo";
-import { getCookie } from "node_modules/@repo/ui/src/utils/getCookie";
-import { deleteCookie } from "node_modules/@repo/ui/src/utils/deleteCookie";
+import TextLogo from "@repo/shared/textLogo";
+import { getCookie } from "@repo/utils/getCookie";
+import { deleteCookie } from "@repo/utils/deleteCookie";
 
 const Header = () => {
   const pathname = usePathname();

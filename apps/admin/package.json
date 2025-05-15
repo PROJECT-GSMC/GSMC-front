@@ -11,10 +11,20 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@repo/ui": "workspace:*",
+    "@repo/shared": "workspace:*",
+    "@repo/store": "workspace:*",
+    "@repo/types": "workspace:*",
+    "@repo/utils": "workspace:*",
+    "@repo/api": "workspace:*",
+    "@repo/widgets": "workspace:*",
+    "@repo/hooks": "workspace:*",
+    "@repo/consts": "workspace:*",
+    "@tanstack/react-query": "^5.69.0",
+    "@tanstack/react-query-devtools": "^5.69.0",
     "next": "^15.2.1",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2"
   },
   "devDependencies": {
     "@next/eslint-plugin-next": "^15.2.1",

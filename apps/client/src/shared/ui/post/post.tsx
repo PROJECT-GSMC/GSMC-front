@@ -1,16 +1,16 @@
 "use client";
 
 import Image from "next/image";
-import { post } from "node_modules/@repo/ui/src/types/evidences";
+import { post } from "@repo/types/evidences";
 import {
   isActivity,
   isOthers,
   isReading,
-} from "node_modules/@repo/ui/src/utils/handlePost";
+} from "@repo/utils/handlePost";
 import {
   handleState,
   handleStateColor,
-} from "node_modules/@repo/ui/src/utils/handleState";
+} from "@repo/utils/handleState";
 
 interface PostProps {
   data: post;

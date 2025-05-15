@@ -1,4 +1,4 @@
-import instance from "node_modules/@repo/ui/src/axios";
+import instance from "@repo/api/axios";
 
 export const sendScore = async (
   categoryName: string,

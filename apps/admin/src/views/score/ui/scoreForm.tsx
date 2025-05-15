@@ -3,9 +3,9 @@
 import { useParams } from "next/navigation";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
-import { Button } from "@repo/ui/button";
-import { Input } from "@repo/ui/input";
-import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+import { Button } from "@repo/shared/button";
+import { Input } from "@repo/shared/input";
+import { InputContainer } from "@repo/widgets/inputContainer";
 
 import { Checkbox } from "../../../entities/score/ui/checkbox";
 import Header from "../../../shared/ui/header";

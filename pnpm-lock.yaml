@@ -54,61 +54,30 @@ importers:
 
   apps/admin:
     dependencies:
-      '@repo/ui':
+      '@repo/api':
         specifier: workspace:*
-        version: link:../../packages/ui
-      next:
-        specifier: ^15.2.1
-        version: 15.2.1(@babel/core@7.26.10)(react-dom@19.0.0)(react@19.0.0)
-      react:
-        specifier: ^19.0.0
-        version: 19.0.0
-      react-dom:
-        specifier: ^19.0.0
-        version: 19.0.0(react@19.0.0)
-    devDependencies:
-      '@next/eslint-plugin-next':
-        specifier: ^15.2.1
-        version: 15.2.1
-      '@repo/eslint-config':
+        version: link:../../packages/api
+      '@repo/consts':
         specifier: workspace:*
-        version: link:../../packages/eslint-config
-      '@repo/tailwind-config':
+        version: link:../../packages/consts
+      '@repo/hooks':
         specifier: workspace:*
-        version: link:../../packages/tailwind-config
-      '@repo/typescript-config':
+        version: link:../../packages/hooks
+      '@repo/shared':
         specifier: workspace:*
-        version: link:../../packages/typescript-config
-      '@types/node':
-        specifier: ^22.13.9
-        version: 22.13.9
-      '@types/react':
-        specifier: ^19.0.10
-        version: 19.0.10
-      '@types/react-dom':
-        specifier: ^19.0.4
-        version: 19.0.4(@types/react@19.0.10)
-      autoprefixer:
-        specifier: ^10.4.20
-        version: 10.4.20(postcss@8.5.3)
-      eslint:
-        specifier: ^9.22.0
-        version: 9.22.0
-      postcss:
-        specifier: ^8.5.3
-        version: 8.5.3
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
-      typescript:
-        specifier: 5.8.2
-        version: 5.8.2
-
-  apps/client:
-    dependencies:
-      '@repo/ui':
+        version: link:../../packages/shared
+      '@repo/store':
         specifier: workspace:*
-        version: link:../../packages/ui
+        version: link:../../packages/store
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../../packages/types
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+      '@repo/widgets':
+        specifier: workspace:*
+        version: link:../../packages/widgets
       '@tanstack/react-query':
         specifier: ^5.69.0
         version: 5.69.0(react@19.0.0)
@@ -165,6 +134,138 @@ importers:
         specifier: 5.8.2
         version: 5.8.2
 
+  apps/client:
+    dependencies:
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../../packages/api
+      '@repo/consts':
+        specifier: workspace:*
+        version: link:../../packages/consts
+      '@repo/hooks':
+        specifier: workspace:*
+        version: link:../../packages/hooks
+      '@repo/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
+      '@repo/store':
+        specifier: workspace:*
+        version: link:../../packages/store
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../../packages/types
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
+      '@repo/widgets':
+        specifier: workspace:*
+        version: link:../../packages/widgets
+      '@tanstack/react-query':
+        specifier: ^5.69.0
+        version: 5.69.0(react@19.0.0)
+      '@tanstack/react-query-devtools':
+        specifier: ^5.69.0
+        version: 5.69.0(@tanstack/react-query@5.69.0)(react@19.0.0)
+      next:
+        specifier: ^15.2.1
+        version: 15.2.1(@babel/core@7.26.10)(react-dom@19.0.0)(react@19.0.0)
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+      react-dom:
+        specifier: ^19.0.0
+        version: 19.0.0(react@19.0.0)
+      react-hook-form:
+        specifier: ^7.54.2
+        version: 7.54.2(react@19.0.0)
+    devDependencies:
+      '@next/eslint-plugin-next':
+        specifier: ^15.2.1
+        version: 15.2.1
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../../packages/eslint-config
+      '@repo/tailwind-config':
+        specifier: workspace:*
+        version: link:../../packages/tailwind-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../../packages/typescript-config
+      '@types/node':
+        specifier: ^22.13.9
+        version: 22.13.9
+      '@types/react':
+        specifier: ^19.0.10
+        version: 19.0.10
+      '@types/react-dom':
+        specifier: ^19.0.4
+        version: 19.0.4(@types/react@19.0.10)
+      autoprefixer:
+        specifier: ^10.4.20
+        version: 10.4.20(postcss@8.5.3)
+      eslint:
+        specifier: ^9.22.0
+        version: 9.22.0
+      postcss:
+        specifier: ^8.5.3
+        version: 8.5.3
+      tailwindcss:
+        specifier: ^3.4.17
+        version: 3.4.17
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+
+  packages/api:
+    dependencies:
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
+      axios:
+        specifier: ^1.6.7
+        version: 1.8.4
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/axios':
+        specifier: ^0.14.0
+        version: 0.14.4
+      eslint:
+        specifier: ^9.22.0
+        version: 9.22.0
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+
+  packages/consts:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      eslint:
+        specifier: ^9.22.0
+        version: 9.22.0
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+
   packages/eslint-config:
     devDependencies:
       '@eslint/js':
@@ -201,21 +302,56 @@ importers:
         specifier: ^8.26.0
         version: 8.26.0(eslint@9.22.0)(typescript@5.8.2)
 
-  packages/tailwind-config:
+  packages/hooks:
+    dependencies:
+      '@repo/store':
+        specifier: workspace:*
+        version: link:../store
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
     devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
       '@repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
-      tailwindcss:
-        specifier: ^3.4.17
-        version: 3.4.17
+      '@types/react':
+        specifier: ^19.0.10
+        version: 19.0.10
+      eslint:
+        specifier: ^9.22.0
+        version: 9.22.0
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
 
-  packages/typescript-config: {}
-
-  packages/ui:
+  packages/shared:
     dependencies:
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../api
+      '@repo/consts':
+        specifier: workspace:*
+        version: link:../consts
+      '@repo/hooks':
+        specifier: workspace:*
+        version: link:../hooks
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
       react:
-        specifier: ^19
+        specifier: ^19.0.0
         version: 19.0.0
     devDependencies:
       '@repo/eslint-config':
@@ -232,7 +368,136 @@ importers:
         version: 19.0.10
       autoprefixer:
         specifier: ^10.4.20
-        version: 10.4.20(postcss@8.5.3)
+        version: 10.4.21(postcss@8.5.3)
+      eslint:
+        specifier: ^9.22.0
+        version: 9.22.0
+      postcss:
+        specifier: ^8.5.3
+        version: 8.5.3
+      tailwindcss:
+        specifier: ^3.4.17
+        version: 3.4.17
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+
+  packages/store:
+    dependencies:
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^19.0.10
+        version: 19.0.10
+      eslint:
+        specifier: ^9.22.0
+        version: 9.22.0
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+
+  packages/tailwind-config:
+    devDependencies:
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      tailwindcss:
+        specifier: ^3.4.17
+        version: 3.4.17
+
+  packages/types:
+    dependencies:
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      eslint:
+        specifier: ^9.22.0
+        version: 9.22.0
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+
+  packages/typescript-config: {}
+
+  packages/utils:
+    dependencies:
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      eslint:
+        specifier: ^9.22.0
+        version: 9.22.0
+      typescript:
+        specifier: 5.8.2
+        version: 5.8.2
+
+  packages/widgets:
+    dependencies:
+      '@repo/api':
+        specifier: workspace:*
+        version: link:../api
+      '@repo/consts':
+        specifier: workspace:*
+        version: link:../consts
+      '@repo/hooks':
+        specifier: workspace:*
+        version: link:../hooks
+      '@repo/types':
+        specifier: workspace:*
+        version: link:../types
+      '@repo/utils':
+        specifier: workspace:*
+        version: link:../utils
+      react:
+        specifier: ^19.0.0
+        version: 19.0.0
+    devDependencies:
+      '@repo/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@repo/tailwind-config':
+        specifier: workspace:*
+        version: link:../tailwind-config
+      '@repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/react':
+        specifier: ^19.0.10
+        version: 19.0.10
+      autoprefixer:
+        specifier: ^10.4.20
+        version: 10.4.21(postcss@8.5.3)
       eslint:
         specifier: ^9.22.0
         version: 9.22.0
@@ -1295,6 +1560,15 @@ packages:
       react: 19.0.0
     dev: false
 
+  /@types/axios@0.14.4:
+    resolution: {integrity: sha512-9JgOaunvQdsQ/qW2OPmE5+hCeUB52lQSolecrFrthct55QekhmXEwT203s20RL+UHtCQc15y3VXpby9E7Kkh/g==}
+    deprecated: This is a stub types definition. axios provides its own type definitions, so you do not need this installed.
+    dependencies:
+      axios: 1.8.4
+    transitivePeerDependencies:
+      - debug
+    dev: true
+
   /@types/babel__core@7.20.5:
     resolution: {integrity: sha512-qoQprZvz5wQFJwMDqeseRXWv3rqMvhgpbXFfVyWhbx9X47POIA6i/+dXefEmZKoAgOaTdaIgNSMqMIU61yRyzA==}
     dependencies:
@@ -1666,7 +1940,6 @@ packages:
 
   /asynckit@0.4.0:
     resolution: {integrity: sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==}
-    dev: false
 
   /autoprefixer@10.4.20(postcss@8.5.3):
     resolution: {integrity: sha512-XY25y5xSv/wEoqzDyXXME4AFfkZI0P23z6Fs3YgymDnKJkCGOnkL0iTxCa85UTqaSgfcqyf3UA6+c7wUvx/16g==}
@@ -1715,7 +1988,6 @@ packages:
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
       - debug
-    dev: false
 
   /babel-jest@29.7.0(@babel/core@7.26.10):
     resolution: {integrity: sha512-BrvGY3xZSwEcCzKvKsCi2GgHqDqsYkOP4/by5xCgIwGXQxIEh+8ew3gmrE1y7XRR6LHZIj6yLYnUi/mm2KXKBg==}
@@ -1987,7 +2259,6 @@ packages:
     engines: {node: '>= 0.8'}
     dependencies:
       delayed-stream: 1.0.0
-    dev: false
 
   /commander@4.1.1:
     resolution: {integrity: sha512-NOKm8xhkzAjzFx8B2v5OAHT+u5pRQc2UCa2Vq9jYL/31o2wi9mxBA7LIFs3sV5VSC49z6pEhfbMULvShKj26WA==}
@@ -2115,7 +2386,6 @@ packages:
   /delayed-stream@1.0.0:
     resolution: {integrity: sha512-ZySD7Nf91aLB0RxL4KGrKHBXl7Eds1DAmEdcoVawXnLD7SDhpNgtuII2aAkg7a7QS41jxPSZ17p4VdGnMHk3MQ==}
     engines: {node: '>=0.4.0'}
-    dev: false
 
   /detect-libc@2.0.3:
     resolution: {integrity: sha512-bwy0MGW55bG41VqxxypOsdSdGqLwXPI/focwgTYCFMbdUiBAxLg9CFzG08sz2aqzknwiX7Hkl0bQENjg8iLByw==}
@@ -2611,7 +2881,6 @@ packages:
     peerDependenciesMeta:
       debug:
         optional: true
-    dev: false
 
   /for-each@0.3.5:
     resolution: {integrity: sha512-dKx12eRCVIzqCxFGplyFKJMPvLEWgmNtUrpTiJIR5u97zEhRG8ySrtboPHZXx7daLxQVrl643cTzbab2tkQjxg==}
@@ -2636,7 +2905,6 @@ packages:
       combined-stream: 1.0.8
       es-set-tostringtag: 2.1.0
       mime-types: 2.1.35
-    dev: false
 
   /fraction.js@4.3.7:
     resolution: {integrity: sha512-ZsDfxO51wGAXREY55a7la9LScWpwv9RxIrYABrlvOFBlH/ShPnrtsXeuUIfXKKOVicNxQ+o8JTbJvjS4M89yew==}
@@ -3756,14 +4024,12 @@ packages:
   /mime-db@1.52.0:
     resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
-    dev: false
 
   /mime-types@2.1.35:
     resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
     dependencies:
       mime-db: 1.52.0
-    dev: false
 
   /mimic-fn@2.1.0:
     resolution: {integrity: sha512-OqbOk5oEQeAZ8WXWydlu9HJjz9WVdEIvamMCcXmuqUYjTknH/sqsWvhQ3vgwKFRR1HpjvNBKQ37nbJgYzGqGcg==}
@@ -4255,7 +4521,6 @@ packages:
 
   /proxy-from-env@1.1.0:
     resolution: {integrity: sha512-D+zkORCbA9f1tdWRK0RaCR3GPv50cMxcrz4X8k5LTSUD1Dkw47mKJEZQNunItRTkWwgtaUSo1RVFRIG9ZXiFYg==}
-    dev: false
 
   /punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}

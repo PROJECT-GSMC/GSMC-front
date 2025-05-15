@@ -1,11 +1,11 @@
 import Image from "next/image";
 import { toast } from "sonner";
 import { changeEvidenceState } from "../api/changeEvidenceState";
-import { PostType } from "node_modules/@repo/ui/src/types/postType";
+import { PostType } from "@repo/types/postType";
 import {
   handleState,
   handleStateColor,
-} from "node_modules/@repo/ui/src/utils/handleState";
+} from "@repo/utils/handleState";
 
 interface PostProps {
   data: PostType;
