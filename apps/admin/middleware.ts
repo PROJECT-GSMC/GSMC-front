@@ -1,15 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const Protected = [
-  "/major",
-  "/humanity",
-  "/foreign",
-  "/detail",
-  "/example",
-  "/posts",
-  "/calculate",
-  "/book",
-];
+const Protected = ["/check-post", "/score"];
 const allAllowed = ["/", "/signup", "/signin"];
 
 function isProtectedRoute(path: string): boolean {
@@ -84,16 +75,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: [
-    "/major/:path*",
-    "/humanity/:path*",
-    "/foreign/:path*",
-    "/detail/:path*",
-    "/example/:path*",
-    "/posts/:path*",
-    "/calculate/:path*",
-    "/book/:path*",
-    "/signin",
-    "/signup",
-  ],
+  matcher: ["/check-post/:path*", "/score/:path*", "/signin", "/signup"],
 };
