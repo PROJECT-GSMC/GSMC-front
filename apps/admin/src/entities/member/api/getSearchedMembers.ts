@@ -19,5 +19,5 @@ export const getSearchedMembers = async ({
 
   const queryString = new URLSearchParams(query).toString();
 
-  return instance.get(`/students/search?${queryString}`);
+  return await instance.get(`/members/students/search?${queryString}`);
 };
