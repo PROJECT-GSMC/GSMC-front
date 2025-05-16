@@ -54,6 +54,7 @@ const MemberView = () => {
               ) : (
                 (result.length > 0 ? result : members).map((member) => (
                   <Card
+                    Pending={member.hasPendingEvidence}
                     onClick={async () => {
                       const res = await getMember(member.email);
                       setStudent(res.data);
