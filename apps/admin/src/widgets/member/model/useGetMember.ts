@@ -4,7 +4,7 @@ import { SearchParams } from "@/entities/member/model/search";
 
 export const useGetMember = ({ grade, classNumber, name }: SearchParams) => {
   return useQuery({
-    queryKey: ["members", grade, classNumber, name],
+    queryKey: ["members"],
     queryFn: () => getSearchedMembers({ grade, classNumber, name }),
   });
 };
