@@ -19,23 +19,13 @@ jobs:
       - name: pnpm 설치
         uses: pnpm/action-setup@v2
         with:
-          version: 8.15.6  # package.json의 packageManager와 일치
+          version: 8
           run_install: false
       
-      - name: pnpm 경로 및 버전 정보 확인
+      - name: pnpm 경로 확인
         run: |
           echo "PNPM path: $(which pnpm)"
           echo "PNPM version: $(pnpm --version)"
-          echo "NodeJS version: $(node --version)"
-      
-      - name: package.json 의존성 확인
-        run: |
-          echo "package.json에서 pnpm 의존성 제거"
-          # package.json에서 pnpm 의존성 제거 (충돌 방지)
-          mv package.json package.json.bak
-          cat package.json.bak | jq 'del(.dependencies.pnpm)' > package.json
-          echo "수정된 package.json:"
-          cat package.json
       
       - name: pnpm store 경로 가져오기
         shell: bash
@@ -50,52 +40,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       
-      - name: Generate lockfile if missing
-        run: |
-          if [ ! -f pnpm-lock.yaml ]; then
-            echo "pnpm-lock.yaml is missing. Generating it..."
-            pnpm install
-          fi
-      
       - name: 의존성 설치
         run: pnpm install --frozen-lockfile
       
-      - name: Turborepo 환경 설정
-        run: |
-          # pnpm 전역 경로를 확인하고 필요한 디렉토리 생성
-          PNPM_HOME=$(pnpm config get global-bin-dir)
-          PNPM_VERSION=$(pnpm --version)
-          echo "PNPM_HOME=$PNPM_HOME" >> $GITHUB_ENV
-          echo "$PNPM_HOME" >> $GITHUB_PATH
-          
-          # Turbo를 위한 pnpm 경로 설정
-          mkdir -p ~/.local/share/pnpm/.tools/pnpm/8.15.6/bin
-          ln -sf $(which pnpm) ~/.local/share/pnpm/.tools/pnpm/8.15.6/bin/pnpm
-          echo "~/.local/share/pnpm/.tools/pnpm/8.15.6/bin" >> $GITHUB_PATH
-          
-          # Turbo 캐시 설정
-          mkdir -p node_modules/.cache/turbo
-          echo "환경 설정 완료"
+      - name: Turborepo 원격 캐싱 설정
+        uses: dtinth/setup-github-actions-caching-for-turbo@v1
+        with:
+          cache-prefix: turbo-${{ runner.os }}
       
-      # 각 스크립트 실행 전에 PATH 확인
       - name: 린트
-        run: |
-          echo "현재 PATH: $PATH"
-          echo "pnpm 경로: $(which pnpm)"
-          export PATH="$HOME/.local/share/pnpm/.tools/pnpm/8.15.6/bin:$PATH"
-          echo "수정된 PATH: $PATH"
-          echo "이제 lint 실행..."
-          pnpm lint || echo "Lint에 실패했지만 계속 진행합니다"
+        run: pnpm lint
       
       - name: 테스트
-        run: |
-          export PATH="$HOME/.local/share/pnpm/.tools/pnpm/8.15.6/bin:$PATH"
-          pnpm test || echo "Test에 실패했지만 계속 진행합니다"
+        run: pnpm test
       
       - name: 빌드
-        run: |
-          export PATH="$HOME/.local/share/pnpm/.tools/pnpm/8.15.6/bin:$PATH"
-          pnpm build || echo "Build에 실패했지만 계속 진행합니다"
+        run: pnpm build
   
   pr-checks:
     needs: build
