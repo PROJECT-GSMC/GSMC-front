@@ -49,22 +49,26 @@ const MemberView = () => {
               title={String(members.length)}
               isFilter={true}
             >
-              {members.map((member) => (
-                <Card
-                  onClick={async () => {
-                    const res = await getMember(member.email);
-                    setStudent(res.data);
-                  }}
-                  id={member.email}
-                  key={member.email}
-                  front={member.name}
-                  back={
-                    member.grade +
-                    member.classNumber +
-                    String(member.number).padStart(2, "0")
-                  }
-                />
-              ))}
+              {isLoading ? (
+                <div className="text-center mt-24">loading...</div>
+              ) : (
+                members.map((member) => (
+                  <Card
+                    onClick={async () => {
+                      const res = await getMember(member.email);
+                      setStudent(res.data);
+                    }}
+                    id={member.email}
+                    key={member.email}
+                    front={member.name}
+                    back={
+                      member.grade +
+                      member.classNumber +
+                      String(member.number).padStart(2, "0")
+                    }
+                  />
+                ))
+              )}
             </List>
           </section>
           <section className="col-span-3 max-sm:col-span-1">
