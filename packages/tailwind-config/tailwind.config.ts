@@ -45,6 +45,9 @@ const config: Config = {
           900: "#131E32",
         },
       },
+      errors: {
+        500: "#DF454A",
+      },
       screens: {
         sm: "640px",
         md: "768px",
