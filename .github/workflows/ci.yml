@@ -50,6 +50,13 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
       
+      - name: Generate lockfile if missing
+        run: |
+          if [ ! -f pnpm-lock.yaml ]; then
+            echo "pnpm-lock.yaml is missing. Generating it..."
+            pnpm install
+          fi
+      
       - name: 의존성 설치
         run: pnpm install --frozen-lockfile
       
