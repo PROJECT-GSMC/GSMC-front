@@ -6,15 +6,19 @@ interface CardProps {
   back?: string | number;
   onClick?: () => void;
   id: string | number;
+  Pending?: boolean;
 }
 
-const Card = ({ front, back, onClick, id }: CardProps) => {
+const Card = ({ front, back, onClick, id, Pending = false }: CardProps) => {
   return (
     <div
       onClick={onClick}
       className="flex justify-between w-[100%] cursor-pointer h-[69px] text-gray-600 text-label py-[1.5rem] px-[2rem]"
     >
-      <span>{front}</span>
+      <div>
+        <span>{front}</span>
+        {Pending && <span className="text-errors-500">*</span>}
+      </div>
       {back ? (
         <span>{back}</span>
       ) : (
