@@ -49,11 +49,10 @@ const SigninView = () => {
     },
     onError: (error: HttpError) => {
       if (error.httpStatus == 401) {
-        toast.error("비밀번호가 올바르지 않습니다.")
-      }
-      else if (error.httpStatus == 404) {
-        toast.error("회원가입되지 않은 계정입니다.")
-        router.push("signup")
+        toast.error("비밀번호가 올바르지 않습니다.");
+      } else if (error.httpStatus == 404) {
+        toast.error("회원가입되지 않은 계정입니다.");
+        router.push("signup");
       }
       throw error;
     },
@@ -74,6 +73,7 @@ const SigninView = () => {
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <InputContainer label="이메일">
                 <Input
+                  isEmail
                   name="email"
                   control={control}
                   rules={{
