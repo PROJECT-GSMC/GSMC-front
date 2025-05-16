@@ -1,10 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const Protected = ["/check-post", "/score"];
-const allAllowed = ["/", "/signup", "/signin"];
+const ProtectedRoutes = ["/check-post", "/score", "/"];
+const PublicRoutes = ["/signin", "/signup"];
 
 function isProtectedRoute(path: string): boolean {
-  return Protected.some((route) => path.startsWith(route));
+  return ProtectedRoutes.some((route) => path.startsWith(route));
+}
+
+function isPublicRoute(path: string): boolean {
+  return PublicRoutes.includes(path);
 }
 
 async function refreshAccessToken(refreshToken: string) {
@@ -25,22 +29,21 @@ async function refreshAccessToken(refreshToken: string) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error(error);
+    console.error("Failed to refresh token:", error);
     return null;
   }
 }
 
 export async function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
-  const isAllowed = allAllowed.includes(pathname);
 
   const token = request.cookies.get("accessToken")?.value || null;
   const refreshToken = request.cookies.get("refreshToken")?.value || null;
 
-  if (isProtectedRoute(pathname)) {
-    if (!token && refreshToken) {
+  if (isProtectedRoute(pathname) && !token) {
+    if (refreshToken) {
       const res = await refreshAccessToken(refreshToken);
-      if (res) {
+      if (res?.accessToken && res?.refreshToken) {
         const response = NextResponse.next();
         response.cookies.set("accessToken", res.accessToken, {
           path: "/",
@@ -58,22 +61,20 @@ export async function middleware(request: NextRequest) {
         });
         return response;
       }
-      return NextResponse.redirect(new URL("/signin", request.url));
     }
 
-    if (!token) {
+    if (!isPublicRoute(pathname)) {
       return NextResponse.redirect(new URL("/signin", request.url));
     }
   }
 
-  if (token && isAllowed) {
-    const redirectUrl = new URL("/", request.url);
-    return NextResponse.redirect(redirectUrl);
+  if (token && isPublicRoute(pathname)) {
+    return NextResponse.redirect(new URL("/", request.url));
   }
 
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/check-post/:path*", "/score/:path*", "/signin", "/signup"],
+  matcher: ["/check-post/:path*", "/score/:path*", "/", "/signin", "/signup"],
 };
