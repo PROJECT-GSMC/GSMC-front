@@ -1,16 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
-import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
-import { SearchParams } from "@/entities/member/model/search";
+import { getMembers } from "../api/getMembers";
 
-export const useGetMember = ({
-  grade,
-  classNumber,
-  name,
-  page,
-  size,
-}: SearchParams) => {
+export const useGetMember = () => {
   return useQuery({
     queryKey: ["members"],
-    queryFn: () => getSearchedMembers({ grade, classNumber, name, page, size }),
+    queryFn: getMembers,
   });
 };
