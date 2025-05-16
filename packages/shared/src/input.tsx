@@ -1,19 +1,29 @@
 "use client";
 import React, { useState, useEffect, useRef } from "react";
-import { useController, UseControllerProps, FieldValues } from "react-hook-form";
+import {
+  useController,
+  UseControllerProps,
+  FieldValues,
+} from "react-hook-form";
 
-interface InputProps<T extends FieldValues = FieldValues> extends UseControllerProps<T> {
+interface InputProps<T extends FieldValues = FieldValues>
+  extends UseControllerProps<T> {
   onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   className?: string;
   type?: string;
+  isEmail?: boolean;
 }
 
-export const Input = <T extends FieldValues = FieldValues>({ type, className, ...props }: InputProps<T>) => {
+export const Input = <T extends FieldValues = FieldValues>({
+  type,
+  className,
+  isEmail = false,
+  ...props
+}: InputProps<T>) => {
   const { field } = useController(props);
   const [displayValue, setDisplayValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const isEmail = field.name === "email";
   const suffix = "@gsm.hs.kr";
 
   const isValidEmailPrefix = (value: string): boolean => {
@@ -25,7 +35,9 @@ export const Input = <T extends FieldValues = FieldValues>({ type, className, ..
 
   useEffect(() => {
     if (isEmail && typeof field.value === "string") {
-      const valueWithoutSuffix = field.value.endsWith(suffix) ? field.value.slice(0, -suffix.length) : field.value;
+      const valueWithoutSuffix = field.value.endsWith(suffix)
+        ? field.value.slice(0, -suffix.length)
+        : field.value;
       setDisplayValue(valueWithoutSuffix);
     } else {
       setDisplayValue(field.value || "");
@@ -48,7 +60,9 @@ export const Input = <T extends FieldValues = FieldValues>({ type, className, ..
 
         if (cursorPosition <= currentValueLength) {
           const newPrefix =
-            newValue.length > currentValueLength + suffix.length ? newValue.slice(0, -suffix.length) : newValue;
+            newValue.length > currentValueLength + suffix.length
+              ? newValue.slice(0, -suffix.length)
+              : newValue;
 
           if (isValidEmailPrefix(newPrefix)) {
             setDisplayValue(newPrefix);
@@ -100,7 +114,15 @@ export const Input = <T extends FieldValues = FieldValues>({ type, className, ..
       }
 
       if (cursorPosition > prefixLength) {
-        const allowedKeys = ["ArrowLeft", "ArrowRight", "ArrowUp", "ArrowDown", "Home", "End", "Tab"];
+        const allowedKeys = [
+          "ArrowLeft",
+          "ArrowRight",
+          "ArrowUp",
+          "ArrowDown",
+          "Home",
+          "End",
+          "Tab",
+        ];
         if (!allowedKeys.includes(e.key)) {
           e.preventDefault();
         }
