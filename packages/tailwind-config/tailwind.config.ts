@@ -4,8 +4,7 @@ const config: Config = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}",
-    "./packages/*/src/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@repo/*/dist/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@repo/shared/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
