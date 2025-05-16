@@ -49,11 +49,10 @@ const SigninView = () => {
     },
     onError: (error: HttpError) => {
       if (error.httpStatus == 401) {
-        toast.error("비밀번호가 올바르지 않습니다.")
-      }
-      else if (error.httpStatus == 404) {
-        toast.error("회원가입되지 않은 계정입니다.")
-        router.push("signup")
+        toast.error("비밀번호가 올바르지 않습니다.");
+      } else if (error.httpStatus == 404) {
+        toast.error("회원가입되지 않은 계정입니다.");
+        router.push("signup");
       }
       throw error;
     },
@@ -78,10 +77,6 @@ const SigninView = () => {
                   control={control}
                   rules={{
                     required: "이메일을 필수로 입력해야 합니다.",
-                    pattern: {
-                      value: /^s\d{5}@gsm\.hs\.kr$/,
-                      message: "@gsm.hs.kr 학교 이메일을 입력해주세요",
-                    },
                   }}
                 />
               </InputContainer>
@@ -94,10 +89,6 @@ const SigninView = () => {
                     minLength: {
                       value: 8,
                       message: "영문, 숫자를 포함한 8자 이상으로 입력해주세요.",
-                    },
-                    pattern: {
-                      value: /^(?=.*[a-zA-Z])(?=.*\d).*$/,
-                      message: "영문, 숫자를 포함한 비밀번호를 입력해주세요.",
                     },
                   }}
                 />
