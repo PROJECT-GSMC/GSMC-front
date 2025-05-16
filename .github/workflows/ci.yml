@@ -20,18 +20,18 @@ jobs:
         uses: pnpm/action-setup@v2
         with:
           version: 8
-          run_install: false
-      
+          run_install: true
+
       - name: pnpm 경로 확인
         run: |
           echo "PNPM path: $(which pnpm)"
-          echo "PNPM version: $(pnpm --version)"
-      
+          pnpm --version
+
       - name: pnpm store 경로 가져오기
         shell: bash
         run: |
-          echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      
+          echo "STORE_PATH=$(pnpm store path)" >> $GITHUB_ENV
+
       - uses: actions/cache@v3
         name: pnpm 캐시 설정
         with:
