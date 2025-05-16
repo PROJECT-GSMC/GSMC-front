@@ -19,7 +19,7 @@ jobs:
       - name: pnpm 설치
         uses: pnpm/action-setup@v2
         with:
-          version: 8
+          version: 9
           run_install: false
       
       - name: pnpm 경로 확인

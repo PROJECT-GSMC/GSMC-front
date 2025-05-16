@@ -8,25 +8,33 @@ import {
   isOthers,
   isReading,
 } from "@repo/utils/handlePost";
-import { useParams } from "next/navigation";
+import Mock from "@shared/mocks/data/evidenceMock.json";
+import { useParams, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 
 const DetailView = () => {
+  const searchParams = useSearchParams();
+  const example = searchParams.get('example');
   const params = useParams();
   const { id } = params;
+
   const { data, isError } = useGetPosts(null);
+
   if (isError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
-  const posts: postType[] = [
+
+  const posts: postType[] = example ? (Mock) : ([
     ...(data?.data?.majorActivityEvidence ?? []),
     ...(data?.data?.humanitiesActivityEvidence ?? []),
     ...(data?.data?.readingEvidence ?? []),
     ...(data?.data?.otherEvidence ?? []),
-  ];
+  ])
+
   const post = posts.filter((post) => post.id === Number(id));
+
   return (
     <>
       <Header />

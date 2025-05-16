@@ -22,7 +22,7 @@ export default function ExampleView() {
               <Post
                 onClick={() => {
                   setPost(data as post);
-                  R.push(`/detail/${data.id}`);
+                  R.push(`/detail/${data.id}?example=${true}`);
                 }}
                 key={data.id}
                 data={data as post}

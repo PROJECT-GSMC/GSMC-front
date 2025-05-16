@@ -45,8 +45,6 @@ export type EvidenceType =
   | "CPT"
   | "HSK";
 
-export type ACTIVITY_TYP = "MAJOR" | "HUMANITIES";
-
 export interface EvidenceResponse {
   majorActivityEvidence: Activity[];
   humanitiesActivityEvidence: Activity[];
