@@ -46,7 +46,7 @@ const MemberView = () => {
           <section className="col-span-5 max-sm:col-span-1">
             <List
               onClick={() => setOpen(!open)}
-              title={String(members.length)}
+              title={"학생 목록"}
               isFilter={true}
             >
               {isLoading ? (
