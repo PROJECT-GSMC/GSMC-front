@@ -14,13 +14,13 @@ import { Information } from "@widgets/member/ui/information";
 import { useGetMember } from "@widgets/member/model/useGetMember";
 import { Member } from "@widgets/member/model/member";
 import { getMember } from "@widgets/member/api/getMember";
-import { useGetSearchMember } from "@/widgets/member/model/useGetSearchMember";
 import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 
 const MemberView = () => {
   const [open, setOpen] = useState<boolean>(false);
 
   const [student, setStudent] = useState<Member>();
+  const [result, setResult] = useState<Member[]>([]);
 
   const [grade, setGrade] = useState<number>(0);
   const [classNumber, setClassNumber] = useState<number>(0);
@@ -52,7 +52,7 @@ const MemberView = () => {
               {isLoading ? (
                 <div className="text-center mt-24">loading...</div>
               ) : (
-                members.map((member) => (
+                (result.length > 0 ? result : members).map((member) => (
                   <Card
                     onClick={async () => {
                       const res = await getMember(member.email);
@@ -110,15 +110,21 @@ const MemberView = () => {
                   <Button
                     label="적용하기"
                     variant="blue"
-                    onClick={() =>
-                      getSearchedMembers({
+                    onClick={async () => {
+                      const res = await getSearchedMembers({
                         grade,
                         classNumber,
                         name,
                         page: 1,
                         size: 10,
-                      })
-                    }
+                      });
+                      if (res.data.length === 0) {
+                        toast.error("검색된 학생이 없습니다.");
+                      } else {
+                        setOpen(false);
+                        setResult(res.data.results);
+                      }
+                    }}
                   />
                 </div>
               </div>
