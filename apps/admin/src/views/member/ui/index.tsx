@@ -14,6 +14,8 @@ import { Information } from "@widgets/member/ui/information";
 import { useGetMember } from "@widgets/member/model/useGetMember";
 import { Member } from "@widgets/member/model/member";
 import { getMember } from "@widgets/member/api/getMember";
+import { useGetSearchMember } from "@/widgets/member/model/useGetSearchMember";
+import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 
 const MemberView = () => {
   const [open, setOpen] = useState<boolean>(false);
@@ -24,13 +26,9 @@ const MemberView = () => {
   const [classNumber, setClassNumber] = useState<number>(0);
   const [name, setName] = useState<string>("");
 
-  const { data, error, refetch, isFetching } = useGetMember({
-    grade,
-    classNumber,
-    name,
-  });
+  const { data, error, isLoading } = useGetMember();
 
-  if (error) toast.error(error.message);
+  if (error) toast.error("학생 목록을 불러오지 못했습니다.");
 
   const members: Member[] = data?.data ?? [];
 
@@ -38,12 +36,6 @@ const MemberView = () => {
     setGrade(0);
     setClassNumber(0);
     setName("");
-  };
-
-  const reSearch = () => {
-    if (!isFetching) {
-      refetch();
-    }
   };
 
   return (
@@ -114,7 +106,15 @@ const MemberView = () => {
                   <Button
                     label="적용하기"
                     variant="blue"
-                    onClick={() => reSearch()}
+                    onClick={() =>
+                      getSearchedMembers({
+                        grade,
+                        classNumber,
+                        name,
+                        page: 1,
+                        size: 10,
+                      })
+                    }
                   />
                 </div>
               </div>
