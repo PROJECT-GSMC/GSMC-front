@@ -12,28 +12,48 @@ import { postState } from "@repo/types/evidences";
 import { PostType } from "@repo/types/postType";
 import { useParams, useRouter } from "next/navigation";
 import { usePost } from "@repo/store/postProvider";
+import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
 
 const PostsView = () => {
   const { setPost } = usePost();
-  const [state, setState] = useState<postState | "">("");
+  const [state, setState] = useState<postState>("PENDING");
   const params = useParams();
   const R = useRouter();
-  const { data, isError, error } = useGetPosts(params.id as string, "PENDING");
+  const { data, isError, error } = useGetPosts(String(params.id), state);
+  const { data: data2, isError: isError2 } = useGetStudent(
+    decodeURIComponent(String(params.id))
+  );
+
+  const posts: PostType[] = [
+    ...(data?.data?.majorActivityEvidence || []),
+    ...(data?.data?.humanitiesActivityEvidence || []),
+    ...(data?.data?.readingEvidence || []),
+    ...(data?.data?.otherEvidence || []),
+  ];
+
   if (isError) {
     console.error(error);
     toast.error("게시글을 불러오는 데 실패했습니다.");
   }
 
-  const filteredPosts = data?.filter((post: PostType) => post.status === state);
+  if (isError2) {
+    console.error(error);
+    toast.error("사용자 정보를 불러오는 데 실패했습니다.");
+  }
 
   return (
     <div className="flex items-center flex-col">
       <Header />
       <div className="w-full max-w-[37.5rem] px-[1rem] sm:px-[0rem]">
         <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
-          모태환님의 글
+          {data2?.data?.name || "사용자"}님의 게시글
         </h1>
         <div className="flex gap-[5%] justify-between">
+          <Button
+            onClick={() => setState("PENDING")}
+            variant={state === "PENDING" ? "blue" : "skyblue"}
+            label="대기"
+          />
           <Button
             onClick={() => setState("APPROVE")}
             variant={state === "APPROVE" ? "blue" : "skyblue"}
@@ -44,15 +64,10 @@ const PostsView = () => {
             variant={state === "REJECT" ? "blue" : "skyblue"}
             label="거절"
           />
-          <Button
-            onClick={() => setState("PENDING")}
-            variant={state === "PENDING" ? "blue" : "skyblue"}
-            label="대기"
-          />
         </div>
         <div className="flex flex-wrap justify-center">
-          {filteredPosts && filteredPosts.length > 0 ? (
-            filteredPosts.map((post) => (
+          {posts.length > 0 ? (
+            posts.map((post: PostType) => (
               <Post
                 onClick={() => {
                   R.push(`/detail/${post.id}`);

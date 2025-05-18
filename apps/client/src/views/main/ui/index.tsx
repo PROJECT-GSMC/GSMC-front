@@ -7,9 +7,6 @@ import Link from "next/link";
 import List from "@repo/shared/list";
 import Card from "@repo/shared/card";
 import { Button } from "@repo/shared/button";
-import { Member } from "@repo/types/member";
-
-import { getCurrentMember } from "@/shared/api/getCurrentMember";
 
 import { ShowInformation } from "@entities/main/ui/showInformation";
 import { getCertification } from "@entities/main/api/getCertification";
@@ -20,6 +17,7 @@ import MainDropdown from "@entities/main/ui/dropdown";
 import Header from "@shared/ui/header";
 import Modal from "@widgets/main/ui/modal";
 import { getCookie } from "@repo/utils/getCookie";
+import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
 
 const MainView = () => {
   const [hoverTab, setHoverTab] = useState<string | null>(null);
@@ -35,11 +33,7 @@ const MainView = () => {
   }, []);
 
   const { data: currentUser, isLoading: isCurrentUserLoading } =
-    useQuery<Member>({
-      queryKey: ["currentUser"],
-      queryFn: getCurrentMember,
-      enabled: !!accessToken,
-    });
+    useGetCurrentMember();
 
   const { data: certification, isLoading: isCertificationLoading } = useQuery<
     Certification[]
