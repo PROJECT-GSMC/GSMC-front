@@ -8,7 +8,6 @@ import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/views/check-post/model/useGetPosts";
-import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
 
 export default function DetailView() {
   const { id } = useParams();
@@ -20,10 +19,10 @@ export default function DetailView() {
   }
 
   const posts: postType[] = [
-    ...data?.data?.majorActivityEvidence,
-    ...data?.data?.humanitiesActivityEvidence,
-    ...data?.data?.readingEvidence,
-    ...data?.data?.otherEvidence,
+    ...(data?.data?.majorActivityEvidence || []),
+    ...(data?.data?.humanitiesActivityEvidence || []),
+    ...(data?.data?.readingEvidence || []),
+    ...(data?.data?.otherEvidence || []),
   ];
 
   const post = posts.filter((post) => post.id === Number(id));
