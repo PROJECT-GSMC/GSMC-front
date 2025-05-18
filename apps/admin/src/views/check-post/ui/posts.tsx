@@ -41,6 +41,11 @@ const PostsView = () => {
         </h1>
         <div className="flex gap-[5%] justify-between">
           <Button
+            onClick={() => setState("PENDING")}
+            variant={state === "PENDING" ? "blue" : "skyblue"}
+            label="대기"
+          />
+          <Button
             onClick={() => setState("APPROVE")}
             variant={state === "APPROVE" ? "blue" : "skyblue"}
             label="통과"
@@ -49,11 +54,6 @@ const PostsView = () => {
             onClick={() => setState("REJECT")}
             variant={state === "REJECT" ? "blue" : "skyblue"}
             label="거절"
-          />
-          <Button
-            onClick={() => setState("PENDING")}
-            variant={state === "PENDING" ? "blue" : "skyblue"}
-            label="대기"
           />
         </div>
         <div className="flex flex-wrap justify-center">
