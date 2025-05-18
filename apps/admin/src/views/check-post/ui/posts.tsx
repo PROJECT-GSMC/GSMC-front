@@ -21,10 +21,10 @@ const PostsView = () => {
   const { data, isError, error } = useGetPosts(String(params.id), state);
 
   const posts: PostType[] = [
-    ...data?.data?.majorActivityEvidence,
-    ...data?.data?.humanitiesActivityEvidence,
-    ...data?.data?.readingEvidence,
-    ...data?.data?.otherEvidence,
+    ...(data?.data?.majorActivityEvidence || []),
+    ...(data?.data?.humanitiesActivityEvidence || []),
+    ...(data?.data?.readingEvidence || []),
+    ...(data?.data?.otherEvidence || []),
   ];
 
   if (isError) {
