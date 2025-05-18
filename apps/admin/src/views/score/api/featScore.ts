@@ -8,7 +8,7 @@ export const featScore = async (
   score: number
 ) => {
   try {
-    await instance.patch(`/score/${email}`, {
+    await instance.patch(`/score/${email.split("@")[0]?.substring(1)}`, {
       categoryName: category,
       value: score,
     });
