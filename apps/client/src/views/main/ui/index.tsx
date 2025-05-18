@@ -7,9 +7,6 @@ import Link from "next/link";
 import List from "@repo/shared/list";
 import Card from "@repo/shared/card";
 import { Button } from "@repo/shared/button";
-import { Member } from "@repo/types/member";
-
-import { getCurrentMember } from "@/shared/api/getCurrentMember";
 
 import { ShowInformation } from "@entities/main/ui/showInformation";
 import { getCertification } from "@entities/main/api/getCertification";
