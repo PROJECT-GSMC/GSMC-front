@@ -20,10 +20,10 @@ const ScoreForm = () => {
     mode: "onChange",
   });
 
-  const { oneSemester, twoSemester, newrow, checkbox } =
+  const { oneSemester, twoSemester, newrrow, checkbox } =
     useWatch({ control }) || {};
 
-  const isFormValid = !!oneSemester || !!twoSemester || !!newrow || checkbox;
+  const isFormValid = !!oneSemester || !!twoSemester || !!newrrow || checkbox;
 
   const onSubmit = (data: ScoreFormType) => {
     if (data.oneSemester) {
@@ -32,8 +32,8 @@ const ScoreForm = () => {
     if (data.twoSemester) {
       featScore(email, "HUMANITIES-SERVICE-CLUB_SEMESTER_2", data.twoSemester);
     }
-    if (data.newrow) {
-      featScore(email, "HUMANITIES-ACTIVITIES-NEWRROW_S", data.newrow);
+    if (data.newrrow) {
+      featScore(email, "HUMANITIES-ACTIVITIES-NEWRROW_S", data.newrrow);
     }
     if (data.checkbox !== undefined) {
       featScore(
@@ -61,7 +61,7 @@ const ScoreForm = () => {
             <Input control={control} name="twoSemester" />
           </InputContainer>
           <InputContainer label="뉴로우 참여 횟수">
-            <Input control={control} name="newrow" />
+            <Input control={control} name="newrrow" />
           </InputContainer>
           <Controller
             control={control}
@@ -72,6 +72,7 @@ const ScoreForm = () => {
         <div className="flex flex-col mt-4 mb-[2rem] gap-[0.69rem]">
           <Button variant="skyblue" label="뒤로가기" />
           <Button
+            type="submit"
             state={isFormValid ? "default" : "disabled"}
             variant="blue"
             label="점수 주기 완료"
