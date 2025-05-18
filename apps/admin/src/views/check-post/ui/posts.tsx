@@ -15,16 +15,22 @@ import { usePost } from "@repo/store/postProvider";
 
 const PostsView = () => {
   const { setPost } = usePost();
-  const [state, setState] = useState<postState | "">("");
+  const [state, setState] = useState<postState>("PENDING");
   const params = useParams();
   const R = useRouter();
-  const { data, isError, error } = useGetPosts(params.id as string, "PENDING");
+  const { data, isError, error } = useGetPosts(String(params.id), state);
+
+  const posts: PostType[] = [
+    ...data?.data?.majorActivityEvidence,
+    ...data?.data?.humanitiesActivityEvidence,
+    ...data?.data?.readingEvidence,
+    ...data?.data?.otherEvidence,
+  ];
+
   if (isError) {
     console.error(error);
     toast.error("게시글을 불러오는 데 실패했습니다.");
   }
-
-  const filteredPosts = data?.filter((post: PostType) => post.status === state);
 
   return (
     <div className="flex items-center flex-col">
@@ -51,8 +57,8 @@ const PostsView = () => {
           />
         </div>
         <div className="flex flex-wrap justify-center">
-          {filteredPosts && filteredPosts.length > 0 ? (
-            filteredPosts.map((post) => (
+          {posts ? (
+            posts.map((post: PostType) => (
               <Post
                 onClick={() => {
                   R.push(`/detail/${post.id}`);
