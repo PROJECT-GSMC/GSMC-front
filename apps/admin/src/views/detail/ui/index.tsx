@@ -8,22 +8,22 @@ import { useParams } from "next/navigation";
 import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/views/check-post/model/useGetPosts";
+import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
 
 export default function DetailView() {
-  const params = useParams();
-  const { id } = params;
+  const { id } = useParams();
 
-  const { data, isError } = useGetPosts(String(), null);
+  const { data, isError } = useGetPosts(String(id), null);
 
   if (isError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
 
   const posts: postType[] = [
-    ...(data?.data?.majorActivityEvidence ?? []),
-    ...(data?.data?.humanitiesActivityEvidence ?? []),
-    ...(data?.data?.readingEvidence ?? []),
-    ...(data?.data?.otherEvidence ?? []),
+    ...data?.data?.majorActivityEvidence,
+    ...data?.data?.humanitiesActivityEvidence,
+    ...data?.data?.readingEvidence,
+    ...data?.data?.otherEvidence,
   ];
 
   const post = posts.filter((post) => post.id === Number(id));
@@ -39,8 +39,7 @@ export default function DetailView() {
                 : "Title"}
             </h1>
             <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
-              {/* 게시물을 작성한 사람 이름 -> 현재 로그인 된 사람 이름 */}
-              {"모태환"} {" . "}
+              {data?.data.name || "사용자"} {" . "}
               {post[0] && (isActivity(post[0]) || isOthers(post[0]))
                 ? post[0].categoryName
                 : "Area"}
