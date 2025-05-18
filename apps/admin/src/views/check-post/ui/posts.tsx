@@ -12,6 +12,7 @@ import { postState } from "@repo/types/evidences";
 import { PostType } from "@repo/types/postType";
 import { useParams, useRouter } from "next/navigation";
 import { usePost } from "@repo/store/postProvider";
+import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
 
 const PostsView = () => {
   const { setPost } = usePost();
@@ -19,6 +20,9 @@ const PostsView = () => {
   const params = useParams();
   const R = useRouter();
   const { data, isError, error } = useGetPosts(String(params.id), state);
+  const { data: data2, isError: isError2 } = useGetStudent(
+    decodeURIComponent(String(params.id))
+  );
 
   const posts: PostType[] = [
     ...(data?.data?.majorActivityEvidence || []),
@@ -32,12 +36,17 @@ const PostsView = () => {
     toast.error("게시글을 불러오는 데 실패했습니다.");
   }
 
+  if (isError2) {
+    console.error(error);
+    toast.error("사용자 정보를 불러오는 데 실패했습니다.");
+  }
+
   return (
     <div className="flex items-center flex-col">
       <Header />
       <div className="w-full max-w-[37.5rem] px-[1rem] sm:px-[0rem]">
         <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
-          모태환님의 글
+          {data2?.data?.name || "사용자"}님의 게시글
         </h1>
         <div className="flex gap-[5%] justify-between">
           <Button
