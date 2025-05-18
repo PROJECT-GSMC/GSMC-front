@@ -57,7 +57,7 @@ const PostsView = () => {
           />
         </div>
         <div className="flex flex-wrap justify-center">
-          {posts ? (
+          {posts.length > 0 ? (
             posts.map((post: PostType) => (
               <Post
                 onClick={() => {
