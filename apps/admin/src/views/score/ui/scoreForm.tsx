@@ -13,8 +13,7 @@ import { ScoreFormType } from "../model/score";
 import { featScore } from "../api/featScore";
 
 const ScoreForm = () => {
-  const P = useParams<{ email: string }>();
-  const email = P.email;
+  const { id } = useParams();
 
   const { handleSubmit, control } = useForm<ScoreFormType>({
     mode: "onChange",
@@ -27,18 +26,30 @@ const ScoreForm = () => {
 
   const onSubmit = (data: ScoreFormType) => {
     if (data.oneSemester) {
-      featScore(email, "HUMANITIES-SERVICE-CLUB_SEMESTER_1", data.oneSemester);
+      featScore(
+        decodeURIComponent(String(id)),
+        "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
+        data.oneSemester
+      );
     }
     if (data.twoSemester) {
-      featScore(email, "HUMANITIES-SERVICE-CLUB_SEMESTER_2", data.twoSemester);
+      featScore(
+        decodeURIComponent(String(id)),
+        "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
+        data.twoSemester
+      );
     }
     if (data.newrrow) {
-      featScore(email, "HUMANITIES-ACTIVITIES-NEWRROW_S", data.newrrow);
+      featScore(
+        decodeURIComponent(String(id)),
+        "HUMANITIES-ACTIVITIES-NEWRROW_S",
+        data.newrrow
+      );
     }
     if (data.checkbox !== undefined) {
       featScore(
-        email,
-        "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADMY_STATUS",
+        decodeURIComponent(String(id)),
+        "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADEMY_STATUS",
         data.checkbox ? 1 : 0
       );
     }
