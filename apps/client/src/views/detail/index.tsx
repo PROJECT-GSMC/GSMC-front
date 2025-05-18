@@ -3,35 +3,39 @@
 import { Button } from "@repo/shared/button";
 import Image from "next/image";
 import Header from "@shared/ui/header";
-import {
-  isActivity,
-  isOthers,
-  isReading,
-} from "@repo/utils/handlePost";
+import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Mock from "@shared/mocks/data/evidenceMock.json";
 import { useParams, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
+import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
 
 const DetailView = () => {
   const searchParams = useSearchParams();
-  const example = searchParams.get('example');
+  const example = searchParams.get("example");
   const params = useParams();
   const { id } = params;
 
   const { data, isError } = useGetPosts(null);
+  const { data: data2, isError: isError2 } = useGetCurrentMember();
 
   if (isError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
 
-  const posts: postType[] = example ? (Mock) : ([
-    ...(data?.data?.majorActivityEvidence ?? []),
-    ...(data?.data?.humanitiesActivityEvidence ?? []),
-    ...(data?.data?.readingEvidence ?? []),
-    ...(data?.data?.otherEvidence ?? []),
-  ])
+  if (isError2) {
+    toast.error("회원 정보를 불러오지 못했습니다.");
+  }
+
+  const posts: postType[] = example
+    ? Mock
+    : [
+        ...(data?.data?.majorActivityEvidence ?? []),
+        ...(data?.data?.humanitiesActivityEvidence ?? []),
+        ...(data?.data?.readingEvidence ?? []),
+        ...(data?.data?.otherEvidence ?? []),
+      ];
 
   const post = posts.filter((post) => post.id === Number(id));
 
@@ -47,11 +51,11 @@ const DetailView = () => {
                 : "Title"}
             </h1>
             <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
-              {/* 게시물을 작성한 사람 이름 -> 현재 로그인 된 사람 이름 */}
-              {"모태환"} {" . "}
-              {post[0] && (isActivity(post[0]) || isOthers(post[0]))
-                ? post[0].categoryName
-                : "Area"}
+              {`${data2?.data.name || "사용자"} . ${
+                post[0] && (isActivity(post[0]) || isOthers(post[0]))
+                  ? post[0].categoryName
+                  : "Area"
+              }`}
             </h3>
             <div className="w-full h-[0.5px] bg-[#A6A6A6]"></div>
           </header>
