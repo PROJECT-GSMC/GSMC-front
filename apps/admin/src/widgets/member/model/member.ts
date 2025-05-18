@@ -8,4 +8,5 @@ export interface Member {
   number: number;
   totalScore: number;
   role: role;
+  hasPendingEvidence: boolean;
 }
