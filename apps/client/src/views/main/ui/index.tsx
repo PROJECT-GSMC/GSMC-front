@@ -20,6 +20,7 @@ import MainDropdown from "@entities/main/ui/dropdown";
 import Header from "@shared/ui/header";
 import Modal from "@widgets/main/ui/modal";
 import { getCookie } from "@repo/utils/getCookie";
+import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
 
 const MainView = () => {
   const [hoverTab, setHoverTab] = useState<string | null>(null);
@@ -35,11 +36,7 @@ const MainView = () => {
   }, []);
 
   const { data: currentUser, isLoading: isCurrentUserLoading } =
-    useQuery<Member>({
-      queryKey: ["currentUser"],
-      queryFn: getCurrentMember,
-      enabled: !!accessToken,
-    });
+    useGetCurrentMember();
 
   const { data: certification, isLoading: isCertificationLoading } = useQuery<
     Certification[]
