@@ -6,6 +6,6 @@ export interface Score {
 export interface ScoreFormType {
   oneSemester: number;
   twoSemester: number;
-  newrow: number;
+  newrrow: number;
   checkbox: boolean;
 }
