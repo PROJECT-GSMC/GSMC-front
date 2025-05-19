@@ -1,6 +1,6 @@
 "use client";
 
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
 import { Button } from "@repo/shared/button";
@@ -15,6 +15,7 @@ import { toast } from "sonner";
 
 const ScoreForm = () => {
   const { id } = useParams();
+  const R = useRouter();
 
   const { handleSubmit, control } = useForm<ScoreFormType>({
     mode: "onChange",
@@ -41,8 +42,9 @@ const ScoreForm = () => {
         "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
         data.twoSemester
       );
-      if (res.status === 204) toast.success("2학기 봉사 시간 점수 추가 완료");
-      else toast.error("2학기 봉사 시간 점수 추가 실패");
+      if (res.status === 204) {
+        toast.success("2학기 봉사 시간 점수 추가 완료");
+      } else toast.error("2학기 봉사 시간 점수 추가 실패");
     }
     if (data.newrrow) {
       const res = await featScore(
@@ -62,6 +64,7 @@ const ScoreForm = () => {
       if (res.status === 204) toast.success("TOEIC 참여 여부 점수 추가 완료");
       else toast.error("TOEIC 여부 점수 추가 실패");
     }
+    R.push("/");
   };
   return (
     <div className="flex flex-col items-center justify-center">
