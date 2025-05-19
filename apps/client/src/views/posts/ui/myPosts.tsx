@@ -16,18 +16,28 @@ import { useRouter } from "next/navigation";
 
 const PostsView = () => {
   const [result, setResult] = useState<string>("");
-  const [categoryName, setCategoryName] = useState<EvidenceType>("MAJOR");
+  const [categoryName, setCategoryName] = useState<EvidenceType | "DRAFT">(
+    "MAJOR"
+  );
   const { setPost } = usePost();
   const { data, isError } = useGetPosts(categoryName);
+  const { data: draftData, isError: Error2 } = useGetDraft();
   const R = useRouter();
-  if (isError) {
+
+  if (isError || Error2) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
+
   const posts: post[] = [
     ...(data?.data?.majorActivityEvidence ?? []),
     ...(data?.data?.humanitiesActivityEvidence ?? []),
     ...(data?.data?.readingEvidence ?? []),
     ...(data?.data?.otherEvidence ?? []),
+  ];
+
+  const draftPosts: post[] = [
+    ...(draftData?.activityEvidences || []),
+    ...(draftData?.readingEvidences || []),
   ];
 
   return (
@@ -37,41 +47,58 @@ const PostsView = () => {
         <Search result={result} setResult={setResult} />
         <div className="flex gap-[1rem] justify-between">
           <Button
-            onClick={() => setCategoryName("READING")}
-            label="독서"
-            variant="skyblue"
+            label="전공"
+            onClick={() => setCategoryName("MAJOR")}
+            variant={categoryName === "MAJOR" ? "blue" : "skyblue"}
           />
           <Button
             label="인성"
             onClick={() => setCategoryName("HUMANITIES")}
-            variant="skyblue"
+            variant={categoryName === "HUMANITIES" ? "blue" : "skyblue"}
           />
           <Button
-            label="전공"
-            onClick={() => setCategoryName("MAJOR")}
-            variant="skyblue"
+            onClick={() => setCategoryName("READING")}
+            label="독서"
+            variant={categoryName === "READING" ? "blue" : "skyblue"}
           />
           <Button
             label="외국어"
             onClick={() => setCategoryName("FOREIGN_LANGUAGE")}
             variant="skyblue"
           />
-          <Button onClick={useGetDraft} label="임시저장" variant="skyblue" />
+          <Button
+            onClick={() => setCategoryName("DRAFT")}
+            label="임시저장"
+            variant={categoryName === "DRAFT" ? "blue" : "skyblue"}
+          />
         </div>
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
-          {posts &&
-            posts.map((post: post) => {
-              return (
-                <Post
-                  onClick={() => {
-                    setPost(post);
-                    R.push(`/detail/${post.id}`);
-                  }}
-                  data={post}
-                  key={post.id}
-                />
-              );
-            })}
+          {categoryName !== "DRAFT"
+            ? posts &&
+              posts.map((post: post) => {
+                return (
+                  <Post
+                    onClick={() => {
+                      setPost(post);
+                      R.push(`/detail/${post.id}`);
+                    }}
+                    data={post}
+                    key={post.id}
+                  />
+                );
+              })
+            : draftPosts.map((post) => {
+                return (
+                  <Post
+                    onClick={() => {
+                      setPost(post);
+                      R.push(`/detail/${post.id}`);
+                    }}
+                    data={post}
+                    key={post.id}
+                  />
+                );
+              })}
         </div>
       </div>
     </div>
