@@ -35,6 +35,11 @@ const PostsView = () => {
     ...(data?.data?.otherEvidence ?? []),
   ];
 
+  const draftPosts: post[] = [
+    ...(draftData?.activityEvidences || []),
+    ...(draftData?.readingEvidences || []),
+  ];
+
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -82,7 +87,7 @@ const PostsView = () => {
                   />
                 );
               })
-            : draftData?.map((post) => {
+            : draftPosts.map((post) => {
                 return (
                   <Post
                     onClick={() => {
