@@ -1,6 +1,6 @@
 export interface Certification {
   id: number;
   name: string;
-  acquisitionDate: string;
+  acquisitionDate: Date;
   evidenceUri: string;
 }
