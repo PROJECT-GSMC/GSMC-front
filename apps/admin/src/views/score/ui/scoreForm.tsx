@@ -11,6 +11,7 @@ import { Checkbox } from "../../../entities/score/ui/checkbox";
 import Header from "../../../shared/ui/header";
 import { ScoreFormType } from "../model/score";
 import { featScore } from "../api/featScore";
+import { toast } from "sonner";
 
 const ScoreForm = () => {
   const { id } = useParams();
@@ -24,34 +25,42 @@ const ScoreForm = () => {
 
   const isFormValid = !!oneSemester || !!twoSemester || !!newrrow || checkbox;
 
-  const onSubmit = (data: ScoreFormType) => {
+  const onSubmit = async (data: ScoreFormType) => {
     if (data.oneSemester) {
-      featScore(
+      const res = await featScore(
         decodeURIComponent(String(id)),
         "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
         data.oneSemester
       );
+      if (res.status === 204) toast.success("1학기 봉사 시간 점수 추가 완료");
+      else toast.error("1학기 봉사 시간 점수 추가 실패");
     }
     if (data.twoSemester) {
-      featScore(
+      const res = await featScore(
         decodeURIComponent(String(id)),
         "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
         data.twoSemester
       );
+      if (res.status === 204) toast.success("2학기 봉사 시간 점수 추가 완료");
+      else toast.error("2학기 봉사 시간 점수 추가 실패");
     }
     if (data.newrrow) {
-      featScore(
+      const res = await featScore(
         decodeURIComponent(String(id)),
         "HUMANITIES-ACTIVITIES-NEWRROW_S",
         data.newrrow
       );
+      if (res.status === 204) toast.success("뉴로우 참여 횟수 점수 추가 완료");
+      else toast.error("뉴로우 참여 횟수 점수 추가 실패");
     }
     if (data.checkbox !== undefined) {
-      featScore(
+      const res = await featScore(
         decodeURIComponent(String(id)),
         "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADEMY_STATUS",
         data.checkbox ? 1 : 0
       );
+      if (res.status === 204) toast.success("TOEIC 참여 여부 점수 추가 완료");
+      else toast.error("TOEIC 여부 점수 추가 실패");
     }
   };
   return (
