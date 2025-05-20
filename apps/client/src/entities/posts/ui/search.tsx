@@ -6,7 +6,7 @@ import { useDebounce } from "@repo/hooks/useDebounce";
 import { getSearchResult } from "../api/getSearchResult";
 
 interface SearchProps {
-  setResult: (result: string) => void;
+  setResult: (result: []) => void;
   search: string;
   setSearch: (search: string) => void;
   type?: string;
