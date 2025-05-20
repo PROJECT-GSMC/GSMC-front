@@ -42,8 +42,8 @@ const MemberView = () => {
     <div className="flex flex-col items-center gap-4 h-screen">
       <Header />
       <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] max-sm:px-[2.75rem] max-md:px-[4.75rem] md:px-[6.75rem] ">
-        <div className="h-full grid grid-cols-8 max-sm:grid-cols-1 max-sm:grid-rows-2 gap-[1.8rem]">
-          <section className="col-span-5 max-sm:col-span-1">
+        <div className="h-full grid grid-cols-8 max-lg:grid-cols-1 max-lg:grid-rows-2 gap-[1.8rem]">
+          <section className="col-span-5 max-lg:col-span-1">
             <List
               onClick={() => setOpen(!open)}
               title={"학생 목록"}
@@ -72,7 +72,7 @@ const MemberView = () => {
               )}
             </List>
           </section>
-          <section className="col-span-3 max-sm:col-span-1">
+          <section className="col-span-3 max-lg:col-span-1">
             {student ? (
               <Information student={student} />
             ) : (
