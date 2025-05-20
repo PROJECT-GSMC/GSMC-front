@@ -16,6 +16,7 @@ import { useRouter } from "next/navigation";
 
 const PostsView = () => {
   const [result, setResult] = useState<string>("");
+  const [search, setSearch] = useState<string>("");
   const [categoryName, setCategoryName] = useState<EvidenceType | "DRAFT">(
     "MAJOR"
   );
@@ -44,7 +45,7 @@ const PostsView = () => {
     <div className="flex flex-col items-center">
       <Header />
       <div className="w-full max-w-[37.5rem]">
-        <Search result={result} setResult={setResult} />
+        <Search type={categoryName} search={search} setResult={setResult} />
         <div className="flex gap-[1rem] justify-between">
           <Button
             label="전공"
