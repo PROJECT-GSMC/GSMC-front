@@ -17,6 +17,8 @@ import { getMember } from "@widgets/member/api/getMember";
 import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 
 const MemberView = () => {
+  const [Click, setClick] = useState<string | null>(null);
+
   const [open, setOpen] = useState<boolean>(false);
 
   const [student, setStudent] = useState<Member>();
@@ -58,6 +60,7 @@ const MemberView = () => {
                     onClick={async () => {
                       const res = await getMember(member.email);
                       setStudent(res.data);
+                      setClick(member.email);
                     }}
                     id={member.email}
                     key={member.email}
@@ -66,6 +69,11 @@ const MemberView = () => {
                       member.grade +
                       member.classNumber +
                       String(member.number).padStart(2, "0")
+                    }
+                    className={
+                      Click === member.email
+                        ? "bg-[#EFF5FF] rounded-[0.75rem]"
+                        : ""
                     }
                   />
                 ))
