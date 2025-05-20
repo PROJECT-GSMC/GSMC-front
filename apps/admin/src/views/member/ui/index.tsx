@@ -42,7 +42,7 @@ const MemberView = () => {
     <div className="flex flex-col items-center gap-4 h-screen">
       <Header />
       <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] max-sm:px-[2.75rem] max-md:px-[4.75rem] md:px-[6.75rem] ">
-        <div className="h-full grid grid-cols-8 max-md:grid-cols-1 max-md:grid-rows-2 gap-[1.8rem]">
+        <div className="h-full grid grid-cols-8 max-sm:grid-cols-1 max-sm:grid-rows-2 gap-[1.8rem]">
           <section className="col-span-5 max-sm:col-span-1">
             <List
               onClick={() => setOpen(!open)}
@@ -63,8 +63,8 @@ const MemberView = () => {
                     key={member.email}
                     front={member.name}
                     back={
-                      member.grade +
-                      member.classNumber +
+                      String(member.grade) +
+                      String(member.classNumber) +
                       String(member.number).padStart(2, "0")
                     }
                   />
