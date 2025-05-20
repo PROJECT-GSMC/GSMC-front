@@ -45,7 +45,12 @@ const PostsView = () => {
     <div className="flex flex-col items-center">
       <Header />
       <div className="w-full max-w-[37.5rem]">
-        <Search type={categoryName} search={search} setResult={setResult} />
+        <Search
+          setSearch={setSearch}
+          type={categoryName}
+          search={search}
+          setResult={setResult}
+        />
         <div className="flex gap-[1rem] justify-between">
           <Button
             label="전공"
