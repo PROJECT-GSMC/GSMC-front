@@ -22,9 +22,9 @@ const MemberView = () => {
   const [student, setStudent] = useState<Member>();
   const [result, setResult] = useState<Member[]>([]);
 
-  const [grade, setGrade] = useState<number>(0);
-  const [classNumber, setClassNumber] = useState<number>(0);
-  const [name, setName] = useState<string>("");
+  const [grade, setGrade] = useState<number>();
+  const [classNumber, setClassNumber] = useState<number>();
+  const [name, setName] = useState<string>();
 
   const { data, error, isLoading } = useGetMember();
 
@@ -33,9 +33,9 @@ const MemberView = () => {
   const members: Member[] = data?.data ?? [];
 
   const resetFilter = () => {
-    setGrade(0);
-    setClassNumber(0);
-    setName("");
+    setGrade(undefined);
+    setClassNumber(undefined);
+    setName(undefined);
   };
 
   return (
@@ -95,9 +95,9 @@ const MemberView = () => {
                 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-sm:w-[20.5rem] max-md:w-[22.5rem] md:w-[24.5rem]"
               >
                 <Filter
-                  grade={grade}
-                  classNumber={classNumber}
-                  name={name}
+                  grade={grade ?? 0}
+                  classNumber={classNumber ?? 0}
+                  name={name ?? ""}
                   ChangeClass={setClassNumber}
                   ChangeGrade={setGrade}
                   ChangeName={setName}
@@ -113,9 +113,9 @@ const MemberView = () => {
                     variant="blue"
                     onClick={async () => {
                       const res = await getSearchedMembers({
-                        grade,
-                        classNumber,
-                        name,
+                        grade: grade,
+                        classNumber: classNumber,
+                        name: name,
                         page: 1,
                         size: 10,
                       });

@@ -11,11 +11,12 @@ export const getSearchedMembers = async ({
 }: SearchParams) => {
   const query: Record<string, string> = {};
 
-  if (grade != null) query.grade = String(grade);
-  if (classNumber != null) query.classNumber = String(classNumber);
-  if (name != null) query.name = String(name);
-  if (page != null) query.page = String(page);
-  if (size != null) query.size = String(size);
+  if (typeof grade != "undefined") query.grade = String(grade);
+  if (typeof classNumber != "undefined")
+    query.classNumber = String(classNumber);
+  if (typeof name != "undefined") query.name = String(name);
+  query.page = String(page);
+  query.size = String(size);
 
   const queryString = new URLSearchParams(query).toString();
 
