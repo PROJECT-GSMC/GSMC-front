@@ -22,9 +22,9 @@ const MemberView = () => {
   const [student, setStudent] = useState<Member>();
   const [result, setResult] = useState<Member[]>([]);
 
-  const [grade, setGrade] = useState<number>(0);
-  const [classNumber, setClassNumber] = useState<number>(0);
-  const [name, setName] = useState<string>("");
+  const [grade, setGrade] = useState<number>();
+  const [classNumber, setClassNumber] = useState<number>();
+  const [name, setName] = useState<string>();
 
   const { data, error, isLoading } = useGetMember();
 
@@ -33,17 +33,17 @@ const MemberView = () => {
   const members: Member[] = data?.data ?? [];
 
   const resetFilter = () => {
-    setGrade(0);
-    setClassNumber(0);
-    setName("");
+    setGrade(undefined);
+    setClassNumber(undefined);
+    setName(undefined);
   };
 
   return (
     <div className="flex flex-col items-center gap-4 h-screen">
       <Header />
       <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] max-sm:px-[2.75rem] max-md:px-[4.75rem] md:px-[6.75rem] ">
-        <div className="h-full grid grid-cols-8 max-md:grid-cols-1 max-md:grid-rows-2 gap-[1.8rem]">
-          <section className="col-span-5 max-sm:col-span-1">
+        <div className="h-full grid grid-cols-8 max-lg:grid-cols-1 max-lg:grid-rows-2 gap-[1.8rem]">
+          <section className="col-span-5 max-lg:col-span-1">
             <List
               onClick={() => setOpen(!open)}
               title={"학생 목록"}
@@ -63,8 +63,8 @@ const MemberView = () => {
                     key={member.email}
                     front={member.name}
                     back={
-                      member.grade +
-                      member.classNumber +
+                      String(member.grade) +
+                      String(member.classNumber) +
                       String(member.number).padStart(2, "0")
                     }
                   />
@@ -72,7 +72,7 @@ const MemberView = () => {
               )}
             </List>
           </section>
-          <section className="col-span-3 max-sm:col-span-1">
+          <section className="col-span-3 max-lg:col-span-1">
             {student ? (
               <Information student={student} />
             ) : (
@@ -95,9 +95,9 @@ const MemberView = () => {
                 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-sm:w-[20.5rem] max-md:w-[22.5rem] md:w-[24.5rem]"
               >
                 <Filter
-                  grade={grade}
-                  classNumber={classNumber}
-                  name={name}
+                  grade={grade ?? 0}
+                  classNumber={classNumber ?? 0}
+                  name={name ?? ""}
                   ChangeClass={setClassNumber}
                   ChangeGrade={setGrade}
                   ChangeName={setName}
@@ -113,9 +113,9 @@ const MemberView = () => {
                     variant="blue"
                     onClick={async () => {
                       const res = await getSearchedMembers({
-                        grade,
-                        classNumber,
-                        name,
+                        grade: grade,
+                        classNumber: classNumber,
+                        name: name,
                         page: 1,
                         size: 10,
                       });
