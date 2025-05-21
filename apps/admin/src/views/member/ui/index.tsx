@@ -17,7 +17,7 @@ import { getMember } from "@widgets/member/api/getMember";
 import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 
 const MemberView = () => {
-  const [Click, setClick] = useState<string | null>(null);
+  const [click, setClick] = useState<string | null>(null);
 
   const [open, setOpen] = useState<boolean>(false);
 
@@ -71,7 +71,7 @@ const MemberView = () => {
                       String(member.number).padStart(2, "0")
                     }
                     className={
-                      Click === member.email
+                      click === member.email
                         ? "bg-[#EFF5FF] rounded-[0.75rem]"
                         : ""
                     }
