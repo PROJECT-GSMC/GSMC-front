@@ -4,13 +4,14 @@ import { Button } from "@repo/shared/button";
 import Image from "next/image";
 import Header from "@shared/ui/header";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/views/check-post/model/useGetPosts";
 
 export default function DetailView() {
   const { id } = useParams();
+  const R = useRouter();
 
   const { data, isError } = useGetPosts(String(id), null);
 
@@ -77,6 +78,7 @@ export default function DetailView() {
           <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
             <Button label="수정하기" variant="blue" className="w-full" />
             <Button
+              onClick={() => R.back()}
               label="뒤로가기"
               variant="skyblue"
               className="w-full bg-white"
