@@ -2,10 +2,7 @@ import Image from "next/image";
 import { toast } from "sonner";
 import { changeEvidenceState } from "../api/changeEvidenceState";
 import { PostType } from "@repo/types/postType";
-import {
-  handleState,
-  handleStateColor,
-} from "@repo/utils/handleState";
+import { handleState, handleStateColor } from "@repo/utils/handleState";
 
 interface PostProps {
   data: PostType;
@@ -52,7 +49,7 @@ export const Post = ({ data, onClick }: PostProps) => {
             </button>
             <button
               onClick={() => changeEvidenceState(data.id, "REJECT")}
-              className="bg-[#DF454A] px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
+              className="bg-errors-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
             >
               거절
             </button>
