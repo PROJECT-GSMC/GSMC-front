@@ -5,7 +5,7 @@ import Image from "next/image";
 import Header from "@shared/ui/header";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Mock from "@shared/mocks/data/evidenceMock.json";
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
@@ -16,6 +16,7 @@ const DetailView = () => {
   const searchParams = useSearchParams();
   const example = searchParams.get("example");
   const params = useParams();
+  const R = useRouter();
   const { id } = params;
   const router = useRouter();
   const { data, isError } = useGetPosts(null);
@@ -97,6 +98,7 @@ const DetailView = () => {
               onClick={() => router.push(`/edit/${id}${example ? "?example=true" : ""}`)}
             />
             <Button
+              onClick={() => R.back()}
               label="뒤로가기"
               variant="skyblue"
               className="w-full bg-white"
