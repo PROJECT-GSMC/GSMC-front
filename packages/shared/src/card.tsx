@@ -14,7 +14,7 @@ const Card = ({ front, back, onClick, id, Pending, className }: CardProps) => {
   return (
     <div
       onClick={onClick}
-      className={`flex justify-between w-[100%] cursor-pointer h-[69px] text-gray-600 text-label py-[1.5rem] px-[2rem] ${className ?? ""}`}
+      className={`flex justify-between w-[100%] cursor-pointer h-[69px] text-gray-600 text-label py-[1.5rem] px-[2rem] ${className}`}
     >
       <div className="flex items-center gap-1">
         <span>{front}</span>
