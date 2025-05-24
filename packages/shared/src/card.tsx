@@ -10,7 +10,14 @@ interface CardProps {
   className?: string;
 }
 
-const Card = ({ front, back, onClick, id, Pending, className }: CardProps) => {
+const Card = ({
+  front,
+  back,
+  onClick,
+  id,
+  Pending,
+  className = "",
+}: CardProps) => {
   return (
     <div
       onClick={onClick}
