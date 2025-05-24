@@ -8,7 +8,9 @@ export const handleSubmitActivity = async (
   submitType: "submit" | "draft"
 ) => {
   const formData = new FormData();
-  formData.append("file", data.file);
+  if (data.file) {
+    formData.append("file", data.file);
+  }
   formData.append("categoryName", data.categoryName);
   formData.append("title", data.title);
   formData.append("content", data.content);
