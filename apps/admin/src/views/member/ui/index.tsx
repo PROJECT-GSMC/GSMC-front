@@ -50,6 +50,7 @@ const MemberView = () => {
               onClick={() => setOpen(!open)}
               title={"학생 목록"}
               isFilter={true}
+              className="my-3 mx-3"
             >
               {isLoading ? (
                 <div className="text-center mt-24">loading...</div>
