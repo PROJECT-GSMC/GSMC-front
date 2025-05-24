@@ -73,7 +73,7 @@ const MemberView = () => {
                     className={
                       click === member.email
                         ? "bg-[#EFF5FF] rounded-[0.75rem]"
-                        : ""
+                        : "bg-[#DFEAFE]"
                     }
                   />
                 ))
