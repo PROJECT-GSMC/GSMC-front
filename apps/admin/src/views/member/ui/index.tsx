@@ -85,11 +85,11 @@ const MemberView = () => {
               )}
             </List>
           </section>
-          <section className="col-span-3 max-lg:col-span-1">
+          <section className="col-span-3 max-lg:col-span-1 ">
             {student ? (
               <Information student={student} />
             ) : (
-              <div className="flex flex-col bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] h-full justify-center items-center ">
+              <div className="flex flex-col bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] h-full justify-center items-center">
                 <Question />
                 <span className="text-titleSmall text-[#68696C]">
                   학생을 선택해주세요
