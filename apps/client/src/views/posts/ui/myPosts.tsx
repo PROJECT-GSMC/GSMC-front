@@ -15,7 +15,8 @@ import { usePost } from "@repo/store/postProvider";
 import { useRouter } from "next/navigation";
 
 const PostsView = () => {
-  const [result, setResult] = useState<string>("");
+  const [result, setResult] = useState<post[] | undefined>();
+  const [search, setSearch] = useState<string>("");
   const [categoryName, setCategoryName] = useState<EvidenceType | "DRAFT">(
     "MAJOR"
   );
@@ -44,7 +45,12 @@ const PostsView = () => {
     <div className="flex flex-col items-center">
       <Header />
       <div className="w-full max-w-[37.5rem]">
-        <Search result={result} setResult={setResult} />
+        <Search
+          setSearch={setSearch}
+          type={categoryName}
+          search={search}
+          setResult={setResult}
+        />
         <div className="flex gap-[1rem] justify-between">
           <Button
             label="전공"
@@ -73,10 +79,9 @@ const PostsView = () => {
           />
         </div>
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
-          {categoryName !== "DRAFT"
-            ? posts &&
-              posts.map((post: post) => {
-                return (
+          <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
+            {result && result.length > 0
+              ? result.map((post) => (
                   <Post
                     onClick={() => {
                       setPost(post);
@@ -85,20 +90,29 @@ const PostsView = () => {
                     data={post}
                     key={post.id}
                   />
-                );
-              })
-            : draftPosts.map((post) => {
-                return (
-                  <Post
-                    onClick={() => {
-                      setPost(post);
-                      R.push(`/detail/${post.id}`);
-                    }}
-                    data={post}
-                    key={post.id}
-                  />
-                );
-              })}
+                ))
+              : categoryName !== "DRAFT"
+                ? posts.map((post) => (
+                    <Post
+                      onClick={() => {
+                        setPost(post);
+                        R.push(`/detail/${post.id}`);
+                      }}
+                      data={post}
+                      key={post.id}
+                    />
+                  ))
+                : draftPosts.map((post) => (
+                    <Post
+                      onClick={() => {
+                        setPost(post);
+                        R.push(`/detail/${post.id}`);
+                      }}
+                      data={post}
+                      key={post.id}
+                    />
+                  ))}
+          </div>
         </div>
       </div>
     </div>
