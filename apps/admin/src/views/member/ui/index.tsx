@@ -17,6 +17,8 @@ import { getMember } from "@widgets/member/api/getMember";
 import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 
 const MemberView = () => {
+  const [click, setClick] = useState<string | null>(null);
+
   const [open, setOpen] = useState<boolean>(false);
 
   const [student, setStudent] = useState<Member>();
@@ -48,6 +50,7 @@ const MemberView = () => {
               onClick={() => setOpen(!open)}
               title={"학생 목록"}
               isFilter={true}
+              className="my-3 mx-3"
             >
               {isLoading ? (
                 <div className="text-center mt-24">loading...</div>
@@ -56,8 +59,13 @@ const MemberView = () => {
                   <Card
                     Pending={member.hasPendingEvidence}
                     onClick={async () => {
-                      const res = await getMember(member.email);
-                      setStudent(res.data);
+                      setClick(member.email);
+                      try {
+                        const res = await getMember(member.email);
+                        setStudent(res.data);
+                      } catch {
+                        toast.error("학생정보 불러오는데 실패하였습니다.");
+                      }
                     }}
                     id={member.email}
                     key={member.email}
@@ -67,16 +75,21 @@ const MemberView = () => {
                       String(member.classNumber) +
                       String(member.number).padStart(2, "0")
                     }
+                    className={
+                      click === member.email
+                        ? "bg-[#EFF5FF] rounded-[0.75rem]"
+                        : "bg-[#DFEAFE]"
+                    }
                   />
                 ))
               )}
             </List>
           </section>
-          <section className="col-span-3 max-lg:col-span-1">
+          <section className="col-span-3 max-lg:col-span-1 ">
             {student ? (
               <Information student={student} />
             ) : (
-              <div className="flex flex-col bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] h-full justify-center items-center ">
+              <div className="flex flex-col bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] h-full justify-center items-center">
                 <Question />
                 <span className="text-titleSmall text-[#68696C]">
                   학생을 선택해주세요
