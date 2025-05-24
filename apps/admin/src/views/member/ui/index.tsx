@@ -63,11 +63,8 @@ const MemberView = () => {
                       try {
                         const res = await getMember(member.email);
                         setStudent(res.data);
-                      } catch (error) {
-                        console.error(
-                          "학생정보 불러오는데 실패하였습니다.",
-                          error
-                        );
+                      } catch {
+                        toast.error("학생정보 불러오는데 실패하였습니다.");
                       }
                     }}
                     id={member.email}
