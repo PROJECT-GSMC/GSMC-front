@@ -117,7 +117,13 @@ export const Calculate = () => {
               state={bookCount === 10 ? "disabled" : "default"}
               variant="skyblue_hover"
               label={
-                <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+                <Plus
+                  className={
+                    bookCount === 10
+                      ? `text-[#828387] group-hover:text-[#828387]`
+                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                  }
+                />
               }
               className="group basis-1/6"
               onClick={() => {
