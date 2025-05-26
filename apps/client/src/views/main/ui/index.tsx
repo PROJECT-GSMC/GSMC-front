@@ -35,13 +35,13 @@ const MainView = () => {
   const { data: currentUser, isLoading: isCurrentUserLoading } =
     useGetCurrentMember();
 
-  const { data: certification, isLoading: isCertificationLoading } = useQuery<
-    Certification[]
-  >({
+  const { data: certification, isLoading: isCertificationLoading } = useQuery({
     queryKey: ["certifications"],
     queryFn: getCertification,
     enabled: !!accessToken,
   });
+
+  console.log()
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
@@ -152,9 +152,14 @@ const MainView = () => {
           <div className="flex flex-col mt-9 mx-4">
             <List title="자격증">
               {accessToken ? (
-                certification && certification.length > 0 ? (
-                  certification?.map((v, i) => (
-                    <Card key={i} front={v.name} id={v.id} />
+                certification?.data?.certificates && certification?.data?.certificates.length > 0 ? (
+                  certification?.data?.certificates?.map((v: Certification, i) => (
+                    <Card
+                      key={i}
+                      id={v.id}
+                      front={v.name}
+                      back={v.acquisitionDate}
+                    />
                   ))
                 ) : (
                   <div className="text-center text-body3 my-[13rem] ">
