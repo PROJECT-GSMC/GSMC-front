@@ -146,27 +146,21 @@ const MainView = () => {
               <Button label="외국어" variant="skyblue" />
             </Link>
           </div>
-          <div className="flex flex-col mt-9 mx-4">
+          <div className="flex flex-col my-9 mx-4">
             <List title="자격증">
-              {accessToken ? (
-                certification?.data?.certificates && certification?.data?.certificates.length > 0 ? (
-                  certification?.data?.certificates?.map((v, i) => (
-                    <Card
-                      key={i}
-                      id={v.id}
-                      front={v.name}
-                    />
-                  ))
-                ) : (
-                  <div className="text-center text-body3 my-[13rem] ">
-                    등록된 자격증이 존재하지 않습니다.
-                  </div>
-                )
-              ) : (
-                <div className="text-center text-body3 my-[13rem]">
-                  로그인 후 확인가능합니다.
-                </div>
-              )}
+              <section className="relative h-[28.125rem]">
+                {accessToken ? (
+                  certification?.data?.certificates && certification?.data?.certificates.length > 0 ? (
+                    certification?.data?.certificates?.map((v, i) => (
+                      <Card
+                        key={i}
+                        id={v.id}
+                        front={v.name}
+                      />
+                    ))
+                  ) : (<h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">등록된 자격증이 존재하지 않습니다.</h4>)
+                ) : (<h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">로그인 후 확인가능합니다.</h4>)}
+              </section>
             </List>
           </div>
         </div>
