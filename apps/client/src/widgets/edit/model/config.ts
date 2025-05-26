@@ -2,7 +2,7 @@ import { majorCategoryOptions } from "@/views/major/model/category";
 import { CharacterCategory } from "@/views/humanity/model/category";
 import { updateMajorActivity, updateHumanitiesActivity } from "@/shared/api/updateActivity";
 import { updateReading } from "@/shared/api/updateReading";
-import { FormValues } from "@/widgets/edit/types";
+import { FormValues } from "@/widgets/edit/types/types";
 
 type Config = {
   title: string;

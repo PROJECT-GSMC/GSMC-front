@@ -7,7 +7,7 @@ import { InputContainer } from "@repo/shared/inputContainer";
 import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { EditFormProps } from "@/widgets/edit/types";
+import { EditFormProps } from "@/widgets/edit/types/types";
 import { getEditConfig } from "@/widgets/edit/model/config";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
 
