@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
+import { useRouter } from "next/navigation";
 
 const DetailView = () => {
   const searchParams = useSearchParams();
@@ -101,6 +102,7 @@ const DetailView = () => {
               label="뒤로가기"
               variant="skyblue"
               className="w-full bg-white"
+              onClick={() => router.back()}
             />
           </footer>
         </div>
