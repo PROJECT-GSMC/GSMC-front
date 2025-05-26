@@ -8,11 +8,18 @@ export const handleSubmitActivity = async (
   submitType: "submit" | "draft"
 ) => {
   const formData = new FormData();
-  formData.append("file", data.file);
-  formData.append("categoryName", data.categoryName);
-  formData.append("title", data.title);
-  formData.append("content", data.content);
-  formData.append("activityType", data.activityType);
+  formData.append("file", data.file === undefined ? "" : data.file);
+  formData.append(
+    "categoryName",
+    data.categoryName === undefined ? "" : data.categoryName
+  );
+  formData.append("title", data.title === undefined ? "" : data.title);
+  formData.append("content", data.content === undefined ? "" : data.content);
+  formData.append(
+    "activityType",
+    data.activityType === undefined ? "" : data.activityType
+  );
+
   try {
     if (submitType === "draft") {
       await saveDraft(formData);
