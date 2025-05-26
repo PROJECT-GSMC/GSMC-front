@@ -8,16 +8,15 @@ import { InputContainer } from "@repo/shared/inputContainer";
 
 import { Book } from "../model/book";
 import { Header, Textarea } from "@/shared/ui";
-import { useState } from "react";
 import { handleSubmitBook } from "../lib/handleBookSubmit";
 import { useRouter } from "next/navigation";
 
 const BookView = () => {
-  const [submit, setSubmit] = useState<"submit" | "draft">("submit");
   const R = useRouter();
   const {
     handleSubmit,
     control,
+    getValues,
     formState: { isValid },
   } = useForm<Book>({ mode: "onChange" });
   return (
@@ -29,7 +28,7 @@ const BookView = () => {
         </h1>
         <form
           onSubmit={handleSubmit(async (data) => {
-            const res = await handleSubmitBook(data, submit);
+            const res = await handleSubmitBook(data, "submit");
             if (res) R.push("/");
           })}
           className="flex gap-[2rem] flex-col"
@@ -81,12 +80,14 @@ const BookView = () => {
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             <Button
               type="submit"
-              onClick={() => setSubmit("draft")}
+              onClick={() => {
+                const values = getValues();
+                handleSubmitBook(values, "draft");
+              }}
               variant="skyblue"
               label="임시저장"
             />
             <Button
-              onClick={() => setSubmit("submit")}
               type="submit"
               state={isValid ? "default" : "disabled"}
               variant="blue"

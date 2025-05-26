@@ -10,7 +10,6 @@ import { CharacterCategory } from "../model/category";
 
 import { Activity } from "@shared/types/activity";
 import { handleSubmitActivity } from "@/shared/lib/handleSubmitActivity";
-import { useState } from "react";
 import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 import { useRouter } from "next/navigation";
 
@@ -19,10 +18,10 @@ interface FormValues extends Omit<Activity, "categoryName"> {
 }
 
 const HumanityView = () => {
-  const [submitType, setSubmitType] = useState<"submit" | "draft">("submit");
   const R = useRouter();
   const {
     handleSubmit,
+    getValues,
     control,
     formState: { isValid },
   } = useForm<FormValues>({ mode: "onChange" });
@@ -35,7 +34,7 @@ const HumanityView = () => {
       categoryName: data.categoryName.send,
       activityType: "HUMANITIES",
     };
-    const res = await handleSubmitActivity(finalData, submitType);
+    const res = await handleSubmitActivity(finalData, "submit");
     if (res) R.push("/");
   };
 
@@ -93,14 +92,20 @@ const HumanityView = () => {
           />
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             <Button
-              type="submit"
-              onClick={() => setSubmitType("draft")}
+              onClick={() => {
+                const values = getValues();
+                const finalData: Activity = {
+                  ...values,
+                  categoryName: values.categoryName.send,
+                  activityType: "MAJOR",
+                };
+                handleSubmitActivity(finalData, "draft");
+              }}
               variant="skyblue"
               label="임시저장"
             />
             <Button
               type="submit"
-              onClick={() => setSubmitType("submit")}
               state={isValid ? "default" : "disabled"}
               variant="blue"
               label="작성 완료"

@@ -25,6 +25,7 @@ const MajorView = () => {
     handleSubmit,
     control,
     formState: { isValid },
+    getValues,
   } = useForm<FormValues>({ mode: "onChange" });
 
   const file = useWatch({ control, name: "file" });
@@ -95,7 +96,15 @@ const MajorView = () => {
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             <Button
               type="submit"
-              onClick={() => setSubmitType("draft")}
+              onClick={() => {
+                const values = getValues();
+                const finalData: Activity = {
+                  ...values,
+                  categoryName: values.categoryName.send,
+                  activityType: "MAJOR",
+                };
+                handleSubmitActivity(finalData, "draft");
+              }}
               variant="skyblue"
               label="임시저장"
             />
