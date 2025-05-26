@@ -34,7 +34,7 @@ const MainView = () => {
   const { data: currentUser, isLoading: isCurrentUserLoading } =
     useGetCurrentMember();
 
-  const { data: certification, isLoading: isCertificationLoading } = useQuery({
+  const { data: certification, isLoading: isCertificationLoading, refetch } = useQuery({
     queryKey: ["certifications"],
     queryFn: getCertification,
     enabled: !!accessToken,
@@ -167,7 +167,7 @@ const MainView = () => {
       ) : (
         <p className="text-center m-8">로딩중...</p>
       )}
-      {show && <Modal type={type} onClose={() => setShow(false)} />}
+      {show && <Modal type={type} onClose={() => { setShow(false); refetch() }} />}
     </div>
   );
 };
