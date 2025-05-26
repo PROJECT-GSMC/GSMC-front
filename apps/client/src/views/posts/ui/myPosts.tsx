@@ -70,7 +70,7 @@ const PostsView = () => {
           <Button
             label="외국어"
             onClick={() => setCategoryName("FOREIGN_LANGUAGE")}
-            variant="skyblue"
+            variant={categoryName === "FOREIGN_LANGUAGE" ? "blue" : "skyblue"}
           />
           <Button
             onClick={() => setCategoryName("DRAFT")}
