@@ -41,8 +41,6 @@ const MainView = () => {
     enabled: !!accessToken,
   });
 
-  console.log()
-
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
       <Header />
@@ -153,12 +151,12 @@ const MainView = () => {
             <List title="자격증">
               {accessToken ? (
                 certification?.data?.certificates && certification?.data?.certificates.length > 0 ? (
-                  certification?.data?.certificates?.map((v: Certification, i) => (
+                  certification?.data?.certificates?.map((v, i) => (
                     <Card
                       key={i}
                       id={v.id}
                       front={v.name}
-                      back={v.acquisitionDate}
+                      back={String(v.acquisitionDate)}
                     />
                   ))
                 ) : (
