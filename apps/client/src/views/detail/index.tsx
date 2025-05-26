@@ -10,13 +10,14 @@ import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
+import { useRouter } from "next/navigation";
 
 const DetailView = () => {
   const searchParams = useSearchParams();
   const example = searchParams.get("example");
   const params = useParams();
   const { id } = params;
-
+  const router = useRouter();
   const { data, isError } = useGetPosts(null);
   const { data: data2, isError: isError2 } = useGetCurrentMember();
 
@@ -89,11 +90,17 @@ const DetailView = () => {
           </main>
 
           <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
-            <Button label="수정하기" variant="blue" className="w-full" />
+            <Button 
+              label="수정하기" 
+              variant="blue" 
+              className="w-full"
+              onClick={() => router.push(`/edit/${id}${example ? "?example=true" : ""}`)}
+            />
             <Button
               label="뒤로가기"
               variant="skyblue"
               className="w-full bg-white"
+              onClick={() => router.back()}
             />
           </footer>
         </div>
