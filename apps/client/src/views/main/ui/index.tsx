@@ -10,7 +10,6 @@ import { Button } from "@repo/shared/button";
 
 import { ShowInformation } from "@entities/main/ui/showInformation";
 import { getCertification } from "@entities/main/api/getCertification";
-import { Certification } from "@entities/main/model/certification";
 import ShowSignin from "@/entities/main/ui/showSignin";
 import MainDropdown from "@entities/main/ui/dropdown";
 
@@ -156,7 +155,6 @@ const MainView = () => {
                       key={i}
                       id={v.id}
                       front={v.name}
-                      back={String(v.acquisitionDate)}
                     />
                   ))
                 ) : (
