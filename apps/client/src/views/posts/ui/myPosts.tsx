@@ -70,7 +70,7 @@ const PostsView = () => {
           <Button
             label="외국어"
             onClick={() => setCategoryName("FOREIGN_LANGUAGE")}
-            variant="skyblue"
+            variant={categoryName === "FOREIGN_LANGUAGE" ? "blue" : "skyblue"}
           />
           <Button
             onClick={() => setCategoryName("DRAFT")}
@@ -79,7 +79,7 @@ const PostsView = () => {
           />
         </div>
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
-          <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
+          <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
             {result && result.length > 0
               ? result.map((post) => (
                   <Post
