@@ -7,7 +7,7 @@ import { InputContainer } from "@repo/shared/inputContainer";
 import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { EditFormProps, FormValues } from "@/widgets/edit/types/types";
+import { EditFormProps, FormValues, Option } from "@/widgets/edit/types/types";
 import { getEditConfig } from "@/widgets/edit/model/config";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
 
@@ -19,19 +19,19 @@ const EditForm = ({ type, post }: EditFormProps) => {
     handleSubmit,
     control,
     formState: { isValid },
-  } = useForm({ 
+  } = useForm<FormValues>({ 
     mode: "onChange",
     defaultValues: getDefaultValues(type, post)
   });
 
-  const file = useWatch({ control, name: "file" });
+  const file = useWatch<FormValues>({ control, name: "file" });
 
   const handleFormSubmit = async (data: FormValues) => {
     try {
       await config.onSubmit(data, post.id);
       toast.success("수정이 완료되었습니다.");
       router.back();
-    } catch (error) {
+    } catch (error: unknown) {
       console.error(error);
       toast.error("수정에 실패했습니다.");
     }
@@ -87,16 +87,18 @@ const EditForm = ({ type, post }: EditFormProps) => {
           onSubmit={handleSubmit(handleFormSubmit)}
         >
           {(type === "major" || type === "humanities") && config.categoryOptions && (
-            <Controller
+            <Controller<FormValues>
               name="categoryName"
               control={control}
               rules={{
                 required: "카테고리를 선택해주세요.",
               }}
-              render={({ field }) => (
+              render={({ field: { value, onChange, ...field } }) => (
                 <Dropdown
                   label="카테고리"
                   options={config.categoryOptions || []}
+                  value={value as Option}
+                  onChange={onChange}
                   {...field}
                 />
               )}
@@ -104,7 +106,7 @@ const EditForm = ({ type, post }: EditFormProps) => {
           )}
 
           <InputContainer label="제목">
-            <Input
+            <Input<FormValues>
               name="title"
               control={control}
               rules={{
@@ -116,7 +118,7 @@ const EditForm = ({ type, post }: EditFormProps) => {
           {type === "reading" && (
             <>
               <InputContainer label="저자">
-                <Input
+                <Input<FormValues>
                   name="author"
                   control={control}
                   rules={{
@@ -125,7 +127,7 @@ const EditForm = ({ type, post }: EditFormProps) => {
                 />
               </InputContainer>
               <InputContainer label="페이지">
-                <Input
+                <Input<FormValues>
                   name="page"
                   control={control}
                   rules={{
@@ -136,7 +138,7 @@ const EditForm = ({ type, post }: EditFormProps) => {
             </>
           )}
 
-          <Controller
+          <Controller<FormValues>
             name="content"
             control={control}
             rules={{
@@ -150,15 +152,27 @@ const EditForm = ({ type, post }: EditFormProps) => {
                   : "내용을 400자 이상 입력해주세요.",
               },
             }}
-            render={({ field }) => <Textarea isBook={type === "reading"} {...field} />}
+            render={({ field: { value, onChange, ...field } }) => (
+              <Textarea 
+                isBook={type === "reading"} 
+                value={value as string}
+                onChange={onChange}
+                {...field}
+              />
+            )}
           />
 
           {(type === "major" || type === "humanities") && (
-            <Controller
+            <Controller<FormValues>
               name="file"
               control={control}
-              render={({ field }) => (
-                <File label="이미지 (변경하지 않으려면 비워두세요)" {...field} />
+              render={({ field: { value, onChange, ...field } }) => (
+                <File 
+                  label="이미지 (변경하지 않으려면 비워두세요)" 
+                  value={value as File}
+                  onChange={onChange}
+                  {...field}
+                />
               )}
             />
           )}

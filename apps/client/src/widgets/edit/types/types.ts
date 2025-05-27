@@ -6,12 +6,12 @@ export type Option = {
 }
 
 export type FormValues = {
-  title?: string;
-  content?: string;
+  title: string;
+  content: string;
   categoryName?: Option;
   file?: File;
   author?: string;
-  page?: number;
+  page?: string;
 };
 
 export type EditFormProps = {
