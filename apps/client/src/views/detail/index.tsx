@@ -11,13 +11,14 @@ import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
 
+
 const DetailView = () => {
   const searchParams = useSearchParams();
   const example = searchParams.get("example");
   const params = useParams();
   const R = useRouter();
   const { id } = params;
-
+  const router = useRouter();
   const { data, isError } = useGetPosts(null);
   const { data: data2, isError: isError2 } = useGetCurrentMember();
 
@@ -90,7 +91,12 @@ const DetailView = () => {
           </main>
 
           <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
-            <Button label="수정하기" variant="blue" className="w-full" />
+            <Button 
+              label="수정하기" 
+              variant="blue" 
+              className="w-full"
+              onClick={() => router.push(`/edit/${id}${example ? "?example=true" : ""}`)}
+            />
             <Button
               onClick={() => R.back()}
               label="뒤로가기"

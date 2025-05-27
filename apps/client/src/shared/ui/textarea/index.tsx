@@ -1,14 +1,20 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 interface TextareaProps {
   isBook?: boolean;
+  value?: string;
   onChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-const Textarea = ({ isBook = false, onChange }: TextareaProps) => {
-  const [length, setLength] = useState(0);
+const Textarea = ({ isBook = false, value = "", onChange }: TextareaProps) => {
+  const [length, setLength] = useState(value.length);
+
+  useEffect(() => {
+    setLength(value.length);
+  }, [value]);
+
   return (
     <div>
       <div>
@@ -27,6 +33,7 @@ const Textarea = ({ isBook = false, onChange }: TextareaProps) => {
         </label>
       </div>
       <textarea
+        value={value}
         onChange={(e) => {
           setLength(e.target.value.length);
           onChange(e);

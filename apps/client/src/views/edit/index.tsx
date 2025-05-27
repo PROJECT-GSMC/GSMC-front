@@ -1,0 +1,57 @@
+"use client";
+
+import { useParams, useSearchParams } from "next/navigation";
+import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
+import { post as postType, Activity } from "@repo/types/evidences";
+import { isActivity, isReading } from "@repo/utils/handlePost";
+import Mock from "@shared/mocks/data/evidenceMock.json";
+import { toast } from "sonner";
+import EditForm from "./ui/EditForm";
+
+const EditView = () => {
+  const searchParams = useSearchParams();
+  const example = searchParams.get("example");
+  const params = useParams();
+  const { id } = params;
+  const { data, isError } = useGetPosts(null);
+
+  if (isError) {
+    toast.error("게시물을 불러오지 못했습니다.");
+  }
+
+  const posts: postType[] = example
+    ? Mock
+    : [
+        ...(data?.data?.majorActivityEvidence ?? []),
+        ...(data?.data?.humanitiesActivityEvidence ?? []),
+        ...(data?.data?.readingEvidence ?? []),
+        ...(data?.data?.otherEvidence ?? []),
+      ];
+
+  const post = posts.find((post) => post.id === Number(id));
+
+  if (!post) {
+    return <div>게시물을 찾을 수 없습니다.</div>;
+  }
+
+  const isMajorActivity = isActivity(post) && 
+    data?.data?.majorActivityEvidence?.some((p: Activity) => p.id === post.id);
+  
+  const isHumanitiesActivity = isActivity(post) && 
+    data?.data?.humanitiesActivityEvidence?.some((p: Activity) => p.id === post.id);
+
+  let type: "major" | "humanities" | "reading" | "others";
+  if (isMajorActivity) {
+    type = "major";
+  } else if (isHumanitiesActivity) {
+    type = "humanities";
+  } else if (isReading(post)) {
+    type = "reading";
+  } else {
+    type = "others";
+  }
+
+  return <EditForm type={type} post={post} />;
+};
+
+export default EditView; 
