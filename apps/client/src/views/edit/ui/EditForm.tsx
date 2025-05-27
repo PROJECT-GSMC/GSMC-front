@@ -7,7 +7,7 @@ import { InputContainer } from "@repo/shared/inputContainer";
 import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { EditFormProps } from "@/widgets/edit/types/types";
+import { EditFormProps, FormValues } from "@/widgets/edit/types/types";
 import { getEditConfig } from "@/widgets/edit/model/config";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
 
@@ -26,7 +26,7 @@ const EditForm = ({ type, post }: EditFormProps) => {
 
   const file = useWatch({ control, name: "file" });
 
-  const handleFormSubmit = async (data: any) => {
+  const handleFormSubmit = async (data: FormValues) => {
     try {
       await config.onSubmit(data, post.id);
       toast.success("수정이 완료되었습니다.");
