@@ -1,16 +1,21 @@
 import { majorCategoryOptions } from "@/views/major/model/category";
 import { CharacterCategory } from "@/views/humanity/model/category";
-import { updateMajorActivity, updateHumanitiesActivity } from "@/shared/api/updateActivity";
+import {
+  updateMajorActivity,
+  updateHumanitiesActivity,
+} from "@/shared/api/updateActivity";
 import { updateReading } from "@/shared/api/updateReading";
 import { FormValues } from "@/widgets/edit/types/types";
 
 type Config = {
   title: string;
-  categoryOptions?: { name: string; send: string; }[];
+  categoryOptions?: { name: string; send: string }[];
   onSubmit: (data: FormValues, id: number) => Promise<void>;
 };
 
-export const getEditConfig = (type: "major" | "humanities" | "reading" | "others"): Config => {
+export const getEditConfig = (
+  type: "major" | "humanities" | "reading" | "others"
+): Config => {
   switch (type) {
     case "major":
       return {
@@ -25,9 +30,9 @@ export const getEditConfig = (type: "major" | "humanities" | "reading" | "others
           formData.append("title", data.title || "");
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
-          
+
           await updateMajorActivity(id, formData);
-        }
+        },
       };
     case "humanities":
       return {
@@ -42,9 +47,9 @@ export const getEditConfig = (type: "major" | "humanities" | "reading" | "others
           formData.append("title", data.title || "");
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
-          
+
           await updateHumanitiesActivity(id, formData);
-        }
+        },
       };
     case "reading":
       return {
@@ -53,16 +58,16 @@ export const getEditConfig = (type: "major" | "humanities" | "reading" | "others
           const bookData = {
             title: data.title || "",
             author: data.author || "",
-            page: data.page || 0,
+            page: Number(data.page) || 0,
             content: data.content || "",
           };
           await updateReading(id, bookData);
-        }
+        },
       };
     case "others":
       return {
         title: "기타 증빙 수정",
-        onSubmit: async () => {}
+        onSubmit: async () => {},
       };
   }
-}; 
+};
