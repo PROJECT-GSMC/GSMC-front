@@ -59,9 +59,9 @@ const Header = () => {
               <li key={item.href}>
                 <Link
                   className={item.active ? "text-black" : ""}
-                  href={item.href}
+                  href="/calculate"
                 >
-                  {item.label}
+                  점수 계산
                 </Link>
               </li>
             );
