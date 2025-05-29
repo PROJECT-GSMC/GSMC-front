@@ -14,6 +14,7 @@ import { useRef } from "react";
 
 export default function WriteForm() {
   const searchParams = useSearchParams();
+  const router = useRouter();
   const type = searchParams.get("type");
   const config = getWriteConfig(
     type as "major" | "humanities" | "reading" | "others" | "foreign"
@@ -49,8 +50,9 @@ export default function WriteForm() {
     category?.name === "TOEIC SPEAKING" ||
     category?.name === "HSK";
 
-  const handleFormSubmit = (data: FormValues) => {
-    config.onSubmit(data, submitTypeRef.current);
+  const handleFormSubmit = async (data: FormValues) => {
+    await config.onSubmit(data, submitTypeRef.current);
+    router.push("/");
   };
 
   return (
@@ -197,7 +199,7 @@ export default function WriteForm() {
                 value="draft"
                 state="default"
                 onClick={() => {
-                  const res = handleFormSubmit(getValues());
+                  handleFormSubmit(getValues());
                 }}
                 variant="skyblue"
                 label="임시저장"
