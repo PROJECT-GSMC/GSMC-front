@@ -12,7 +12,7 @@ type Config = {
   onSubmit: (data: FormValues, id: number) => Promise<void>;
 };
 
-export const getEditConfig = (
+export const getWriteConfig = (
   type: "major" | "humanities" | "reading" | "others" | "foreign"
 ): Config => {
   switch (type) {
