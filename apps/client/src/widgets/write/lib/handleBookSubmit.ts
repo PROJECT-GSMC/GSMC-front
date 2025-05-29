@@ -1,7 +1,7 @@
 import { toast } from "sonner";
-import { Book } from "../model/book";
-import { sendBook } from "../api/sendBook";
-import { saveBookDraft } from "../api/saveBookDraft";
+import { Book } from "../../../views/book/model/book";
+import { sendBook } from "../../../views/book/api/sendBook";
+import { saveBookDraft } from "../../../views/book/api/saveBookDraft";
 
 export const handleSubmitBook = async (
   data: Book,

@@ -1,5 +1,5 @@
 import { saveDraft } from "@/views/foreign/api/saveDraft";
-import { Activity } from "../types/activity";
+import { Activity } from "../../../shared/types/activity";
 import { sendActivity } from "../api/sendActivity";
 import { toast } from "sonner";
 
