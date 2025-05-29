@@ -1,16 +1,13 @@
 "use client";
 
-import { useParams, useSearchParams } from "next/navigation";
+import { useParams } from "next/navigation";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { post as postType, Activity } from "@repo/types/evidences";
 import { isActivity, isReading } from "@repo/utils/handlePost";
-import Mock from "@shared/mocks/data/evidenceMock.json";
 import { toast } from "sonner";
 import EditForm from "./ui/EditForm";
 
 const EditView = () => {
-  const searchParams = useSearchParams();
-  const example = searchParams.get("example");
   const params = useParams();
   const { id } = params;
   const { data, isError } = useGetPosts(null);
@@ -19,14 +16,12 @@ const EditView = () => {
     toast.error("게시물을 불러오지 못했습니다.");
   }
 
-  const posts: postType[] = example
-    ? Mock
-    : [
-        ...(data?.data?.majorActivityEvidence ?? []),
-        ...(data?.data?.humanitiesActivityEvidence ?? []),
-        ...(data?.data?.readingEvidence ?? []),
-        ...(data?.data?.otherEvidence ?? []),
-      ];
+  const posts: postType[] = [
+    ...(data?.data?.majorActivityEvidence ?? []),
+    ...(data?.data?.humanitiesActivityEvidence ?? []),
+    ...(data?.data?.readingEvidence ?? []),
+    ...(data?.data?.otherEvidence ?? []),
+  ];
 
   const post = posts.find((post) => post.id === Number(id));
 
@@ -34,11 +29,15 @@ const EditView = () => {
     return <div>게시물을 찾을 수 없습니다.</div>;
   }
 
-  const isMajorActivity = isActivity(post) && 
+  const isMajorActivity =
+    isActivity(post) &&
     data?.data?.majorActivityEvidence?.some((p: Activity) => p.id === post.id);
-  
-  const isHumanitiesActivity = isActivity(post) && 
-    data?.data?.humanitiesActivityEvidence?.some((p: Activity) => p.id === post.id);
+
+  const isHumanitiesActivity =
+    isActivity(post) &&
+    data?.data?.humanitiesActivityEvidence?.some(
+      (p: Activity) => p.id === post.id
+    );
 
   let type: "major" | "humanities" | "reading" | "others";
   if (isMajorActivity) {
@@ -54,4 +53,4 @@ const EditView = () => {
   return <EditForm type={type} post={post} />;
 };
 
-export default EditView; 
+export default EditView;

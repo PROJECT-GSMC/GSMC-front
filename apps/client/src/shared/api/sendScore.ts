@@ -1,14 +1,5 @@
 import instance from "@repo/api/axios";
 
-export const sendScore = async (
-  categoryName: string,
-  value: number | string,
-  file: File
-) => {
-  const formData = new FormData();
-  formData.append("categoryName", categoryName);
-  formData.append("value", value.toString());
-  formData.append("file", file);
-
+export const sendScore = async (formData: FormData) => {
   return await instance.post("/evidence/current/scoring", formData);
 };

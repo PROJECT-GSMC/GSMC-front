@@ -1,27 +1,26 @@
-import { majorCategoryOptions } from "@/widgets/calculate/model/category";
 import { CharacterCategory } from "@/widgets/write/model/category";
-import {
-  updateMajorActivity,
-  updateHumanitiesActivity,
-} from "@/shared/api/updateActivity";
-import { updateReading } from "@/shared/api/updateReading";
 import { FormValues } from "@/widgets/edit/types/types";
+import { handleSubmitActivity } from "../lib/handleSubmitActivity";
+import { handleSubmitBook } from "../lib/handleBookSubmit";
+import { sendScore } from "@/shared/api/sendScore";
+import { majorCategoryOptions } from "@/widgets/calculate/model/category";
+import { foreignOptions } from "./foreignOptions";
 
 type Config = {
   title: string;
   categoryOptions?: { name: string; send: string }[];
-  onSubmit: (data: FormValues, id: number) => Promise<void>;
+  onSubmit: (data: FormValues, type: "draft" | "submit") => Promise<void>;
 };
 
-export const getEditConfig = (
-  type: "major" | "humanities" | "reading" | "others"
+export const getWriteConfig = (
+  type: "major" | "humanities" | "reading" | "others" | "foreign"
 ): Config => {
   switch (type) {
     case "major":
       return {
-        title: "전공 영역 수정",
+        title: "전공 영역",
         categoryOptions: majorCategoryOptions,
-        onSubmit: async (data: FormValues, id: number) => {
+        onSubmit: async (data: FormValues, type) => {
           const formData = new FormData();
           if (data.file) {
             formData.append("file", data.file);
@@ -31,14 +30,14 @@ export const getEditConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
 
-          await updateMajorActivity(id, formData);
+          await handleSubmitActivity(type, formData);
         },
       };
     case "humanities":
       return {
-        title: "인성 영역 수정",
+        title: "인성 영역",
         categoryOptions: CharacterCategory,
-        onSubmit: async (data: FormValues, id: number) => {
+        onSubmit: async (data: FormValues, type) => {
           const formData = new FormData();
           if (data.file) {
             formData.append("file", data.file);
@@ -48,26 +47,40 @@ export const getEditConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
 
-          await updateHumanitiesActivity(id, formData);
+          await handleSubmitActivity(type, formData);
         },
       };
     case "reading":
       return {
-        title: "독서 영역 수정",
-        onSubmit: async (data: FormValues, id: number) => {
+        title: "독서 영역",
+        onSubmit: async (data: FormValues, type) => {
           const bookData = {
             title: data.title || "",
             author: data.author || "",
             page: Number(data.page) || 0,
             content: data.content || "",
           };
-          await updateReading(id, bookData);
+          await handleSubmitBook(bookData, type);
         },
       };
     case "others":
       return {
-        title: "기타 증빙 수정",
+        title: "기타 증빙 자료",
         onSubmit: async () => {},
+      };
+    case "foreign":
+      return {
+        title: "외국어 영역",
+        categoryOptions: foreignOptions,
+        onSubmit: async (data: FormValues) => {
+          const formData = new FormData();
+          if (data.file) {
+            formData.append("file", data.file);
+          }
+          formData.append("categoryName", data.categoryName?.send || "");
+          formData.append("value", data.title || "");
+          sendScore(formData);
+        },
       };
   }
 };

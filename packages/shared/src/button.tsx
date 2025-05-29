@@ -11,6 +11,7 @@ interface ButtonProps {
   state?: ButtonState;
   onClick?: () => void;
   type?: "button" | "submit" | "reset";
+  value?: string;
 }
 
 export const Button = ({
@@ -19,6 +20,7 @@ export const Button = ({
   variant,
   state = "default",
   type = "button",
+  value,
   onClick,
 }: ButtonProps) => {
   const baseStyle =
@@ -30,6 +32,7 @@ export const Button = ({
 
   return (
     <button
+      value={value}
       type={type}
       className={`${baseStyle} ${buttonStyle} ${className}`}
       onClick={onClick}
