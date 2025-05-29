@@ -1,4 +1,4 @@
-import { majorCategoryOptions } from "@/views/major/model/category";
+import { majorCategoryOptions } from "@/widgets/calculate/model/category";
 import { CharacterCategory } from "@/views/humanity/model/category";
 import {
   updateMajorActivity,

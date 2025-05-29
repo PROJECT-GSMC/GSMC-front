@@ -1,10 +1,10 @@
-import { majorCategoryOptions } from "@/views/major/model/category";
 import { CharacterCategory } from "@/views/humanity/model/category";
 import { FormValues } from "@/widgets/edit/types/types";
 import { foreignOptions } from "@/widgets/write/model/foreignOptions";
 import { handleSubmitActivity } from "../lib/handleSubmitActivity";
 import { handleSubmitBook } from "../lib/handleBookSubmit";
 import { sendScore } from "@/shared/api/sendScore";
+import { majorCategoryOptions } from "@/widgets/calculate/model/category";
 
 type Config = {
   title: string;
