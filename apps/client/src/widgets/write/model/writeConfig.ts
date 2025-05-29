@@ -9,7 +9,7 @@ import { majorCategoryOptions } from "@/widgets/calculate/model/category";
 type Config = {
   title: string;
   categoryOptions?: { name: string; send: string }[];
-  onSubmit: (data: FormValues, id: number) => Promise<void>;
+  onSubmit: (data: FormValues) => Promise<void>;
 };
 
 export const getWriteConfig = (
