@@ -12,6 +12,7 @@ export type FormValues = {
   file?: File;
   author?: string;
   page?: string;
+  value?: string | number;
 };
 
 export type EditFormProps = {
