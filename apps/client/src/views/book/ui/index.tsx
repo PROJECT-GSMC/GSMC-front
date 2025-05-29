@@ -9,7 +9,7 @@ import { InputContainer } from "@repo/shared/inputContainer";
 import { Book } from "../model/book";
 import { Header, Textarea } from "@/shared/ui";
 import { useState } from "react";
-import { handleSubmitBook } from "../lib/handleBookSubmit";
+import { handleSubmitBook } from "../../../widgets/write/lib/handleBookSubmit";
 import { useRouter } from "next/navigation";
 
 const BookView = () => {

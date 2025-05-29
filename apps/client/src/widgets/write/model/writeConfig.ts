@@ -1,10 +1,10 @@
-import { CharacterCategory } from "@/views/humanity/model/category";
+import { CharacterCategory } from "@/widgets/write/model/category";
 import { FormValues } from "@/widgets/edit/types/types";
-import { foreignOptions } from "@/widgets/write/model/foreignOptions";
 import { handleSubmitActivity } from "../lib/handleSubmitActivity";
 import { handleSubmitBook } from "../lib/handleBookSubmit";
 import { sendScore } from "@/shared/api/sendScore";
 import { majorCategoryOptions } from "@/widgets/calculate/model/category";
+import { foreignOptions } from "./foreignOptions";
 
 type Config = {
   title: string;

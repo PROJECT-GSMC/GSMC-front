@@ -9,13 +9,12 @@ import { InputContainer } from "@repo/shared/inputContainer";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { getWriteConfig } from "../model/writeConfig";
-import { chooseDropdownOption } from "@/views/foreign/lib/chooseDropdownOption";
+import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
 import { useRef } from "react";
 
 export default function WriteForm() {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
-  const router = useRouter();
   const config = getWriteConfig(
     type as "major" | "humanities" | "reading" | "others" | "foreign"
   );
@@ -198,7 +197,7 @@ export default function WriteForm() {
                 value="draft"
                 state="default"
                 onClick={() => {
-                  handleFormSubmit(getValues());
+                  const res = handleFormSubmit(getValues());
                 }}
                 variant="skyblue"
                 label="임시저장"

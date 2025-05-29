@@ -1,5 +1,5 @@
 import { majorCategoryOptions } from "@/widgets/calculate/model/category";
-import { CharacterCategory } from "@/views/humanity/model/category";
+import { CharacterCategory } from "@/widgets/write/model/category";
 import {
   updateMajorActivity,
   updateHumanitiesActivity,
