@@ -1,5 +1,5 @@
 "use client";
-import { ReactNode, useMemo } from "react";
+import { BaseSyntheticEvent, ReactNode, useMemo } from "react";
 import { variantStyles } from "@repo/consts/button";
 
 type ButtonState = "default" | "active" | "disabled";
@@ -9,8 +9,9 @@ interface ButtonProps {
   label: string | ReactNode;
   variant: keyof typeof variantStyles;
   state?: ButtonState;
-  onClick?: () => void;
+  onClick?: (e: BaseSyntheticEvent | null) => void;
   type?: "button" | "submit" | "reset";
+  value?: string;
 }
 
 export const Button = ({
@@ -19,6 +20,7 @@ export const Button = ({
   variant,
   state = "default",
   type = "button",
+  value,
   onClick,
 }: ButtonProps) => {
   const baseStyle =
@@ -30,6 +32,7 @@ export const Button = ({
 
   return (
     <button
+      value={value}
       type={type}
       className={`${baseStyle} ${buttonStyle} ${className}`}
       onClick={onClick}
