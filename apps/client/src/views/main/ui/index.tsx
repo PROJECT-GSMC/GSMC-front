@@ -34,7 +34,11 @@ const MainView = () => {
   const { data: currentUser, isLoading: isCurrentUserLoading } =
     useGetCurrentMember();
 
-  const { data: certification, isLoading: isCertificationLoading, refetch } = useQuery({
+  const {
+    data: certification,
+    isLoading: isCertificationLoading,
+    refetch,
+  } = useQuery({
     queryKey: ["certifications"],
     queryFn: getCertification,
     enabled: !!accessToken,
@@ -63,7 +67,7 @@ const MainView = () => {
               <MainDropdown isOpen={!!accessToken && hoverTab === "독서"}>
                 <Link
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                  href="/book"
+                  href="/write?type=reading"
                 >
                   <p>독서영역 작성</p>
                   <p>{">"}</p>
@@ -89,7 +93,7 @@ const MainView = () => {
               <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
                 <Link
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                  href="/humanity"
+                  href="/write?type=humanity"
                 >
                   <p>인성영역 작성</p>
                   <p>{">"}</p>
@@ -115,7 +119,7 @@ const MainView = () => {
               <MainDropdown isOpen={!!accessToken && hoverTab === "전공"}>
                 <Link
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                  href="/major"
+                  href="/write?type=major"
                 >
                   <p>전공영역 작성</p>
                   <p>{">"}</p>
@@ -142,7 +146,7 @@ const MainView = () => {
                 </div>
               </MainDropdown>
             </div>
-            <Link href="/foreign">
+            <Link href="/write?type=foreign" className="w-full">
               <Button label="외국어" variant="skyblue" />
             </Link>
           </div>
@@ -150,16 +154,21 @@ const MainView = () => {
             <List title="자격증">
               <section className="relative h-[28.125rem]">
                 {accessToken ? (
-                  certification?.data?.certificates && certification?.data?.certificates.length > 0 ? (
+                  certification?.data?.certificates &&
+                  certification?.data?.certificates.length > 0 ? (
                     certification?.data?.certificates?.map((v, i) => (
-                      <Card
-                        key={i}
-                        id={v.id}
-                        front={v.name}
-                      />
+                      <Card key={i} id={v.id} front={v.name} />
                     ))
-                  ) : (<h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">등록된 자격증이 존재하지 않습니다.</h4>)
-                ) : (<h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">로그인 후 확인가능합니다.</h4>)}
+                  ) : (
+                    <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
+                      등록된 자격증이 존재하지 않습니다.
+                    </h4>
+                  )
+                ) : (
+                  <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
+                    로그인 후 확인가능합니다.
+                  </h4>
+                )}
               </section>
             </List>
           </div>
@@ -167,7 +176,15 @@ const MainView = () => {
       ) : (
         <p className="text-center m-8">로딩중...</p>
       )}
-      {show && <Modal type={type} onClose={() => { setShow(false); refetch() }} />}
+      {show && (
+        <Modal
+          type={type}
+          onClose={() => {
+            setShow(false);
+            refetch();
+          }}
+        />
+      )}
     </div>
   );
 };
