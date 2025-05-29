@@ -1,20 +1,11 @@
 import { saveDraft } from "@/views/foreign/api/saveDraft";
-import { Activity } from "../../../shared/types/activity";
 import { sendActivity } from "../api/sendActivity";
 import { toast } from "sonner";
 
 export const handleSubmitActivity = async (
-  data: Activity,
-  submitType: "submit" | "draft"
+  submitType: "submit" | "draft",
+  formData: FormData
 ) => {
-  const formData = new FormData();
-  if (data.file) {
-    formData.append("file", data.file);
-  }
-  formData.append("categoryName", data.categoryName);
-  formData.append("title", data.title);
-  formData.append("content", data.content);
-  formData.append("activityType", data.activityType);
   try {
     if (submitType === "draft") {
       await saveDraft(formData);
