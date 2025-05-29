@@ -13,15 +13,20 @@ import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
 
 const EditForm = ({ type, post }: EditFormProps) => {
   const router = useRouter();
-  const config = getEditConfig(type);
-  
+  const config = getEditConfig(
+    type as "major" | "humanities" | "reading" | "others"
+  );
+
   const {
     handleSubmit,
     control,
     formState: { isValid },
-  } = useForm<FormValues>({ 
+  } = useForm<FormValues>({
     mode: "onChange",
-    defaultValues: getDefaultValues(type, post)
+    defaultValues: getDefaultValues(
+      type as "major" | "humanities" | "reading" | "others",
+      post
+    ),
   });
 
   const file = useWatch<FormValues>({ control, name: "file" });
@@ -86,24 +91,25 @@ const EditForm = ({ type, post }: EditFormProps) => {
           className="flex sm:gap-[2rem] gap-[1.5rem] flex-col"
           onSubmit={handleSubmit(handleFormSubmit)}
         >
-          {(type === "major" || type === "humanities") && config.categoryOptions && (
-            <Controller<FormValues>
-              name="categoryName"
-              control={control}
-              rules={{
-                required: "카테고리를 선택해주세요.",
-              }}
-              render={({ field: { value, onChange, ...field } }) => (
-                <Dropdown
-                  label="카테고리"
-                  options={config.categoryOptions || []}
-                  value={value as Option}
-                  onChange={onChange}
-                  {...field}
-                />
-              )}
-            />
-          )}
+          {(type === "major" || type === "humanities") &&
+            config.categoryOptions && (
+              <Controller<FormValues>
+                name="categoryName"
+                control={control}
+                rules={{
+                  required: "카테고리를 선택해주세요.",
+                }}
+                render={({ field: { value, onChange, ...field } }) => (
+                  <Dropdown
+                    label="카테고리"
+                    options={config.categoryOptions || []}
+                    value={value as Option}
+                    onChange={onChange}
+                    {...field}
+                  />
+                )}
+              />
+            )}
 
           <InputContainer label="제목">
             <Input<FormValues>
@@ -145,16 +151,17 @@ const EditForm = ({ type, post }: EditFormProps) => {
               required: "내용을 입력해주세요.",
               minLength: {
                 value: type === "reading" ? 600 : file ? 200 : 400,
-                message: type === "reading"
-                  ? "600자 이상 입력해주세요."
-                  : file
-                  ? "내용을 200자 이상 입력해주세요."
-                  : "내용을 400자 이상 입력해주세요.",
+                message:
+                  type === "reading"
+                    ? "600자 이상 입력해주세요."
+                    : file
+                      ? "내용을 200자 이상 입력해주세요."
+                      : "내용을 400자 이상 입력해주세요.",
               },
             }}
             render={({ field: { value, onChange, ...field } }) => (
-              <Textarea 
-                isBook={type === "reading"} 
+              <Textarea
+                isBook={type === "reading"}
                 value={value as string}
                 onChange={onChange}
                 {...field}
@@ -167,8 +174,8 @@ const EditForm = ({ type, post }: EditFormProps) => {
               name="file"
               control={control}
               render={({ field: { value, onChange, ...field } }) => (
-                <File 
-                  label="이미지 (변경하지 않으려면 비워두세요)" 
+                <File
+                  label="이미지 (변경하지 않으려면 비워두세요)"
                   value={value as File}
                   onChange={onChange}
                   {...field}
@@ -197,4 +204,4 @@ const EditForm = ({ type, post }: EditFormProps) => {
   );
 };
 
-export default EditForm; 
+export default EditForm;
