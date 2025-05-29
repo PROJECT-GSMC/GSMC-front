@@ -6,7 +6,7 @@ import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 
-import { Book } from "../model/book";
+import { Book } from "../../../widgets/write/model/book";
 import { Header, Textarea } from "@/shared/ui";
 import { useState } from "react";
 import { handleSubmitBook } from "../../../widgets/write/lib/handleBookSubmit";

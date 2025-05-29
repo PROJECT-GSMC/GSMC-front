@@ -1,4 +1,4 @@
-import { saveDraft } from "@/views/foreign/api/saveDraft";
+import { saveDraft } from "../api/saveDraft";
 import { sendActivity } from "../api/sendActivity";
 import { toast } from "sonner";
 
