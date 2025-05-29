@@ -24,6 +24,29 @@ const Header = () => {
     router.push("/signin");
   };
 
+  interface HeaderType {
+    href: string;
+    label?: string;
+    active: boolean;
+  }
+
+  const header = [
+    {
+      href: "/calculate",
+      label: "점수 계산",
+      active: pathname === "/calculate",
+    },
+    {
+      href: "/example",
+      label: "예시",
+      active: pathname === "/example",
+    },
+    {
+      href: "/posts",
+      label: "내 글 목록",
+      active: pathname === "/posts",
+    },
+  ];
   return (
     <header className="w-full py-[1.38rem] flex justify-around border-b px-4">
       <div className="w-full max-w-[37.5rem] flex items-center justify-between">
@@ -31,30 +54,18 @@ const Header = () => {
           <TextLogo />
         </Link>
         <ul className="gap-[2rem] flex text-gray-500 items-center text-body3 sm:text-label">
-          <li>
-            <Link
-              className={pathname === "/calculate" ? "text-black" : ""}
-              href="/calculate"
-            >
-              점수 계산
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={pathname === "/example" ? "text-black" : ""}
-              href="/example"
-            >
-              예시
-            </Link>
-          </li>
-          <li>
-            <Link
-              className={pathname === "/posts" ? "text-black" : ""}
-              href="/posts"
-            >
-              내 글 목록
-            </Link>
-          </li>
+          {header.map((item: HeaderType) => {
+            return (
+              <li key={item.href}>
+                <Link
+                  className={item.active ? "text-black" : ""}
+                  href={item.href}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
           {accessToken && (
             <>
               <Link
