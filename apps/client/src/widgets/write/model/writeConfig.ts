@@ -9,7 +9,7 @@ import { majorCategoryOptions } from "@/widgets/calculate/model/category";
 type Config = {
   title: string;
   categoryOptions?: { name: string; send: string }[];
-  onSubmit: (data: FormValues) => Promise<void>;
+  onSubmit: (data: FormValues, type: "draft" | "submit") => Promise<void>;
 };
 
 export const getWriteConfig = (
@@ -20,7 +20,7 @@ export const getWriteConfig = (
       return {
         title: "전공 영역",
         categoryOptions: majorCategoryOptions,
-        onSubmit: async (data: FormValues) => {
+        onSubmit: async (data: FormValues, type) => {
           const formData = new FormData();
           if (data.file) {
             formData.append("file", data.file);
@@ -30,14 +30,14 @@ export const getWriteConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
 
-          await handleSubmitActivity("submit", formData);
+          await handleSubmitActivity(type, formData);
         },
       };
     case "humanities":
       return {
         title: "인성 영역",
         categoryOptions: CharacterCategory,
-        onSubmit: async (data: FormValues) => {
+        onSubmit: async (data: FormValues, type) => {
           const formData = new FormData();
           if (data.file) {
             formData.append("file", data.file);
@@ -47,20 +47,20 @@ export const getWriteConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
 
-          await handleSubmitActivity("submit", formData);
+          await handleSubmitActivity(type, formData);
         },
       };
     case "reading":
       return {
         title: "독서 영역",
-        onSubmit: async (data: FormValues) => {
+        onSubmit: async (data: FormValues, type) => {
           const bookData = {
             title: data.title || "",
             author: data.author || "",
             page: Number(data.page) || 0,
             content: data.content || "",
           };
-          await handleSubmitBook(bookData, "submit");
+          await handleSubmitBook(bookData, type);
         },
       };
     case "others":
