@@ -41,6 +41,14 @@ const PostsView = () => {
     ...(draftData?.readingEvidences || []),
   ];
 
+  const Buttons = [
+    { label: "전공", value: "MAJOR" },
+    { label: "인성", value: "HUMANITIES" },
+    { label: "독서", value: "READING" },
+    { label: "외국어", value: "FOREIGN_LANGUAGE" },
+    { label: "임시저장", value: "DRAFT" },
+  ];
+
   return (
     <div className="flex flex-col items-center">
       <Header />
@@ -52,31 +60,18 @@ const PostsView = () => {
           setResult={setResult}
         />
         <div className="flex gap-[1rem] justify-between">
-          <Button
-            label="전공"
-            onClick={() => setCategoryName("MAJOR")}
-            variant={categoryName === "MAJOR" ? "blue" : "skyblue"}
-          />
-          <Button
-            label="인성"
-            onClick={() => setCategoryName("HUMANITIES")}
-            variant={categoryName === "HUMANITIES" ? "blue" : "skyblue"}
-          />
-          <Button
-            onClick={() => setCategoryName("READING")}
-            label="독서"
-            variant={categoryName === "READING" ? "blue" : "skyblue"}
-          />
-          <Button
-            label="외국어"
-            onClick={() => setCategoryName("FOREIGN_LANGUAGE")}
-            variant={categoryName === "FOREIGN_LANGUAGE" ? "blue" : "skyblue"}
-          />
-          <Button
-            onClick={() => setCategoryName("DRAFT")}
-            label="임시저장"
-            variant={categoryName === "DRAFT" ? "blue" : "skyblue"}
-          />
+          {Buttons.map((button) => {
+            return (
+              <Button
+                label={button.label}
+                onClick={() =>
+                  setCategoryName(button.value as EvidenceType | "DRAFT")
+                }
+                key={button.value}
+                variant={categoryName === button.value ? "blue" : "skyblue"}
+              />
+            );
+          })}
         </div>
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
           <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
