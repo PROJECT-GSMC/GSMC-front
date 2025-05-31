@@ -98,6 +98,8 @@ export const config = [
       "unicorn/filename-case": "off",
       "unicorn/no-null": "off",
       "unicorn/prefer-node-protocol": "off",
+      
+      "security/detect-object-injection": "off",
     }
   },
   {

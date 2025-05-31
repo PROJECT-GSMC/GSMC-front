@@ -1,0 +1,1 @@
+export { removeCertification } from "./deleteCertification.js"; 

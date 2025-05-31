@@ -1,5 +1,5 @@
-const { toast } = require("sonner");
-const { removeCertification } = require("@repo/api/deleteCertification");
+import { removeCertification } from "@repo/api";
+import { toast } from "sonner";
 
 interface CardProps {
   front: string;
@@ -18,27 +18,29 @@ const Card = ({
   Pending,
   className = "",
 }: CardProps) => {
+  const handleDelete = async () => {
+    try {
+      await removeCertification(id);
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error(error);
+      }
+      toast.error("자격증 삭제에 실패했습니다.");
+    }
+  };
+
   return (
     <div
-      onClick={onClick}
+      onClick={onClick ?? undefined}
       className={`flex justify-between w-[100%] cursor-pointer h-[69px] text-gray-600 text-label py-[1.5rem] px-[2rem] ${className}`}
     >
       <div className="flex items-center gap-1">
         <span>{front}</span>
-        {Pending && <span className="text-errors-500">*</span>}
+        {Pending === true && <span className="text-errors-500">*</span>}
       </div>
-      {back ? (
-        <span>{back}</span>
-      ) : (
+      {back ?? (
         <svg
-          onClick={() => {
-            try {
-              removeCertification(id);
-            } catch (e) {
-              console.log(e);
-              toast.error("자격증 삭제에 실패했습니다.");
-            }
-          }}
+          onClick={() => void handleDelete()}
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="25"
