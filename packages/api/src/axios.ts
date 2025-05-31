@@ -37,4 +37,4 @@ if (typeof globalThis.window === "object") {
   });
 }
 
-export default axiosInstance;
+export { axiosInstance };

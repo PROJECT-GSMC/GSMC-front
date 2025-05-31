@@ -1,4 +1,4 @@
-import instance from "./axios.js";
+import { axiosInstance as instance } from "./axios.js";
 
 const removeCertification = async (id: string | number) => {
   return instance.delete(`/certificates/current/${id}`);
