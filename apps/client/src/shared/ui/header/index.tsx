@@ -62,7 +62,7 @@ const Header = () => {
                   className={item.active ? "text-black" : ""}
                   href="/calculate"
                 >
-                  점수 계산
+                  {item.label}
                 </Link>
               </li>
             );
