@@ -1,6 +1,6 @@
 "use client";
 
-import { getCookie } from "@repo/utils";
+import { getCookie } from "@repo/utils/getCookie";
 import axios, { 
   type InternalAxiosRequestConfig,
   type CreateAxiosDefaults,
