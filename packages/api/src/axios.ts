@@ -2,7 +2,6 @@
 
 import { getCookie } from "@repo/utils";
 import axios, { 
-  type AxiosStatic,
   type InternalAxiosRequestConfig,
   type CreateAxiosDefaults,
   AxiosHeaders 
@@ -20,11 +19,10 @@ const config: CreateAxiosDefaults = {
   timeout: TIMEOUT,
 };
 
-const axiosInstance = (axios as AxiosStatic).create(config);
+const axiosInstance = axios.create(config);
 
 if (typeof globalThis.window === "object") {
   axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call
     const accessToken = getCookie("accessToken");
     if (
       typeof accessToken === "string" &&
