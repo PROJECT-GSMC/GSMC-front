@@ -15,4 +15,4 @@ const TextLogo = () => {
   );
 };
 
-export default TextLogo;
+module.exports = TextLogo;

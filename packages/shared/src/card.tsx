@@ -1,5 +1,5 @@
-import { toast } from "sonner";
-import { removeCertification } from "@repo/api/deleteCertification";
+const { toast } = require("sonner");
+const { removeCertification } = require("@repo/api/deleteCertification");
 
 interface CardProps {
   front: string;
@@ -55,4 +55,4 @@ const Card = ({
   );
 };
 
-export default Card;
+module.exports = Card;

@@ -11,4 +11,4 @@ const Filtered = () => {
   )
 }
 
-export default Filtered;
+module.exports = Filtered;

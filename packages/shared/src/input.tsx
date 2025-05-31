@@ -1,10 +1,8 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import {
-  useController,
-  UseControllerProps,
-  FieldValues,
-} from "react-hook-form";
+const React = require("react") as typeof import("react");
+const { useState, useEffect, useRef } = React;
+const { useController } = require("react-hook-form") as typeof import("react-hook-form");
+import type { UseControllerProps, FieldValues } from "react-hook-form";
 
 interface InputProps<T extends FieldValues = FieldValues>
   extends UseControllerProps<T> {
@@ -14,7 +12,7 @@ interface InputProps<T extends FieldValues = FieldValues>
   isEmail?: boolean;
 }
 
-export const Input = <T extends FieldValues = FieldValues>({
+const Input = <T extends FieldValues = FieldValues>({
   type,
   className,
   isEmail = false,
@@ -182,3 +180,5 @@ export const Input = <T extends FieldValues = FieldValues>({
     />
   );
 };
+
+module.exports = { Input };

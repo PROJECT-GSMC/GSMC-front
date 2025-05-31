@@ -1,6 +1,6 @@
 "use client"
 
-import Filtered from "./filtered";
+const Filtered = require("./filtered");
 
 interface ListProps {
   children: React.ReactNode;
@@ -28,4 +28,4 @@ const List = ({ children, title, className, isFilter = false, onClick }: ListPro
   );
 };
 
-export default List;
+module.exports = List;

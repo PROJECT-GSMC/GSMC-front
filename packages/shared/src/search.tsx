@@ -16,4 +16,4 @@ const SearchIcon = () => {
   );
 };
 
-export default SearchIcon;
+module.exports = SearchIcon;
