@@ -1,18 +1,23 @@
 "use client";
 
-const React = require("react") as typeof import("react");
-import type { ReactNode } from "react";
 import type { post } from "@repo/types/evidences";
+import { createContext, useContext, useState } from "react";
+import type { ReactNode } from "react";
 
 interface PostContextType {
   post: post | null;
   setPost: (post: post) => void;
 }
 
-const postContext = React.createContext<PostContextType | undefined>(undefined);
+const postContext = createContext<PostContextType>({
+  post: null,
+  setPost: () => {
+    throw new Error("PostContext not initialized");
+  },
+});
 
 const PostProvider = ({ children }: { children: ReactNode }) => {
-  const [post, setPost] = React.useState<post | null>(null);
+  const [post, setPost] = useState<post | null>(null);
 
   return (
     <postContext.Provider value={{ post, setPost }}>
@@ -21,10 +26,8 @@ const PostProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-const usePost = () => {
-  const context = React.useContext(postContext);
-  if (!context) throw new Error("usePost must be used within a PostProvider");
-  return context;
+const usePost = (): PostContextType => {
+  return useContext(postContext);
 };
 
-module.exports = { PostProvider, usePost };
+export { PostProvider, usePost };
