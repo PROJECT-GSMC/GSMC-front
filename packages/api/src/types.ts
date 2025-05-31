@@ -1,4 +1,4 @@
-import type { AxiosResponse } from "axios";
+import type { AxiosResponse, InternalAxiosRequestConfig, CreateAxiosDefaults, AxiosHeaderValue } from "axios";
 
 export interface ApiResponse<T = unknown> {
   data: T;
@@ -17,4 +17,18 @@ export interface CertificationDeleteResponse {
   success: boolean;
 }
 
-export type ApiAxiosResponse<T> = AxiosResponse<ApiResponse<T>>; 
+export type ApiAxiosResponse<T> = AxiosResponse<ApiResponse<T>>;
+
+export interface ApiAxiosConfig extends CreateAxiosDefaults {
+  baseURL: string;
+  timeout: number;
+}
+
+export interface ApiHeaders {
+  Authorization?: AxiosHeaderValue;
+  [key: string]: AxiosHeaderValue | undefined;
+}
+
+export type ApiRequestConfig = Omit<InternalAxiosRequestConfig, "headers"> & {
+  headers: ApiHeaders;
+}; 
