@@ -39,7 +39,6 @@ export const nextJsConfig = [
     rules: {
       ...pluginNext.configs.recommended.rules,
       ...pluginNext.configs["core-web-vitals"].rules,
-      // Next.js 엄격 규칙
       "@next/next/no-html-link-for-pages": "error",
       "@next/next/no-img-element": "error",
       "@next/next/no-unwanted-polyfillio": "error",
