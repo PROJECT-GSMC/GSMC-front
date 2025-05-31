@@ -46,7 +46,6 @@ const MainView = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
-      <Header />
       {!(isCurrentUserLoading && isCertificationLoading) ? (
         <div className="w-full max-w-[37.5rem] flex flex-col">
           {accessToken ? (
