@@ -39,6 +39,11 @@ export const config = [
       "prefer-arrow": preferArrow,
     },
     rules: {
+      "@typescript-eslint/no-require-imports": "error",
+      "@typescript-eslint/no-var-requires": "error",
+      "unicorn/prefer-module": "error",
+      "import/no-commonjs": "error",
+      
       "turbo/no-undeclared-env-vars": "error",
       
       "@typescript-eslint/no-unused-vars": "error",
@@ -92,7 +97,6 @@ export const config = [
       "unicorn/prevent-abbreviations": "off",
       "unicorn/filename-case": "off",
       "unicorn/no-null": "off",
-      "unicorn/prefer-module": "off",
       "unicorn/prefer-node-protocol": "off",
     }
   },
