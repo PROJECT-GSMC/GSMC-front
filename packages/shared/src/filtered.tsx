@@ -9,6 +9,6 @@ const Filtered = () => {
         strokeLinejoin="round" />
     </svg>
   )
-}
+};
 
-module.exports = Filtered;
+export { Filtered };

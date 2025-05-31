@@ -14,4 +14,4 @@ const InputContainer = ({ label, children }: InputContainerProps) => {
   );
 };
 
-module.exports = { InputContainer }; 
+export { InputContainer }; 

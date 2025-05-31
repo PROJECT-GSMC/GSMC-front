@@ -15,4 +15,4 @@ const TextLogo = () => {
   );
 };
 
-module.exports = TextLogo;
+export { TextLogo };

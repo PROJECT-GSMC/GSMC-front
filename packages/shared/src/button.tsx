@@ -1,7 +1,7 @@
 "use client";
-const { useMemo } = require("react") as typeof import("react");
+import { variantStyles } from "@repo/consts/button";
+import { useMemo } from "react";
 import type { ReactNode } from "react";
-const { variantStyles } = require("@repo/consts/button");
 
 type ButtonState = "default" | "active" | "disabled";
 
@@ -43,4 +43,4 @@ const Button = ({
   );
 };
 
-module.exports = { Button };
+export { Button };

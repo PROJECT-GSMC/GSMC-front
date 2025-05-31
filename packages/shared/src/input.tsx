@@ -1,7 +1,6 @@
 "use client";
-const React = require("react") as typeof import("react");
-const { useState, useEffect, useRef } = React;
-const { useController } = require("react-hook-form") as typeof import("react-hook-form");
+import { useState, useEffect, useRef } from "react";
+import { useController } from "react-hook-form";
 import type { UseControllerProps, FieldValues } from "react-hook-form";
 
 interface InputProps<T extends FieldValues = FieldValues>
@@ -181,4 +180,4 @@ const Input = <T extends FieldValues = FieldValues>({
   );
 };
 
-module.exports = { Input };
+export { Input };

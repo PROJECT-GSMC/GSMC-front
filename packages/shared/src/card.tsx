@@ -55,4 +55,4 @@ const Card = ({
   );
 };
 
-module.exports = Card;
+export { Card };

@@ -1,4 +1,3 @@
-/* eslint-disable unicorn/no-document-cookie */
 const setCookie = (name: string, value: string, days = 7): void => {
   if (typeof document === "undefined") return;
 
@@ -12,4 +11,4 @@ const setCookie = (name: string, value: string, days = 7): void => {
   }
 };
 
-module.exports = { setCookie };
+export { setCookie };

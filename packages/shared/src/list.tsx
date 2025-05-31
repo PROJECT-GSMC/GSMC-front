@@ -28,4 +28,4 @@ const List = ({ children, title, className, isFilter = false, onClick }: ListPro
   );
 };
 
-module.exports = List;
+export { List };

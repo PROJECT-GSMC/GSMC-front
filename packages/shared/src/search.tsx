@@ -16,4 +16,4 @@ const SearchIcon = () => {
   );
 };
 
-module.exports = SearchIcon;
+export { SearchIcon };
