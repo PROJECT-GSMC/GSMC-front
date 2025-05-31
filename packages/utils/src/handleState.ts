@@ -12,4 +12,4 @@ const handleStateColor = (state: string) => {
   return "text-gray-500";
 };
 
-module.exports = { handleState, handleStateColor };
+export { handleState, handleStateColor };

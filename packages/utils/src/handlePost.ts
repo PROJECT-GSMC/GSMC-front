@@ -16,4 +16,4 @@ const isOthers = (data: Activity | Reading | Others): data is Others => {
   return !isActivity(data) && !isReading(data);
 };
 
-module.exports = { isActivity, isReading, isOthers };
+export { isActivity, isReading, isOthers };
