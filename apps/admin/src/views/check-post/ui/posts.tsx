@@ -2,10 +2,7 @@
 
 import { useState } from "react";
 import { toast } from "sonner";
-
 import { Button } from "@repo/shared/button";
-
-import Header from "../../../shared/ui/header";
 import { Post } from "../../../entities/check-post/ui/post";
 import { useGetPosts } from "../model/useGetPosts";
 import { postState } from "@repo/types/evidences";
@@ -41,48 +38,43 @@ const PostsView = () => {
     toast.error("사용자 정보를 불러오는 데 실패했습니다.");
   }
 
+  const Buttons = [
+    { label: "대기", value: "PENDING" },
+    { label: "통과", value: "APPROVE" },
+    { label: "거절", value: "REJECT" },
+  ];
   return (
     <div className="flex items-center flex-col">
-      <Header />
-      <div className="w-full max-w-[37.5rem] px-[1rem] sm:px-[0rem]">
-        <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
-          {data2?.data?.name || "사용자"}님의 게시글
-        </h1>
-        <div className="flex gap-[5%] justify-between">
+      <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
+        {data2?.data?.name || "사용자"}님의 게시글
+      </h1>
+      <div className="flex gap-[5%] justify-between">
+        {Buttons.map((button) => (
           <Button
-            onClick={() => setState("PENDING")}
-            variant={state === "PENDING" ? "blue" : "skyblue"}
-            label="대기"
+            key={button.value}
+            label={button.label}
+            onClick={() => setState(button.value as postState)}
+            variant={state === button.value ? "blue" : "skyblue"}
           />
-          <Button
-            onClick={() => setState("APPROVE")}
-            variant={state === "APPROVE" ? "blue" : "skyblue"}
-            label="통과"
-          />
-          <Button
-            onClick={() => setState("REJECT")}
-            variant={state === "REJECT" ? "blue" : "skyblue"}
-            label="거절"
-          />
-        </div>
-        <div className="flex flex-wrap justify-center">
-          {posts.length > 0 ? (
-            posts.map((post: PostType) => (
-              <Post
-                onClick={() => {
-                  R.push(`/detail/${post.id}`);
-                  setPost(post);
-                }}
-                key={post.id}
-                data={post}
-              />
-            ))
-          ) : (
-            <p className="w-full text-center mt-4 text-gray-400">
-              게시글이 없습니다.
-            </p>
-          )}
-        </div>
+        ))}
+      </div>
+      <div className="flex flex-wrap justify-center">
+        {posts.length > 0 ? (
+          posts.map((post: PostType) => (
+            <Post
+              onClick={() => {
+                R.push(`/detail/${post.id}`);
+                setPost(post);
+              }}
+              key={post.id}
+              data={post}
+            />
+          ))
+        ) : (
+          <p className="w-full text-center mt-4 text-gray-400">
+            게시글이 없습니다.
+          </p>
+        )}
       </div>
     </div>
   );
