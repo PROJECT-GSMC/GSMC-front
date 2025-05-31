@@ -1,6 +1,6 @@
 "use client";
 
-const { useEffect, useState } = require("react") as typeof import("react");
+import { useEffect, useState } from "react";
 
 const useDebounce = <T>(value: T, delay: number): T => {
   const [debouncedValue, setDebouncedValue] = useState(value);
@@ -18,4 +18,4 @@ const useDebounce = <T>(value: T, delay: number): T => {
   return debouncedValue;
 };
 
-module.exports = { useDebounce };
+export { useDebounce };
