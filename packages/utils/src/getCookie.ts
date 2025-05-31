@@ -1,4 +1,4 @@
-export const getCookie = (name: string): string | null => {
+const getCookie = (name: string): string | null => {
   if (typeof document === "undefined") return null;
 
   try {
@@ -14,3 +14,5 @@ export const getCookie = (name: string): string | null => {
   }
   return null;
 };
+
+module.exports = { getCookie };
