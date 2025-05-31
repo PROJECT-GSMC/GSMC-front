@@ -5,8 +5,13 @@
     "plugins": [{ "name": "next" }],
     "module": "ESNext",
     "moduleResolution": "Bundler",
-    "allowJs": true,
+    "allowJs": false,
     "jsx": "react-jsx",
-    "noEmit": true
+    "noEmit": true,
+    "skipLibCheck": true,
+    "incremental": true,
+    "composite": false,
+    "isolatedModules": true,
+    "verbatimModuleSyntax": true
   }
 }
