@@ -2,12 +2,11 @@ export const getCookie = (name: string): string | null => {
   if (typeof document === "undefined") return null;
 
   try {
-    const cookies =
-      (document as unknown as { cookie: string }).cookie?.split(";") || [];
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i]?.trim();
-      if (cookie?.startsWith(name + "=")) {
-        return cookie.substring(name.length + 1);
+    const cookies = document.cookie.split(";");
+    for (const cookie of cookies) {
+      const trimmedCookie = cookie.trim();
+      if (trimmedCookie.startsWith(name + "=")) {
+        return trimmedCookie.slice(name.length + 1);
       }
     }
   } catch (error) {
