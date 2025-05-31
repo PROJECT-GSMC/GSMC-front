@@ -1,12 +1,14 @@
 "use client";
 
-const axios = require("axios");
 import type { InternalAxiosRequestConfig } from "axios";
+const axios = require("axios");
 const { getCookie } = require("@repo/utils/getCookie");
+
+const TIMEOUT = 10_000;
 
 const instance = axios.create({
   baseURL: process.env["NEXT_PUBLIC_API_URL"],
-  timeout: 10000,
+  timeout: TIMEOUT,
 });
 
 if (typeof window !== "undefined") {
