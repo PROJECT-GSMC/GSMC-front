@@ -1,4 +1,4 @@
-import { Chain } from "../../asset/svg/chain";
+import { Chain } from "@/shared/asset/svg/chain";
 
 interface FileProps {
   isImg?: boolean;
