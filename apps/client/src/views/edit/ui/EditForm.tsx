@@ -82,7 +82,6 @@ const EditForm = ({ type, post }: EditFormProps) => {
 
   return (
     <div className="flex flex-col items-center">
-      <Header />
       <div className="px-4 flex-col justify-center w-full max-w-[37.5rem]">
         <h1 className="text-tropicalblue-700 text-title4s sm:text-titleMedium my-[1rem] sm:my-[2.38rem] mb-6">
           {config.title}

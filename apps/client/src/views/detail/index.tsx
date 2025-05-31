@@ -11,7 +11,6 @@ import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
 
-
 const DetailView = () => {
   const searchParams = useSearchParams();
   const example = searchParams.get("example");
@@ -43,7 +42,6 @@ const DetailView = () => {
 
   return (
     <>
-      <Header />
       <div className="flex flex-col items-center mt-[3rem]">
         <div className="flex flex-col w-[37.5rem] gap-[1.75rem]">
           <header className="flex flex-col w-full gap-[0.5rem]">
@@ -91,11 +89,13 @@ const DetailView = () => {
           </main>
 
           <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
-            <Button 
-              label="수정하기" 
-              variant="blue" 
+            <Button
+              label="수정하기"
+              variant="blue"
               className="w-full"
-              onClick={() => router.push(`/edit/${id}${example ? "?example=true" : ""}`)}
+              onClick={() =>
+                router.push(`/edit/${id}${example ? "?example=true" : ""}`)
+              }
             />
             <Button
               onClick={() => R.back()}
