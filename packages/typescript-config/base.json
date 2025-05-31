@@ -35,7 +35,6 @@
     "forceConsistentCasingInFileNames": true,
     "verbatimModuleSyntax": true,
     "noUncheckedSideEffectImports": true,
-    "allowSyntheticDefaultImports": false,
     "noEmitOnError": true,
   }
 }
