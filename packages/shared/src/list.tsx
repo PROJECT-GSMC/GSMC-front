@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { Filtered } from "./filtered.js";
+import { Filtered } from "./filtered.tsx";
 
 interface ListProps {
   children: React.ReactNode;

@@ -35,5 +35,6 @@
     "verbatimModuleSyntax": true,
     "noUncheckedSideEffectImports": true,
     "noEmitOnError": true,
+    "allowImportingTsExtensions": true
   }
 }
