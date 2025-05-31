@@ -60,7 +60,7 @@ const Header = () => {
               <li key={item.href}>
                 <Link
                   className={item.active ? "text-black" : ""}
-                  href="/calculate"
+                  href={item.href}
                 >
                   {item.label}
                 </Link>
