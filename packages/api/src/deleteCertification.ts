@@ -1,5 +1,7 @@
-import instance from "./axios";
+const instance = require("./axios");
 
-export const removeCertification = async (id: string | number) => {
+const removeCertification = async (id: string | number) => {
   return instance.delete(`/certificates/current/${id}`);
 };
+
+module.exports = { removeCertification };
