@@ -2,7 +2,6 @@
 
 import { Button } from "@repo/shared/button";
 import Image from "next/image";
-import Header from "@shared/ui/header";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Mock from "@shared/mocks/data/evidenceMock.json";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
