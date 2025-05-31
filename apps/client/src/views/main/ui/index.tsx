@@ -13,7 +13,6 @@ import { getCertification } from "@entities/main/api/getCertification";
 import ShowSignin from "@/entities/main/ui/showSignin";
 import MainDropdown from "@entities/main/ui/dropdown";
 
-import Header from "@shared/ui/header";
 import Modal from "@widgets/main/ui/modal";
 import { getCookie } from "@repo/utils/getCookie";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
@@ -46,7 +45,6 @@ const MainView = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
-      <Header />
       {!(isCurrentUserLoading && isCertificationLoading) ? (
         <div className="w-full max-w-[37.5rem] flex flex-col">
           {accessToken ? (

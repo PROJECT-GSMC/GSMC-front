@@ -47,6 +47,7 @@ const Header = () => {
       active: pathname === "/posts",
     },
   ];
+  if (pathname === "/signin" || pathname === "/signup") return null;
   return (
     <header className="w-full py-[1.38rem] flex justify-around border-b px-4">
       <div className="w-full max-w-[37.5rem] flex items-center justify-between">
@@ -59,9 +60,9 @@ const Header = () => {
               <li key={item.href}>
                 <Link
                   className={item.active ? "text-black" : ""}
-                  href="/calculate"
+                  href={item.href}
                 >
-                  점수 계산
+                  {item.label}
                 </Link>
               </li>
             );
