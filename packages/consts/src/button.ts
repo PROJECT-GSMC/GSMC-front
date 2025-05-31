@@ -21,4 +21,5 @@ const variantStyles = {
   },
 };
 
-module.exports = { variantStyles };
+export { variantStyles };
+
