@@ -19,10 +19,10 @@ const config: CreateAxiosDefaults = {
   timeout: TIMEOUT,
 };
 
-const axiosInstance = axios.create(config);
+const instance = axios.create(config);
 
 if (typeof globalThis.window === "object") {
-  axiosInstance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+  instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const accessToken = getCookie("accessToken");
     if (
       typeof accessToken === "string" &&
@@ -37,4 +37,4 @@ if (typeof globalThis.window === "object") {
   });
 }
 
-export { axiosInstance };
+export default instance;

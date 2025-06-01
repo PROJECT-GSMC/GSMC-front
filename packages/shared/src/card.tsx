@@ -1,4 +1,4 @@
-import { removeCertification } from "@repo/api";
+import { removeCertification } from "@repo/api/deleteCertification.js";
 import { toast } from "sonner";
 
 interface CardProps {
@@ -57,4 +57,4 @@ const Card = ({
   );
 };
 
-export { Card };
+export default Card;

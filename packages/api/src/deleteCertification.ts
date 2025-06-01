@@ -1,7 +1,7 @@
-import { axiosInstance as instance } from "./axios.js";
+import { axiosInstance } from "./axios.ts";
 
 const removeCertification = async (id: string | number) => {
-  return instance.delete(`/certificates/current/${id}`);
+  return axiosInstance.delete(`/certificates/current/${id}`);
 };
 
 export { removeCertification };
