@@ -1,5 +1,5 @@
-import { removeCertification } from "@repo/api/deleteCertification.js";
 import { toast } from "sonner";
+import { removeCertification } from "@repo/api/deleteCertification.ts";
 
 interface CardProps {
   front: string;

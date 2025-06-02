@@ -1,5 +1,5 @@
 "use client";
-import { variantStyles } from "@repo/consts/index";
+import { variantStyles } from "@repo/consts/button";
 import { useMemo } from "react";
 import type { ReactNode } from "react";
 
