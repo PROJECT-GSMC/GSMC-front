@@ -1,4 +1,4 @@
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 import { Search } from "@entities/member/ui/search";
 
 interface FilterPropps {

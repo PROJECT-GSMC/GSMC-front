@@ -1,4 +1,4 @@
-import TextLogo from "@repo/ui/textLogo";
+import TextLogo from "@repo/shared/textLogo";
 import Link from "next/link";
 
 const Header = () => {

@@ -1,16 +1,20 @@
 import Image from "next/image";
 import { toast } from "sonner";
 import { changeEvidenceState } from "../api/changeEvidenceState";
-import { PostType } from "../../../../../../packages/ui/src/types/postType";
-import { handleStateColor, handleState } from "../../../../../../packages/ui/src/utils/handleState";
+import { PostType } from "@repo/types/postType";
+import { handleState, handleStateColor } from "@repo/utils/handleState";
 
 interface PostProps {
   data: PostType;
+  onClick?: () => void;
 }
 
-export const Post = ({ data }: PostProps) => {
+export const Post = ({ data, onClick }: PostProps) => {
   return (
-    <div className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]">
+    <div
+      onClick={onClick}
+      className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]"
+    >
       {data.imageUrl ? (
         <Image
           src={data.imageUrl}
@@ -45,7 +49,7 @@ export const Post = ({ data }: PostProps) => {
             </button>
             <button
               onClick={() => changeEvidenceState(data.id, "REJECT")}
-              className="bg-[#DF454A] px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
+              className="bg-errors-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
             >
               거절
             </button>
@@ -59,5 +63,3 @@ export const Post = ({ data }: PostProps) => {
     </div>
   );
 };
-
-

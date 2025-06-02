@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@repo/ui/button";
+import { Button } from "@repo/shared/button";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
 import Dropdown, { Option } from "@shared/ui/dropdown";
@@ -17,7 +17,6 @@ export const Calculate = () => {
   const [page, setPage] = useState<string>("독서");
 
   const [bookCount, setBookCount] = useState(0);
-
   const [totalScore, setTotalScore] = useState<number>(0);
   const [selectedOptions, setSelectedOptions] = useState<{
     [key: string]: Option | null;
@@ -26,43 +25,58 @@ export const Calculate = () => {
     전공: null,
     외국어: null,
   });
+
   const [categoryCounts, setCategoryCounts] = useState<{
     [key: string]: number;
   }>({});
+
+  const [idCounts, setIdCounts] = useState<{ [id: number]: number }>({});
+
   const { control } = useForm();
 
   const handlePlusWithScore = (page: string) => {
     const selected = selectedOptions[page];
-    if (!selected) return;
+    if (!selected || selected.id == null) return;
 
-    const currentCount = categoryCounts[selected.id] ?? 0;
-    const max = parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "");
-    const scores = selected.score?.match(/\d+/)?.[0] ?? "0";
-    if (currentCount < (isNaN(max) ? 1 : max)) {
+    const currentSendCount = categoryCounts[selected.send] ?? 0;
+    const currentIdCount = idCounts[selected.id] ?? 0;
+    const max =
+      parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "") || 1;
+    const score = parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
+    if (currentIdCount < max) {
       setCategoryCounts((prev) => ({
         ...prev,
-        [selected.id]: currentCount + 1,
+        [selected.send]: currentSendCount + 1,
       }));
-      setTotalScore((prev) => prev + parseInt(scores));
+      setIdCounts((prev) => ({
+        ...prev,
+        [selected.id!]: currentIdCount + 1,
+      }));
+      setTotalScore((prev) => prev + score);
     }
   };
   const handleMinusWithScore = (page: string) => {
     const selected = selectedOptions[page];
-    if (!selected) return;
-    const scores = selected.score?.match(/\d+/)?.[0] ?? "0";
-    const currentCount = categoryCounts[selected.id] ?? 0;
-    if (currentCount) {
+    if (!selected || selected.id == null) return;
+
+    const score = parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
+    const currentSendCount = categoryCounts[selected.send] ?? 0;
+    const currentIdCount = idCounts[selected.id] ?? 0;
+    if (currentSendCount > 0 && currentIdCount > 0) {
       setCategoryCounts((prev) => ({
         ...prev,
-        [selected.id]: currentCount - 1,
+        [selected.send]: currentSendCount - 1,
       }));
-      setTotalScore((prev) => prev - parseInt(scores ?? 0));
+      setIdCounts((prev) => ({
+        ...prev,
+        [selected.id!]: currentIdCount - 1,
+      }));
+      setTotalScore((prev) => prev - score);
     }
   };
   return (
     <div className="flex flex-col gap-[1.5rem] w-full h-[30rem]">
-      {/* 탭 버튼 */}
-      <div className="grid grid-cols-4 gap-[1.57rem] w-full">
+      <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
         {Buttons.map((item) => (
           <Button
             key={item}
@@ -74,13 +88,19 @@ export const Calculate = () => {
         ))}
       </div>
       {page === "독서" && (
-        <div className="flex flex-col gap-[1.5rem]">
+        <div className="flex flex-col gap-[1.5rem] mx-4">
           <div className="flex w-full gap-[1.25rem]">
             <Button
               state={bookCount === 0 ? "disabled" : "default"}
               variant="skyblue_hover"
               label={
-                <Minus className="text-[#828387] group-hover:text-[#828387]" />
+                <Minus
+                  className={
+                    bookCount === 0
+                      ? `text-[#828387] group-hover:text-[#828387]`
+                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                  }
+                />
               }
               className="group basis-1/6"
               onClick={() => {
@@ -97,7 +117,13 @@ export const Calculate = () => {
               state={bookCount === 10 ? "disabled" : "default"}
               variant="skyblue_hover"
               label={
-                <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+                <Plus
+                  className={
+                    bookCount === 10
+                      ? `text-[#828387] group-hover:text-[#828387]`
+                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                  }
+                />
               }
               className="group basis-1/6"
               onClick={() => {
@@ -111,7 +137,7 @@ export const Calculate = () => {
         </div>
       )}
       {["인성", "전공", "외국어"].includes(page) && (
-        <div className="flex flex-col gap-[1.5rem]">
+        <div className="flex flex-col gap-[1.5rem] mx-4">
           <Controller
             name={`category-${page}`}
             control={control}
@@ -136,17 +162,29 @@ export const Calculate = () => {
           />
           <div className="flex w-full gap-[1.25rem]">
             <Button
-              state="default"
+              state={
+                !selectedOptions[page] ||
+                (categoryCounts[selectedOptions[page]!.send] ?? 0) === 0
+                  ? "disabled"
+                  : "default"
+              }
               variant="skyblue_hover"
               label={
-                <Minus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+                <Minus
+                  className={
+                    !selectedOptions[page] ||
+                    (categoryCounts[selectedOptions[page]!.send] ?? 0) === 0
+                      ? "text-[#828387] group-hover:text-[#828387]"
+                      : "text-[#5E97FC] group-hover:text-[#DFEAFE]"
+                  }
+                />
               }
               className="group basis-1/6"
               onClick={() => handleMinusWithScore(page)}
             />
             <p className="basis-4/6 bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
               {selectedOptions[page]
-                ? (categoryCounts[selectedOptions[page]!.id] ?? 0)
+                ? (categoryCounts[selectedOptions[page]!.send] ?? 0)
                 : 0}
             </p>
             <Button
@@ -162,7 +200,7 @@ export const Calculate = () => {
         </div>
       )}
       <div className="flex gap-[1.25rem] w-full mt-auto">
-        <p className="basis-full bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem]">
+        <p className="basis-full bg-tropicalblue-100 text-titleMedium text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] py-[2.25rem] px-[1.5rem] mx-4">
           {totalScore}점
         </p>
       </div>

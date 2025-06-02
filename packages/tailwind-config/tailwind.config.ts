@@ -1,11 +1,10 @@
 import type { Config } from "tailwindcss";
 
-const config: Omit<Config, "content"> = {
+const config: Config = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@repo/ui/dist/**/*.{js,ts,jsx,tsx}",
-    "./node_modules/@repo/ui/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@repo/shared/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -44,6 +43,9 @@ const config: Omit<Config, "content"> = {
           700: "#385B97",
           800: "#263C65",
           900: "#131E32",
+        },
+        errors: {
+          500: "#DF454A",
         },
       },
       screens: {

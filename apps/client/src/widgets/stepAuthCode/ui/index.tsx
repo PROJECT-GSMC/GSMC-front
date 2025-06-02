@@ -2,18 +2,18 @@ import React, { useState } from "react";
 import { Control, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Input } from "@repo/ui/input";
-import { Button } from "@repo/ui/button";
-import { InputContainer } from "@repo/ui/widgets/inputContainer/index";
+import { Input } from "@repo/shared/input";
+import { Button } from "@repo/shared/button";
+import { InputContainer } from "@repo/shared/inputContainer";
 
-import { SignupFormProps } from "@shared/model/AuthForm";
+import { AuthStepForm } from "@shared/model/AuthForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
 
 export default function StepAuthCode({
   control,
   isAuthButtonActive,
 }: {
-  control: Control<SignupFormProps>;
+  control: Control<AuthStepForm>;
   isAuthButtonActive: boolean;
 }) {
   const [isLoading, setIsLoading] = useState(false);
@@ -36,6 +36,8 @@ export default function StepAuthCode({
       }
     }
   };
+
+  const [show, setShow] = useState(false);
 
   return (
     <>
@@ -63,10 +65,14 @@ export default function StepAuthCode({
           />
           <Button
             label={isLoading ? "전송 중..." : "인증번호"}
+            type="submit"
             variant="blue"
             className="max-w-max"
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
-            onClick={handleAuthButtonClick}
+            onClick={ () => {
+              handleAuthButtonClick();
+              setShow(true);
+            }}
           />
         </div>
       </InputContainer>
@@ -79,6 +85,7 @@ export default function StepAuthCode({
           }}
         />
       </InputContainer>
+      {show && <div className="text-sm text-[#e61919]"><strong>인증 코드를 찾을 수 없나요?</strong> 스팸메일함을 확인해 주세요.</div>}
     </>
   );
 }

@@ -1,29 +1,29 @@
 "use client";
 
 import Image from "next/image";
+import { post } from "@repo/types/evidences";
+import {
+  isActivity,
+  isOthers,
+  isReading,
+} from "@repo/utils/handlePost";
 import {
   handleState,
   handleStateColor,
-} from "../../../../../../packages/ui/src/utils/handleState";
-import {
-  Others,
-  Reading,
-  Activity,
-} from "../../../../../../packages/ui/src/types/evidences";
-import {
-  isActivity,
-  isReading,
-  isOthers,
-} from "../../../../../../packages/ui/src/utils/handlePost";
+} from "@repo/utils/handleState";
 
 interface PostProps {
-  data: Activity | Reading | Others;
+  data: post;
   isExample?: boolean;
+  onClick?: () => void;
 }
 
-const Post = ({ data, isExample = false }: PostProps) => {
+const Post = ({ data, isExample = false, onClick }: PostProps) => {
   return (
-    <div className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem] h-[276px]">
+    <div
+      onClick={onClick}
+      className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem] h-[276px]"
+    >
       <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
         {isActivity(data) && data.imageUrl && (
           <Image

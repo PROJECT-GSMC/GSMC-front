@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from "react";
 
 export interface Option {
   name: string;
-  score: string;
+  score?: string;
   max_number?: string;
   send: string | number;
-  id: number;
+  id?: number;
 }
 
 interface DropdownProps {
@@ -42,7 +42,10 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
   }, [isOpen]);
 
   return (
-    <div className="w-full flex flex-col gap-0.5 relative" ref={dropdownRef}>
+    <div
+      className="w-full flex flex-col gap-0.5 relative text-[0.925rem] sm:text-[1rem]"
+      ref={dropdownRef}
+    >
       {label && (
         <label className="text-gray-900 text-label" htmlFor={label}>
           {label}
@@ -50,7 +53,7 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
       )}
 
       <button
-        className={`rounded-[0.625rem] text-left ${
+        className={`rounded-[0.625rem] min-h-[56px] text-left ${
           isOpen ? "border-tropicalblue-500" : ""
         } px-[1.5rem] py-[1rem] border mt-[0.5rem]`}
         onClick={() => setIsOpen(!isOpen)}
@@ -74,7 +77,7 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
                 setIsOpen(false);
               }}
             >
-              <div className="flex gap-2">
+              <div className="flex gap-1 sm:gap-2">
                 <span>{option.name}</span>
                 {option.score && <span>/ {option.score}</span>}
                 {option.max_number && <span>/ {option.max_number}</span>}
