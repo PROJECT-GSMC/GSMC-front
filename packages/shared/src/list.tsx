@@ -36,4 +36,4 @@ const List = ({
   );
 };
 
-export { List };
+export default List;
