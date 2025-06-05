@@ -1,4 +1,4 @@
-export const variantStyles = {
+const variantStyles = {
   blue: {
     default: "bg-tropicalblue-500 text-white",
     active: "bg-[#1C2F8C] text-[#DBDCDE]",
@@ -20,3 +20,6 @@ export const variantStyles = {
       "bg-white border border-[#828387] text-[#828387] cursor-not-allowed",
   },
 };
+
+export { variantStyles };
+

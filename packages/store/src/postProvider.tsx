@@ -1,16 +1,22 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useState } from "react";
-import { post } from "@repo/types/evidences";
+import type { post } from "@repo/types/evidences";
+import { createContext, useContext, useState } from "react";
+import type { ReactNode } from "react";
 
 interface PostContextType {
   post: post | null;
   setPost: (post: post) => void;
 }
 
-const postContext = createContext<PostContextType | undefined>(undefined);
+const postContext = createContext<PostContextType>({
+  post: null,
+  setPost: () => {
+    throw new Error("PostContext not initialized");
+  },
+});
 
-export const PostProvider = ({ children }: { children: ReactNode }) => {
+const PostProvider = ({ children }: { children: ReactNode }) => {
   const [post, setPost] = useState<post | null>(null);
 
   return (
@@ -20,8 +26,8 @@ export const PostProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const usePost = () => {
-  const context = useContext(postContext);
-  if (!context) throw new Error("usePost must be used within a PostProvider");
-  return context;
+const usePost = (): PostContextType => {
+  return useContext(postContext);
 };
+
+export { PostProvider, usePost };

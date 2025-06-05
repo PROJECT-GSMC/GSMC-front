@@ -1,4 +1,4 @@
-import { postState } from "./evidences";
+import type { postState } from "./evidences.ts";
 
 export interface PostType {
   id: number;

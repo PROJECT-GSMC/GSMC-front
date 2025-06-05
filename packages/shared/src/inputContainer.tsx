@@ -1,11 +1,11 @@
-import React from "react";
+// const React = require("react") as typeof import("react");
 
 interface InputContainerProps {
   label: string
   children: React.ReactNode
 }
 
-export const InputContainer = ({ label, children }: InputContainerProps) => {
+const InputContainer = ({ label, children }: InputContainerProps) => {
   return (
     <div className="flex flex-col w-full gap-[0.56rem]">
       <label className="text-label">{label}</label>
@@ -13,3 +13,5 @@ export const InputContainer = ({ label, children }: InputContainerProps) => {
     </div>
   );
 };
+
+export { InputContainer }; 

@@ -1,6 +1,7 @@
 "use client";
-import { ReactNode, useMemo } from "react";
 import { variantStyles } from "@repo/consts/button";
+import { useMemo } from "react";
+import type { ReactNode } from "react";
 
 type ButtonState = "default" | "active" | "disabled";
 
@@ -14,7 +15,7 @@ interface ButtonProps {
   value?: string;
 }
 
-export const Button = ({
+const Button = ({
   className,
   label,
   variant,
@@ -41,3 +42,5 @@ export const Button = ({
     </button>
   );
 };
+
+export { Button };
