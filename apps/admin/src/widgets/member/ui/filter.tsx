@@ -1,7 +1,7 @@
+import Search from "@/entities/member/ui/search";
 import { Button } from "@repo/shared/button";
-import { Search } from "@entities/member/ui/search";
 
-interface FilterPropps {
+interface FilterProps {
   ChangeGrade: (grade: number) => void;
   grade: number;
   ChangeClass: (classNumber: number) => void;
@@ -10,14 +10,17 @@ interface FilterPropps {
   name: string;
 }
 
+const gradeList = [1, 2, 3];
+const classList = [1, 2, 3, 4];
+
 export const Filter = ({
   ChangeGrade,
   grade,
   ChangeClass,
   classNumber,
   ChangeName,
-  name
-}: FilterPropps) => {
+  name,
+}: FilterProps) => {
   return (
     <>
       <h3 className="text-titleSmall text-tropicalblue-700 mb-[2.2rem]">
@@ -27,46 +30,27 @@ export const Filter = ({
       <div>
         <h5 className="text-tropicalblue-700 text-label mt-[3.06rem]">학년</h5>
         <div className="grid grid-cols-3 gap-3 mt-[1.5rem]">
-          <Button
-            onClick={() => ChangeGrade(1)}
-            variant={grade === 1 ? "blue" : "skyblue"}
-            label="1"
-          />
-          <Button
-            onClick={() => ChangeGrade(2)}
-            variant={grade === 2 ? "blue" : "skyblue"}
-            label="2"
-          />
-          <Button
-            onClick={() => ChangeGrade(3)}
-            variant={grade === 3 ? "blue" : "skyblue"}
-            label="3"
-          />
+          {gradeList.map((gradeNum) => (
+            <Button
+              onClick={() => ChangeGrade(gradeNum)}
+              variant={gradeNum === grade ? "blue" : "skyblue"}
+              label={gradeNum.toString()}
+              key={gradeNum}
+            />
+          ))}
         </div>
       </div>
       <div className="flex flex-col gap-[1.38rem] mt-[2.19rem]">
         <h5 className="text-tropicalblue-700 text-label">반</h5>
         <div className="grid grid-cols-3 gap-3">
-          <Button
-            onClick={() => ChangeClass(1)}
-            variant={classNumber === 1 ? "blue" : "skyblue"}
-            label="1"
-          />
-          <Button
-            onClick={() => ChangeClass(2)}
-            variant={classNumber === 2 ? "blue" : "skyblue"}
-            label="2"
-          />
-          <Button
-            onClick={() => ChangeClass(3)}
-            variant={classNumber === 3 ? "blue" : "skyblue"}
-            label="3"
-          />
-          <Button
-            onClick={() => ChangeClass(4)}
-            variant={classNumber === 4 ? "blue" : "skyblue"}
-            label="4"
-          />
+          {classList.map((classNum) => (
+            <Button
+              onClick={() => ChangeClass(classNum)}
+              variant={classNum === classNumber ? "blue" : "skyblue"}
+              label={classNum.toString()}
+              key={classNum}
+            />
+          ))}
         </div>
       </div>
     </>
