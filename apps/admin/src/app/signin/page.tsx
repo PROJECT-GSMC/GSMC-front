@@ -1,5 +1,4 @@
-import SigninView from "../../views/signin/ui";
-import React from "react";
+import SigninView from "@/views/signin/ui";
 
 const SigninPage = () => {
   return <SigninView />;
