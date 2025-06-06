@@ -1,6 +1,6 @@
 import instance from "@repo/api/axios";
-import type { AxiosResponse } from "axios";
 import type { Member } from "@repo/types/member";
+import type { AxiosResponse, AxiosInstance } from "axios";
 
 interface MemberResponse {
   data: Member;
@@ -9,9 +9,20 @@ interface MemberResponse {
 export const getMember = async (
   email: string
 ): Promise<AxiosResponse<MemberResponse>> => {
-  const studentId = email.split("@")[0]?.substring(1);
-  if (!studentId) {
+  const emailParts = email.split("@");
+  const firstPart = emailParts[0];
+
+  if (typeof firstPart !== "string" || firstPart.length === 0) {
     throw new Error("Invalid email format");
   }
-  return instance.get<MemberResponse>(`/members/students/${studentId}`);
+
+  const studentId = firstPart.slice(1);
+  if (studentId.length === 0) {
+    throw new Error("Invalid email format");
+  }
+
+  const axiosInstance = instance as AxiosInstance;
+  return await axiosInstance.get<MemberResponse>(
+    `/members/students/${studentId}`
+  );
 };
