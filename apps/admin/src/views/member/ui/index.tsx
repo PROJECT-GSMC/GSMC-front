@@ -10,11 +10,11 @@ import Header from "@shared/ui/header";
 import Question from "@shared/asset/svg/question";
 
 import { Filter } from "@widgets/member/ui/filter";
-import { Information } from "@widgets/member/ui/information";
 import { useGetMember } from "@widgets/member/model/useGetMember";
-import { Member } from "@widgets/member/model/member";
 import { getMember } from "@widgets/member/api/getMember";
 import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
+import type { Member } from "@repo/types/member";
+import Information from "@/widgets/member/ui/information";
 
 const MemberView = () => {
   const [click, setClick] = useState<string | null>(null);
@@ -32,7 +32,7 @@ const MemberView = () => {
 
   if (error) toast.error("학생 목록을 불러오지 못했습니다.");
 
-  const members: Member[] = data?.data ?? [];
+  const members: Member[] = data?.data.data ?? [];
 
   const resetFilter = () => {
     setGrade(undefined);
@@ -62,7 +62,7 @@ const MemberView = () => {
                       setClick(member.email);
                       try {
                         const res = await getMember(member.email);
-                        setStudent(res.data);
+                        setStudent(res.data.data);
                       } catch {
                         toast.error("학생정보 불러오는데 실패하였습니다.");
                       }
