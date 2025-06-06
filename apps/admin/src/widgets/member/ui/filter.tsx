@@ -1,5 +1,6 @@
-import Search from "@/entities/member/ui/search";
 import { Button } from "@repo/shared/button";
+
+import Search from "@/entities/member/ui/search";
 
 interface FilterProps {
   ChangeGrade: (grade: number) => void;
@@ -32,10 +33,13 @@ export const Filter = ({
         <div className="grid grid-cols-3 gap-3 mt-[1.5rem]">
           {gradeList.map((gradeNum) => (
             <Button
-              onClick={() => ChangeGrade(gradeNum)}
-              variant={gradeNum === grade ? "blue" : "skyblue"}
-              label={gradeNum.toString()}
               key={gradeNum}
+              label={gradeNum.toString()}
+              variant={gradeNum === grade ? "blue" : "skyblue"}
+              // eslint-disable-next-line react/jsx-no-bind
+              onClick={function () {
+                ChangeGrade(gradeNum);
+              }}
             />
           ))}
         </div>
@@ -45,10 +49,13 @@ export const Filter = ({
         <div className="grid grid-cols-3 gap-3">
           {classList.map((classNum) => (
             <Button
-              onClick={() => ChangeClass(classNum)}
-              variant={classNum === classNumber ? "blue" : "skyblue"}
-              label={classNum.toString()}
               key={classNum}
+              label={classNum.toString()}
+              variant={classNum === classNumber ? "blue" : "skyblue"}
+              // eslint-disable-next-line react/jsx-no-bind
+              onClick={function () {
+                ChangeClass(classNum);
+              }}
             />
           ))}
         </div>
