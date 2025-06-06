@@ -3,6 +3,7 @@
 import { Button } from "@repo/shared/button";
 import type { Member } from "@repo/types/member";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 
 interface InformationProps {
   student: Member;
@@ -11,13 +12,13 @@ interface InformationProps {
 export default function Information({ student }: InformationProps) {
   const R = useRouter();
 
-  const handleCheckPost = () => {
+  const handleCheckPost = useCallback(() => {
     R.push(`/check-post/${student.email}`);
-  };
+  }, [R, student.email]);
 
-  const handleScore = () => {
+  const handleScore = useCallback(() => {
     R.push(`/score/${student.email}`);
-  };
+  }, [R, student.email]);
 
   return (
     <div className="flex flex-col h-full bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] justify-between ">
