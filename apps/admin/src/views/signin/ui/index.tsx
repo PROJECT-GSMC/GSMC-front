@@ -1,21 +1,19 @@
 "use client";
 
-import { useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-
-import { Input } from "@repo/shared/input";
 import { Button } from "@repo/shared/button";
+import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
-
-import { AuthForm } from "@widgets/auth/ui";
-import { SigninFormProps } from "@shared/model/AuthForm";
+import { setCookie } from "@repo/utils/setCookie";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 import { postSignin } from "@/entities/signin/api/postSignin";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { setCookie } from "@repo/utils/setCookie";
-import { HttpError } from "@/shared/types/error";
-import { toast } from "sonner";
+import type { SigninFormProps } from "@/shared/model/AuthForm";
+import type { HttpError } from "@/shared/types/error";
+import { AuthForm } from "@widgets/auth/ui";
 
 const SigninView = () => {
   const queryClient = useQueryClient();
