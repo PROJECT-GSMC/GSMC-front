@@ -1,6 +1,5 @@
 import instance from "@repo/api/axios";
-
-import { SearchParams } from "../model/search";
+import type { SearchParams } from "../model/search";
 
 export const getSearchedMembers = async ({
   grade,
@@ -11,12 +10,12 @@ export const getSearchedMembers = async ({
 }: SearchParams) => {
   const query: Record<string, string> = {};
 
-  if (typeof grade != "undefined") query.grade = String(grade);
+  if (typeof grade != "undefined") query["grade"] = String(grade);
   if (typeof classNumber != "undefined")
-    query.classNumber = String(classNumber);
-  if (typeof name != "undefined") query.name = String(name);
-  query.page = String(page);
-  query.size = String(size);
+    query["classNumber"] = String(classNumber);
+  if (typeof name != "undefined") query["name"] = String(name);
+  query["page"] = String(page);
+  query["size"] = String(size);
 
   const queryString = new URLSearchParams(query).toString();
 
