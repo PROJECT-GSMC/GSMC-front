@@ -1,21 +1,28 @@
 "use client";
 
-import { useParams, useRouter } from "next/navigation";
-import { Controller, useForm, useWatch } from "react-hook-form";
-
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
-
-import { Checkbox } from "../../../entities/score/ui/checkbox";
-import Header from "../../../shared/ui/header";
-import { ScoreFormType } from "../model/score";
-import { featScore } from "../api/featScore";
+import { useParams, useRouter } from "next/navigation";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
+
+import { Checkbox } from "@/entities/score/ui/checkbox";
+import Header from "@/shared/ui/header";
+
+import { featScore } from "../api/featScore";
+import type { ScoreFormType } from "../model/score";
+
+const SCORE_CATEGORIES = {
+  SEMESTER_1: "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
+  SEMESTER_2: "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
+  NEWRROW: "HUMANITIES-ACTIVITIES-NEWRROW_S",
+  TOEIC: "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADEMY_STATUS",
+} as const;
 
 const ScoreForm = () => {
   const { id } = useParams();
-  const R = useRouter();
+  const router = useRouter();
 
   const { handleSubmit, control } = useForm<ScoreFormType>({
     mode: "onChange",
@@ -24,67 +31,96 @@ const ScoreForm = () => {
   const { oneSemester, twoSemester, newrrow, checkbox } =
     useWatch({ control }) || {};
 
-  const isFormValid = !!oneSemester || !!twoSemester || !!newrrow || checkbox;
+  const isFormValid = Boolean(
+    oneSemester || twoSemester || newrrow || checkbox !== undefined
+  );
+
+  const handleScoreSubmit = async (
+    category: string,
+    score: number,
+    successMessage: string
+  ) => {
+    try {
+      const email = decodeURIComponent(String(id));
+      const response = await featScore(email, category, score);
+
+      if (response.status === 204) {
+        toast.success(successMessage);
+        return true;
+      } else {
+        toast.error(`${successMessage.replace(" 완료", "")} 실패`);
+        return false;
+      }
+    } catch (error) {
+      console.error("Score submission failed:", error);
+      toast.error("점수 추가 중 오류가 발생했습니다");
+      return false;
+    }
+  };
 
   const onSubmit = async (data: ScoreFormType) => {
+    let success = true;
+
     if (data.oneSemester) {
-      const res = await featScore(
-        decodeURIComponent(String(id)),
-        "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
-        data.oneSemester
-      );
-      if (res.status === 204) toast.success("1학기 봉사 시간 점수 추가 완료");
-      else toast.error("1학기 봉사 시간 점수 추가 실패");
+      success =
+        (await handleScoreSubmit(
+          SCORE_CATEGORIES.SEMESTER_1,
+          data.oneSemester,
+          "1학기 봉사 시간 점수 추가 완료"
+        )) && success;
     }
+
     if (data.twoSemester) {
-      const res = await featScore(
-        decodeURIComponent(String(id)),
-        "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
-        data.twoSemester
-      );
-      if (res.status === 204) {
-        toast.success("2학기 봉사 시간 점수 추가 완료");
-      } else toast.error("2학기 봉사 시간 점수 추가 실패");
+      success =
+        (await handleScoreSubmit(
+          SCORE_CATEGORIES.SEMESTER_2,
+          data.twoSemester,
+          "2학기 봉사 시간 점수 추가 완료"
+        )) && success;
     }
+
     if (data.newrrow) {
-      const res = await featScore(
-        decodeURIComponent(String(id)),
-        "HUMANITIES-ACTIVITIES-NEWRROW_S",
-        data.newrrow
-      );
-      if (res.status === 204) toast.success("뉴로우 참여 횟수 점수 추가 완료");
-      else toast.error("뉴로우 참여 횟수 점수 추가 실패");
+      success =
+        (await handleScoreSubmit(
+          SCORE_CATEGORIES.NEWRROW,
+          data.newrrow,
+          "뉴로우 참여 횟수 점수 추가 완료"
+        )) && success;
     }
+
     if (data.checkbox !== undefined) {
-      const res = await featScore(
-        decodeURIComponent(String(id)),
-        "FOREIGN_LANG-ATTENDANCE-TOEIC_ACADEMY_STATUS",
-        data.checkbox ? 1 : 0
-      );
-      if (res.status === 204) toast.success("TOEIC 참여 여부 점수 추가 완료");
-      else toast.error("TOEIC 여부 점수 추가 실패");
+      success =
+        (await handleScoreSubmit(
+          SCORE_CATEGORIES.TOEIC,
+          data.checkbox ? 1 : 0,
+          "TOEIC 참여 여부 점수 추가 완료"
+        )) && success;
     }
-    R.push("/");
+
+    if (success) {
+      router.push("/");
+    }
   };
+
   return (
     <div className="flex flex-col items-center justify-center">
       <Header />
       <form
         onSubmit={handleSubmit(onSubmit)}
-        className="w-full max-w-[37.5rem] flex px-4 flex-col  justify-between h-[90vh]"
+        className="w-full max-w-[37.5rem] flex px-4 flex-col justify-between h-[90vh]"
       >
         <div className="flex flex-col sm:gap-[2rem] gap-[1.5rem]">
           <h1 className="sm:text-titleMedium text-title4s text-tropicalblue-700 mt-[2.38rem]">
             점수 추가
           </h1>
           <InputContainer label="1학기 봉사 시간">
-            <Input control={control} name="oneSemester" />
+            <Input control={control} name="oneSemester" type="number" />
           </InputContainer>
           <InputContainer label="2학기 봉사 시간">
-            <Input control={control} name="twoSemester" />
+            <Input control={control} name="twoSemester" type="number" />
           </InputContainer>
           <InputContainer label="뉴로우 참여 횟수">
-            <Input control={control} name="newrrow" />
+            <Input control={control} name="newrrow" type="number" />
           </InputContainer>
           <Controller
             control={control}
@@ -93,7 +129,11 @@ const ScoreForm = () => {
           />
         </div>
         <div className="flex flex-col mt-4 mb-[2rem] gap-[0.69rem]">
-          <Button variant="skyblue" label="뒤로가기" />
+          <Button
+            variant="skyblue"
+            label="뒤로가기"
+            onClick={() => router.back()}
+          />
           <Button
             type="submit"
             state={isFormValid ? "default" : "disabled"}
