@@ -4,6 +4,7 @@ import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 import { useParams, useRouter } from "next/navigation";
+import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -28,86 +29,109 @@ const ScoreForm = () => {
     mode: "onChange",
   });
 
-  const { oneSemester, twoSemester, newrrow, checkbox } =
-    useWatch({ control }) || {};
+  const handleBack = useCallback(() => {
+    router.back();
+  }, [router]);
 
-  const isFormValid = Boolean(
-    oneSemester || twoSemester || newrrow || checkbox !== undefined
+  const renderCheckbox = useCallback(
+    ({
+      field,
+    }: {
+      field: { value?: boolean; onChange: (value: boolean | null) => void };
+    }) => <Checkbox {...field} />,
+    []
   );
 
-  const handleScoreSubmit = async (
-    category: string,
-    score: number,
-    successMessage: string
-  ) => {
-    try {
-      const email = decodeURIComponent(String(id));
-      const response = await featScore(email, category, score);
+  const { oneSemester, twoSemester, newrrow, checkbox } = useWatch({ control });
 
-      if (response.status === 204) {
-        toast.success(successMessage);
-        return true;
-      } else {
-        toast.error(`${successMessage.replace(" 완료", "")} 실패`);
+  const isFormValid = Boolean(
+    (oneSemester !== undefined && oneSemester !== null && oneSemester > 0) ||
+      (twoSemester !== undefined && twoSemester !== null && twoSemester > 0) ||
+      (newrrow !== undefined && newrrow !== null && newrrow > 0) ||
+      checkbox !== undefined
+  );
+
+  const handleScoreSubmit = useCallback(
+    async (category: string, score: number, successMessage: string) => {
+      try {
+        const email = decodeURIComponent(String(id));
+        const response = await featScore(email, category, score);
+
+        if (response.status === 204) {
+          toast.success(successMessage);
+          return true;
+        } else {
+          toast.error(`${successMessage.replace(" 완료", "")} 실패`);
+          return false;
+        }
+      } catch {
+        toast.error("점수 추가 중 오류가 발생했습니다");
         return false;
       }
-    } catch (error) {
-      console.error("Score submission failed:", error);
-      toast.error("점수 추가 중 오류가 발생했습니다");
-      return false;
-    }
-  };
+    },
+    [id]
+  );
 
-  const onSubmit = async (data: ScoreFormType) => {
-    let success = true;
+  const onSubmit = useCallback(
+    async (data: ScoreFormType) => {
+      let success = true;
 
-    if (data.oneSemester) {
-      success =
-        (await handleScoreSubmit(
-          SCORE_CATEGORIES.SEMESTER_1,
-          data.oneSemester,
-          "1학기 봉사 시간 점수 추가 완료"
-        )) && success;
-    }
+      if (data.oneSemester !== null && data.oneSemester > 0) {
+        success =
+          (await handleScoreSubmit(
+            SCORE_CATEGORIES.SEMESTER_1,
+            data.oneSemester,
+            "1학기 봉사 시간 점수 추가 완료"
+          )) && success;
+      }
 
-    if (data.twoSemester) {
-      success =
-        (await handleScoreSubmit(
-          SCORE_CATEGORIES.SEMESTER_2,
-          data.twoSemester,
-          "2학기 봉사 시간 점수 추가 완료"
-        )) && success;
-    }
+      if (data.twoSemester !== null && data.twoSemester > 0) {
+        success =
+          (await handleScoreSubmit(
+            SCORE_CATEGORIES.SEMESTER_2,
+            data.twoSemester,
+            "2학기 봉사 시간 점수 추가 완료"
+          )) && success;
+      }
 
-    if (data.newrrow) {
-      success =
-        (await handleScoreSubmit(
-          SCORE_CATEGORIES.NEWRROW,
-          data.newrrow,
-          "뉴로우 참여 횟수 점수 추가 완료"
-        )) && success;
-    }
+      if (data.newrrow !== null && data.newrrow > 0) {
+        success =
+          (await handleScoreSubmit(
+            SCORE_CATEGORIES.NEWRROW,
+            data.newrrow,
+            "뉴로우 참여 횟수 점수 추가 완료"
+          )) && success;
+      }
 
-    if (data.checkbox !== undefined) {
-      success =
-        (await handleScoreSubmit(
-          SCORE_CATEGORIES.TOEIC,
-          data.checkbox ? 1 : 0,
-          "TOEIC 참여 여부 점수 추가 완료"
-        )) && success;
-    }
+      if (data.checkbox !== undefined) {
+        success =
+          (await handleScoreSubmit(
+            SCORE_CATEGORIES.TOEIC,
+            data.checkbox ? 1 : 0,
+            "TOEIC 참여 여부 점수 추가 완료"
+          )) && success;
+      }
 
-    if (success) {
-      router.push("/");
-    }
-  };
+      if (success) {
+        router.push("/");
+      }
+    },
+    [handleScoreSubmit, router]
+  );
+
+  const handleFormSubmit = useCallback<React.FormEventHandler>(
+    (e) => {
+      void handleSubmit(onSubmit)(e);
+    },
+    [handleSubmit, onSubmit]
+  );
 
   return (
     <div className="flex flex-col items-center justify-center">
       <Header />
       <form
-        onSubmit={handleSubmit(onSubmit)}
         className="w-full max-w-[37.5rem] flex px-4 flex-col justify-between h-[90vh]"
+        onSubmit={handleFormSubmit}
       >
         <div className="flex flex-col sm:gap-[2rem] gap-[1.5rem]">
           <h1 className="sm:text-titleMedium text-title4s text-tropicalblue-700 mt-[2.38rem]">
@@ -125,20 +149,16 @@ const ScoreForm = () => {
           <Controller
             control={control}
             name="checkbox"
-            render={({ field }) => <Checkbox {...field} />}
+            render={renderCheckbox}
           />
         </div>
         <div className="flex flex-col mt-4 mb-[2rem] gap-[0.69rem]">
+          <Button label="뒤로가기" variant="skyblue" onClick={handleBack} />
           <Button
-            variant="skyblue"
-            label="뒤로가기"
-            onClick={() => router.back()}
-          />
-          <Button
-            type="submit"
-            state={isFormValid ? "default" : "disabled"}
-            variant="blue"
             label="점수 주기 완료"
+            state={isFormValid ? "default" : "disabled"}
+            type="submit"
+            variant="blue"
           />
         </div>
       </form>
