@@ -1,6 +1,7 @@
+import type { Member } from "@repo/types/member";
 import { useQuery } from "@tanstack/react-query";
+
 import { getStudent } from "../api/getStudent";
-import { Member } from "@repo/types/member";
 
 export const useGetStudent = (email: string) => {
   return useQuery<Member>({
