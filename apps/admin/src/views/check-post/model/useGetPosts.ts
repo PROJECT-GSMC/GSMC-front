@@ -1,6 +1,7 @@
+import type { postState } from "@repo/types/evidences";
 import { useQuery } from "@tanstack/react-query";
+
 import { getPosts } from "../api/getPosts";
-import { postState } from "@repo/types/evidences";
 
 export const useGetPosts = (email: string, status: postState | null) => {
   return useQuery({
