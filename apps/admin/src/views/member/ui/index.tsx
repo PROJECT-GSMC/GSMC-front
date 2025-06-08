@@ -1,20 +1,19 @@
 "use client";
-import { useState } from "react";
 
-import { toast } from "sonner";
+import { Button } from "@repo/shared/button";
 import Card from "@repo/shared/card";
 import List from "@repo/shared/list";
-import { Button } from "@repo/shared/button";
-
-import Header from "@shared/ui/header";
-import Question from "@shared/asset/svg/question";
-
-import { Filter } from "@widgets/member/ui/filter";
-import { useGetMember } from "@widgets/member/model/useGetMember";
-import { getMember } from "@widgets/member/api/getMember";
-import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 import type { Member } from "@repo/types/member";
+import { useState } from "react";
+import { toast } from "sonner";
+
+import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 import Information from "@/widgets/member/ui/information";
+import Question from "@shared/asset/svg/question";
+import Header from "@shared/ui/header";
+import { getMember } from "@widgets/member/api/getMember";
+import { useGetMember } from "@widgets/member/model/useGetMember";
+import { Filter } from "@widgets/member/ui/filter";
 
 const MemberView = () => {
   const [click, setClick] = useState<string | null>(null);
