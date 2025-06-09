@@ -28,7 +28,7 @@ const MemberView = () => {
 
   if (error) toast.error("학생 목록을 불러오지 못했습니다.");
 
-  const members = data?.data ?? [];
+  const members = (data?.data ?? []) as Member[];
 
   const resetFilter = useCallback((): void => {
     setGrade(undefined);
@@ -37,8 +37,8 @@ const MemberView = () => {
   }, []);
 
   const handleOpen = useCallback((): void => {
-    setOpen(!open);
-  }, [open]);
+    setOpen((prev) => !prev);
+  }, []);
 
   const handleCardClick = useCallback(async (email: string): Promise<void> => {
     setClick(email);
@@ -52,9 +52,9 @@ const MemberView = () => {
 
   const handleSearch = useCallback(async (): Promise<void> => {
     const res = await getSearchedMembers({
-      classNumber: classNumber,
-      grade: grade,
-      name: name,
+      classNumber,
+      grade,
+      name,
       page: 1,
       size: 100,
     });
@@ -78,12 +78,11 @@ const MemberView = () => {
   const memoizedSearch = useCallback((): void => {
     void handleSearch();
   }, [handleSearch]);
-  console.log(result);
-  console.log(members);
+
   return (
     <div className="flex flex-col items-center gap-4 h-screen">
       <Header />
-      <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] max-sm:px-[2.75rem] max-md:px-[4.75rem] md:px-[6.75rem] ">
+      <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] max-sm:px-[2.75rem] max-md:px-[4.75rem] md:px-[6.75rem]">
         <div className="h-full grid grid-cols-8 max-lg:grid-cols-1 max-lg:grid-rows-2 gap-[1.8rem]">
           <section className="col-span-5 max-lg:col-span-1">
             <List
@@ -92,47 +91,49 @@ const MemberView = () => {
               title="학생 목록"
               onClick={handleOpen}
             >
-              {isLoading ? (
-                <div className="text-center mt-24">loading...</div>
-              ) : (
-                (result.length > 0 ? result : (members as Member[])).map(
-                  (member: Member) => (
-                    <Card
-                      back={
-                        String(member.grade) +
-                        String(member.classNumber) +
-                        String(member.number).padStart(2, "0")
-                      }
-                      className={
-                        click === member.email
-                          ? "bg-[#EFF5FF] rounded-[0.75rem]"
-                          : "bg-[#DFEAFE]"
-                      }
-                      front={member.name}
-                      id={member.email}
-                      key={member.email}
-                      Pending={member.hasPendingEvidence}
-                      onClick={memoizedCardClick(member.email)}
-                    />
-                  )
-                )
-              )}
+              {(() => {
+                if (isLoading) {
+                  return <div className="text-center mt-24">loading...</div>;
+                }
+
+                const target = result.length > 0 ? result : members;
+
+                return target.map((member: Member) => (
+                  <Card
+                    Pending={member.hasPendingEvidence}
+                    back={
+                      String(member.grade) +
+                      String(member.classNumber) +
+                      String(member.number).padStart(2, "0")
+                    }
+                    className={
+                      click === member.email
+                        ? "bg-[#EFF5FF] rounded-[0.75rem]"
+                        : "bg-[#DFEAFE]"
+                    }
+                    front={member.name}
+                    id={member.email}
+                    key={member.email}
+                    onClick={memoizedCardClick(member.email)}
+                  />
+                ));
+              })()}
             </List>
           </section>
-          <section className="col-span-3 max-lg:col-span-1 ">
-            {student ? (
-              <Information student={student} />
-            ) : (
+          <section className="col-span-3 max-lg:col-span-1">
+            {student === undefined ? (
               <div className="flex flex-col bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] h-full justify-center items-center">
                 <Question />
                 <span className="text-titleSmall text-[#68696C]">
                   학생을 선택해주세요
                 </span>
               </div>
+            ) : (
+              <Information student={student} />
             )}
           </section>
-          {open && (
-            <div>
+          {open ? (
+            <>
               <div
                 className="fixed top-0 left-0 w-full h-full bg-[rgba(0,0,0,0.2)]"
                 onClick={handleOpen}
@@ -159,8 +160,8 @@ const MemberView = () => {
                   />
                 </div>
               </div>
-            </div>
-          )}
+            </>
+          ) : null}
         </div>
       </main>
     </div>
