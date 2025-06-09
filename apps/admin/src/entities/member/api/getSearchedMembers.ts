@@ -1,5 +1,11 @@
 import instance from "@repo/api/axios";
 import type { SearchParams } from "../model/search";
+import type { AxiosResponse } from "axios";
+import type { Member } from "@repo/types/member";
+
+interface SearchResponse {
+  data: Member[];
+}
 
 export const getSearchedMembers = async ({
   grade,
@@ -7,7 +13,7 @@ export const getSearchedMembers = async ({
   name,
   page = 1,
   size = 10,
-}: SearchParams) => {
+}: SearchParams): Promise<AxiosResponse<SearchResponse>> => {
   const query: Record<string, string> = {};
 
   if (typeof grade != "undefined") query["grade"] = String(grade);
