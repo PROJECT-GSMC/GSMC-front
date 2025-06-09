@@ -1,16 +1,20 @@
-import { useQuery } from "@tanstack/react-query";
-import type { AxiosResponse } from "axios";
 import type { Member } from "@repo/types/member";
+import { useQuery } from "@tanstack/react-query";
 
 import { getMembers } from "../api/getMembers";
 
 interface MembersResponse {
-  data: Member[];
+  data: {
+    data: Member[];
+  };
 }
 
 export const useGetMember = () => {
-  return useQuery<AxiosResponse<MembersResponse>>({
+  return useQuery<MembersResponse>({
     queryKey: ["members"],
-    queryFn: getMembers,
+    queryFn: async () => {
+      const response = await getMembers();
+      return response;
+    },
   });
 };
