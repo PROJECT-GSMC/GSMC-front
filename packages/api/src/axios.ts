@@ -1,10 +1,10 @@
 "use client";
 
 import { getCookie } from "@repo/utils/getCookie";
-import axios, { 
+import axios, {
   type InternalAxiosRequestConfig,
   type CreateAxiosDefaults,
-  AxiosHeaders 
+  AxiosHeaders,
 } from "axios";
 
 const TIMEOUT = 10_000;
