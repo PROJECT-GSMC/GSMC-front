@@ -1,8 +1,8 @@
 import type { Member } from "@repo/types/member";
 import { useQuery } from "@tanstack/react-query";
+import type { AxiosResponse } from "axios";
 
 import { getStudent } from "../api/getStudent";
-import type { AxiosResponse } from "axios";
 
 export const useGetStudent = (email: string) => {
   return useQuery<AxiosResponse<Member>>({
