@@ -1,52 +1,64 @@
 "use client";
 
+import { Button } from "@repo/shared/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-
-import { Button } from "@repo/shared/button";
-
-import StepPassword from "@widgets/stepPassword/ui";
-import StepAuthCode from "@widgets/stepAuthCode/ui";
-import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-
-import { AuthForm } from "@widgets/auth/ui";
-import { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
 
 import { postSignup } from "@/entities/signup/api/postSignup";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { HttpError } from "@/shared/types/error";
+import type {
+  AuthStepForm,
+  SignupFormProps,
+  SignupStepForm,
+} from "@/shared/model/AuthForm";
+import type { HttpError } from "@/shared/types/error";
+import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
+import { AuthForm } from "@widgets/auth/ui";
+import StepAuthCode from "@widgets/stepAuthCode/ui";
+import StepPassword from "@widgets/stepPassword/ui";
+
+interface SignupResponse {
+  success: boolean;
+  message?: string;
+}
 
 const SignupView = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const [step, setStep] = useState("authCode");
+  const [step, setStep] = useState<"authCode" | "password">("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const [verifiedInfo, setVerifiedInfo] = useState<{ name: string; email: string } | null>(null);
+  const [verifiedInfo, setVerifiedInfo] = useState<{
+    name: string;
+    email: string;
+  } | null>(null);
 
   const {
     mutate: signupMutate,
     isPending,
     isSuccess,
-  } = useMutation({
-    mutationFn: (form: SignupFormProps) => postSignup(form),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
+  } = useMutation<SignupResponse, HttpError, SignupFormProps>({
+    mutationFn: postSignup,
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: ["auth"],
         exact: false,
       });
-      return data;
+      if (data.success) {
+        toast.success("회원가입 성공");
+      }
     },
-    onError: (error: HttpError) => {
-      if (error.httpStatus == 401) {
-        toast.error("이메일 인증을 먼저 진행해주세요.")
+    onError: (error) => {
+      if (error.httpStatus === HttpStatusCode.Unauthorized) {
+        toast.error("이메일 인증을 먼저 진행해주세요.");
+      } else if (error.httpStatus === HttpStatusCode.Conflict) {
+        toast.error("이미 회원가입 된 계정입니다.");
+      } else {
+        toast.error("회원가입에 실패했습니다.");
       }
-      else if (error.httpStatus == 409) {
-        toast.error("이미 회원가입 된 계정입니다.")
-      }
-      throw error;
     },
   });
 
@@ -80,27 +92,27 @@ const SignupView = () => {
 
   const isAuthCodeStepValid = Boolean(
     watchedAuthValues.name &&
-    watchedAuthValues.email &&
-    /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
-    !authErrors.name &&
-    !authErrors.email
+      watchedAuthValues.email &&
+      /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
+      !authErrors.name &&
+      !authErrors.email
   );
 
   const canProceedToPassword =
     isAuthCodeStepValid &&
     Boolean(
       watchedAuthValues.authcode &&
-      watchedAuthValues.authcode.length >= 8 &&
-      !authErrors.authcode
+        watchedAuthValues.authcode.length >= 8 &&
+        !authErrors.authcode
     );
 
   const isPasswordValid = (data: SignupStepForm) =>
     Boolean(
       data.password &&
-      data.passwordCheck &&
-      data.password === data.passwordCheck &&
-      !signupErrors.password &&
-      !signupErrors.passwordCheck
+        data.passwordCheck &&
+        data.password === data.passwordCheck &&
+        !signupErrors.password &&
+        !signupErrors.passwordCheck
     );
 
   const handleVerifyEmail = async (data: AuthStepForm) => {
@@ -108,21 +120,25 @@ const SignupView = () => {
 
     try {
       setIsAuthVerifying(true);
-      const response = await patchVerifyEmail(Number(data.authcode));
+      const response = (await patchVerifyEmail(Number(data.authcode))) as {
+        status: number;
+      };
 
       if (response.status === 204) {
         setVerifiedInfo({ name: data.name, email: data.email });
         setStep("password");
         toast.success("이메일 인증이 완료되었습니다.");
       }
-    } catch {
-      toast.error("인증코드가 일치하지 않습니다.");
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : "인증코드가 일치하지 않습니다."
+      );
     } finally {
       setIsAuthVerifying(false);
     }
   };
 
-  const onSubmit = async (data: SignupStepForm) => {
+  const onSubmit = (data: SignupStepForm) => {
     if (!verifiedInfo) {
       toast.error("이메일 인증이 필요합니다.");
       setStep("authCode");
@@ -133,9 +149,10 @@ const SignupView = () => {
       signupMutate({
         email: verifiedInfo.email,
         name: verifiedInfo.name,
-        password: data.password
+        password: data.password,
       });
     }
+
     if (isSuccess) {
       router.push("/signin");
     }
@@ -146,8 +163,9 @@ const SignupView = () => {
       <AuthForm label="SIGN UP">
         {step === "authCode" ? (
           <form
-            onSubmit={handleAuthSubmit(handleVerifyEmail)}
             className="flex flex-col w-full items-center gap-[3.625rem]"
+            // eslint-disable-next-line react/jsx-no-bind
+            onSubmit={() => void handleAuthSubmit(handleVerifyEmail)()}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepAuthCode
@@ -157,24 +175,29 @@ const SignupView = () => {
             </div>
             <Button
               label="인증하기"
-              variant="blue"
+              state={
+                canProceedToPassword && !isAuthVerifying
+                  ? "default"
+                  : "disabled"
+              }
               type="submit"
-              state={canProceedToPassword && !isAuthVerifying ? "default" : "disabled"}
+              variant="blue"
             />
           </form>
         ) : (
           <form
-            onSubmit={handleSignupSubmit(onSubmit)}
             className="flex flex-col w-full items-center gap-[3.625rem]"
+            // eslint-disable-next-line react/jsx-no-bind
+            onSubmit={() => void handleSignupSubmit(onSubmit)()}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepPassword control={signupControl} />
             </div>
             <Button
               label="회원가입"
+              state={isPending ? "disabled" : "default"}
               type="submit"
               variant="blue"
-              state={!isPending ? "default" : "disabled"}
             />
           </form>
         )}
