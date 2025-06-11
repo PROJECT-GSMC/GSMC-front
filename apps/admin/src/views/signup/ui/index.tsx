@@ -2,7 +2,6 @@
 
 import { Button } from "@repo/shared/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import type { AxiosResponse } from "axios";
 import { HttpStatusCode } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -21,11 +20,16 @@ import { AuthForm } from "@widgets/auth/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
 import StepPassword from "@widgets/stepPassword/ui";
 
+interface SignupResponse {
+  success: boolean;
+  message?: string;
+}
+
 const SignupView = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const [step, setStep] = useState("authCode");
+  const [step, setStep] = useState<"authCode" | "password">("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
   const [verifiedInfo, setVerifiedInfo] = useState<{
     name: string;
@@ -36,20 +40,24 @@ const SignupView = () => {
     mutate: signupMutate,
     isPending,
     isSuccess,
-  } = useMutation({
-    mutationFn: (form: SignupFormProps) => postSignup(form),
+  } = useMutation<SignupResponse, HttpError, SignupFormProps>({
+    mutationFn: postSignup,
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: ["auth"],
         exact: false,
       });
-      return data as AxiosResponse;
+      if (data.success) {
+        toast.success("회원가입 성공");
+      }
     },
-    onError: (error: HttpError) => {
+    onError: (error) => {
       if (error.httpStatus === HttpStatusCode.Unauthorized) {
         toast.error("이메일 인증을 먼저 진행해주세요.");
       } else if (error.httpStatus === HttpStatusCode.Conflict) {
         toast.error("이미 회원가입 된 계정입니다.");
+      } else {
+        toast.error("회원가입에 실패했습니다.");
       }
     },
   });
@@ -144,6 +152,7 @@ const SignupView = () => {
         password: data.password,
       });
     }
+
     if (isSuccess) {
       router.push("/signin");
     }
@@ -156,7 +165,7 @@ const SignupView = () => {
           <form
             className="flex flex-col w-full items-center gap-[3.625rem]"
             // eslint-disable-next-line react/jsx-no-bind
-            onSubmit={() => handleAuthSubmit(handleVerifyEmail)}
+            onSubmit={() => void handleAuthSubmit(handleVerifyEmail)()}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepAuthCode
@@ -179,7 +188,7 @@ const SignupView = () => {
           <form
             className="flex flex-col w-full items-center gap-[3.625rem]"
             // eslint-disable-next-line react/jsx-no-bind
-            onSubmit={() => handleSignupSubmit(onSubmit)}
+            onSubmit={() => void handleSignupSubmit(onSubmit)()}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepPassword control={signupControl} />
