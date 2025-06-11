@@ -1,7 +1,8 @@
 import instance from "@repo/api/axios";
-import type { SearchParams } from "../model/search";
-import type { AxiosResponse } from "axios";
 import type { Member } from "@repo/types/member";
+import type { AxiosResponse } from "axios";
+
+import type { SearchParams } from "../model/search";
 
 interface SearchResponse {
   data: Member[];
@@ -16,10 +17,9 @@ export const getSearchedMembers = async ({
 }: SearchParams): Promise<AxiosResponse<SearchResponse>> => {
   const query: Record<string, string> = {};
 
-  if (typeof grade != "undefined") query["grade"] = String(grade);
-  if (typeof classNumber != "undefined")
-    query["classNumber"] = String(classNumber);
-  if (typeof name != "undefined") query["name"] = String(name);
+  if (grade !== undefined) query["grade"] = String(grade);
+  if (classNumber !== undefined) query["classNumber"] = String(classNumber);
+  if (name !== undefined) query["name"] = String(name);
   query["page"] = String(page);
   query["size"] = String(size);
 
