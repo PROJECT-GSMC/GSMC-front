@@ -2,13 +2,9 @@ import instance from "@repo/api/axios";
 import type { Member } from "@repo/types/member";
 import type { AxiosResponse, AxiosInstance } from "axios";
 
-interface MemberResponse {
-  data: Member;
-}
-
 export const getMember = async (
   email: string
-): Promise<AxiosResponse<MemberResponse>> => {
+): Promise<AxiosResponse<Member>> => {
   const emailParts = email.split("@");
   const firstPart = emailParts[0];
 
@@ -22,7 +18,5 @@ export const getMember = async (
   }
 
   const axiosInstance = instance as AxiosInstance;
-  return await axiosInstance.get<MemberResponse>(
-    `/members/students/${studentId}`
-  );
+  return await axiosInstance.get<Member>(`/members/students/${studentId}`);
 };

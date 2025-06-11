@@ -44,7 +44,7 @@ const MemberView = () => {
     setClick(email);
     try {
       const res = await getMember(email);
-      setStudent(res.data.data);
+      setStudent(res.data);
     } catch {
       toast.error("학생정보 불러오는데 실패하였습니다.");
     }
