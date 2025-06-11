@@ -44,41 +44,43 @@ const PostsView = () => {
     { label: "거절", value: "REJECT" },
   ];
   return (
-    <div className="flex items-center flex-col">
-      <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
-        {data2?.data.name ?? "사용자"}님의 게시글
-      </h1>
-      <div className="flex gap-[5%] justify-between">
-        {Buttons.map((button) => (
-          <Button
-            key={button.value}
-            label={button.label}
-            variant={state === button.value ? "blue" : "skyblue"}
-            // eslint-disable-next-line react/jsx-no-bind
-            onClick={() => {
-              setState(button.value as postState);
-            }}
-          />
-        ))}
-      </div>
-      <div className="flex flex-wrap justify-center">
-        {posts.length > 0 ? (
-          posts.map((post: PostType) => (
-            <Post
-              data={post}
-              key={post.id}
+    <div className="flex w-full items-center flex-col">
+      <div className="max-w-[37.5rem] w-full">
+        <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
+          {data2?.data.name ?? "사용자"}님의 게시글
+        </h1>
+        <div className="flex gap-[5%] justify-between">
+          {Buttons.map((button) => (
+            <Button
+              key={button.value}
+              label={button.label}
+              variant={state === button.value ? "blue" : "skyblue"}
               // eslint-disable-next-line react/jsx-no-bind
               onClick={() => {
-                R.push(`/detail/${post.id}`);
-                setPost(post);
+                setState(button.value as postState);
               }}
             />
-          ))
-        ) : (
-          <p className="w-full text-center mt-4 text-gray-400">
-            게시글이 없습니다.
-          </p>
-        )}
+          ))}
+        </div>
+        <div className="flex flex-wrap justify-center">
+          {posts.length > 0 ? (
+            posts.map((post: PostType) => (
+              <Post
+                data={post}
+                key={post.id}
+                // eslint-disable-next-line react/jsx-no-bind
+                onClick={() => {
+                  R.push(`/detail/${post.id}`);
+                  setPost(post);
+                }}
+              />
+            ))
+          ) : (
+            <p className="w-full text-center mt-4 text-gray-400">
+              게시글이 없습니다.
+            </p>
+          )}
+        </div>
       </div>
     </div>
   );
