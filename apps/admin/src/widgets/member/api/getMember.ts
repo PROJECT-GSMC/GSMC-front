@@ -1,6 +1,6 @@
 import instance from "@repo/api/axios";
 import type { Member } from "@repo/types/member";
-import type { AxiosResponse, AxiosInstance } from "axios";
+import type { AxiosResponse } from "axios";
 
 export const getMember = async (
   email: string
@@ -17,6 +17,5 @@ export const getMember = async (
     throw new Error("Invalid email format");
   }
 
-  const axiosInstance = instance as AxiosInstance;
-  return await axiosInstance.get<Member>(`/members/students/${studentId}`);
+  return await instance.get<Member>(`/members/students/${studentId}`);
 };

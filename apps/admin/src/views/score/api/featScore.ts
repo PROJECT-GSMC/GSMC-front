@@ -1,5 +1,5 @@
 import instance from "@repo/api/axios";
-import { AxiosError, type AxiosResponse, type AxiosInstance } from "axios";
+import { AxiosError, type AxiosResponse } from "axios";
 
 interface FeatScoreResponse {
   categoryName: string;
@@ -23,8 +23,7 @@ export const featScore = async (
     score,
   };
   try {
-    const axiosInstance = instance as AxiosInstance;
-    return await axiosInstance.patch<FeatScoreResponse>("/score", data);
+    return await instance.patch<FeatScoreResponse>("/score", data);
   } catch (error) {
     if (error instanceof AxiosError) {
       throw error;
