@@ -15,13 +15,16 @@ export async function PATCH(request: NextRequest) {
       );
     }
 
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}auth/refresh`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ refreshToken }),
-    });
+    const res = await fetch(
+      `${process.env["NEXT_PUBLIC_API_URL"]}auth/refresh`,
+      {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ refreshToken }),
+      }
+    );
 
     if (!res.ok) {
       return new Response(JSON.stringify({ error: "리프레시 실패" }), {
