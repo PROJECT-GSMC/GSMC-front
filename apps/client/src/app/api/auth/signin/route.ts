@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { setAuthCookies } from "@/shared/lib/setAuthCookies";
-import { SigninFormProps } from "@/shared/model/AuthForm";
+import type { SigninFormProps } from "@/shared/model/AuthForm";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env["NEXT_PUBLIC_API_URL"];
 
 export async function POST(request: NextRequest) {
   try {

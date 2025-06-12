@@ -1,5 +1,5 @@
 import instance from "@repo/api/axios";
-import { Evidence } from "../model/evidence";
+import type { Evidence } from "../model/evidence";
 
 export const sendEvidence = async (data: Evidence) => {
   const formData = new FormData();

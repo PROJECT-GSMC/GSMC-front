@@ -1,6 +1,6 @@
 import { toast } from "sonner";
-import { Book } from "../model/book";
-import { saveBookDraft } from "../saveBookDraft";
+import type { Book } from "../model/book";
+import { saveBookDraft } from "../api/saveBookDraft";
 import { sendBook } from "../api/sendBook";
 
 export const handleSubmitBook = async (

@@ -1,5 +1,5 @@
 import { CharacterCategory } from "@/widgets/write/model/category";
-import { FormValues } from "@/widgets/edit/types/types";
+import type { FormValues } from "@/widgets/edit/types/types";
 import { handleSubmitActivity } from "../lib/handleSubmitActivity";
 import { handleSubmitBook } from "../lib/handleBookSubmit";
 import { sendScore } from "@/shared/api/sendScore";

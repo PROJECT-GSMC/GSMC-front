@@ -1,6 +1,6 @@
 import { getPosts } from "@/views/posts/api/getPosts";
 import { useQuery } from "@tanstack/react-query";
-import { EvidenceType } from "@repo/types/evidences";
+import type { EvidenceType } from "@repo/types/evidences";
 
 export const useGetPosts = (type: EvidenceType | "DRAFT" | null) => {
   return useQuery({

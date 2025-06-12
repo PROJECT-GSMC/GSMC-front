@@ -1,4 +1,4 @@
-import { Activity, Reading, Others } from "@repo/types/evidences";
+import type { Activity, Reading, Others } from "@repo/types/evidences";
 
 export type Option = {
   name: string;
@@ -11,7 +11,7 @@ export type FormValues = {
   categoryName?: Option;
   file?: File;
   author?: string;
-  page?: string;
+  page?: number;
   value?: string | number;
 };
 
