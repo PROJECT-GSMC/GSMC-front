@@ -3,7 +3,7 @@
 import { Button } from "@repo/shared/button";
 import { Controller, useForm } from "react-hook-form";
 import { useState } from "react";
-import Dropdown, { Option } from "@shared/ui/dropdown";
+import Dropdown, { type Option } from "@shared/ui/dropdown";
 import { Plus } from "@shared/asset/svg/plus";
 import { Minus } from "@shared/asset/svg/minus";
 import {
@@ -164,7 +164,7 @@ export const Calculate = () => {
             <Button
               state={
                 !selectedOptions[page] ||
-                (categoryCounts[selectedOptions[page]!.send] ?? 0) === 0
+                  (categoryCounts[selectedOptions[page]!.send] ?? 0) === 0
                   ? "disabled"
                   : "default"
               }
@@ -173,7 +173,7 @@ export const Calculate = () => {
                 <Minus
                   className={
                     !selectedOptions[page] ||
-                    (categoryCounts[selectedOptions[page]!.send] ?? 0) === 0
+                      (categoryCounts[selectedOptions[page]!.send] ?? 0) === 0
                       ? "text-[#828387] group-hover:text-[#828387]"
                       : "text-[#5E97FC] group-hover:text-[#DFEAFE]"
                   }

@@ -8,7 +8,7 @@ import { AuthForm } from "@widgets/auth/ui";
 
 import { useMutation } from "@tanstack/react-query";
 import { patchPassword } from "@/shared/api/patchPassword";
-import { ChangePasswordProps } from "@/shared/model/changePWForm";
+import type { ChangePasswordProps } from "@/shared/model/changePWForm";
 import ChangePassword from "@/widgets/changePassword/ui";
 import { useRouter } from "next/navigation";
 

@@ -49,8 +49,8 @@ const MainView = () => {
         <div className="w-full max-w-[37.5rem] flex flex-col">
           {accessToken ? (
             <ShowInformation
-              name={currentUser?.data?.name ?? ""}
-              score={currentUser?.data?.totalScore ?? 0}
+              name={currentUser?.name ?? ""}
+              score={currentUser?.totalScore ?? 0}
             />
           ) : (
             <ShowSignin />
@@ -153,7 +153,7 @@ const MainView = () => {
               <section className="relative h-[28.125rem]">
                 {accessToken ? (
                   certification?.data?.certificates &&
-                  certification?.data?.certificates.length > 0 ? (
+                    certification?.data?.certificates.length > 0 ? (
                     certification?.data?.certificates?.map((v, i) => (
                       <Card key={i} id={v.id} front={v.name} />
                     ))

@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
-import { post as postType, Activity } from "@repo/types/evidences";
+import type { post as postType, Activity } from "@repo/types/evidences";
 import { isActivity, isReading } from "@repo/utils/handlePost";
 import { toast } from "sonner";
 import EditForm from "./ui/EditForm";

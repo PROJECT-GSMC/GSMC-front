@@ -4,7 +4,7 @@ import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 
-import { Evidence } from "../model/evidence";
+import type { Evidence } from "../model/evidence";
 import { bookOption, options } from "../model/options";
 import { sendCertification } from "../api/sendCertification";
 import { sendEvidence } from "../api/sendEvidence";

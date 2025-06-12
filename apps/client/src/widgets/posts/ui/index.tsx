@@ -6,7 +6,7 @@ import Search from "@/entities/posts/ui/search";
 import { Post } from "@/shared/ui";
 import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
-import { EvidenceType, post } from "@repo/types/evidences";
+import type { EvidenceType, post } from "@repo/types/evidences";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -70,6 +70,17 @@ export default function PostsWidget() {
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
           {result && result.length > 0
             ? result.map((post) => (
+              <Post
+                onClick={() => {
+                  setPost(post);
+                  R.push(`/detail/${post.id}`);
+                }}
+                data={post}
+                key={post.id}
+              />
+            ))
+            : categoryName !== "DRAFT"
+              ? posts.map((post) => (
                 <Post
                   onClick={() => {
                     setPost(post);
@@ -79,27 +90,16 @@ export default function PostsWidget() {
                   key={post.id}
                 />
               ))
-            : categoryName !== "DRAFT"
-              ? posts.map((post) => (
-                  <Post
-                    onClick={() => {
-                      setPost(post);
-                      R.push(`/detail/${post.id}`);
-                    }}
-                    data={post}
-                    key={post.id}
-                  />
-                ))
               : draftPosts.map((post) => (
-                  <Post
-                    onClick={() => {
-                      setPost(post);
-                      R.push(`/detail/${post.id}`);
-                    }}
-                    data={post}
-                    key={post.id}
-                  />
-                ))}
+                <Post
+                  onClick={() => {
+                    setPost(post);
+                    R.push(`/detail/${post.id}`);
+                  }}
+                  data={post}
+                  key={post.id}
+                />
+              ))}
         </div>
       </div>
     </div>

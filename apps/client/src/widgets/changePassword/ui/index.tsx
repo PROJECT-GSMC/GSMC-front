@@ -1,9 +1,9 @@
 import React from 'react'
-import { Control } from 'react-hook-form';
+import type { Control } from 'react-hook-form';
 
 import { Input } from '@repo/shared/input'
 import { InputContainer } from '@repo/shared/inputContainer'
-import { ChangePasswordProps } from '@/shared/model/changePWForm';
+import type { ChangePasswordProps } from '@/shared/model/changePWForm';
 
 export default function ChangePassword({ control }: { control: Control<ChangePasswordProps> }) {
   return (

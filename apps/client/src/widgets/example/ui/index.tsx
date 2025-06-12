@@ -4,7 +4,7 @@ import { Post } from "@/shared/ui";
 import { usePost } from "@repo/store/postProvider";
 import Mock from "@shared/mocks/data/evidenceMock.json";
 import { useRouter } from "next/navigation";
-import { post } from "@repo/types/evidences";
+import type { post } from "@repo/types/evidences";
 
 export default function ExampleWidget() {
   const { setPost } = usePost();

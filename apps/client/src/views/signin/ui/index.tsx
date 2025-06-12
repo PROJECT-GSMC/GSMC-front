@@ -9,12 +9,12 @@ import { Button } from "@repo/shared/button";
 import { InputContainer } from "@repo/shared/inputContainer";
 
 import { AuthForm } from "@widgets/auth/ui";
-import { SigninFormProps } from "@shared/model/AuthForm";
+import type { SigninFormProps } from "@shared/model/AuthForm";
 
 import { postSignin } from "@/entities/signin/api/postSignin";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { setCookie } from "@repo/utils/setCookie";
-import { HttpError } from "@/shared/types/error";
+import type { HttpError } from "@/shared/types/error";
 import { toast } from "sonner";
 
 const SigninView = () => {

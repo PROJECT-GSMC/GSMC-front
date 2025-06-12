@@ -6,7 +6,7 @@ import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Mock from "@shared/mocks/data/evidenceMock.json";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
-import { post as postType } from "@repo/types/evidences";
+import type { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
 import { getCategoryName } from "@repo/utils/handleCategory";
@@ -51,7 +51,7 @@ const DetailView = () => {
                 : "Title"}
             </h1>
             <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
-              {`${data2?.data.name || "사용자"} . ${post[0] && (isActivity(post[0]) || isOthers(post[0]))
+              {`${data2?.name || "사용자"} . ${post[0] && (isActivity(post[0]) || isOthers(post[0]))
                 ? getCategoryName(post[0].categoryName)
                 : "Area"
                 }`}

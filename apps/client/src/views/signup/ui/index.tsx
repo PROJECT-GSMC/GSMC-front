@@ -12,11 +12,11 @@ import StepAuthCode from "@widgets/stepAuthCode/ui";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
 
 import { AuthForm } from "@widgets/auth/ui";
-import { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
+import type { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
 
 import { postSignup } from "@/entities/signup/api/postSignup";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { HttpError } from "@/shared/types/error";
+import type { HttpError } from "@/shared/types/error";
 
 const SignupView = () => {
   const queryClient = useQueryClient();

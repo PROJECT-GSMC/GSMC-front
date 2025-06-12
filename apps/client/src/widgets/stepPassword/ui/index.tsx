@@ -1,10 +1,10 @@
 import React from 'react'
-import { Control } from 'react-hook-form';
+import type { Control } from 'react-hook-form';
 
 import { Input } from '@repo/shared/input'
 import { InputContainer } from '@repo/shared/inputContainer'
 
-import { SignupStepForm } from '@shared/model/AuthForm';
+import type { SignupStepForm } from '@shared/model/AuthForm';
 
 export default function StepPassword({ control }: { control: Control<SignupStepForm> }) {
   return (

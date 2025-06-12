@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { post } from "@repo/types/evidences";
+import type { post } from "@repo/types/evidences";
 import {
   isActivity,
   isOthers,

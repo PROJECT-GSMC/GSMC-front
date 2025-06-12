@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { Control, useWatch } from "react-hook-form";
+import { type Control, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
 import { Input } from "@repo/shared/input";
 import { Button } from "@repo/shared/button";
 import { InputContainer } from "@repo/shared/inputContainer";
 
-import { AuthStepForm } from "@shared/model/AuthForm";
+import type { AuthStepForm } from "@shared/model/AuthForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
 
 export default function StepAuthCode({
@@ -69,7 +69,7 @@ export default function StepAuthCode({
             variant="blue"
             className="max-w-max"
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
-            onClick={ () => {
+            onClick={() => {
               handleAuthButtonClick();
               setShow(true);
             }}

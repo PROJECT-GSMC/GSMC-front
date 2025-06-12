@@ -1,8 +1,8 @@
 "use client";
 
 import { Dropdown, File, Header, Textarea } from "@/shared/ui";
-import { Option } from "@/shared/ui/dropdown";
-import { FormValues } from "@/widgets/edit/types/types";
+import type { Option } from "@/shared/ui/dropdown";
+import type { FormValues } from "@/widgets/edit/types/types";
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
@@ -174,24 +174,24 @@ export default function WriteForm() {
           {(type === "major" ||
             type === "humanities" ||
             type === "foreign") && (
-            <Controller<FormValues>
-              name="file"
-              control={control}
-              rules={{
-                ...(type === "foreign" && {
-                  required: "파일을 첨부해주세요.",
-                }),
-              }}
-              render={({ field: { value, onChange, ...field } }) => (
-                <File
-                  label="이미지"
-                  value={value as File}
-                  onChange={onChange}
-                  {...field}
-                />
-              )}
-            />
-          )}
+              <Controller<FormValues>
+                name="file"
+                control={control}
+                rules={{
+                  ...(type === "foreign" && {
+                    required: "파일을 첨부해주세요.",
+                  }),
+                }}
+                render={({ field: { value, onChange, ...field } }) => (
+                  <File
+                    label="이미지"
+                    value={value as File}
+                    onChange={onChange}
+                    {...field}
+                  />
+                )}
+              />
+            )}
 
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             {type !== "foreign" && (
