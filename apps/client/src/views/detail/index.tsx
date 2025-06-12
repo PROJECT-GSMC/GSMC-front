@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { post as postType } from "@repo/types/evidences";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
+import { getCategoryName } from "@repo/utils/handleCategory";
 
 const DetailView = () => {
   const searchParams = useSearchParams();
@@ -31,11 +32,11 @@ const DetailView = () => {
   const posts: postType[] = example
     ? Mock
     : [
-        ...(data?.data?.majorActivityEvidence ?? []),
-        ...(data?.data?.humanitiesActivityEvidence ?? []),
-        ...(data?.data?.readingEvidence ?? []),
-        ...(data?.data?.otherEvidence ?? []),
-      ];
+      ...(data?.data?.majorActivityEvidence ?? []),
+      ...(data?.data?.humanitiesActivityEvidence ?? []),
+      ...(data?.data?.readingEvidence ?? []),
+      ...(data?.data?.otherEvidence ?? []),
+    ];
 
   const post = posts.filter((post) => post.id === Number(id));
 
@@ -50,11 +51,10 @@ const DetailView = () => {
                 : "Title"}
             </h1>
             <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
-              {`${data2?.data.name || "사용자"} . ${
-                post[0] && (isActivity(post[0]) || isOthers(post[0]))
-                  ? post[0].categoryName
-                  : "Area"
-              }`}
+              {`${data2?.data.name || "사용자"} . ${post[0] && (isActivity(post[0]) || isOthers(post[0]))
+                ? getCategoryName(post[0].categoryName)
+                : "Area"
+                }`}
             </h3>
             <div className="w-full h-[0.5px] bg-[#A6A6A6]"></div>
           </header>
@@ -74,7 +74,7 @@ const DetailView = () => {
             <section className="flex flex-col gap-[1rem]">
               <h2 className="text-[1.5rem] font-semibold">
                 {post[0] && (isActivity(post[0]) || isOthers(post[0]))
-                  ? `카테고리: ${post[0].categoryName}`
+                  ? `카테고리: ${getCategoryName(post[0].categoryName)}`
                   : post[0] && isReading(post[0]) && post[0].author
                     ? post[0].author
                     : "Author"}

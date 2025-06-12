@@ -11,6 +11,7 @@ import {
   handleState,
   handleStateColor,
 } from "@repo/utils/handleState";
+import { getCategoryName } from "@repo/utils/handleCategory";
 
 interface PostProps {
   data: post;
@@ -42,7 +43,7 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
         )}
         <p className="text-gray-400 text-body5 mb-[0.75rem]">
           {isActivity(data) || isOthers(data)
-            ? data.categoryName
+            ? getCategoryName(data.categoryName)
             : isReading(data)
               ? data.author
               : ""}
