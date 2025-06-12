@@ -1,4 +1,4 @@
-import { removeCertification } from "@repo/api";
+import { removeCertification } from "@repo/api/deleteCertification";
 import { toast } from "sonner";
 
 interface CardProps {
