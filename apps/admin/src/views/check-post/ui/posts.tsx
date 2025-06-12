@@ -49,7 +49,7 @@ const PostsView = () => {
         <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
           {data2?.data.name ?? "사용자"}님의 게시글
         </h1>
-        <div className="flex gap-[5%] justify-between">
+        <div className="flex gap-[5%] justify-between pb-[2rem]">
           {Buttons.map((button) => (
             <Button
               key={button.value}
@@ -62,7 +62,7 @@ const PostsView = () => {
             />
           ))}
         </div>
-        <div className="flex flex-wrap justify-center">
+        <div className="flex flex-wrap overflow-y-visible sm:justify-start justify-center w-full gap-[1.12rem]">
           {posts.length > 0 ? (
             posts.map((post: PostType) => (
               <Post
