@@ -45,8 +45,7 @@ export async function PATCH(request: NextRequest) {
     }
 
     return setAuthCookies(data.accessToken, data.refreshToken);
-  } catch (error) {
-    console.error(error);
+  } catch {
     return new Response(JSON.stringify({ error: "서버 오류 발생" }), {
       status: 500,
     });
