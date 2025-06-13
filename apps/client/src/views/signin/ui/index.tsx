@@ -5,6 +5,7 @@ import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 import { setCookie } from "@repo/utils/setCookie";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
@@ -38,17 +39,18 @@ const SigninView = () => {
         setCookie("refreshToken", data.refreshToken);
       }
 
-      queryClient.invalidateQueries({
+      void queryClient.invalidateQueries({
         queryKey: ["auth"],
         exact: false,
       });
+
       router.push("/");
       return data;
     },
     onError: (error: HttpError) => {
-      if (error.httpStatus == 401) {
+      if (error.httpStatus == HttpStatusCode.Unauthorized) {
         toast.error("비밀번호가 올바르지 않습니다.");
-      } else if (error.httpStatus == 404) {
+      } else if (error.httpStatus == HttpStatusCode.NotFound) {
         toast.error("회원가입되지 않은 계정입니다.");
         router.push("signup");
       }
@@ -66,7 +68,7 @@ const SigninView = () => {
         <>
           <form
             className="flex flex-col items-center w-full gap-[3.625rem]"
-            onSubmit={handleSubmit(onSubmit)}
+            onSubmit={void handleSubmit(onSubmit)}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <InputContainer label="이메일">
