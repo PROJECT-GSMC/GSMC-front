@@ -1,7 +1,7 @@
 "use client";
 
-import Image from "next/image";
 import type { post } from "@repo/types/evidences";
+import { getCategoryName } from "@repo/utils/handleCategory";
 import {
   isActivity,
   isOthers,
@@ -11,7 +11,7 @@ import {
   handleState,
   handleStateColor,
 } from "@repo/utils/handleState";
-import { getCategoryName } from "@repo/utils/handleCategory";
+import Image from "next/image";
 
 interface PostProps {
   data: post;
@@ -22,8 +22,8 @@ interface PostProps {
 const Post = ({ data, isExample = false, onClick }: PostProps) => {
   return (
     <div
-      onClick={onClick}
       className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem] h-[276px]"
+      onClick={onClick}
     >
       <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
         {isActivity(data) && data.imageUrl && (

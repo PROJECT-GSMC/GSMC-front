@@ -1,10 +1,12 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import type { post as postType, Activity } from "@repo/types/evidences";
 import { isActivity, isReading } from "@repo/utils/handlePost";
+import { useParams } from "next/navigation";
 import { toast } from "sonner";
+
+import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
+
 import EditForm from "./ui/EditForm";
 
 const EditView = () => {
@@ -50,7 +52,7 @@ const EditView = () => {
     type = "others";
   }
 
-  return <EditForm type={type} post={post} />;
+  return <EditForm post={post} type={type} />;
 };
 
 export default EditView;

@@ -1,21 +1,19 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { Button } from "@repo/shared/button";
+import Card from "@repo/shared/card";
+import List from "@repo/shared/list";
+import { getCookie } from "@repo/utils/getCookie";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-import List from "@repo/shared/list";
-import Card from "@repo/shared/card";
-import { Button } from "@repo/shared/button";
-
-import { ShowInformation } from "@entities/main/ui/showInformation";
-import { getCertification } from "@entities/main/api/getCertification";
 import ShowSignin from "@/entities/main/ui/showSignin";
-import MainDropdown from "@entities/main/ui/dropdown";
-
-import Modal from "@widgets/main/ui/modal";
-import { getCookie } from "@repo/utils/getCookie";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
+import { getCertification } from "@entities/main/api/getCertification";
+import MainDropdown from "@entities/main/ui/dropdown";
+import { ShowInformation } from "@entities/main/ui/showInformation";
+import Modal from "@widgets/main/ui/modal";
 
 const MainView = () => {
   const [hoverTab, setHoverTab] = useState<string | null>(null);
@@ -45,7 +43,9 @@ const MainView = () => {
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
-      {!(isCurrentUserLoading && isCertificationLoading) ? (
+      {(isCurrentUserLoading && isCertificationLoading) ? (
+        <p className="text-center m-8">로딩중...</p>
+      ) : (
         <div className="w-full max-w-[37.5rem] flex flex-col">
           {accessToken ? (
             <ShowInformation
@@ -58,8 +58,8 @@ const MainView = () => {
           <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
             <div
               className="relative w-full"
-              onMouseEnter={() => setHoverTab("독서")}
-              onMouseLeave={() => setHoverTab(null)}
+              onMouseEnter={() => { setHoverTab("독서"); }}
+              onMouseLeave={() => { setHoverTab(null); }}
             >
               <Button label="독서" variant="skyblue" />
               <MainDropdown isOpen={!!accessToken && hoverTab === "독서"}>
@@ -71,11 +71,11 @@ const MainView = () => {
                   <p>{">"}</p>
                 </Link>
                 <div
+                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   onClick={async () => {
                     await setType("READ_A_THON");
                     setShow(true);
                   }}
-                  className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                 >
                   <p>독서로 단계 입력</p>
                   <p>{">"}</p>
@@ -84,8 +84,8 @@ const MainView = () => {
             </div>
             <div
               className="relative w-full"
-              onMouseEnter={() => setHoverTab("인성")}
-              onMouseLeave={() => setHoverTab(null)}
+              onMouseEnter={() => { setHoverTab("인성"); }}
+              onMouseLeave={() => { setHoverTab(null); }}
             >
               <Button label="인성" variant="skyblue" />
               <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
@@ -110,8 +110,8 @@ const MainView = () => {
             </div>
             <div
               className="relative w-full"
-              onMouseEnter={() => setHoverTab("전공")}
-              onMouseLeave={() => setHoverTab(null)}
+              onMouseEnter={() => { setHoverTab("전공"); }}
+              onMouseLeave={() => { setHoverTab(null); }}
             >
               <Button label="전공" variant="skyblue" />
               <MainDropdown isOpen={!!accessToken && hoverTab === "전공"}>
@@ -144,7 +144,7 @@ const MainView = () => {
                 </div>
               </MainDropdown>
             </div>
-            <Link href="/write?type=foreign" className="w-full">
+            <Link className="w-full" href="/write?type=foreign">
               <Button label="외국어" variant="skyblue" />
             </Link>
           </div>
@@ -155,7 +155,7 @@ const MainView = () => {
                   certification?.data?.certificates &&
                     certification?.data?.certificates.length > 0 ? (
                     certification?.data?.certificates?.map((v, i) => (
-                      <Card key={i} id={v.id} front={v.name} />
+                      <Card front={v.name} id={v.id} key={i} />
                     ))
                   ) : (
                     <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
@@ -171,18 +171,14 @@ const MainView = () => {
             </List>
           </div>
         </div>
-      ) : (
-        <p className="text-center m-8">로딩중...</p>
       )}
-      {show && (
-        <Modal
-          type={type}
-          onClose={() => {
-            setShow(false);
-            refetch();
-          }}
-        />
-      )}
+      {show ? <Modal
+        type={type}
+        onClose={() => {
+          setShow(false);
+          refetch();
+        }}
+      /> : null}
     </div>
   );
 };

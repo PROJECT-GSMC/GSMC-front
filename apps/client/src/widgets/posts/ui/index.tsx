@@ -1,15 +1,16 @@
 "use client";
 
-import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
-import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
-import Search from "@/entities/posts/ui/search";
-import { Post } from "@/shared/ui";
 import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
 import type { EvidenceType, post } from "@repo/types/evidences";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
+
+import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
+import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
+import Search from "@/entities/posts/ui/search";
+import { Post } from "@/shared/ui";
 
 export default function PostsWidget() {
   const [result, setResult] = useState<post[] | undefined>();
@@ -47,21 +48,20 @@ export default function PostsWidget() {
   return (
     <div className="w-full max-w-[37.5rem]">
       <Search
-        setSearch={setSearch}
-        type={categoryName}
         search={search}
         setResult={setResult}
+        setSearch={setSearch}
+        type={categoryName}
       />
       <div className="flex gap-[1rem] justify-between">
         {Buttons.map((button) => {
           return (
             <Button
-              label={button.label}
-              onClick={() =>
-                setCategoryName(button.value as EvidenceType | "DRAFT")
-              }
               key={button.value}
+              label={button.label}
               variant={categoryName === button.value ? "blue" : "skyblue"}
+              onClick={() => { setCategoryName(button.value as EvidenceType | "DRAFT"); }
+              }
             />
           );
         })}
@@ -71,35 +71,35 @@ export default function PostsWidget() {
           {result && result.length > 0
             ? result.map((post) => (
               <Post
+                data={post}
+                key={post.id}
                 onClick={() => {
                   setPost(post);
                   R.push(`/detail/${post.id}`);
                 }}
-                data={post}
-                key={post.id}
               />
             ))
-            : categoryName !== "DRAFT"
-              ? posts.map((post) => (
+            : (categoryName === "DRAFT"
+              ? draftPosts.map((post) => (
                 <Post
+                  data={post}
+                  key={post.id}
                   onClick={() => {
                     setPost(post);
                     R.push(`/detail/${post.id}`);
                   }}
-                  data={post}
-                  key={post.id}
                 />
               ))
-              : draftPosts.map((post) => (
+              : posts.map((post) => (
                 <Post
+                  data={post}
+                  key={post.id}
                   onClick={() => {
                     setPost(post);
                     R.push(`/detail/${post.id}`);
                   }}
-                  data={post}
-                  key={post.id}
                 />
-              ))}
+              )))}
         </div>
       </div>
     </div>

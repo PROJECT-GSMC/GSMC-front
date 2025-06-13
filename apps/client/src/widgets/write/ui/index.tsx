@@ -1,16 +1,18 @@
 "use client";
 
-import { Dropdown, File, Header, Textarea } from "@/shared/ui";
-import type { Option } from "@/shared/ui/dropdown";
-import type { FormValues } from "@/widgets/edit/types/types";
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 import { useRouter, useSearchParams } from "next/navigation";
-import { Controller, useForm, useWatch } from "react-hook-form";
-import { getWriteConfig } from "../model/writeConfig";
-import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
 import { useRef } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
+
+import { Dropdown, File, Header, Textarea } from "@/shared/ui";
+import type { Option } from "@/shared/ui/dropdown";
+import type { FormValues } from "@/widgets/edit/types/types";
+import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
+
+import { getWriteConfig } from "../model/writeConfig";
 
 export default function WriteForm() {
   const searchParams = useSearchParams();
@@ -67,48 +69,44 @@ export default function WriteForm() {
           onSubmit={handleSubmit(handleFormSubmit)}
         >
           {(type === "major" || type === "humanities" || type === "foreign") &&
-            config.categoryOptions && (
-              <Controller<FormValues>
-                name="categoryName"
-                control={control}
-                rules={{
-                  required: "카테고리를 선택해주세요.",
-                }}
-                render={({ field: { value, onChange, ...field } }) => (
-                  <Dropdown
-                    label="카테고리"
-                    options={config.categoryOptions || []}
-                    value={value as Option}
-                    onChange={onChange}
-                    {...field}
-                  />
-                )}
+            config.categoryOptions ? <Controller<FormValues>
+            control={control}
+            name="categoryName"
+            render={({ field: { value, onChange, ...field } }) => (
+              <Dropdown
+                label="카테고리"
+                options={config.categoryOptions || []}
+                value={value as Option}
+                onChange={onChange}
+                {...field}
               />
             )}
-          {type === "foreign" && needDropdown && (
-            <Controller<FormValues>
-              name="value"
-              control={control}
-              rules={{
-                required: "카테고리를 선택해주세요.",
-              }}
-              render={({ field: { value, onChange, ...field } }) => (
-                <Dropdown
-                  label="카테고리"
-                  options={chooseDropdownOption(category.name) || []}
-                  value={value as Option}
-                  onChange={onChange}
-                  {...field}
-                />
-              )}
-            />
-          )}
+            rules={{
+              required: "카테고리를 선택해주세요.",
+            }}
+          /> : null}
+          {type === "foreign" && needDropdown ? <Controller<FormValues>
+            control={control}
+            name="value"
+            render={({ field: { value, onChange, ...field } }) => (
+              <Dropdown
+                label="카테고리"
+                options={chooseDropdownOption(category.name) || []}
+                value={value as Option}
+                onChange={onChange}
+                {...field}
+              />
+            )}
+            rules={{
+              required: "카테고리를 선택해주세요.",
+            }}
+          /> : null}
 
           {type !== "foreign" && (
             <InputContainer label="제목">
               <Input<FormValues>
-                name="title"
                 control={control}
+                name="title"
                 rules={{
                   required: "제목을 입력해주세요.",
                 }}
@@ -121,8 +119,8 @@ export default function WriteForm() {
               {type === "reading" && (
                 <InputContainer label="저자">
                   <Input<FormValues>
-                    name="author"
                     control={control}
+                    name="author"
                     rules={{
                       required: "저자를 입력해주세요.",
                     }}
@@ -131,8 +129,8 @@ export default function WriteForm() {
               )}
               <InputContainer label={type === "reading" ? "페이지" : "점수"}>
                 <Input<FormValues>
-                  name={type === "reading" ? "page" : "value"}
                   control={control}
+                  name={type === "reading" ? "page" : "value"}
                   rules={{
                     required:
                       type === "reading"
@@ -146,20 +144,8 @@ export default function WriteForm() {
 
           {type !== "foreign" && (
             <Controller<FormValues>
-              name="content"
               control={control}
-              rules={{
-                required: "내용을 입력해주세요.",
-                minLength: {
-                  value: type === "reading" ? 600 : file ? 200 : 400,
-                  message:
-                    type === "reading"
-                      ? "600자 이상 입력해주세요."
-                      : file
-                        ? "내용을 200자 이상 입력해주세요."
-                        : "내용을 400자 이상 입력해주세요.",
-                },
-              }}
+              name="content"
               render={({ field: { value, onChange, ...field } }) => (
                 <Textarea
                   isBook={type === "reading"}
@@ -168,6 +154,18 @@ export default function WriteForm() {
                   {...field}
                 />
               )}
+              rules={{
+                required: "내용을 입력해주세요.",
+                minLength: {
+                  value: type === "reading" ? 600 : (file ? 200 : 400),
+                  message:
+                    type === "reading"
+                      ? "600자 이상 입력해주세요."
+                      : (file
+                        ? "내용을 200자 이상 입력해주세요."
+                        : "내용을 400자 이상 입력해주세요."),
+                },
+              }}
             />
           )}
 
@@ -175,13 +173,8 @@ export default function WriteForm() {
             type === "humanities" ||
             type === "foreign") && (
               <Controller<FormValues>
-                name="file"
                 control={control}
-                rules={{
-                  ...(type === "foreign" && {
-                    required: "파일을 첨부해주세요.",
-                  }),
-                }}
+                name="file"
                 render={({ field: { value, onChange, ...field } }) => (
                   <File
                     label="이미지"
@@ -190,30 +183,35 @@ export default function WriteForm() {
                     {...field}
                   />
                 )}
+                rules={{
+                  ...(type === "foreign" && {
+                    required: "파일을 첨부해주세요.",
+                  }),
+                }}
               />
             )}
 
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             {type !== "foreign" && (
               <Button
-                value="draft"
+                label="임시저장"
                 state="default"
+                value="draft"
+                variant="skyblue"
                 onClick={() => {
                   handleFormSubmit(getValues());
                 }}
-                variant="skyblue"
-                label="임시저장"
               />
             )}
             <Button
-              value="submit"
+              label="제출"
+              state={isValid ? "default" : "disabled"}
               type="submit"
+              value="submit"
+              variant="blue"
               onClick={() => {
                 submitTypeRef.current = "submit";
               }}
-              variant="blue"
-              label="제출"
-              state={isValid ? "default" : "disabled"}
             />
           </div>
         </form>

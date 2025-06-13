@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useCallback } from "react";
 
 interface DropdownProps {
   children: React.ReactNode;
   isOpen: boolean;
+  onOpenChange: (isOpen: boolean) => void;
 }
 
-const MainDropdown = ({ children, isOpen }: DropdownProps) => {
+const MainDropdown = ({ children, isOpen, onOpenChange }: DropdownProps) => {
+  const handleFocus = useCallback(() => {
+    onOpenChange(true);
+  }, [onOpenChange]);
+
   return (
     <div
-      onFocus={() => (isOpen = true)}
       className={`
       absolute left-0 z-10 
       w-[15rem] max-md:w-[10rem] px-6 md:px-11 py-4 md:py-6 m-[0.1rem]
@@ -17,6 +21,7 @@ const MainDropdown = ({ children, isOpen }: DropdownProps) => {
       transition-all duration-500 ease-in-out origin-top 
       ${isOpen ? "opacity-100 translate-y-0 pointer-events-auto" : "opacity-0 -translate-y-6 pointer-events-none"}
       `}
+      onFocus={handleFocus}
     >
       <div className="w-full flex flex-col gap-5 text-body3s">{children}</div>
     </div>

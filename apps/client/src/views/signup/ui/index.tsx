@@ -1,22 +1,19 @@
 "use client";
 
+import { Button } from "@repo/shared/button";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
-import { useRouter } from "next/navigation";
-
-import { Button } from "@repo/shared/button";
-
-import StepPassword from "@widgets/stepPassword/ui";
-import StepAuthCode from "@widgets/stepAuthCode/ui";
-import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-
-import { AuthForm } from "@widgets/auth/ui";
-import type { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
 
 import { postSignup } from "@/entities/signup/api/postSignup";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import type { HttpError } from "@/shared/types/error";
+import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
+import type { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
+import { AuthForm } from "@widgets/auth/ui";
+import StepAuthCode from "@widgets/stepAuthCode/ui";
+import StepPassword from "@widgets/stepPassword/ui";
 
 const SignupView = () => {
   const queryClient = useQueryClient();
@@ -146,8 +143,8 @@ const SignupView = () => {
       <AuthForm label="SIGN UP">
         {step === "authCode" ? (
           <form
-            onSubmit={handleAuthSubmit(handleVerifyEmail)}
             className="flex flex-col w-full items-center gap-[3.625rem]"
+            onSubmit={handleAuthSubmit(handleVerifyEmail)}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepAuthCode
@@ -157,24 +154,24 @@ const SignupView = () => {
             </div>
             <Button
               label="인증하기"
-              variant="blue"
-              type="submit"
               state={canProceedToPassword && !isAuthVerifying ? "default" : "disabled"}
+              type="submit"
+              variant="blue"
             />
           </form>
         ) : (
           <form
-            onSubmit={handleSignupSubmit(onSubmit)}
             className="flex flex-col w-full items-center gap-[3.625rem]"
+            onSubmit={handleSignupSubmit(onSubmit)}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepPassword control={signupControl} />
             </div>
             <Button
               label="회원가입"
+              state={isPending ? "disabled" : "default"}
               type="submit"
               variant="blue"
-              state={!isPending ? "default" : "disabled"}
             />
           </form>
         )}

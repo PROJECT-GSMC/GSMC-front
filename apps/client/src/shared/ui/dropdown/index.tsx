@@ -53,9 +53,8 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
       )}
 
       <button
-        className={`rounded-[0.625rem] min-h-[56px] text-left ${
-          isOpen ? "border-tropicalblue-500" : ""
-        } px-[1.5rem] py-[1rem] border mt-[0.5rem]`}
+        className={`rounded-[0.625rem] min-h-[56px] text-left ${isOpen ? "border-tropicalblue-500" : ""
+          } px-[1.5rem] py-[1rem] border mt-[0.5rem]`}
         onClick={() => setIsOpen(!isOpen)}
         type="button"
       >

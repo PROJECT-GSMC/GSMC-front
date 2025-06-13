@@ -21,14 +21,14 @@ const File = ({ isImg = true, value, onChange, label }: FileProps) => {
         {value ? value.name : "파일 첨부"}
       </label>
       <input
+        accept={isImg ? "image/*" : "*/*"}
+        className="hidden"
+        id={label}
+        type="file"
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) onChange(file);
         }}
-        className="hidden"
-        id={label}
-        type="file"
-        accept={isImg ? "image/*" : "*/*"}
       />
     </div>
   );

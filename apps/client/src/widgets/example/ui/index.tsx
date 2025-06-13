@@ -1,10 +1,11 @@
 "use client";
 
-import { Post } from "@/shared/ui";
 import { usePost } from "@repo/store/postProvider";
-import Mock from "@shared/mocks/data/evidenceMock.json";
-import { useRouter } from "next/navigation";
 import type { post } from "@repo/types/evidences";
+import { useRouter } from "next/navigation";
+
+import { Post } from "@/shared/ui";
+import Mock from "@shared/mocks/data/evidenceMock.json";
 
 export default function ExampleWidget() {
   const { setPost } = usePost();
@@ -14,13 +15,13 @@ export default function ExampleWidget() {
       {Mock.map((data) => {
         return (
           <Post
+            isExample
+            data={data as post}
+            key={data.id}
             onClick={() => {
               setPost(data as post);
               R.push(`/detail/${data.id}?example=${true}`);
             }}
-            key={data.id}
-            data={data as post}
-            isExample={true}
           />
         );
       })}

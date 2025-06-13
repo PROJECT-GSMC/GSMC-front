@@ -1,13 +1,12 @@
+import { Button } from "@repo/shared/button";
+import { Input } from "@repo/shared/input";
+import { InputContainer } from "@repo/shared/inputContainer";
 import React, { useState } from "react";
 import { type Control, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Input } from "@repo/shared/input";
-import { Button } from "@repo/shared/button";
-import { InputContainer } from "@repo/shared/inputContainer";
-
-import type { AuthStepForm } from "@shared/model/AuthForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
+import type { AuthStepForm } from "@shared/model/AuthForm";
 
 export default function StepAuthCode({
   control,
@@ -43,8 +42,8 @@ export default function StepAuthCode({
     <>
       <InputContainer label="이름">
         <Input
-          name="name"
           control={control}
+          name="name"
           rules={{
             required: "이름을 필수로 입력해야 합니다.",
           }}
@@ -53,8 +52,8 @@ export default function StepAuthCode({
       <InputContainer label="이메일">
         <div className="flex items-center justify-between gap-4">
           <Input
-            name="email"
             control={control}
+            name="email"
             rules={{
               required: "이메일을 필수로 입력해야 합니다.",
               pattern: {
@@ -64,11 +63,11 @@ export default function StepAuthCode({
             }}
           />
           <Button
+            className="max-w-max"
             label={isLoading ? "전송 중..." : "인증번호"}
+            state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
             type="submit"
             variant="blue"
-            className="max-w-max"
-            state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
             onClick={() => {
               handleAuthButtonClick();
               setShow(true);
@@ -78,14 +77,14 @@ export default function StepAuthCode({
       </InputContainer>
       <InputContainer label="인증번호">
         <Input
-          name="authcode"
           control={control}
+          name="authcode"
           rules={{
             required: "인증번호를 필수로 입력해야 합니다.",
           }}
         />
       </InputContainer>
-      {show && <div className="text-sm text-[#e61919]"><strong>인증 코드를 찾을 수 없나요?</strong> 스팸메일함을 확인해 주세요.</div>}
+      {show ? <div className="text-sm text-[#e61919]"><strong>인증 코드를 찾을 수 없나요?</strong> 스팸메일함을 확인해 주세요.</div> : null}
     </>
   );
 }
