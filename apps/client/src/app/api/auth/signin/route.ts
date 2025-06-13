@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+
 import { setAuthCookies } from "@/shared/lib/setAuthCookies";
 import type { SigninFormProps } from "@/shared/model/AuthForm";
 
@@ -6,7 +7,7 @@ const API_URL = process.env["NEXT_PUBLIC_API_URL"];
 
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as SigninFormProps;
 
     if (!body.email || !body.password) {
       return NextResponse.json(
@@ -27,16 +28,19 @@ export async function POST(request: NextRequest) {
     });
 
     if (!apiResponse.ok) {
-      const errorData = await apiResponse
+      const errorData = (await apiResponse
         .json()
-        .catch(() => ({ error: "알 수 없는 오류" }));
+        .catch(() => ({ error: "알 수 없는 오류" }))) as { error?: string };
       return NextResponse.json(
-        { error: errorData.error || "로그인에 실패했습니다." },
+        { error: errorData.error ?? "로그인에 실패했습니다." },
         { status: apiResponse.status }
       );
     }
 
-    const response = await apiResponse.json();
+    const response = (await apiResponse.json()) as {
+      accessToken: string;
+      refreshToken: string;
+    };
 
     if (!response.accessToken || !response.refreshToken) {
       return NextResponse.json(

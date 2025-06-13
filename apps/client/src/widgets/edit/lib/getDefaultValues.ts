@@ -1,6 +1,7 @@
 import type { Activity, Reading, Others } from "@repo/types/evidences";
-import type { FormValues } from "../types/types";
+
 import { getEditConfig } from "../model/config";
+import type { FormValues } from "../types/types";
 
 export const getDefaultValues = (
   type: "major" | "humanities" | "reading" | "others",

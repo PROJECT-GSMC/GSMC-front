@@ -1,4 +1,5 @@
 import instance from "@repo/api/axios";
+
 import type { Certification } from "../model/certification";
 
 interface Certifications {

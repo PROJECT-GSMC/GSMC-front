@@ -1,5 +1,6 @@
 import instance from "@repo/api/axios";
 import axios from "axios";
+
 import type { SignupFormProps } from "@shared/model/AuthForm";
 
 export const postSignup = async (form: SignupFormProps) => {

@@ -1,22 +1,24 @@
-import { CharacterCategory } from "@/widgets/write/model/category";
-import type { FormValues } from "@/widgets/edit/types/types";
-import { handleSubmitActivity } from "../lib/handleSubmitActivity";
-import { handleSubmitBook } from "../lib/handleBookSubmit";
 import { sendScore } from "@/shared/api/sendScore";
 import { majorCategoryOptions } from "@/widgets/calculate/model/category";
+import type { FormValues } from "@/widgets/edit/types/types";
+import { CharacterCategory } from "@/widgets/write/model/category";
+
+import { handleSubmitBook } from "../lib/handleBookSubmit";
+import { handleSubmitActivity } from "../lib/handleSubmitActivity";
+
 import { foreignOptions } from "./foreignOptions";
 
-type Config = {
+interface Config {
   title: string;
   categoryOptions?: { name: string; send: string }[];
   onSubmit: (data: FormValues, type: "draft" | "submit") => Promise<void>;
-};
+}
 
 export const getWriteConfig = (
   type: "major" | "humanities" | "reading" | "others" | "foreign"
 ): Config => {
   switch (type) {
-    case "major":
+    case "major": {
       return {
         title: "전공 영역",
         categoryOptions: majorCategoryOptions,
@@ -33,7 +35,8 @@ export const getWriteConfig = (
           await handleSubmitActivity(type, formData);
         },
       };
-    case "humanities":
+    }
+    case "humanities": {
       return {
         title: "인성 영역",
         categoryOptions: CharacterCategory,
@@ -50,7 +53,8 @@ export const getWriteConfig = (
           await handleSubmitActivity(type, formData);
         },
       };
-    case "reading":
+    }
+    case "reading": {
       return {
         title: "독서 영역",
         onSubmit: async (data: FormValues, type) => {
@@ -63,12 +67,14 @@ export const getWriteConfig = (
           await handleSubmitBook(bookData, type);
         },
       };
-    case "others":
+    }
+    case "others": {
       return {
         title: "기타 증빙 자료",
         onSubmit: async () => {},
       };
-    case "foreign":
+    }
+    case "foreign": {
       return {
         title: "외국어 영역",
         categoryOptions: foreignOptions,
@@ -82,5 +88,6 @@ export const getWriteConfig = (
           sendScore(formData);
         },
       };
+    }
   }
 };

@@ -1,9 +1,10 @@
 import { NextRequest } from "next/server";
+
 import { setAuthCookies } from "@/shared/lib/setAuthCookies";
 
 export async function PATCH(request: NextRequest) {
   try {
-    const body = await request.json();
+    const body = (await request.json()) as { refreshToken: string };
     const refreshToken = body.refreshToken;
 
     if (!refreshToken) {
@@ -32,7 +33,10 @@ export async function PATCH(request: NextRequest) {
       });
     }
 
-    const data = await res.json();
+    const data = (await res.json()) as {
+      accessToken: string;
+      refreshToken: string;
+    };
 
     if (!data.accessToken || !data.refreshToken) {
       return new Response(JSON.stringify({ error: "토큰이 없습니다." }), {

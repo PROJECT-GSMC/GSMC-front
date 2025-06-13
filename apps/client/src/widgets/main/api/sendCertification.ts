@@ -1,5 +1,6 @@
-import type { Certification } from "../model/certification";
 import instance from "@repo/api/axios";
+
+import type { Certification } from "../model/certification";
 
 export const sendCertification = async (data: Certification) => {
   const formData = new FormData();

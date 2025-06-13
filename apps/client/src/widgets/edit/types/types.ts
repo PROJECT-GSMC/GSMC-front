@@ -1,11 +1,11 @@
 import type { Activity, Reading, Others } from "@repo/types/evidences";
 
-export type Option = {
+export interface Option {
   name: string;
   send: string;
-};
+}
 
-export type FormValues = {
+export interface FormValues {
   title: string;
   content: string;
   categoryName?: Option;
@@ -13,9 +13,9 @@ export type FormValues = {
   author?: string;
   page?: number;
   value?: string | number;
-};
+}
 
-export type EditFormProps = {
+export interface EditFormProps {
   type: "major" | "humanities" | "reading" | "others" | "foreign";
   post: Activity | Reading | Others;
-};
+}

@@ -1,23 +1,23 @@
-import { majorCategoryOptions } from "@/widgets/calculate/model/category";
-import { CharacterCategory } from "@/widgets/write/model/category";
 import {
   updateMajorActivity,
   updateHumanitiesActivity,
 } from "@/shared/api/updateActivity";
 import { updateReading } from "@/shared/api/updateReading";
-import { FormValues } from "@/widgets/edit/types/types";
+import { majorCategoryOptions } from "@/widgets/calculate/model/category";
+import type { FormValues } from "@/widgets/edit/types/types";
+import { CharacterCategory } from "@/widgets/write/model/category";
 
-type Config = {
+interface Config {
   title: string;
   categoryOptions?: { name: string; send: string }[];
   onSubmit: (data: FormValues, id: number) => Promise<void>;
-};
+}
 
 export const getEditConfig = (
   type: "major" | "humanities" | "reading" | "others"
 ): Config => {
   switch (type) {
-    case "major":
+    case "major": {
       return {
         title: "전공 영역 수정",
         categoryOptions: majorCategoryOptions,
@@ -34,7 +34,8 @@ export const getEditConfig = (
           await updateMajorActivity(id, formData);
         },
       };
-    case "humanities":
+    }
+    case "humanities": {
       return {
         title: "인성 영역 수정",
         categoryOptions: CharacterCategory,
@@ -51,7 +52,8 @@ export const getEditConfig = (
           await updateHumanitiesActivity(id, formData);
         },
       };
-    case "reading":
+    }
+    case "reading": {
       return {
         title: "독서 영역 수정",
         onSubmit: async (data: FormValues, id: number) => {
@@ -64,10 +66,12 @@ export const getEditConfig = (
           await updateReading(id, bookData);
         },
       };
-    case "others":
+    }
+    case "others": {
       return {
         title: "기타 증빙 수정",
         onSubmit: async () => {},
       };
+    }
   }
 };
