@@ -39,7 +39,7 @@ const ChangePasswordView = () => {
       <AuthForm label="Change Password">
         <form
           className="flex flex-col items-center w-full gap-[3.625rem]"
-          onSubmit={handleSubmit(onSubmit)}
+          onSubmit={void handleSubmit(onSubmit)}
         >
           <div className="flex flex-col gap-[0.75rem] self-stretch">
             <ChangePassword control={control} />
