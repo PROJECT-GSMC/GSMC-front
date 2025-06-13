@@ -26,15 +26,13 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
       onClick={onClick}
     >
       <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
-        {isActivity(data) && data.imageUrl && (
-          <Image
-            src={data.imageUrl}
-            width={188}
-            height={150}
-            alt={data.title}
-            className="object-cover w-[188px] h-[150px] rounded-t-[0.625rem]"
-          />
-        )}
+        {isActivity(data) && (data.imageUrl != null) ? <Image
+          alt={data.title}
+          className="object-cover w-[188px] h-[150px] rounded-t-[0.625rem]"
+          height={150}
+          src={data.imageUrl}
+          width={188}
+        /> : null}
       </div>
 
       <div className="px-[0.38rem] py-[0.75rem]">
@@ -44,9 +42,9 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
         <p className="text-gray-400 text-body5 mb-[0.75rem]">
           {isActivity(data) || isOthers(data)
             ? getCategoryName(data.categoryName)
-            : isReading(data)
+            : (isReading(data)
               ? data.author
-              : ""}
+              : "")}
         </p>
         {!isExample && (
           <span className={`text-body5 ${handleStateColor(data.status)}`}>
