@@ -44,7 +44,7 @@ const PostsView = () => {
     { label: "거절", value: "REJECT" },
   ];
   return (
-    <div className="flex w-full items-center flex-col">
+    <div className="flex w-full items-center flex-col p-[1rem]">
       <div className="max-w-[37.5rem] w-full">
         <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
           {data2?.data.name ?? "사용자"}님의 게시글
