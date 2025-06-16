@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { postSignup } from "@/entities/signup/api/postSignup";
 import type { HttpError } from "@/shared/types/error";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-import type { AuthStepForm, SignupFormProps, SignupResponse, SignupStepForm } from "@shared/model/AuthForm";
+import type { AuthStepForm, SignupFormProps, ServerResponse, SignupStepForm } from "@shared/model/AuthForm";
 import { AuthForm } from "@widgets/auth/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
 import StepPassword from "@widgets/stepPassword/ui";
@@ -28,7 +28,7 @@ const SignupView = () => {
     mutate: signupMutate,
     isPending,
     isSuccess,
-  } = useMutation<SignupResponse, HttpError, SignupFormProps>({
+  } = useMutation<ServerResponse, HttpError, SignupFormProps>({
     mutationFn: postSignup,
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
