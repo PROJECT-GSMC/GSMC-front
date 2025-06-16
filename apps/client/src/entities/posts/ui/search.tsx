@@ -4,6 +4,7 @@ import { useDebounce } from "@repo/hooks/useDebounce";
 import SearchIcon from "@repo/shared/search";
 import type { EvidenceResponse } from "@repo/types/evidences";
 import { useCallback, useEffect } from "react";
+import { toast } from "sonner";
 
 import { getSearchResult } from "../api/getSearchResult";
 
@@ -20,10 +21,16 @@ const Search = ({ setResult, search, type, setSearch }: SearchProps) => {
   useEffect(() => {
     const fetchSearchResult = async () => {
       if (!debouncedValue) return;
-      const search = await getSearchResult(debouncedValue, type);
-      setResult(search.data as EvidenceResponse[]);
+
+      try {
+        const search = await getSearchResult(debouncedValue, type);
+        setResult(search.data as EvidenceResponse[]);
+      } catch {
+        toast.error("")
+      }
     };
 
+    // Promise를 명시적으로 처리
     void fetchSearchResult();
   }, [debouncedValue, setResult, type]);
 
