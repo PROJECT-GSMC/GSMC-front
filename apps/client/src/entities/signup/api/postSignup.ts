@@ -5,8 +5,10 @@ import type { SignupFormProps } from "@shared/model/AuthForm";
 
 export const postSignup = async (form: SignupFormProps) => {
   try {
-    const response = await instance.post(`/auth/signup`, form);
-    console.log(response.data);
+    const response = await instance.post<{ success: boolean }>(
+      `/auth/signup`,
+      form
+    );
     return response.data;
   } catch (error) {
     if (isAxiosError(error) && error.response) {
