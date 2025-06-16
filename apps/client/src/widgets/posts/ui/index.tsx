@@ -2,9 +2,9 @@
 
 import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
-import type { EvidenceType, post } from "@repo/types/evidences";
+import type { EvidenceResponse, post } from "@repo/types/evidences";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
@@ -12,44 +12,58 @@ import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import Search from "@/entities/posts/ui/search";
 import { Post } from "@/shared/ui";
 
-export default function PostsWidget() {
-  const [result, setResult] = useState<post[] | undefined>();
-  const [search, setSearch] = useState<string>("");
-  const [categoryName, setCategoryName] = useState<EvidenceType | "DRAFT">(
-    "MAJOR"
-  );
-  const { setPost } = usePost();
-  const { data, isError } = useGetPosts(categoryName);
-  const { data: draftData, isError: Error2 } = useGetDraft();
-  const R = useRouter();
+import type { CategoryType } from "../model/category";
 
-  if (isError || Error2) {
+export default function PostsWidget() {
+  const R = useRouter();
+  const [result, setresult] = useState<EvidenceResponse>();
+  const [search, setSearch] = useState<string>("");
+  const [categoryName, setCategoryName] = useState<CategoryType>("MAJOR");
+
+  const { data: postsData, isError: isPostsError } = useGetPosts(categoryName);
+  const { data: draftsData, isError: isDraftsError } = useGetDraft();
+  const { setPost } = usePost();
+
+  if (isPostsError || isDraftsError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
+
   const posts: post[] = [
-    ...(data?.data?.majorActivityEvidence ?? []),
-    ...(data?.data?.humanitiesActivityEvidence ?? []),
-    ...(data?.data?.readingEvidence ?? []),
-    ...(data?.data?.otherEvidence ?? []),
+    ...(postsData?.data.majorActivityEvidence ?? []),
+    ...(postsData?.data.humanitiesActivityEvidence ?? []),
+    ...(postsData?.data.readingEvidence ?? []),
+    ...(postsData?.data.otherEvidence ?? []),
   ];
 
   const draftPosts: post[] = [
-    ...(draftData?.activityEvidences || []),
-    ...(draftData?.readingEvidences || []),
+    ...(draftsData?.activityEvidences ?? []),
+    ...(draftsData?.readingEvidences ?? []),
   ];
 
-  const Buttons = [
+  const resultPosts: post[] = [
+    ...(result?.majorActivityEvidence ?? []),
+    ...(result?.humanitiesActivityEvidence ?? []),
+    ...(result?.readingEvidence ?? []),
+    ...(result?.otherEvidence ?? []),
+  ]
+
+  const Buttons: { value: CategoryType, label: string }[] = [
     { label: "전공", value: "MAJOR" },
     { label: "인성", value: "HUMANITIES" },
     { label: "독서", value: "READING" },
     { label: "외국어", value: "FOREIGN_LANGUAGE" },
     { label: "임시저장", value: "DRAFT" },
   ];
+
+  const handleCategory = useCallback((value: CategoryType) => () => {
+    setCategoryName(value)
+  }, [])
+
   return (
     <div className="w-full max-w-[37.5rem]">
       <Search
         search={search}
-        setResult={setResult}
+        setResult={setresult}
         setSearch={setSearch}
         type={categoryName}
       />
@@ -60,46 +74,41 @@ export default function PostsWidget() {
               key={button.value}
               label={button.label}
               variant={categoryName === button.value ? "blue" : "skyblue"}
-              onClick={() => { setCategoryName(button.value as EvidenceType | "DRAFT"); }
-              }
+              onClick={handleCategory(button.value)}
             />
           );
         })}
       </div>
       <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
-          {result && result.length > 0
-            ? result.map((post) => (
-              <Post
-                data={post}
-                key={post.id}
-                onClick={() => {
-                  setPost(post);
-                  R.push(`/detail/${post.id}`);
-                }}
-              />
-            ))
-            : (categoryName === "DRAFT"
-              ? draftPosts.map((post) => (
-                <Post
-                  data={post}
-                  key={post.id}
-                  onClick={() => {
-                    setPost(post);
-                    R.push(`/detail/${post.id}`);
-                  }}
-                />
-              ))
-              : posts.map((post) => (
-                <Post
-                  data={post}
-                  key={post.id}
-                  onClick={() => {
-                    setPost(post);
-                    R.push(`/detail/${post.id}`);
-                  }}
-                />
-              )))}
+          {resultPosts && resultPosts.length > 0 ? resultPosts.map((post) => (
+            <Post
+              data={post}
+              key={post.id}
+              onClick={() => {
+                setPost(post);
+                R.push(`/detail/${post.id}`);
+              }}
+            />
+          )) : (categoryName === "DRAFT" ? draftPosts.map((post) => (
+            <Post
+              data={post}
+              key={post.id}
+              onClick={() => {
+                setPost(post);
+                R.push(`/detail/${post.id}`);
+              }}
+            />
+          )) : posts.map((post) => (
+            <Post
+              data={post}
+              key={post.id}
+              onClick={() => {
+                setPost(post);
+                R.push(`/detail/${post.id}`);
+              }}
+            />
+          )))}
         </div>
       </div>
     </div>
