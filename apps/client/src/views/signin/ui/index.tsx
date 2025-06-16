@@ -8,6 +8,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { HttpStatusCode } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -31,7 +32,7 @@ const SigninView = () => {
 
   const { mutate: signinMutate } = useMutation({
     mutationFn: (form: SigninFormProps) => postSignin(form),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       if (data.accessToken) {
         setCookie("accessToken", data.accessToken, 1);
       }
@@ -39,7 +40,7 @@ const SigninView = () => {
         setCookie("refreshToken", data.refreshToken);
       }
 
-      void queryClient.invalidateQueries({
+      await queryClient.invalidateQueries({
         queryKey: ["auth"],
         exact: false,
       });
@@ -58,9 +59,16 @@ const SigninView = () => {
     },
   });
 
-  const onSubmit = (form: SigninFormProps) => {
+  const onSubmit = useCallback((form: SigninFormProps) => {
     signinMutate(form);
-  };
+  }, [signinMutate]);
+
+  const handleFormSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
+    (e) => {
+      void handleSubmit(onSubmit)(e);
+    },
+    [handleSubmit, onSubmit]
+  );
 
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
@@ -68,7 +76,7 @@ const SigninView = () => {
         <>
           <form
             className="flex flex-col items-center w-full gap-[3.625rem]"
-            onSubmit={void handleSubmit(onSubmit)}
+            onSubmit={handleFormSubmit}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <InputContainer label="이메일">
