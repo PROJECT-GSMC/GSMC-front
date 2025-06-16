@@ -59,6 +59,11 @@ export default function PostsWidget() {
     setCategoryName(value)
   }, [])
 
+  const handleRoute = useCallback((post: post) => () => {
+    setPost(post);
+    R.push(`/detail/${post.id}`);
+  }, [R, setPost])
+
   return (
     <div className="w-full max-w-[37.5rem]">
       <Search
@@ -81,32 +86,23 @@ export default function PostsWidget() {
       </div>
       <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
-          {resultPosts && resultPosts.length > 0 ? resultPosts.map((post) => (
+          {resultPosts.length > 0 ? resultPosts.map((post) => (
             <Post
               data={post}
               key={post.id}
-              onClick={() => {
-                setPost(post);
-                R.push(`/detail/${post.id}`);
-              }}
+              onClick={handleRoute(post)}
             />
           )) : (categoryName === "DRAFT" ? draftPosts.map((post) => (
             <Post
               data={post}
               key={post.id}
-              onClick={() => {
-                setPost(post);
-                R.push(`/detail/${post.id}`);
-              }}
+              onClick={handleRoute(post)}
             />
           )) : posts.map((post) => (
             <Post
               data={post}
               key={post.id}
-              onClick={() => {
-                setPost(post);
-                R.push(`/detail/${post.id}`);
-              }}
+              onClick={handleRoute(post)}
             />
           )))}
         </div>
