@@ -3,9 +3,9 @@ import { InputContainer } from '@repo/shared/inputContainer'
 import React from 'react'
 import type { Control } from 'react-hook-form';
 
-import type { ChangePasswordProps } from '@/shared/model/changePWForm';
+import type { ChangePasswordForm } from '@/shared/model/changePWForm';
 
-export default function ChangePassword({ control }: { control: Control<ChangePasswordProps> }) {
+export default function ChangePassword({ control }: { control: Control<ChangePasswordForm> }) {
   return (
     <>
       <InputContainer label="이메일">
