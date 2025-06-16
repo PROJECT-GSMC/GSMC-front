@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { getSearchResult } from "../api/getSearchResult";
 
 interface SearchProps {
-  setResult: (result: EvidenceResponse[]) => void;
+  setResult: (result: EvidenceResponse) => void;
   search: string;
   setSearch: (search: string) => void;
   type?: string;
@@ -24,7 +24,7 @@ const Search = ({ setResult, search, type, setSearch }: SearchProps) => {
 
       try {
         const search = await getSearchResult(debouncedValue, type);
-        setResult(search.data as EvidenceResponse[]);
+        setResult(search.data as EvidenceResponse);
       } catch {
         toast.error("")
       }
