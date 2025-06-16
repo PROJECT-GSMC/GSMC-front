@@ -5,7 +5,7 @@ import { deleteCookie } from "@repo/utils/deleteCookie";
 import { getCookie } from "@repo/utils/getCookie";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const Header = () => {
   const pathname = usePathname();
@@ -17,11 +17,11 @@ const Header = () => {
     setAccessToken(token);
   }, []);
 
-  const signout = () => {
+  const signout = useCallback(() => {
     deleteCookie("accessToken");
     deleteCookie("refreshToken");
     router.push("/signin");
-  };
+  }, [router]);
 
   interface HeaderType {
     href: string;
@@ -75,7 +75,7 @@ const Header = () => {
             </Link>
             <li
               className="text-errors-500 cursor-pointer"
-              onClick={() => signout()}
+              onClick={signout}
             >
               로그아웃
             </li>
