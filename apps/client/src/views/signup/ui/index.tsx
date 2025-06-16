@@ -2,15 +2,16 @@
 
 import { Button } from "@repo/shared/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { postSignup } from "@/entities/signup/api/postSignup";
 import type { HttpError } from "@/shared/types/error";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-import type { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
+import type { AuthStepForm, SignupFormProps, SignupResponse, SignupStepForm } from "@shared/model/AuthForm";
 import { AuthForm } from "@widgets/auth/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
 import StepPassword from "@widgets/stepPassword/ui";
@@ -27,23 +28,25 @@ const SignupView = () => {
     mutate: signupMutate,
     isPending,
     isSuccess,
-  } = useMutation({
-    mutationFn: (form: SignupFormProps) => postSignup(form),
-    onSuccess: (data) => {
-      queryClient.invalidateQueries({
+  } = useMutation<SignupResponse, HttpError, SignupFormProps>({
+    mutationFn: postSignup,
+    onSuccess: async (data) => {
+      await queryClient.invalidateQueries({
         queryKey: ["auth"],
         exact: false,
       });
-      return data;
+      if (data.success) {
+        toast.success("회원가입 성공");
+      }
     },
-    onError: (error: HttpError) => {
-      if (error.httpStatus == 401) {
-        toast.error("이메일 인증을 먼저 진행해주세요.")
+    onError: (error) => {
+      if (error.httpStatus === HttpStatusCode.Unauthorized) {
+        toast.error("이메일 인증을 먼저 진행해주세요.");
+      } else if (error.httpStatus === HttpStatusCode.Conflict) {
+        toast.error("이미 회원가입 된 계정입니다.");
+      } else {
+        toast.error("회원가입에 실패했습니다.");
       }
-      else if (error.httpStatus == 409) {
-        toast.error("이미 회원가입 된 계정입니다.")
-      }
-      throw error;
     },
   });
 
@@ -91,52 +94,74 @@ const SignupView = () => {
       !authErrors.authcode
     );
 
-  const isPasswordValid = (data: SignupStepForm) =>
-    Boolean(
-      data.password &&
-      data.passwordCheck &&
-      data.password === data.passwordCheck &&
-      !signupErrors.password &&
-      !signupErrors.passwordCheck
-    );
+  const isPasswordValid = useCallback(
+    (data: SignupStepForm) =>
+      Boolean(
+        data.password &&
+        data.passwordCheck &&
+        data.password === data.passwordCheck &&
+        !signupErrors.password &&
+        !signupErrors.passwordCheck
+      ),
+    [signupErrors.password, signupErrors.passwordCheck]
+  );
 
-  const handleVerifyEmail = async (data: AuthStepForm) => {
-    if (!canProceedToPassword || isAuthVerifying) return;
+  const handleVerifyEmail = useCallback(
+    async (data: AuthStepForm) => {
+      if (!canProceedToPassword || isAuthVerifying) return;
 
-    try {
-      setIsAuthVerifying(true);
-      const response = await patchVerifyEmail(Number(data.authcode));
+      try {
+        setIsAuthVerifying(true);
+        const response = await patchVerifyEmail(Number(data.authcode));
 
-      if (response.status === 204) {
-        setVerifiedInfo({ name: data.name, email: data.email });
-        setStep("password");
-        toast.success("이메일 인증이 완료되었습니다.");
+        if (response.status === 204) {
+          setVerifiedInfo({ name: data.name, email: data.email });
+          setStep("password");
+          toast.success("이메일 인증이 완료되었습니다.");
+        }
+      } catch {
+        toast.error("인증코드가 일치하지 않습니다.");
+      } finally {
+        setIsAuthVerifying(false);
       }
-    } catch {
-      toast.error("인증코드가 일치하지 않습니다.");
-    } finally {
-      setIsAuthVerifying(false);
-    }
-  };
+    },
+    [canProceedToPassword, isAuthVerifying]
+  );
 
-  const onSubmit = async (data: SignupStepForm) => {
-    if (!verifiedInfo) {
-      toast.error("이메일 인증이 필요합니다.");
-      setStep("authCode");
-      return;
-    }
+  const onSubmit = useCallback(
+    (data: SignupStepForm) => {
+      if (!verifiedInfo) {
+        toast.error("이메일 인증이 필요합니다.");
+        setStep("authCode");
+        return;
+      }
 
-    if (step === "password" && isPasswordValid(data) && !isPending) {
-      signupMutate({
-        email: verifiedInfo.email,
-        name: verifiedInfo.name,
-        password: data.password
-      });
-    }
-    if (isSuccess) {
-      router.push("/signin");
-    }
-  };
+      if (step === "password" && isPasswordValid(data) && !isPending) {
+        signupMutate({
+          email: verifiedInfo.email,
+          name: verifiedInfo.name,
+          password: data.password
+        });
+      }
+      if (isSuccess) {
+        router.push("/signin");
+      }
+    },
+    [verifiedInfo, setStep, step, isPasswordValid, isPending, signupMutate, isSuccess, router]
+  );
+
+  const handleAuthCodeSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    void handleAuthSubmit(handleVerifyEmail)(e);
+  },
+    [handleAuthSubmit, handleVerifyEmail]
+  );
+
+  const handlePasswordSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    void handleSignupSubmit(onSubmit)(e);
+  },
+    [handleSignupSubmit, onSubmit]
+  );
+
 
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
@@ -144,7 +169,7 @@ const SignupView = () => {
         {step === "authCode" ? (
           <form
             className="flex flex-col w-full items-center gap-[3.625rem]"
-            onSubmit={handleAuthSubmit(handleVerifyEmail)}
+            onSubmit={handleAuthCodeSubmit}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepAuthCode
@@ -162,7 +187,7 @@ const SignupView = () => {
         ) : (
           <form
             className="flex flex-col w-full items-center gap-[3.625rem]"
-            onSubmit={handleSignupSubmit(onSubmit)}
+            onSubmit={handlePasswordSubmit}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepPassword control={signupControl} />

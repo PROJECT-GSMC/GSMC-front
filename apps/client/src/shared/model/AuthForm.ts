@@ -29,3 +29,8 @@ export interface SignupFormProps {
   password: string;
   name: string;
 }
+
+export interface SignupResponse {
+  success: boolean;
+  message?: string;
+}
