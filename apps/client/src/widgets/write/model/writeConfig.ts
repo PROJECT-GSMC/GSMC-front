@@ -27,7 +27,7 @@ export const getWriteConfig = (
           if (data.file) {
             formData.append("file", data.file);
           }
-          formData.append("categoryName", data.categoryName?.send || "");
+          formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("title", data.title || "");
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
@@ -45,7 +45,7 @@ export const getWriteConfig = (
           if (data.file) {
             formData.append("file", data.file);
           }
-          formData.append("categoryName", data.categoryName?.send || "");
+          formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("title", data.title || "");
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
@@ -60,7 +60,7 @@ export const getWriteConfig = (
         onSubmit: async (data: FormValues, type) => {
           const bookData = {
             title: data.title || "",
-            author: data.author || "",
+            author: data.author ?? "",
             page: Number(data.page) || 0,
             content: data.content || "",
           };
@@ -71,7 +71,9 @@ export const getWriteConfig = (
     case "others": {
       return {
         title: "기타 증빙 자료",
-        onSubmit: async () => {},
+        onSubmit: async () => {
+          // No submission logic implemented for 'others' category yet.
+        },
       };
     }
     case "foreign": {
@@ -83,9 +85,9 @@ export const getWriteConfig = (
           if (data.file) {
             formData.append("file", data.file);
           }
-          formData.append("categoryName", data.categoryName?.send || "");
+          formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("value", data.title || "");
-          sendScore(formData);
+          await sendScore(formData);
         },
       };
     }
