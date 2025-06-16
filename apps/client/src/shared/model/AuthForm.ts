@@ -30,7 +30,7 @@ export interface SignupFormProps {
   name: string;
 }
 
-export interface SignupResponse {
+export interface ServerResponse {
   success: boolean;
   message?: string;
 }
