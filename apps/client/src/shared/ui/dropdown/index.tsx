@@ -43,12 +43,13 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
 
   const handleButtonClick = useCallback(() => {
     setIsOpen((prev) => !prev);
-  }, [setIsOpen]);
+  }, []);
 
-  const handleSelect = useCallback((option: Option) => {
+  const handleSelect = useCallback((option: Option) => () => {
     onChange(option);
     setIsOpen(false);
-  }, [onChange, setIsOpen]);
+
+  }, [onChange]);
 
   return (
     <div
@@ -79,7 +80,7 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
           <li
             className="rounded-[0.625rem] text-left px-[1.5rem] py-[1rem] hover:bg-gray-100 cursor-pointer"
             key={index}
-            onClick={() => { handleSelect(option); }}
+            onClick={handleSelect(option)}
           >
             <div className="flex gap-1 sm:gap-2">
               <span>{option.name}</span>
