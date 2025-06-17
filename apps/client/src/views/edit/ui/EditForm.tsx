@@ -1,15 +1,17 @@
 "use client";
 
-import { Controller, useForm, useWatch } from "react-hook-form";
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
-import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
-import type { EditFormProps, FormValues, Option } from "@/widgets/edit/types/types";
-import { getEditConfig } from "@/widgets/edit/model/config";
+
+import { Dropdown, File, Header, Textarea } from "@/shared/ui";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
+import { getEditConfig } from "@/widgets/edit/model/config";
+import type { EditFormProps, FormValues, Option } from "@/widgets/edit/types/types";
 
 const EditForm = ({ type, post }: EditFormProps) => {
   const router = useRouter();
@@ -31,16 +33,31 @@ const EditForm = ({ type, post }: EditFormProps) => {
 
   const file = useWatch<FormValues>({ control, name: "file" });
 
-  const handleFormSubmit = async (data: FormValues) => {
-    try {
-      await config.onSubmit(data, post.id);
-      toast.success("수정이 완료되었습니다.");
-      router.back();
-    } catch (error: unknown) {
-      console.error(error);
-      toast.error("수정에 실패했습니다.");
-    }
-  };
+  const handleFormSubmit = useCallback(
+    async (data: FormValues) => {
+      try {
+        await config.onSubmit(data, post.id);
+        toast.success("수정이 완료되었습니다.");
+        router.back();
+      } catch {
+        toast.error("수정에 실패했습니다.");
+      }
+    },
+    [config, post.id, router]
+  );
+
+  const handleReviseSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      void handleSubmit(handleFormSubmit)(e);
+    },
+    [handleSubmit, handleFormSubmit]
+  );
+
+  const handleBack = useCallback(() => {
+    router.back();
+  }, [router]);
+
+
 
   if (type === "others") {
     return (
@@ -68,10 +85,10 @@ const EditForm = ({ type, post }: EditFormProps) => {
             </div>
             <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
               <Button
-                type="button"
-                onClick={() => router.back()}
-                variant="blue"
                 label="뒤로가기"
+                type="button"
+                variant="blue"
+                onClick={handleBack}
               />
             </div>
           </div>
@@ -88,32 +105,31 @@ const EditForm = ({ type, post }: EditFormProps) => {
         </h1>
         <form
           className="flex sm:gap-[2rem] gap-[1.5rem] flex-col"
-          onSubmit={handleSubmit(handleFormSubmit)}
+          onSubmit={handleReviseSubmit}
         >
           {(type === "major" || type === "humanities") &&
-            config.categoryOptions && (
-              <Controller<FormValues>
-                name="categoryName"
-                control={control}
-                rules={{
-                  required: "카테고리를 선택해주세요.",
-                }}
-                render={({ field: { value, onChange, ...field } }) => (
-                  <Dropdown
-                    label="카테고리"
-                    options={config.categoryOptions || []}
-                    value={value as Option}
-                    onChange={onChange}
-                    {...field}
-                  />
-                )}
+            config.categoryOptions ? <Controller<FormValues>
+            control={control}
+            name="categoryName"
+            // eslint-disable-next-line react/jsx-no-bind
+            render={({ field: { value, onChange, ...field } }) => (
+              <Dropdown
+                label="카테고리"
+                options={config.categoryOptions ?? []}
+                value={value as Option}
+                onChange={onChange}
+                {...field}
               />
             )}
+            rules={{
+              required: "카테고리를 선택해주세요.",
+            }}
+          /> : null}
 
           <InputContainer label="제목">
             <Input<FormValues>
-              name="title"
               control={control}
+              name="title"
               rules={{
                 required: "제목을 입력해주세요.",
               }}
@@ -124,8 +140,8 @@ const EditForm = ({ type, post }: EditFormProps) => {
             <>
               <InputContainer label="저자">
                 <Input<FormValues>
-                  name="author"
                   control={control}
+                  name="author"
                   rules={{
                     required: "저자를 입력해주세요.",
                   }}
@@ -133,8 +149,8 @@ const EditForm = ({ type, post }: EditFormProps) => {
               </InputContainer>
               <InputContainer label="페이지">
                 <Input<FormValues>
-                  name="page"
                   control={control}
+                  name="page"
                   rules={{
                     required: "페이지를 입력해주세요.",
                   }}
@@ -144,20 +160,9 @@ const EditForm = ({ type, post }: EditFormProps) => {
           )}
 
           <Controller<FormValues>
-            name="content"
             control={control}
-            rules={{
-              required: "내용을 입력해주세요.",
-              minLength: {
-                value: type === "reading" ? 600 : file ? 200 : 400,
-                message:
-                  type === "reading"
-                    ? "600자 이상 입력해주세요."
-                    : file
-                      ? "내용을 200자 이상 입력해주세요."
-                      : "내용을 400자 이상 입력해주세요.",
-              },
-            }}
+            name="content"
+            // eslint-disable-next-line react/jsx-no-bind
             render={({ field: { value, onChange, ...field } }) => (
               <Textarea
                 isBook={type === "reading"}
@@ -166,12 +171,25 @@ const EditForm = ({ type, post }: EditFormProps) => {
                 {...field}
               />
             )}
+            rules={{
+              required: "내용을 입력해주세요.",
+              minLength: {
+                value: type === "reading" ? 600 : (file == null ? 400 : 200),
+                message:
+                  type === "reading"
+                    ? "600자 이상 입력해주세요."
+                    : (file == null
+                      ? "내용을 400자 이상 입력해주세요."
+                      : "내용을 200자 이상 입력해주세요."),
+              },
+            }}
           />
 
           {(type === "major" || type === "humanities") && (
             <Controller<FormValues>
-              name="file"
               control={control}
+              name="file"
+              // eslint-disable-next-line react/jsx-no-bind
               render={({ field: { value, onChange, ...field } }) => (
                 <File
                   label="이미지 (변경하지 않으려면 비워두세요)"
@@ -185,16 +203,16 @@ const EditForm = ({ type, post }: EditFormProps) => {
 
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             <Button
-              type="submit"
-              state={isValid ? "default" : "disabled"}
-              variant="blue"
               label="수정 완료"
+              state={isValid ? "default" : "disabled"}
+              type="submit"
+              variant="blue"
             />
             <Button
-              type="button"
-              onClick={() => router.back()}
-              variant="skyblue"
               label="취소"
+              type="button"
+              variant="skyblue"
+              onClick={handleBack}
             />
           </div>
         </form>

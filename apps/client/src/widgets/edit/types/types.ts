@@ -11,7 +11,7 @@ export interface FormValues {
   categoryName?: Option;
   file?: File;
   author?: string;
-  page?: number;
+  page?: string;
   value?: string | number;
 }
 

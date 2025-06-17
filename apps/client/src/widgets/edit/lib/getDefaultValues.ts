@@ -13,7 +13,7 @@ export const getDefaultValues = (
     return {
       title: post.title,
       author: post.author,
-      page: post.page,
+      page: String(post.page),
       content: post.content,
     };
   }
@@ -27,7 +27,7 @@ export const getDefaultValues = (
     const defaultCategory =
       config.categoryOptions?.find(
         (option) => option.send === post.categoryName
-      ) || config.categoryOptions?.[0];
+      ) ?? config.categoryOptions?.[0];
 
     return {
       title: post.title,

@@ -1,6 +1,6 @@
 "use client";
 
-import type { post as postType, Activity } from "@repo/types/evidences";
+import type { post, Activity } from "@repo/types/evidences";
 import { isActivity, isReading } from "@repo/utils/handlePost";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
@@ -18,11 +18,11 @@ const EditView = () => {
     toast.error("게시물을 불러오지 못했습니다.");
   }
 
-  const posts: postType[] = [
-    ...(data?.data?.majorActivityEvidence ?? []),
-    ...(data?.data?.humanitiesActivityEvidence ?? []),
-    ...(data?.data?.readingEvidence ?? []),
-    ...(data?.data?.otherEvidence ?? []),
+  const posts: post[] = [
+    ...(data?.data.majorActivityEvidence ?? []),
+    ...(data?.data.humanitiesActivityEvidence ?? []),
+    ...(data?.data.readingEvidence ?? []),
+    ...(data?.data.otherEvidence ?? []),
   ];
 
   const post = posts.find((post) => post.id === Number(id));
@@ -33,18 +33,18 @@ const EditView = () => {
 
   const isMajorActivity =
     isActivity(post) &&
-    data?.data?.majorActivityEvidence?.some((p: Activity) => p.id === post.id);
+    data?.data.majorActivityEvidence.some((p: Activity) => p.id === post.id);
 
   const isHumanitiesActivity =
     isActivity(post) &&
-    data?.data?.humanitiesActivityEvidence?.some(
+    data?.data.humanitiesActivityEvidence.some(
       (p: Activity) => p.id === post.id
     );
 
   let type: "major" | "humanities" | "reading" | "others";
-  if (isMajorActivity) {
+  if (isMajorActivity ?? false) {
     type = "major";
-  } else if (isHumanitiesActivity) {
+  } else if (isHumanitiesActivity ?? false) {
     type = "humanities";
   } else if (isReading(post)) {
     type = "reading";
