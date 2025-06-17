@@ -1,6 +1,7 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -25,16 +26,84 @@ const Modal = ({ onClose, type }: ModalProps) => {
     formState: { isValid },
   } = useForm<Evidence>({ mode: "onChange" });
 
+  const handleCloseModal = useCallback((e: React.FormEvent<HTMLDivElement>) => () => {
+    if (e.target === e.currentTarget) onClose()
+  }, [onClose])
+
+  const handleStopPropagation = useCallback((e: React.FormEvent<HTMLDivElement>) => () => {
+    e.stopPropagation();
+  }, [])
+
+  const handleSwitchEvidence = useCallback((data: Evidence) => async () => {
+    switch (type) {
+      case "CERTIFICATE": {
+        const res = await sendCertification({
+          name: data.categoryName,
+          file: data.file,
+          acquisitionDate: String(data.acquisitionDate),
+        });
+        if (res.status === 201) {
+          toast.success("자격증이 등록되었습니다.");
+          onClose();
+        } else if (res.status === 422) {
+          toast.error("이미 등록된 자격증입니다.");
+        } else {
+          toast.error("자격증 등록에 실패했습니다.");
+        }
+
+        break;
+      }
+      case "TOPCIT": {
+        const res = await FixScore({
+          categoryName: "MAJOR-TOPCIT_SCORE",
+          score: Number(data.value),
+        });
+        if (res.status === 201) {
+          toast.success("TOPCIT 점수가 등록되었습니다.");
+          onClose();
+        } else {
+          toast.error("TOPCIT 점수 등록에 실패했습니다.");
+        }
+
+        break;
+      }
+      case "READ_A_THON": {
+        const res = await sendEvidence(data);
+        if (res.status === 201) {
+          toast.success("독서로가 등록되었습니다.");
+          onClose();
+        } else if (res.status === 422) {
+          toast.error(
+            "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요"
+          );
+        } else {
+          toast.error("독서로 등록에 실패했습니다.");
+        }
+
+        break;
+      }
+      case "HUMANITY": {
+        await sendCertification({
+          name: data.option.send,
+          file: data.file,
+          acquisitionDate: String(data.acquisitionDate),
+        });
+      }
+    }
+  }, [onClose, type])
+
+  const handleEvidenceSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    void handleSubmit(handleSwitchEvidence)(e)
+  }, [handleSubmit, handleSwitchEvidence])
+
   return (
     <div
       className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
-      onClick={(e) => {
-        if (e.target === e.currentTarget) onClose();
-      }}
+      onClick={handleCloseModal}
     >
       <div
         className="w-[37.5rem] bg-white md:px-[6.25rem] px-[1.5rem] py-[4.94rem] rounded-xl"
-        onClick={(e) => { e.stopPropagation(); }}
+        onClick={handleStopPropagation}
       >
         <h1 className="text-title4s mb-6 text-center">
           {type === "TOPCIT"
@@ -46,68 +115,13 @@ const Modal = ({ onClose, type }: ModalProps) => {
 
         <form
           className="w-full flex flex-col gap-[1.5rem]"
-          onSubmit={handleSubmit(async (data) => {
-            switch (type) {
-              case "CERTIFICATE": {
-                const res = await sendCertification({
-                  name: data.categoryName,
-                  file: data.file,
-                  acquisitionDate: String(data.acquisitionDate),
-                });
-                if (res.status === 201) {
-                  toast.success("자격증이 등록되었습니다.");
-                  onClose();
-                } else if (res.status === 422) {
-                  toast.error("이미 등록된 자격증입니다.");
-                } else {
-                  toast.error("자격증 등록에 실패했습니다.");
-                }
-
-                break;
-              }
-              case "TOPCIT": {
-                const res = await FixScore({
-                  categoryName: "MAJOR-TOPCIT_SCORE",
-                  score: data.value!,
-                });
-                if (res.status === 201) {
-                  toast.success("TOPCIT 점수가 등록되었습니다.");
-                  onClose();
-                } else {
-                  toast.error("TOPCIT 점수 등록에 실패했습니다.");
-                }
-
-                break;
-              }
-              case "READ_A_THON": {
-                const res = await sendEvidence(data);
-                if (res.status === 201) {
-                  toast.success("독서로가 등록되었습니다.");
-                  onClose();
-                } else if (res.status === 422) {
-                  toast.error(
-                    "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요"
-                  );
-                } else {
-                  toast.error("독서로 등록에 실패했습니다.");
-                }
-
-                break;
-              }
-              default: {
-                sendCertification({
-                  name: data.option.send,
-                  file: data.file,
-                  acquisitionDate: String(data.acquisitionDate),
-                });
-              }
-            }
-          })}
+          onSubmit={handleEvidenceSubmit}
         >
           {type === "HUMANITY" || type === "READ_A_THON" ? (
             <Controller
               control={control}
               name="option"
+              // eslint-disable-next-line react/jsx-no-bind
               render={({ field }) => (
                 <Dropdown
                   label={type === "HUMANITY" ? "자격증" : "독서로"}
@@ -142,6 +156,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
           <Controller
             control={control}
             name="file"
+            // eslint-disable-next-line react/jsx-no-bind
             render={({ field }) => <File label="파일 첨부" {...field} />}
             rules={{ required: true }}
           />
