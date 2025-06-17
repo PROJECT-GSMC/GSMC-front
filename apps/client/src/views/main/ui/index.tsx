@@ -6,7 +6,7 @@ import List from "@repo/shared/list";
 import { getCookie } from "@repo/utils/getCookie";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 import ShowSignin from "@/entities/main/ui/showSignin";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
@@ -15,13 +15,13 @@ import MainDropdown from "@entities/main/ui/dropdown";
 import { ShowInformation } from "@entities/main/ui/showInformation";
 import Modal from "@widgets/main/ui/modal";
 
+import type { ModalType } from "../model/modal";
+
 const MainView = () => {
   const [hoverTab, setHoverTab] = useState<string | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [show, setShow] = useState(false);
-  const [type, setType] = useState<
-    "CERTIFICATE" | "TOPCIT" | "READ_A_THON" | "HUMANITY"
-  >("CERTIFICATE");
+  const [type, setType] = useState<ModalType>("CERTIFICATE");
 
   useEffect(() => {
     const token = getCookie("accessToken");
@@ -38,8 +38,27 @@ const MainView = () => {
   } = useQuery({
     queryKey: ["certifications"],
     queryFn: getCertification,
-    enabled: !!accessToken,
+    enabled: !(accessToken == null),
   });
+
+  const handleHoverDropdown = useCallback((category: string) => () => {
+    setHoverTab(category);
+  }, []);
+
+  const handleLeaveDropdown = useCallback(() => {
+    setHoverTab(null);
+  }, []);
+
+  const handleOpenModal = useCallback((modalname: ModalType) => () => {
+    setType(modalname)
+    setShow(true)
+  }, [])
+
+  const handleCloseModal = useCallback(() => async () => {
+    setShow(false)
+    await refetch()
+  }, [refetch])
+
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
@@ -47,22 +66,22 @@ const MainView = () => {
         <p className="text-center m-8">로딩중...</p>
       ) : (
         <div className="w-full max-w-[37.5rem] flex flex-col">
-          {accessToken ? (
+          {(accessToken == null) ? (
+            <ShowSignin />
+          ) : (
             <ShowInformation
               name={currentUser?.name ?? ""}
               score={currentUser?.totalScore ?? 0}
             />
-          ) : (
-            <ShowSignin />
           )}
           <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
             <div
               className="relative w-full"
-              onMouseEnter={() => { setHoverTab("독서"); }}
-              onMouseLeave={() => { setHoverTab(null); }}
+              onMouseEnter={handleHoverDropdown("독서")}
+              onMouseLeave={handleLeaveDropdown}
             >
               <Button label="독서" variant="skyblue" />
-              <MainDropdown isOpen={!!accessToken && hoverTab === "독서"}>
+              <MainDropdown isOpen={!(accessToken == null) && hoverTab === "독서"}>
                 <Link
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/write?type=reading"
@@ -72,10 +91,7 @@ const MainView = () => {
                 </Link>
                 <div
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                  onClick={async () => {
-                    await setType("READ_A_THON");
-                    setShow(true);
-                  }}
+                  onClick={handleOpenModal("READ_A_THON")}
                 >
                   <p>독서로 단계 입력</p>
                   <p>{">"}</p>
@@ -84,11 +100,11 @@ const MainView = () => {
             </div>
             <div
               className="relative w-full"
-              onMouseEnter={() => { setHoverTab("인성"); }}
-              onMouseLeave={() => { setHoverTab(null); }}
+              onMouseEnter={handleHoverDropdown("인성")}
+              onMouseLeave={handleLeaveDropdown}
             >
               <Button label="인성" variant="skyblue" />
-              <MainDropdown isOpen={!!accessToken && hoverTab === "인성"}>
+              <MainDropdown isOpen={!(accessToken == null) && hoverTab === "인성"}>
                 <Link
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/write?type=humanities"
@@ -98,10 +114,7 @@ const MainView = () => {
                 </Link>
                 <div
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                  onClick={async () => {
-                    await setType("HUMANITY");
-                    setShow(true);
-                  }}
+                  onClick={handleOpenModal("HUMANITY")}
                 >
                   <p>인성영역 자격증</p>
                   <p>{">"}</p>
@@ -110,11 +123,11 @@ const MainView = () => {
             </div>
             <div
               className="relative w-full"
-              onMouseEnter={() => { setHoverTab("전공"); }}
-              onMouseLeave={() => { setHoverTab(null); }}
+              onMouseEnter={handleHoverDropdown("전공")}
+              onMouseLeave={handleLeaveDropdown}
             >
               <Button label="전공" variant="skyblue" />
-              <MainDropdown isOpen={!!accessToken && hoverTab === "전공"}>
+              <MainDropdown isOpen={!(accessToken == null) && hoverTab === "전공"}>
                 <Link
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
                   href="/write?type=major"
@@ -124,20 +137,14 @@ const MainView = () => {
                 </Link>
                 <div
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                  onClick={async () => {
-                    await setType("TOPCIT");
-                    setShow(true);
-                  }}
+                  onClick={handleOpenModal("TOPCIT")}
                 >
                   <p>TOPCIT 점수</p>
                   <p>{">"}</p>
                 </div>
                 <div
                   className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                  onClick={async () => {
-                    await setType("CERTIFICATE");
-                    setShow(true);
-                  }}
+                  onClick={handleOpenModal("CERTIFICATE")}
                 >
                   <p>전공 자격증</p>
                   <p>{">"}</p>
@@ -151,10 +158,14 @@ const MainView = () => {
           <div className="flex flex-col my-9 mx-4">
             <List title="자격증">
               <section className="relative h-[28.125rem]">
-                {accessToken ? (
-                  certification?.data?.certificates &&
-                    certification?.data?.certificates.length > 0 ? (
-                    certification?.data?.certificates?.map((v, i) => (
+                {(accessToken == null) ? (
+                  <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
+                    로그인 후 확인가능합니다.
+                  </h4>
+                ) : (
+                  certification?.data.certificates &&
+                    certification.data.certificates.length > 0 ? (
+                    certification.data.certificates.map((v, i) => (
                       <Card front={v.name} id={v.id} key={i} />
                     ))
                   ) : (
@@ -162,10 +173,6 @@ const MainView = () => {
                       등록된 자격증이 존재하지 않습니다.
                     </h4>
                   )
-                ) : (
-                  <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
-                    로그인 후 확인가능합니다.
-                  </h4>
                 )}
               </section>
             </List>
@@ -174,10 +181,7 @@ const MainView = () => {
       )}
       {show ? <Modal
         type={type}
-        onClose={() => {
-          setShow(false);
-          refetch();
-        }}
+        onClose={handleCloseModal}
       /> : null}
     </div>
   );
