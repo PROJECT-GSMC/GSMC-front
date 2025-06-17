@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@repo/shared/button";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 
 import { Minus } from "@shared/asset/svg/minus";
@@ -32,12 +32,13 @@ export const Calculate = () => {
 
   const { control } = useForm();
 
-  const handlePlusWithScore = (page: string) => {
+  const handlePlusWithScore = useCallback((page: string) => () => {
     const selected = selectedOptions[page];
     if (selected?.id == null) return;
 
+    const selectedId = selected.id;
     const currentSendCount = categoryCounts[selected.send] ?? 0;
-    const currentIdCount = idCounts[selected.id] ?? 0;
+    const currentIdCount = idCounts[selectedId] ?? 0;
     const max =
       Number.parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "") || 1;
     const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
@@ -48,15 +49,17 @@ export const Calculate = () => {
       }));
       setIdCounts((prev) => ({
         ...prev,
-        [selected.id!]: currentIdCount + 1,
+        [selectedId]: currentIdCount + 1,
       }));
       setTotalScore((prev) => prev + score);
     }
-  };
-  const handleMinusWithScore = (page: string) => {
+  }, [categoryCounts, idCounts, selectedOptions]);
+
+  const handleMinusWithScore = useCallback((page: string) => () => {
     const selected = selectedOptions[page];
     if (selected?.id == null) return;
 
+    const selectedId = selected.id;
     const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
     const currentSendCount = categoryCounts[selected.send] ?? 0;
     const currentIdCount = idCounts[selected.id] ?? 0;
@@ -67,11 +70,32 @@ export const Calculate = () => {
       }));
       setIdCounts((prev) => ({
         ...prev,
-        [selected.id!]: currentIdCount - 1,
+        [selectedId]: currentIdCount - 1,
       }));
       setTotalScore((prev) => prev - score);
     }
-  };
+  }, [categoryCounts, idCounts, selectedOptions]);
+
+  const handleCalcPage = useCallback((item: string) => () => {
+    setPage(item)
+  }, [])
+
+  const handleBookMinus = useCallback(() => {
+    if (bookCount > 0) {
+      setBookCount((prev) => prev - 1);
+      setTotalScore((prev) => prev - 10);
+    }
+  }, [bookCount])
+
+  const handleBookPlus = useCallback(() => {
+    if (bookCount < 10) {
+      setBookCount((prev) => prev + 1);
+      setTotalScore((prev) => prev + 10);
+    }
+  }, [bookCount])
+
+
+
   return (
     <div className="flex flex-col gap-[1.5rem] w-full h-[30rem]">
       <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
@@ -81,7 +105,7 @@ export const Calculate = () => {
             label={item}
             state="default"
             variant={page === item ? "blue" : "skyblue_hover"}
-            onClick={() => { setPage(item); }}
+            onClick={handleCalcPage(item)}
           />
         ))}
       </div>
@@ -95,18 +119,13 @@ export const Calculate = () => {
                   className={
                     bookCount === 0
                       ? `text-[#828387] group-hover:text-[#828387]`
-                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                      : `text-tropicalblue-500 group-hover:text-tropicalblue-100`
                   }
                 />
               }
               state={bookCount === 0 ? "disabled" : "default"}
               variant="skyblue_hover"
-              onClick={() => {
-                if (bookCount > 0) {
-                  setBookCount((prev) => prev - 1);
-                  setTotalScore((prev) => prev - 10);
-                }
-              }}
+              onClick={handleBookMinus}
             />
             <p className="basis-4/6 bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
               {bookCount}
@@ -118,18 +137,13 @@ export const Calculate = () => {
                   className={
                     bookCount === 10
                       ? `text-[#828387] group-hover:text-[#828387]`
-                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                      : `text-tropicalblue-500 group-hover:text-tropicalblue-100`
                   }
                 />
               }
               state={bookCount === 10 ? "disabled" : "default"}
               variant="skyblue_hover"
-              onClick={() => {
-                if (bookCount < 10) {
-                  setBookCount((prev) => prev + 1);
-                  setTotalScore((prev) => prev + 10);
-                }
-              }}
+              onClick={handleBookPlus}
             />
           </div>
         </div>
@@ -139,6 +153,8 @@ export const Calculate = () => {
           <Controller
             control={control}
             name={`category-${page}`}
+
+            // eslint-disable-next-line react/jsx-no-bind
             render={({ field }) => (
               <Dropdown
                 label="카테고리"
@@ -150,6 +166,7 @@ export const Calculate = () => {
                       : foreignCategoryOptions)
                 }
                 value={selectedOptions[page] ?? undefined}
+                // eslint-disable-next-line react/jsx-no-bind
                 onChange={(option) => {
                   setSelectedOptions((prev) => ({ ...prev, [page]: option }));
                   field.onChange(option);
@@ -167,7 +184,7 @@ export const Calculate = () => {
                     !selectedOptions[page] ||
                       (categoryCounts[selectedOptions[page].send] ?? 0) === 0
                       ? "text-[#828387] group-hover:text-[#828387]"
-                      : "text-[#5E97FC] group-hover:text-[#DFEAFE]"
+                      : "text-tropicalblue-500 group-hover:text-tropicalblue-100"
                   }
                 />
               }
@@ -178,7 +195,7 @@ export const Calculate = () => {
                   : "default"
               }
               variant="skyblue_hover"
-              onClick={() => { handleMinusWithScore(page); }}
+              onClick={handleMinusWithScore(page)}
             />
             <p className="basis-4/6 bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
               {selectedOptions[page]
@@ -188,11 +205,11 @@ export const Calculate = () => {
             <Button
               className="group basis-1/6"
               label={
-                <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
+                <Plus className="text-tropicalblue-500 group-hover:text-tropicalblue-100" />
               }
               state="default"
               variant="skyblue_hover"
-              onClick={() => { handlePlusWithScore(page); }}
+              onClick={handlePlusWithScore(page)}
             />
           </div>
         </div>
