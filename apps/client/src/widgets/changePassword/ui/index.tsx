@@ -24,7 +24,7 @@ export default function ChangePassword({ control }: { control: Control<ChangePas
       <InputContainer label="새 비밀번호" >
         <Input
           control={control}
-          name="newPassword"
+          name="password"
           rules={{
             required: "비밀번호를 필수로 입력해야 합니다."
           }}
@@ -34,11 +34,11 @@ export default function ChangePassword({ control }: { control: Control<ChangePas
       <InputContainer label="새 비밀번호 확인" >
         <Input
           control={control}
-          name="newPasswordCheck"
+          name="passwordCheck"
           rules={{
             required: "비밀번호 확인을 필수로 입력해야 합니다.",
             validate: (value, formValues) =>
-              value === formValues.newPassword || "비밀번호가 일치하지 않습니다."
+              value === formValues.password || "비밀번호가 일치하지 않습니다."
           }}
           type="password"
         />

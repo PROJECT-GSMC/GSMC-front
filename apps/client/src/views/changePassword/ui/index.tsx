@@ -34,13 +34,13 @@ const ChangePasswordView = () => {
     formState: { isValid },
   } = useForm<ChangePasswordForm>({
     mode: "onChange",
-    defaultValues: { email: "", newPassword: "", newPasswordCheck: "" },
+    defaultValues: { email: "", password: "", passwordCheck: "" },
   });
 
   const onSubmit = useCallback((form: ChangePasswordProps) => {
     changePWMutate({
       email: form.email,
-      newPassword: form.newPassword
+      password: form.password
     });
   }, [changePWMutate]);
 
