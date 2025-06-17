@@ -8,7 +8,7 @@ import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Dropdown, File, Header, Textarea } from "@/shared/ui";
+import { Dropdown, File, Textarea } from "@/shared/ui";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
 import { getEditConfig } from "@/widgets/edit/model/config";
 import type { EditFormProps, FormValues, Option } from "@/widgets/edit/types/types";
@@ -62,7 +62,6 @@ const EditForm = ({ type, post }: EditFormProps) => {
   if (type === "others") {
     return (
       <div className="flex flex-col items-center">
-        <Header />
         <div className="px-4 flex-col justify-center w-full max-w-[37.5rem]">
           <h1 className="text-tropicalblue-700 text-title4s sm:text-titleMedium my-[1rem] sm:my-[2.38rem] mb-6">
             {config.title}
