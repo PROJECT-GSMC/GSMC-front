@@ -12,8 +12,7 @@ export const handleSubmitBook = async (
     await (submitType === "draft" ? saveBookDraft(data) : sendBook(data));
     toast.success(submitType === "draft" ? "임시저장 완료" : "제출 완료");
     return true;
-  } catch (error) {
-    console.error(error);
+  } catch {
     toast.error(submitType === "draft" ? "임시저장 실패" : "제출 실패");
     return false;
   }
