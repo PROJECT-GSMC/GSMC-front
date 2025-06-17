@@ -1,7 +1,7 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { type Control, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -16,13 +16,14 @@ export default function StepAuthCode({
   isAuthButtonActive: boolean;
 }) {
   const [isLoading, setIsLoading] = useState(false);
+  const [show, setShow] = useState(false);
 
   const email = useWatch({
     control,
     name: "email",
   });
 
-  const handleAuthButtonClick = async () => {
+  const handleAuthButtonClick = useCallback(async () => {
     if (isAuthButtonActive && !isLoading) {
       try {
         setIsLoading(true);
@@ -34,9 +35,12 @@ export default function StepAuthCode({
         setIsLoading(false);
       }
     }
-  };
+  }, [email, isAuthButtonActive, isLoading]);
 
-  const [show, setShow] = useState(false);
+  const handleAuthCodeClick = useCallback(() => async () => {
+    await handleAuthButtonClick()
+    setShow(true)
+  }, [handleAuthButtonClick])
 
   return (
     <>
@@ -68,10 +72,7 @@ export default function StepAuthCode({
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
             type="submit"
             variant="blue"
-            onClick={() => {
-              handleAuthButtonClick();
-              setShow(true);
-            }}
+            onClick={handleAuthCodeClick}
           />
         </div>
       </InputContainer>
