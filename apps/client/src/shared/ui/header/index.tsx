@@ -46,7 +46,7 @@ const Header = () => {
       active: pathname === "/posts",
     },
   ];
-  if (pathname === "/signin" || pathname === "/signup") return null;
+  if (pathname === "/signin" || pathname === "/signup" || pathname === "/changePassword") return null;
   return (
     <header className="w-full py-[1.38rem] flex justify-around border-b px-4">
       <div className="w-full max-w-[37.5rem] flex items-center justify-between">
