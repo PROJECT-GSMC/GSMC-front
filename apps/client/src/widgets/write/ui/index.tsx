@@ -4,10 +4,10 @@ import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useRef } from "react";
+import { useCallback, useRef } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
-import { Dropdown, File, Header, Textarea } from "@/shared/ui";
+import { Dropdown, File, Textarea } from "@/shared/ui";
 import type { Option } from "@/shared/ui/dropdown";
 import type { FormValues } from "@/widgets/edit/types/types";
 import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
@@ -18,9 +18,7 @@ export default function WriteForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const type = searchParams.get("type");
-  const config = getWriteConfig(
-    type as "major" | "humanities" | "reading" | "others" | "foreign"
-  );
+  const config = getWriteConfig(type as "major" | "humanities" | "reading" | "others" | "foreign");
 
   const submitTypeRef = useRef<"draft" | "submit">("submit");
 
@@ -52,54 +50,63 @@ export default function WriteForm() {
     category?.name === "TOEIC SPEAKING" ||
     category?.name === "HSK";
 
-  const handleFormSubmit = async (data: FormValues) => {
+  const handleFormSubmit = useCallback(async (data: FormValues) => {
     await config.onSubmit(data, submitTypeRef.current);
     router.push("/");
-  };
+  }, [config, router])
+
+  const handleCategorySubmit = useCallback(() => {
+    handleSubmit(handleFormSubmit)
+  }, [handleFormSubmit, handleSubmit])
+
+  const handleTemporarySave = useCallback(() => async () => {
+    await handleFormSubmit(getValues())
+  }, [getValues, handleFormSubmit])
+
+  const handleSubmissionSubmit = useCallback(() => {
+    submitTypeRef.current = "submit"
+  }, [])
 
   return (
     <div className="flex flex-col items-center">
-      <Header />
       <div className="px-4 flex-col justify-center w-full max-w-[37.5rem]">
         <h1 className="text-tropicalblue-700 text-title4s sm:text-titleMedium my-[1rem] sm:my-[2.38rem] mb-6">
           {config.title}
         </h1>
         <form
           className="flex sm:gap-[2rem] gap-[1.5rem] flex-col"
-          onSubmit={handleSubmit(handleFormSubmit)}
+          onSubmit={handleCategorySubmit}
         >
           {(type === "major" || type === "humanities" || type === "foreign") &&
             config.categoryOptions ? <Controller<FormValues>
             control={control}
             name="categoryName"
+            // eslint-disable-next-line react/jsx-no-bind
             render={({ field: { value, onChange, ...field } }) => (
               <Dropdown
                 label="카테고리"
-                options={config.categoryOptions || []}
+                options={config.categoryOptions ?? []}
                 value={value as Option}
                 onChange={onChange}
                 {...field}
               />
             )}
-            rules={{
-              required: "카테고리를 선택해주세요.",
-            }}
+            rules={{ required: "카테고리를 선택해주세요.", }}
           /> : null}
           {type === "foreign" && needDropdown ? <Controller<FormValues>
             control={control}
             name="value"
+            // eslint-disable-next-line react/jsx-no-bind
             render={({ field: { value, onChange, ...field } }) => (
               <Dropdown
                 label="카테고리"
-                options={chooseDropdownOption(category.name) || []}
+                options={chooseDropdownOption(category.name)}
                 value={value as Option}
                 onChange={onChange}
                 {...field}
               />
             )}
-            rules={{
-              required: "카테고리를 선택해주세요.",
-            }}
+            rules={{ required: "카테고리를 선택해주세요.", }}
           /> : null}
 
           {type !== "foreign" && (
@@ -146,6 +153,7 @@ export default function WriteForm() {
             <Controller<FormValues>
               control={control}
               name="content"
+              // eslint-disable-next-line react/jsx-no-bind
               render={({ field: { value, onChange, ...field } }) => (
                 <Textarea
                   isBook={type === "reading"}
@@ -157,13 +165,13 @@ export default function WriteForm() {
               rules={{
                 required: "내용을 입력해주세요.",
                 minLength: {
-                  value: type === "reading" ? 600 : (file ? 200 : 400),
+                  value: type === "reading" ? 600 : (file == null ? 400 : 200),
                   message:
                     type === "reading"
                       ? "600자 이상 입력해주세요."
-                      : (file
-                        ? "내용을 200자 이상 입력해주세요."
-                        : "내용을 400자 이상 입력해주세요."),
+                      : (file == null
+                        ? "내용을 400자 이상 입력해주세요."
+                        : "내용을 200자 이상 입력해주세요."),
                 },
               }}
             />
@@ -175,6 +183,7 @@ export default function WriteForm() {
               <Controller<FormValues>
                 control={control}
                 name="file"
+                // eslint-disable-next-line react/jsx-no-bind
                 render={({ field: { value, onChange, ...field } }) => (
                   <File
                     label="이미지"
@@ -198,9 +207,7 @@ export default function WriteForm() {
                 state="default"
                 value="draft"
                 variant="skyblue"
-                onClick={() => {
-                  handleFormSubmit(getValues());
-                }}
+                onClick={handleTemporarySave}
               />
             )}
             <Button
@@ -209,9 +216,7 @@ export default function WriteForm() {
               type="submit"
               value="submit"
               variant="blue"
-              onClick={() => {
-                submitTypeRef.current = "submit";
-              }}
+              onClick={handleSubmissionSubmit}
             />
           </div>
         </form>
