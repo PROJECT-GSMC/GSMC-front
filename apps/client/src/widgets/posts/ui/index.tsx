@@ -48,9 +48,9 @@ export default function PostsWidget() {
   ]
 
   const Buttons: { value: CategoryType, label: string }[] = [
-    { label: "전공", value: "MAJOR" },
-    { label: "인성", value: "HUMANITIES" },
     { label: "독서", value: "READING" },
+    { label: "인성", value: "HUMANITIES" },
+    { label: "전공", value: "MAJOR" },
     { label: "외국어", value: "FOREIGN_LANGUAGE" },
     { label: "임시저장", value: "DRAFT" },
   ];

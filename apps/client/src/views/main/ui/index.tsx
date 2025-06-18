@@ -70,30 +70,23 @@ const MainView = () => {
         <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
           <div
             className="relative w-full"
-            onMouseEnter={handleHoverDropdown("전공")}
+            onMouseEnter={handleHoverDropdown("독서")}
             onMouseLeave={handleLeaveDropdown}
           >
-            <Button label="전공" variant="skyblue" />
-            <MainDropdown isOpen={!(accessToken == null) && hoverTab === "전공"}>
+            <Button label="독서" variant="skyblue" />
+            <MainDropdown isOpen={!(accessToken == null) && hoverTab === "독서"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                href="/write?type=major"
+                href="/write?type=reading"
               >
-                <p>전공영역 작성</p>
+                <p>독서영역 작성</p>
                 <p>{">"}</p>
               </Link>
               <div
                 className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                onClick={handleOpenModal("TOPCIT")}
+                onClick={handleOpenModal("READ_A_THON")}
               >
-                <p>TOPCIT 점수</p>
-                <p>{">"}</p>
-              </div>
-              <div
-                className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                onClick={handleOpenModal("CERTIFICATE")}
-              >
-                <p>전공 자격증</p>
+                <p>독서로 단계 입력</p>
                 <p>{">"}</p>
               </div>
             </MainDropdown>
@@ -123,23 +116,30 @@ const MainView = () => {
           </div>
           <div
             className="relative w-full"
-            onMouseEnter={handleHoverDropdown("독서")}
+            onMouseEnter={handleHoverDropdown("전공")}
             onMouseLeave={handleLeaveDropdown}
           >
-            <Button label="독서" variant="skyblue" />
-            <MainDropdown isOpen={!(accessToken == null) && hoverTab === "독서"}>
+            <Button label="전공" variant="skyblue" />
+            <MainDropdown isOpen={!(accessToken == null) && hoverTab === "전공"}>
               <Link
                 className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                href="/write?type=reading"
+                href="/write?type=major"
               >
-                <p>독서영역 작성</p>
+                <p>전공영역 작성</p>
                 <p>{">"}</p>
               </Link>
               <div
                 className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
-                onClick={handleOpenModal("READ_A_THON")}
+                onClick={handleOpenModal("TOPCIT")}
               >
-                <p>독서로 단계 입력</p>
+                <p>TOPCIT 점수</p>
+                <p>{">"}</p>
+              </div>
+              <div
+                className="w-full flex justify-between cursor-pointer text-body5 md:text-body3s"
+                onClick={handleOpenModal("CERTIFICATE")}
+              >
+                <p>전공 자격증</p>
                 <p>{">"}</p>
               </div>
             </MainDropdown>
