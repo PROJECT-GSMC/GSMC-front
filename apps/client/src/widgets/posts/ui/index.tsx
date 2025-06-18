@@ -48,9 +48,9 @@ export default function PostsWidget() {
   ]
 
   const Buttons: { value: CategoryType, label: string }[] = [
-    { label: "전공", value: "MAJOR" },
-    { label: "인성", value: "HUMANITIES" },
     { label: "독서", value: "READING" },
+    { label: "인성", value: "HUMANITIES" },
+    { label: "전공", value: "MAJOR" },
     { label: "외국어", value: "FOREIGN_LANGUAGE" },
     { label: "임시저장", value: "DRAFT" },
   ];
@@ -86,7 +86,7 @@ export default function PostsWidget() {
       </div>
       <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
-          {resultPosts.length > 0 ? resultPosts.map((post) => (
+          {search.trim().length > 0 && resultPosts.length > 0 ? resultPosts.map((post) => (
             <Post
               data={post}
               key={post.id}

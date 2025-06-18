@@ -10,28 +10,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      
+
       - name: Node.js 세팅
         uses: actions/setup-node@v3
         with:
           node-version: "18"
-      
+
       - name: pnpm 설치
         uses: pnpm/action-setup@v2
         with:
           version: 9
           run_install: false
-      
+
       - name: pnpm 경로 확인
         run: |
           echo "PNPM path: $(which pnpm)"
           echo "PNPM version: $(pnpm --version)"
-      
+
       - name: pnpm store 경로 가져오기
         shell: bash
         run: |
           echo "STORE_PATH=$(pnpm store path --silent)" >> $GITHUB_ENV
-      
+
       - uses: actions/cache@v3
         name: pnpm 캐시 설정
         with:
@@ -39,32 +39,41 @@ jobs:
           key: ${{ runner.os }}-pnpm-store-${{ hashFiles('**/pnpm-lock.yaml') }}
           restore-keys: |
             ${{ runner.os }}-pnpm-store-
-      
+
       - name: 의존성 설치
         run: pnpm install --frozen-lockfile
-      
+
       - name: Turborepo 원격 캐싱 설정
         uses: dtinth/setup-github-actions-caching-for-turbo@v1
         with:
           cache-prefix: turbo-${{ runner.os }}
-      
+
       - name: 프로덕션 환경파일 생성
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > .env.production
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > apps/admin/.env.production
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > apps/client/.env.production
-      
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> apps/admin/.env.production
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> apps/client/.env.production
+
+      - name: .env.production 파일 및 환경변수 값 확인
+        run: |
+          echo "[apps/admin/.env.production]"
+          cat apps/admin/.env.production
+          echo "-----------------------------"
+          echo "[빌드 환경변수]"
+          echo $NEXT_PUBLIC_API_URL
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+
       - name: 린트
         run: pnpm lint
-      
+
       - name: 테스트
         run: pnpm test
-      
+
       - name: 빌드
         run: pnpm build
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
-  
+
   pr-checks:
     needs: build
     runs-on: ubuntu-latest
@@ -77,7 +86,7 @@ jobs:
           requireScope: false
           subjectPattern: ".+"
           subjectPatternError: "PR 제목 넣어주세요."
-      
+
       - name: PR CI 결과 코멘트
         if: always()
         uses: actions/github-script@v6
