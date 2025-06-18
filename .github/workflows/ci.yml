@@ -50,8 +50,8 @@ jobs:
 
       - name: 프로덕션 환경파일 생성
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > apps/admin/.env.production
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > apps/client/.env.production
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> apps/admin/.env.production
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> apps/client/.env.production
 
       - name: .env.production 파일 및 환경변수 값 확인
         run: |
