@@ -86,7 +86,7 @@ export default function PostsWidget() {
       </div>
       <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
-          {resultPosts.length > 0 ? resultPosts.map((post) => (
+          {search.trim().length > 0 && resultPosts.length > 0 ? resultPosts.map((post) => (
             <Post
               data={post}
               key={post.id}
