@@ -14,7 +14,7 @@ function isPublicRoute(path: string): boolean {
 async function refreshAccessToken(refreshToken: string) {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}auth/refresh`,
+      `${process.env["NEXT_PUBLIC_API_URL"]}/auth/refresh`,
       {
         method: "PATCH",
         headers: {
@@ -29,7 +29,6 @@ async function refreshAccessToken(refreshToken: string) {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Failed to refresh token:", error);
     return null;
   }
 }
