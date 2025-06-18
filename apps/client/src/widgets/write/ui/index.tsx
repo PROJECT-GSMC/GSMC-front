@@ -17,8 +17,8 @@ import { getWriteConfig } from "../model/writeConfig";
 export default function WriteForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const type = searchParams.get("type");
-  const config = getWriteConfig(type as "major" | "humanities" | "reading" | "others" | "foreign");
+  const type = searchParams.get("type") as "major" | "humanities" | "reading" | "others" | "foreign";
+  const config = getWriteConfig(type);
 
   const submitTypeRef = useRef<"draft" | "submit">("submit");
 
@@ -55,12 +55,14 @@ export default function WriteForm() {
     router.push("/");
   }, [config, router])
 
-  const handleCategorySubmit = useCallback(() => {
-    handleSubmit(handleFormSubmit)
+  const handleWriteSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    void handleSubmit(handleFormSubmit)();
   }, [handleFormSubmit, handleSubmit])
 
-  const handleTemporarySave = useCallback(() => async () => {
-    await handleFormSubmit(getValues())
+  const handleTemporarySave = useCallback(() => {
+    submitTypeRef.current = "draft"
+    void handleFormSubmit(getValues())
   }, [getValues, handleFormSubmit])
 
   const handleSubmissionSubmit = useCallback(() => {
@@ -75,7 +77,7 @@ export default function WriteForm() {
         </h1>
         <form
           className="flex sm:gap-[2rem] gap-[1.5rem] flex-col"
-          onSubmit={handleCategorySubmit}
+          onSubmit={handleWriteSubmit}
         >
           {(type === "major" || type === "humanities" || type === "foreign") &&
             config.categoryOptions ? <Controller<FormValues>
