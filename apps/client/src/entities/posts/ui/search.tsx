@@ -26,7 +26,7 @@ const Search = ({ setResult, search, type, setSearch }: SearchProps) => {
         const search = await getSearchResult(debouncedValue, type);
         setResult(search.data as EvidenceResponse);
       } catch {
-        toast.error("")
+        toast.error("게시물 검색중 오류가 발생했습니다.")
       }
     };
 
