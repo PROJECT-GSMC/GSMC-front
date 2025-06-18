@@ -1,4 +1,6 @@
 name: CI
+env:
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 on:
   push:
     branches: [main]
