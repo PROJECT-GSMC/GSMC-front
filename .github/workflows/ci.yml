@@ -48,6 +48,12 @@ jobs:
         with:
           cache-prefix: turbo-${{ runner.os }}
       
+      - name: 프로덕션 환경파일 생성
+        run: |
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > .env.production
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > apps/admin/.env.production
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > apps/client/.env.production
+      
       - name: 린트
         run: pnpm lint
       
@@ -56,6 +62,8 @@ jobs:
       
       - name: 빌드
         run: pnpm build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
   
   pr-checks:
     needs: build
@@ -76,7 +84,7 @@ jobs:
         with:
           script: |
             const pr = context.payload.pull_request;
-            const status = '${{ job.status }}';
+            const status = '${{ needs.build.result }}';
             const message = status === 'success' 
               ? '✅ CI success'
               : '❌ CI failed';
