@@ -40,7 +40,7 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
         <h3 className="text-body2 mb-[1rem]">
           {(isActivity(data) || isReading(data)) && data.title}
         </h3>
-        <p className="text-gray-400 text-body5 mb-[0.75rem]">
+        <p className="text-gray-400 text-body5 mb-[0.75rem] line-clamp-2">
           {isActivity(data) || isOthers(data) ? getCategoryName(data.categoryName) : data.author}
         </p>
         <span className={`text-body5 ${handleStateColor(data.status)}`}>
