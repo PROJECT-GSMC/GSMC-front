@@ -1,12 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { usePathname, useRouter } from "next/navigation";
-import Link from "next/link";
-
 import TextLogo from "@repo/shared/textLogo";
-import { getCookie } from "@repo/utils/getCookie";
 import { deleteCookie } from "@repo/utils/deleteCookie";
+import { getCookie } from "@repo/utils/getCookie";
+import Link from "next/link";
+import { usePathname, useRouter } from "next/navigation";
+import { useCallback, useEffect, useState } from "react";
 
 const Header = () => {
   const pathname = usePathname();
@@ -18,11 +17,11 @@ const Header = () => {
     setAccessToken(token);
   }, []);
 
-  const signout = () => {
+  const signout = useCallback(() => {
     deleteCookie("accessToken");
     deleteCookie("refreshToken");
     router.push("/signin");
-  };
+  }, [router]);
 
   interface HeaderType {
     href: string;
@@ -47,7 +46,7 @@ const Header = () => {
       active: pathname === "/posts",
     },
   ];
-  if (pathname === "/signin" || pathname === "/signup") return null;
+  if (pathname === "/signin" || pathname === "/signup" || pathname === "/changePassword") return null;
   return (
     <header className="w-full py-[1.38rem] flex justify-around border-b px-4">
       <div className="w-full max-w-[37.5rem] flex items-center justify-between">
@@ -67,22 +66,20 @@ const Header = () => {
               </li>
             );
           })}
-          {accessToken && (
-            <>
-              <Link
-                className="hover:text-bl cursor-pointer"
-                href="/changePassword"
-              >
-                비밀번호 변경
-              </Link>
-              <li
-                className="text-errors-500 cursor-pointer"
-                onClick={() => signout()}
-              >
-                로그아웃
-              </li>
-            </>
-          )}
+          {(accessToken ?? "") ? <>
+            <Link
+              className="hover:text-bl cursor-pointer"
+              href="/changePassword"
+            >
+              비밀번호 변경
+            </Link>
+            <li
+              className="text-errors-500 cursor-pointer"
+              onClick={signout}
+            >
+              로그아웃
+            </li>
+          </> : null}
         </ul>
       </div>
     </header>

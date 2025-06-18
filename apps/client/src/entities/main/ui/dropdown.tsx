@@ -8,7 +8,6 @@ interface DropdownProps {
 const MainDropdown = ({ children, isOpen }: DropdownProps) => {
   return (
     <div
-      onFocus={() => (isOpen = true)}
       className={`
       absolute left-0 z-10 
       w-[15rem] max-md:w-[10rem] px-6 md:px-11 py-4 md:py-6 m-[0.1rem]
