@@ -37,7 +37,7 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
       </div>
 
       <section className="px-[0.38rem] py-[0.75rem]">
-        <h3 className="text-body2 mb-[1rem]">
+        <h3 className="text-body2 mb-[1rem] line-clamp-2">
           {(isActivity(data) || isReading(data)) && data.title}
         </h3>
         <p className="text-gray-400 text-body5 mb-[0.75rem] line-clamp-2">
