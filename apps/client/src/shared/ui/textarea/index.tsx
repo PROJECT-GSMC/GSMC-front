@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface TextareaProps {
   isBook?: boolean;
@@ -14,6 +14,11 @@ const Textarea = ({ isBook = false, value = "", onChange }: TextareaProps) => {
   useEffect(() => {
     setLength(value.length);
   }, [value]);
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setLength(e.target.value.length);
+    onChange(e);
+  }, [setLength, onChange]);
 
   return (
     <div>
@@ -33,19 +38,16 @@ const Textarea = ({ isBook = false, value = "", onChange }: TextareaProps) => {
         </label>
       </div>
       <textarea
-        value={value}
-        onChange={(e) => {
-          setLength(e.target.value.length);
-          onChange(e);
-        }}
         className=" resize-none w-full min-h-[20rem] border mt-[0.69rem]  rounded-[1rem] px-[1.5rem] py-[1.25rem] focus:  focus:outline-tropicalblue-400"
+        id="textarea"
         name="textarea"
         placeholder={
           isBook
             ? "600자 이상 입력"
             : "사진 첨부 시 200자, 사진 미첨부 시 400자 이상 입력"
         }
-        id="textarea"
+        value={value}
+        onChange={handleChange}
       />
     </div>
   );

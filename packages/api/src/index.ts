@@ -1,2 +1,2 @@
-export { default as default } from "./axios.js";
-export { default as removeCertification } from "./deleteCertification.js"; 
+export { default } from "./axios.js";
+export { removeCertification } from "./deleteCertification.js";

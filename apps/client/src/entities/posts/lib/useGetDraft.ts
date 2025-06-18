@@ -1,11 +1,8 @@
-import { getDraft } from "@/views/posts/api/getDraft";
-import { post } from "@repo/types/evidences";
 import { useQuery } from "@tanstack/react-query";
 
-interface DraftResponse {
-  activityEvidences: post[];
-  readingEvidences: post[];
-}
+import { getDraft } from "@/views/posts/api/getDraft";
+
+import type { DraftResponse } from "../model/draft";
 
 export const useGetDraft = () => {
   return useQuery<DraftResponse>({

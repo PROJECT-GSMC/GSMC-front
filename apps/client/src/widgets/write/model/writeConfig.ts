@@ -1,22 +1,24 @@
-import { CharacterCategory } from "@/widgets/write/model/category";
-import { FormValues } from "@/widgets/edit/types/types";
-import { handleSubmitActivity } from "../lib/handleSubmitActivity";
-import { handleSubmitBook } from "../lib/handleBookSubmit";
 import { sendScore } from "@/shared/api/sendScore";
 import { majorCategoryOptions } from "@/widgets/calculate/model/category";
+import type { FormValues } from "@/widgets/edit/types/types";
+import { CharacterCategory } from "@/widgets/write/model/category";
+
+import { handleSubmitBook } from "../lib/handleBookSubmit";
+import { handleSubmitActivity } from "../lib/handleSubmitActivity";
+
 import { foreignOptions } from "./foreignOptions";
 
-type Config = {
+interface Config {
   title: string;
   categoryOptions?: { name: string; send: string }[];
   onSubmit: (data: FormValues, type: "draft" | "submit") => Promise<void>;
-};
+}
 
 export const getWriteConfig = (
   type: "major" | "humanities" | "reading" | "others" | "foreign"
 ): Config => {
   switch (type) {
-    case "major":
+    case "major": {
       return {
         title: "전공 영역",
         categoryOptions: majorCategoryOptions,
@@ -25,7 +27,7 @@ export const getWriteConfig = (
           if (data.file) {
             formData.append("file", data.file);
           }
-          formData.append("categoryName", data.categoryName?.send || "");
+          formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("title", data.title || "");
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
@@ -33,7 +35,8 @@ export const getWriteConfig = (
           await handleSubmitActivity(type, formData);
         },
       };
-    case "humanities":
+    }
+    case "humanities": {
       return {
         title: "인성 영역",
         categoryOptions: CharacterCategory,
@@ -42,7 +45,7 @@ export const getWriteConfig = (
           if (data.file) {
             formData.append("file", data.file);
           }
-          formData.append("categoryName", data.categoryName?.send || "");
+          formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("title", data.title || "");
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
@@ -50,25 +53,30 @@ export const getWriteConfig = (
           await handleSubmitActivity(type, formData);
         },
       };
-    case "reading":
+    }
+    case "reading": {
       return {
         title: "독서 영역",
         onSubmit: async (data: FormValues, type) => {
           const bookData = {
             title: data.title || "",
-            author: data.author || "",
+            author: data.author ?? "",
             page: Number(data.page) || 0,
             content: data.content || "",
           };
           await handleSubmitBook(bookData, type);
         },
       };
-    case "others":
+    }
+    case "others": {
       return {
         title: "기타 증빙 자료",
-        onSubmit: async () => {},
+        onSubmit: async () => {
+          // No submission logic implemented for 'others' category yet.
+        },
       };
-    case "foreign":
+    }
+    case "foreign": {
       return {
         title: "외국어 영역",
         categoryOptions: foreignOptions,
@@ -77,10 +85,11 @@ export const getWriteConfig = (
           if (data.file) {
             formData.append("file", data.file);
           }
-          formData.append("categoryName", data.categoryName?.send || "");
+          formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("value", data.title || "");
-          sendScore(formData);
+          await sendScore(formData);
         },
       };
+    }
   }
 };
