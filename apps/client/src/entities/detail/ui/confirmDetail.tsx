@@ -4,6 +4,7 @@ import { useCallback } from "react";
 import { toast } from "sonner";
 
 import { deletePost } from "../api/deletePost";
+import { useRouter } from "next/navigation";
 
 interface ConfirmDetailProps {
   setShow: (show: boolean) => void;
@@ -16,6 +17,7 @@ export default function ConfirmDetail({
   setShow,
   id,
 }: ConfirmDetailProps) {
+  const R = useRouter();
   const handleClose = useCallback(() => {
     setShow(false);
   }, [setShow]);
@@ -27,6 +29,7 @@ export default function ConfirmDetail({
         toast.success("게시글이 삭제되었습니다");
       } else {
         toast.error("게시글 삭제 실패하였습니다");
+        R.push("/posts");
       }
     })();
   }, [id]);
