@@ -5,7 +5,7 @@ export const deletePost = async (
   id: number
 ): Promise<AxiosError | AxiosResponse> => {
   try {
-    const response = await instance.delete(`/api/posts/${id}`, {
+    const response = await instance.delete(`/current/${id}`, {
       method: "DELETE",
     });
 
