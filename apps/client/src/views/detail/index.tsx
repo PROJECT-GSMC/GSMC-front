@@ -6,12 +6,13 @@ import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
 import MockJson from "@shared/mocks/data/evidenceMock.json";
+import ConfirmDetail from "@/entities/detail/ui/confirmDetail";
 
 const DetailView = () => {
   const searchParams = useSearchParams();
@@ -21,6 +22,7 @@ const DetailView = () => {
   const { id } = params;
   const { data, isError } = useGetPosts(null);
   const { data: data2, isError: isError2 } = useGetCurrentMember();
+  const [show, setShow] = useState(false);
 
   if (isError) {
     toast.error("게시물을 불러오지 못했습니다.");
@@ -104,7 +106,14 @@ const DetailView = () => {
             </p>
           </section>
         </main>
-
+        <span
+          onClick={() => {
+            setShow(true);
+          }}
+          className="text-errors-500 underline underline-offset-4 text-body5 cursor-pointer"
+        >
+          이 게시글 삭제하기
+        </span>
         <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
           <Button
             className="w-full"
@@ -120,6 +129,7 @@ const DetailView = () => {
           />
         </footer>
       </div>
+      <ConfirmDetail id={Number(id)} setShow={setShow} show={show} />
     </div>
   );
 };
