@@ -29,12 +29,12 @@ export const Post = ({ data, onClick }: PostProps) => {
       className="flex cursor-pointer flex-col w-[188px] rounded-[0.625rem] h-[276px]"
       onClick={onClick}
     >
-      {data.imageUrl ? (
+      {data.imageUri ? (
         <Image
           alt={data.title}
           className="object-cover w-[188px] rounded-t-[0.625rem] h-[150px]"
           height={170}
-          src={data.imageUrl}
+          src={data.imageUri}
           style={{ objectFit: "cover" }}
           width={188}
         />

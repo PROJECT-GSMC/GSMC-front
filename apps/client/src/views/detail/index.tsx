@@ -92,14 +92,14 @@ const DetailView = () => {
         <main className="flex flex-col gap-[3rem]">
           {post &&
           isActivity(post) &&
-          post.imageUrl != null &&
-          post.imageUrl !== "" ? (
+          post.imageUri != null &&
+          post.imageUri !== "" ? (
             <div className="h-[21.215rem] bg-slate-600">
               <Image
                 alt={post.title}
                 className="object-cover w-full h-full"
                 height={150}
-                src={post.imageUrl ?? ""}
+                src={post.imageUri ?? ""}
                 width={188}
               />
             </div>
