@@ -16,9 +16,9 @@ import type { CategoryType } from "../model/category";
 
 export default function PostsWidget() {
   const R = useRouter();
-  const [result, setresult] = useState<EvidenceResponse>();
+  const [result, setResult] = useState<EvidenceResponse>();
   const [search, setSearch] = useState<string>("");
-  const [categoryName, setCategoryName] = useState<CategoryType>("MAJOR");
+  const [categoryName, setCategoryName] = useState<CategoryType>("READING");
 
   const { data: postsData, isError: isPostsError } = useGetPosts(categoryName);
   const { data: draftsData, isError: isDraftsError } = useGetDraft();
@@ -45,9 +45,9 @@ export default function PostsWidget() {
     ...(result?.humanitiesActivityEvidence ?? []),
     ...(result?.readingEvidence ?? []),
     ...(result?.otherEvidence ?? []),
-  ]
+  ];
 
-  const Buttons: { value: CategoryType, label: string }[] = [
+  const Buttons: { value: CategoryType; label: string }[] = [
     { label: "독서", value: "READING" },
     { label: "인성", value: "HUMANITIES" },
     { label: "전공", value: "MAJOR" },
@@ -55,56 +55,54 @@ export default function PostsWidget() {
     { label: "임시저장", value: "DRAFT" },
   ];
 
-  const handleCategory = useCallback((value: CategoryType) => () => {
-    setCategoryName(value)
-  }, [])
+  const handleCategory = useCallback(
+    (value: CategoryType) => () => {
+      setCategoryName(value);
+    },
+    []
+  );
 
-  const handleRoute = useCallback((post: post) => () => {
-    setPost(post);
-    R.push(`/detail/${post.id}`);
-  }, [R, setPost])
+  const handleRoute = useCallback(
+    (post: post) => () => {
+      setPost(post);
+      R.push(`/detail/${post.id}`);
+    },
+    [R, setPost]
+  );
+
+  let displayedPosts: post[] = [];
+
+  if (search.trim().length > 0 && resultPosts.length > 0) {
+    displayedPosts = resultPosts;
+  } else if (categoryName === "DRAFT") {
+    displayedPosts = draftPosts;
+  } else {
+    displayedPosts = posts;
+  }
 
   return (
     <div className="w-full max-w-[37.5rem]">
       <Search
         search={search}
-        setResult={setresult}
+        setResult={setResult}
         setSearch={setSearch}
         type={categoryName}
       />
       <div className="flex gap-[1rem] justify-between">
-        {Buttons.map((button) => {
-          return (
-            <Button
-              key={button.value}
-              label={button.label}
-              variant={categoryName === button.value ? "blue" : "skyblue"}
-              onClick={handleCategory(button.value)}
-            />
-          );
-        })}
+        {Buttons.map((button) => (
+          <Button
+            key={button.value}
+            label={button.label}
+            variant={categoryName === button.value ? "blue" : "skyblue"}
+            onClick={handleCategory(button.value)}
+          />
+        ))}
       </div>
       <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
-          {search.trim().length > 0 && resultPosts.length > 0 ? resultPosts.map((post) => (
-            <Post
-              data={post}
-              key={post.id}
-              onClick={handleRoute(post)}
-            />
-          )) : (categoryName === "DRAFT" ? draftPosts.map((post) => (
-            <Post
-              data={post}
-              key={post.id}
-              onClick={handleRoute(post)}
-            />
-          )) : posts.map((post) => (
-            <Post
-              data={post}
-              key={post.id}
-              onClick={handleRoute(post)}
-            />
-          )))}
+          {displayedPosts.map((post) => (
+            <Post data={post} key={post.id} onClick={handleRoute(post)} />
+          ))}
         </div>
       </div>
     </div>

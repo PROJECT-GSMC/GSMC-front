@@ -33,7 +33,6 @@ const Post = ({ data, onClick }: PostProps) => {
     },
     [updateState]
   );
-
   return (
     <article
       className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem] h-[276px]"
@@ -50,7 +49,6 @@ const Post = ({ data, onClick }: PostProps) => {
           />
         ) : null}
       </div>
-
       <section className="px-[0.38rem] py-[0.75rem]">
         <h3 className="text-body2 mb-[1rem] line-clamp-2">
           {isActivity(data) || isReading(data) ? data.title : null}
