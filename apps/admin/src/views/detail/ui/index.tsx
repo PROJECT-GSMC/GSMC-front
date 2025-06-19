@@ -1,101 +1,141 @@
 "use client";
 
-import { Button } from "@repo/shared/button";
-import type { PostType } from "@repo/types/postType";
+import type { post, postState } from "@repo/types/evidences";
+import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useParams, useSearchParams } from "next/navigation";
+import { useCallback, useEffect } from "react";
 import { toast } from "sonner";
 
+import { changeEvidenceState } from "@/entities/check-post/api/changeEvidenceState";
+import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
+import { useMember } from "@/entities/member/model/memberContext";
 import { useGetPosts } from "@/views/check-post/model/useGetPosts";
-import Header from "@shared/ui/header";
 
 export default function DetailView() {
   const { id } = useParams();
-  const R = useRouter();
+  const { member: student, setMember } = useMember();
+  const searchParams = useSearchParams();
+  const email = searchParams.get('email');
+  const status = searchParams.get('status') as postState | null;
+  const { data: studentData, isError: isStudentError } = useGetStudent(decodeURIComponent(String(student?.email ?? email)));
+  const { data: studentPost, isError: isPostError } = useGetPosts(String(student?.email ?? email), status);
 
-  const { data, isError } = useGetPosts(String(id), null);
+  useEffect(() => {
+    if (!student && studentData?.data) {
+      setMember(studentData.data);
+    }
+  }, [student, studentData, setMember]);
 
-  if (isError) {
+  if (isPostError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
 
-  const posts: PostType[] | [] = [
-    ...(data?.data.majorActivityEvidence ?? []),
-    ...(data?.data.humanitiesActivityEvidence ?? []),
-    ...(data?.data.readingEvidence ?? []),
-    ...(data?.data.otherEvidence ?? []),
-  ] as PostType[];
+  if (isStudentError) {
+    toast.error("회원 정보를 불러오지 못했습니다.");
+  }
 
-  const post = posts.find((item) => item.id === Number(id));
+  const posts: post[] = [
+    ...(studentPost?.data.majorActivityEvidence ?? []),
+    ...(studentPost?.data.humanitiesActivityEvidence ?? []),
+    ...(studentPost?.data.readingEvidence ?? []),
+    ...(studentPost?.data.otherEvidence ?? []),
+  ];
 
-  const Back = useCallback(() => {
-    R.back();
-  }, [R]);
+  const post = posts.find((post) => post.id === Number(id));
+
+  let title = "Title";
+  let subTitle = "Author";
+  let content = "";
+
+  if (post) {
+    if (isActivity(post) || isReading(post)) {
+      title = post.title;
+      content = post.content;
+    }
+
+    if (isActivity(post) || isOthers(post)) {
+      subTitle = `카테고리: ${getCategoryName(post.categoryName)}`;
+    } else if (isReading(post) && post.author) {
+      subTitle = post.author;
+    }
+  }
+
+  const updateState = useCallback(async (state: postState) => {
+    try {
+      if (post && "id" in post) {
+        const res = await changeEvidenceState(post.id, state);
+        if (res.status === 204) {
+          toast.success("게시글 상태가 변경되었습니다.");
+        }
+      }
+    } catch {
+      toast.error("게시글 상태 변경에 실패했습니다.");
+    }
+  }, [post]);
+
+  const handlePostState = useCallback(
+    (state: postState) => (e: React.MouseEvent) => {
+      e.stopPropagation();
+      void updateState(state);
+    },
+    [updateState]
+  );
 
   return (
-    <>
-      <Header />
-      <div className="flex flex-col items-center mt-[3rem]">
-        <div className="flex flex-col w-[37.5rem] gap-[1.75rem]">
-          <header className="flex flex-col w-full gap-[0.5rem]">
-            <h1 className="text-[2.25rem] font-semibold">
-              {post && (isActivity(post) || isReading(post))
-                ? post.title
-                : "Title"}
-            </h1>
-            <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
-              {post && isReading(post) ? post.author : "사용자"} {" . "}
-              {post && (isActivity(post) || isOthers(post))
-                ? post.categoryName
-                : "Area"}
-            </h3>
-          </header>
+    <div className="flex flex-col items-center mt-[3rem]">
+      <div className="flex flex-col w-[37.5rem] gap-[1.75rem]">
+        <header className="flex flex-col w-full gap-[0.5rem]">
+          <h1 className="text-[2.25rem] font-semibold">{title}</h1>
+          <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
+            {post && isReading(post) ? post.author : "사용자"} {" . "}
+            {post && (isActivity(post) || isOthers(post)) ? getCategoryName(post.categoryName) : "Area"}
+          </h3>
+        </header>
 
-          <main className="flex flex-col gap-[3rem]">
-            {post && isActivity(post) && post.imageUri ? (
-              <div className="h-[21.215rem] bg-slate-600">
-                <Image
-                  alt={post.title}
-                  className="object-cover w-full h-full"
-                  height={150}
-                  src={post.imageUri}
-                  width={188}
-                />
-              </div>
-            ) : null}
-            <section className="flex flex-col gap-[1rem]">
-              <h2 className="text-[1.5rem] font-semibold">
-                {(() => {
-                  if (!post) return "Author";
-                  if (isActivity(post) || isOthers(post)) {
-                    return `카테고리: ${post.categoryName}`;
-                  }
-                  if (isReading(post)) {
-                    return (post as { author?: string }).author ?? "Author";
-                  }
-                  return "Author";
-                })()}
-              </h2>
+        <main className="flex flex-col gap-[3rem]">
+          {post &&
+            isActivity(post) &&
+            post.imageUri != null &&
+            post.imageUri !== "" ? (
+            <div className="h-[21.215rem] bg-slate-600">
+              <Image
+                alt={post.title}
+                className="object-cover w-full h-full"
+                height={150}
+                src={post.imageUri ?? ""}
+                width={188}
+              />
+            </div>
+          ) : null}
+          <section className="flex flex-col gap-[1rem]">
+            <h2 className="text-[1.5rem] font-semibold">{subTitle}</h2>
+            <p className="text-[1.25rem] font-normal min-h-[29.9375rem]">
+              {content}
+            </p>
+          </section>
+        </main>
 
-              <p className="text-[1.25rem] font-normal min-h-[29.9375rem]">
-                {post?.content ?? ""}
-              </p>
-            </section>
-          </main>
-
-          <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
-            <Button className="w-full" label="수정하기" variant="blue" />
-            <Button
-              className="w-full bg-white"
-              label="뒤로가기"
-              variant="skyblue"
-              onClick={Back}
-            />
-          </footer>
-        </div>
+        <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
+          {post?.status === "PENDING" ? (
+            <span className="flex w-full mt-[1.25rem] gap-[1rem] items-center justify-center text-body5 text-white">
+              <button
+                className="bg-tropicalblue-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem] flex-1"
+                onClick={handlePostState("APPROVE")}
+              >
+                통과
+              </button>
+              <button
+                className="bg-errors-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem] flex-1"
+                onClick={handlePostState("REJECT")}
+              >
+                거절
+              </button>
+            </span>
+          ) : null}
+        </footer>
       </div>
-    </>
+    </div>
   );
 }
