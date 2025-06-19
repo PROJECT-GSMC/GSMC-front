@@ -1,4 +1,6 @@
 name: CI
+env:
+  NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 on:
   push:
     branches: [main]
@@ -50,18 +52,9 @@ jobs:
 
       - name: 프로덕션 환경파일 생성
         run: |
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> apps/admin/.env.production
-          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" >> apps/client/.env.production
-
-      - name: .env.production 파일 및 환경변수 값 확인
-        run: |
-          echo "[apps/admin/.env.production]"
-          cat apps/admin/.env.production
-          echo "-----------------------------"
-          echo "[빌드 환경변수]"
-          echo $NEXT_PUBLIC_API_URL
-        env:
-          NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > .env.production
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > apps/admin/.env.production
+          echo "NEXT_PUBLIC_API_URL=${{ secrets.NEXT_PUBLIC_API_URL }}" > apps/client/.env.production
 
       - name: 린트
         run: pnpm lint
@@ -71,6 +64,7 @@ jobs:
 
       - name: 빌드
         run: pnpm build
+
         env:
           NEXT_PUBLIC_API_URL: ${{ secrets.NEXT_PUBLIC_API_URL }}
 
@@ -80,12 +74,12 @@ jobs:
     steps:
       - name: PR 제목 확인
         uses: amannn/action-semantic-pull-request@v5
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           requireScope: false
           subjectPattern: ".+"
           subjectPatternError: "PR 제목 넣어주세요."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: PR CI 결과 코멘트
         if: always()

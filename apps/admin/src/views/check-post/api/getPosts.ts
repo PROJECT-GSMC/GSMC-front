@@ -6,6 +6,6 @@ export const getPosts = async (
   status: postState | null
 ): Promise<EvidenceResponse> => {
   return await instance.get(
-    `/evidence/${email.split("@")[0]?.slice(1)}?status=${status}`
+    `/evidence/${decodeURIComponent(email).split("@")[0]?.slice(1)}?status=${status}`
   );
 };
