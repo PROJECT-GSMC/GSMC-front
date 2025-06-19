@@ -4,7 +4,7 @@ import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
 import type { post, postState } from "@repo/types/evidences";
 import { useParams, useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { toast } from "sonner";
 
 import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
@@ -16,10 +16,16 @@ export default function PostsWidget() {
   const R = useRouter();
   const { id: email } = useParams();
   const [state, setState] = useState<postState>("PENDING");
-  const { member: student } = useMember();
+  const { member: student, setMember } = useMember();
   const { data: postsData, isError: isPostsError } = useGetPosts(String(student?.email ?? email), state);
   const { data: studentData, isError: isStudentError } = useGetStudent(decodeURIComponent(String(student?.email ?? email)));
   const { setPost } = usePost();
+
+  useEffect(() => {
+    if (!student && studentData?.data) {
+      setMember(studentData.data);
+    }
+  }, [student, studentData, setMember]);
 
   const posts: post[] = [
     ...(postsData?.data.majorActivityEvidence ?? []),
@@ -48,8 +54,8 @@ export default function PostsWidget() {
 
   const handleRoute = useCallback((post: post) => () => {
     setPost(post);
-    R.push(`/detail/${post.id}?status=${state}`);
-  }, [R, setPost, state])
+    R.push(`/detail/${post.id}?status=${state}&email=${String(student?.email ?? email)}`);
+  }, [R, email, setPost, state, student?.email])
 
   return (
     <div className="flex w-full items-center flex-col p-[1rem]">
