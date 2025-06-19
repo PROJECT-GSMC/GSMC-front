@@ -25,11 +25,11 @@ export default function ConfirmDetail({
   const handleDelete = useCallback(() => {
     void (async () => {
       const res = await deletePost(id);
-      if (res.status === 200) {
+      if (res.status === 204) {
         toast.success("게시글이 삭제되었습니다");
+        R.push("/posts");
       } else {
         toast.error("게시글 삭제 실패하였습니다");
-        R.push("/posts");
       }
     })();
   }, [id]);
