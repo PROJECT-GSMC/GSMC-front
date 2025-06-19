@@ -1,12 +1,15 @@
-import type { AxiosError } from "axios";
+import instance from "@repo/api";
+import type { AxiosError, AxiosResponse } from "axios";
 
-export const deletePost = async (id: number): Promise<AxiosError | boolean> => {
+export const deletePost = async (
+  id: number
+): Promise<AxiosError | AxiosResponse> => {
   try {
-    const response = await fetch(`/api/posts/${id}`, {
+    const response = await instance.delete(`/api/posts/${id}`, {
       method: "DELETE",
     });
 
-    return response.ok;
+    return response;
   } catch (error) {
     return error as AxiosError;
   }
