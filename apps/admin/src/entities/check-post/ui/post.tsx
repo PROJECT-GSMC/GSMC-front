@@ -57,15 +57,15 @@ const Post = ({ data, onClick }: PostProps) => {
           {isActivity(data) || isOthers(data) ? getCategoryName(data.categoryName) : ("author" in data ? data.author : "")}
         </p>
         {data.status === "PENDING" ? (
-          <span className="mt-[1.25rem] flex gap-[1rem] items-center justify-center text-body5 w-full text-white">
+          <span className="flex w-full mt-[1.25rem] gap-[1rem] items-center justify-center text-body5 text-white">
             <button
-              className="bg-tropicalblue-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
+              className="bg-tropicalblue-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem] flex-1"
               onClick={handlePostState("APPROVE")}
             >
               통과
             </button>
             <button
-              className="bg-errors-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem]"
+              className="bg-errors-500 px-[1.25rem] rounded-[0.5rem] py-[0.625rem] flex-1"
               onClick={handlePostState("REJECT")}
             >
               거절
