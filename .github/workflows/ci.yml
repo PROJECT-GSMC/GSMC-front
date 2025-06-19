@@ -78,6 +78,8 @@ jobs:
           requireScope: false
           subjectPattern: ".+"
           subjectPatternError: "PR 제목 넣어주세요."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: PR CI 결과 코멘트
         if: always()
