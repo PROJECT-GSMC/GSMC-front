@@ -1,10 +1,10 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "sonner";
 
 import { deletePost } from "../api/deletePost";
-import { useRouter } from "next/navigation";
 
 interface ConfirmDetailProps {
   setShow: (show: boolean) => void;
@@ -32,7 +32,7 @@ export default function ConfirmDetail({
         toast.error("게시글 삭제 실패하였습니다");
       }
     })();
-  }, [id]);
+  }, [id, R]);
   if (!show) return null;
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
