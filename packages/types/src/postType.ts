@@ -4,7 +4,7 @@ export interface PostType {
   id: number;
   title: string;
   content: string;
-  imageUrl: string;
+  imageUri: string;
   status: postState;
   categoryName: string;
 }
