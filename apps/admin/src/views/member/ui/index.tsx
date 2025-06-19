@@ -8,6 +8,7 @@ import { useState, useCallback } from "react";
 import { toast } from "sonner";
 
 import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
+import { useMember } from "@/entities/member/model/memberContext";
 import Information from "@/widgets/member/ui/information";
 import Question from "@shared/asset/svg/question";
 import Header from "@shared/ui/header";
@@ -18,7 +19,7 @@ import { Filter } from "@widgets/member/ui/filter";
 const MemberView = () => {
   const [click, setClick] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
-  const [student, setStudent] = useState<Member>();
+  const { member: student, setMember: setStudent } = useMember();
   const [result, setResult] = useState<Member[]>([]);
   const [grade, setGrade] = useState<number>();
   const [classNumber, setClassNumber] = useState<number>();
@@ -48,7 +49,7 @@ const MemberView = () => {
     } catch {
       toast.error("학생정보 불러오는데 실패하였습니다.");
     }
-  }, []);
+  }, [setStudent]);
 
   const handleSearch = useCallback(async (): Promise<void> => {
     const res = await getSearchedMembers({
@@ -92,12 +93,8 @@ const MemberView = () => {
               onClick={handleOpen}
             >
               {(() => {
-                if (isLoading) {
-                  return <div className="text-center mt-24">loading...</div>;
-                }
-
+                if (isLoading) { <div className="text-center mt-24">loading...</div> }
                 const target = result.length > 0 ? result : members;
-
                 return target.map((member: Member) => (
                   <Card
                     Pending={member.hasPendingEvidence}
@@ -115,8 +112,7 @@ const MemberView = () => {
                     id={member.email}
                     key={member.email}
                     onClick={memoizedCardClick(member.email)}
-                  />
-                ));
+                  />));
               })()}
             </List>
           </section>
@@ -129,7 +125,7 @@ const MemberView = () => {
                 </span>
               </div>
             ) : (
-              <Information student={student} />
+              <Information />
             )}
           </section>
           {open ? (
