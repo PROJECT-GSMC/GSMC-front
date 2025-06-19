@@ -1,14 +1,13 @@
 "use client";
 
-import type { post, postState } from "@repo/types/evidences";
+import type { post } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import { handleState, handleStateColor } from "@repo/utils/handleState";
 import Image from "next/image";
-import { useCallback } from "react";
-import { toast } from "sonner";
 
-import { changeEvidenceState } from "../api/changeEvidenceState";
+
+import { useChangeEvidenceState } from "@/views/check-post/model/useChangeEvidenceState";
 
 interface PostProps {
   data: post;
@@ -16,26 +15,8 @@ interface PostProps {
 }
 
 const Post = ({ data, onClick }: PostProps) => {
-  const updateState = useCallback(async (state: postState) => {
-    try {
-      if ("id" in data) {
-        const res = await changeEvidenceState(data.id, state);
-        if (res.status === 204) {
-          toast.success("게시글 상태가 변경되었습니다.");
-        }
-      }
-    } catch {
-      toast.error("게시글 상태 변경에 실패했습니다.");
-    }
-  }, [data]);
+  const { handlePostState } = useChangeEvidenceState(Number(data.id));
 
-  const handlePostState = useCallback(
-    (state: postState) => (e: React.MouseEvent) => {
-      e.stopPropagation();
-      void updateState(state);
-    },
-    [updateState]
-  );
   return (
     <article
       className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem] h-[276px]"

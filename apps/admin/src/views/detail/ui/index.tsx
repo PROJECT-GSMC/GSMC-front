@@ -5,17 +5,18 @@ import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Image from "next/image";
 import { useParams, useSearchParams } from "next/navigation";
-import { useCallback, useEffect } from "react";
+import { useEffect } from "react";
 import { toast } from "sonner";
 
-import { changeEvidenceState } from "@/entities/check-post/api/changeEvidenceState";
 import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
 import { useMember } from "@/entities/member/model/memberContext";
+import { useChangeEvidenceState } from "@/views/check-post/model/useChangeEvidenceState";
 import { useGetPosts } from "@/views/check-post/model/useGetPosts";
 
 export default function DetailView() {
   const { id } = useParams();
   const { member: student, setMember } = useMember();
+  const { handlePostState } = useChangeEvidenceState(Number(id));
   const searchParams = useSearchParams();
   const email = searchParams.get('email');
   const status = searchParams.get('status') as postState | null;
@@ -61,27 +62,6 @@ export default function DetailView() {
       subTitle = post.author;
     }
   }
-
-  const updateState = useCallback(async (state: postState) => {
-    try {
-      if (post && "id" in post) {
-        const res = await changeEvidenceState(post.id, state);
-        if (res.status === 204) {
-          toast.success("게시글 상태가 변경되었습니다.");
-        }
-      }
-    } catch {
-      toast.error("게시글 상태 변경에 실패했습니다.");
-    }
-  }, [post]);
-
-  const handlePostState = useCallback(
-    (state: postState) => (e: React.MouseEvent) => {
-      e.stopPropagation();
-      void updateState(state);
-    },
-    [updateState]
-  );
 
   return (
     <div className="flex flex-col items-center mt-[3rem]">
