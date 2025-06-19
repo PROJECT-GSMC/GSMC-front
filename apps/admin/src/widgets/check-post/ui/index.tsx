@@ -2,52 +2,59 @@
 
 import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
-import type { postState } from "@repo/types/evidences";
-import type { PostType } from "@repo/types/postType";
+import type { post, postState } from "@repo/types/evidences";
 import { useParams, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
-import { Post } from "@/entities/check-post/ui/post";
+import Post from "@/entities/check-post/ui/post";
+import { useGetPosts } from "@/views/check-post/model/useGetPosts";
 
-import { useGetPosts } from "../model/useGetPosts";
-
-const PostsView = () => {
-  const { setPost } = usePost();
-  const [state, setState] = useState<postState>("PENDING");
-  const { id } = useParams();
+export default function PostsWidget() {
   const R = useRouter();
-  const { data, isError } = useGetPosts(String(id), state);
-  const { data: data2, isError: isError2 } = useGetStudent(
-    decodeURIComponent(String(id))
-  );
+  const { id } = useParams();
+  const [state, setState] = useState<postState>("PENDING");
 
-  const posts: PostType[] | [] = [
-    ...(data?.data.majorActivityEvidence ?? []),
-    ...(data?.data.humanitiesActivityEvidence ?? []),
-    ...(data?.data.readingEvidence ?? []),
-    ...(data?.data.otherEvidence ?? []),
-  ] as PostType[];
+  const { data: postsData, isError: isPostsError } = useGetPosts(String(id), state);
+  const { data: studentData, isError: isStudentError } = useGetStudent(decodeURIComponent(String(id)));
+  const { setPost } = usePost();
 
-  if (isError) {
+  const posts: post[] = [
+    ...(postsData?.data.majorActivityEvidence ?? []),
+    ...(postsData?.data.humanitiesActivityEvidence ?? []),
+    ...(postsData?.data.readingEvidence ?? []),
+    ...(postsData?.data.otherEvidence ?? []),
+  ];
+
+  if (isPostsError) {
     toast.error("게시글을 불러오는 데 실패했습니다.");
   }
 
-  if (isError2) {
+  if (isStudentError) {
     toast.error("사용자 정보를 불러오는 데 실패했습니다.");
   }
 
-  const Buttons = [
+  const Buttons: { value: postState, label: string }[] = [
     { label: "대기", value: "PENDING" },
     { label: "통과", value: "APPROVE" },
     { label: "거절", value: "REJECT" },
   ];
+
+  const handleState = useCallback((value: postState) => () => {
+    setState(value)
+  }, [])
+
+  const handleRoute = useCallback((post: post) => () => {
+    setPost(post);
+    R.push(`/detail/${post.id}`);
+  }, [R, setPost])
+
   return (
     <div className="flex w-full items-center flex-col p-[1rem]">
       <div className="max-w-[37.5rem] w-full">
         <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
-          {data2?.data.name ?? "사용자"}님의 게시글
+          {studentData?.data.name ?? "사용자"}님의 게시글
         </h1>
         <div className="flex gap-[5%] justify-between pb-[2rem]">
           {Buttons.map((button) => (
@@ -55,24 +62,17 @@ const PostsView = () => {
               key={button.value}
               label={button.label}
               variant={state === button.value ? "blue" : "skyblue"}
-              // eslint-disable-next-line react/jsx-no-bind
-              onClick={() => {
-                setState(button.value as postState);
-              }}
+              onClick={handleState(button.value)}
             />
           ))}
         </div>
         <div className="flex flex-wrap overflow-y-visible sm:justify-start justify-center w-full gap-[1.12rem]">
           {posts.length > 0 ? (
-            posts.map((post: PostType) => (
+            posts.map((post) => (
               <Post
                 data={post}
                 key={post.id}
-                // eslint-disable-next-line react/jsx-no-bind
-                onClick={() => {
-                  R.push(`/detail/${post.id}`);
-                  setPost(post);
-                }}
+                onClick={handleRoute(post)}
               />
             ))
           ) : (
@@ -86,4 +86,3 @@ const PostsView = () => {
   );
 };
 
-export default PostsView;
