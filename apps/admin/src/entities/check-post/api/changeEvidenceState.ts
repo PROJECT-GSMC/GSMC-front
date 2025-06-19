@@ -3,7 +3,7 @@ import type { postState } from "@repo/types/evidences";
 
 interface ChangeEvidenceStateResponse {
   status: number;
-  message: string;
+  message?: string;
 }
 
 export const changeEvidenceState = async (
@@ -14,5 +14,5 @@ export const changeEvidenceState = async (
     `/evidence/${evidenceId}/status`,
     { status }
   );
-  return response.data;
+  return response;
 };
