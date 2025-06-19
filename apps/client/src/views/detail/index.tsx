@@ -1,6 +1,5 @@
 "use client";
 
-
 import { Button } from "@repo/shared/button";
 import type { post } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
@@ -40,11 +39,15 @@ const DetailView = () => {
 
   const Mock: post[] = MockJson as post[];
 
-  const post = ((example == null) ? posts.find((post) => post.id === Number(id)) : Mock.find((post) => post.id === Number(id)))
+  const post =
+    example == null
+      ? posts.find((post) => post.id === Number(id))
+      : Mock.find((post) => post.id === Number(id));
 
   const handleRevise = useCallback(() => {
     const idString = String(id);
-    const exampleQuery = (example != null && example !== '') ? "?example=true" : "";
+    const exampleQuery =
+      example != null && example !== "" ? "?example=true" : "";
     router.push(`/edit/${idString}${exampleQuery}`);
   }, [router, id, example]);
 
@@ -62,22 +65,26 @@ const DetailView = () => {
               : "Title"}
           </h1>
           <h3 className="text-[0.75rem] text-[#767676] text-right font-normal">
-            {`${data2?.name ?? "사용자"} . ${post && (isActivity(post) || isOthers(post))
-              ? getCategoryName(post.categoryName)
-              : "Area"
-              }`}
+            {`${data2?.name ?? "사용자"} . ${
+              post && (isActivity(post) || isOthers(post))
+                ? getCategoryName(post.categoryName)
+                : "Area"
+            }`}
           </h3>
           <div className="w-full h-[0.5px] bg-[#A6A6A6]" />
         </header>
 
         <main className="flex flex-col gap-[3rem]">
-          {post && isActivity(post) && (post.imageUrl != null && post.imageUrl !== '') ? (
+          {post &&
+          isActivity(post) &&
+          post.imageUrl != null &&
+          post.imageUrl !== "" ? (
             <div className="h-[21.215rem] bg-slate-600">
               <Image
                 alt={post.title}
                 className="object-cover w-full h-full"
                 height={150}
-                src={post.imageUrl}
+                src={post.imageUrl ?? ""}
                 width={188}
               />
             </div>
@@ -86,9 +93,9 @@ const DetailView = () => {
             <h2 className="text-[1.5rem] font-semibold">
               {post && (isActivity(post) || isOthers(post))
                 ? `카테고리: ${getCategoryName(post.categoryName)}`
-                : (post && isReading(post) && post.author
+                : post && isReading(post) && post.author
                   ? post.author
-                  : "Author")}
+                  : "Author"}
             </h2>
             <p className="text-[1.25rem] font-normal min-h-[29s.9375rem]">
               {post && (isActivity(post) || isReading(post))

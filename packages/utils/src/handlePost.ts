@@ -1,7 +1,7 @@
 import type { Activity, Others, Reading } from "@repo/types/evidences";
 
 const isActivity = (data: Activity | Reading | Others): data is Activity => {
-  return "imageUri" in data;
+  return "imageUrl" in data;
 };
 
 const isReading = (data: Activity | Reading | Others): data is Reading => {

@@ -2,7 +2,7 @@ export interface Activity {
   id: number;
   title: string;
   content: string;
-  imageUri?: string;
+  imageUrl?: string;
   status: postState;
   categoryName: string;
 }
