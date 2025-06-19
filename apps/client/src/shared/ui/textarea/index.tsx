@@ -24,7 +24,7 @@ const Textarea = ({ isBook = false, value = "", onChange }: TextareaProps) => {
   );
 
   return (
-    <div>
+    <div className="flex flex-col gap-3">
       <div>
         <label className="text-label" htmlFor="textarea">
           내용
