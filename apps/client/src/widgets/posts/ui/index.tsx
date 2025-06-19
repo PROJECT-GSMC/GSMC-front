@@ -70,6 +70,16 @@ export default function PostsWidget() {
     [R, setPost]
   );
 
+  let displayedPosts: post[] = [];
+
+  if (search.trim().length > 0 && resultPosts.length > 0) {
+    displayedPosts = resultPosts;
+  } else if (categoryName === "DRAFT") {
+    displayedPosts = draftPosts;
+  } else {
+    displayedPosts = posts;
+  }
+
   return (
     <div className="w-full max-w-[37.5rem]">
       <Search
@@ -79,30 +89,20 @@ export default function PostsWidget() {
         type={categoryName}
       />
       <div className="flex gap-[1rem] justify-between">
-        {Buttons.map((button) => {
-          return (
-            <Button
-              key={button.value}
-              label={button.label}
-              variant={categoryName === button.value ? "blue" : "skyblue"}
-              onClick={handleCategory(button.value)}
-            />
-          );
-        })}
+        {Buttons.map((button) => (
+          <Button
+            key={button.value}
+            label={button.label}
+            variant={categoryName === button.value ? "blue" : "skyblue"}
+            onClick={handleCategory(button.value)}
+          />
+        ))}
       </div>
       <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
-          {search.trim().length > 0 && resultPosts.length > 0
-            ? resultPosts.map((post) => (
-                <Post data={post} key={post.id} onClick={handleRoute(post)} />
-              ))
-            : categoryName === "DRAFT"
-              ? draftPosts.map((post) => (
-                  <Post data={post} key={post.id} onClick={handleRoute(post)} />
-                ))
-              : posts.map((post) => (
-                  <Post data={post} key={post.id} onClick={handleRoute(post)} />
-                ))}
+          {displayedPosts.map((post) => (
+            <Post data={post} key={post.id} onClick={handleRoute(post)} />
+          ))}
         </div>
       </div>
     </div>
