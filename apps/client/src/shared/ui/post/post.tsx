@@ -2,15 +2,8 @@
 
 import type { post } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
-import {
-  isActivity,
-  isOthers,
-  isReading,
-} from "@repo/utils/handlePost";
-import {
-  handleState,
-  handleStateColor,
-} from "@repo/utils/handleState";
+import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
+import { handleState, handleStateColor } from "@repo/utils/handleState";
 import Image from "next/image";
 
 interface PostProps {
@@ -26,14 +19,15 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
       onClick={onClick}
     >
       <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
-        {isActivity(data) && (data.imageUri != null) ?
+        {isActivity(data) && data.imageUri != null ? (
           <Image
             alt={data.title}
             className="object-cover w-[188px] h-[150px] rounded-t-[0.625rem]"
             height={150}
             src={data.imageUri}
             width={188}
-          /> : null}
+          />
+        ) : null}
       </div>
 
       <section className="px-[0.38rem] py-[0.75rem]">
@@ -41,7 +35,9 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
           {(isActivity(data) || isReading(data)) && data.title}
         </h3>
         <p className="text-gray-400 text-body5 mb-[0.75rem] line-clamp-2">
-          {isActivity(data) || isOthers(data) ? getCategoryName(data.categoryName) : data.author}
+          {isActivity(data) || isOthers(data)
+            ? getCategoryName(data.categoryName)
+            : data.author}
         </p>
         <span className={`text-body5 ${handleStateColor(data.status)}`}>
           {!isExample && handleState(data.status)}
