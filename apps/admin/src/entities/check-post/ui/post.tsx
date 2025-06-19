@@ -19,7 +19,10 @@ const Post = ({ data, onClick }: PostProps) => {
   const updateState = useCallback(async (state: postState) => {
     try {
       if ("id" in data) {
-        await changeEvidenceState(data.id, state);
+        const res = await changeEvidenceState(data.id, state);
+        if (res.status === 204) {
+          toast.success("게시글 상태가 변경되었습니다.");
+        }
       }
     } catch {
       toast.error("게시글 상태 변경에 실패했습니다.");
