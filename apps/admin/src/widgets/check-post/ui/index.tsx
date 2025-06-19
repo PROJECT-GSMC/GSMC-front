@@ -9,15 +9,16 @@ import { toast } from "sonner";
 
 import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
 import Post from "@/entities/check-post/ui/post";
+import { useMember } from "@/entities/member/model/memberContext";
 import { useGetPosts } from "@/views/check-post/model/useGetPosts";
 
 export default function PostsWidget() {
   const R = useRouter();
-  const { id } = useParams();
+  const { id: email } = useParams();
   const [state, setState] = useState<postState>("PENDING");
-
-  const { data: postsData, isError: isPostsError } = useGetPosts(String(id), state);
-  const { data: studentData, isError: isStudentError } = useGetStudent(decodeURIComponent(String(id)));
+  const { member: student } = useMember();
+  const { data: postsData, isError: isPostsError } = useGetPosts(String(student?.email ?? email), state);
+  const { data: studentData, isError: isStudentError } = useGetStudent(decodeURIComponent(String(student?.email ?? email)));
   const { setPost } = usePost();
 
   const posts: post[] = [
@@ -47,14 +48,14 @@ export default function PostsWidget() {
 
   const handleRoute = useCallback((post: post) => () => {
     setPost(post);
-    R.push(`/detail/${post.id}`);
-  }, [R, setPost])
+    R.push(`/detail/${post.id}?status=${state}`);
+  }, [R, setPost, state])
 
   return (
     <div className="flex w-full items-center flex-col p-[1rem]">
       <div className="max-w-[37.5rem] w-full">
         <h1 className="text-tropicalblue-700 text-body1s sm:text-h4s mb-[2.06rem] mt-[2.94rem]">
-          {studentData?.data.name ?? "사용자"}님의 게시글
+          {student?.name ?? studentData?.data.name}님의 게시글
         </h1>
         <div className="flex gap-[5%] justify-between pb-[2rem]">
           {Buttons.map((button) => (
