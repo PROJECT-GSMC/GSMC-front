@@ -1,13 +1,14 @@
 "use client";
 
-import { Close } from "@/shared/asset/svg/close";
-import { Hamburger } from "@/shared/asset/svg/hamburger";
 import TextLogo from "@repo/shared/textLogo";
 import { deleteCookie } from "@repo/utils/deleteCookie";
 import { getCookie } from "@repo/utils/getCookie";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
+
+import { Close } from "@/shared/asset/svg/close";
+import { Hamburger } from "@/shared/asset/svg/hamburger";
 
 const Header = () => {
   const pathname = usePathname();
@@ -49,6 +50,11 @@ const Header = () => {
       active: pathname === "/posts",
     },
   ];
+
+  const handleMenuToggle = useCallback(() => {
+    setMenuOpen((prev) => !prev);
+  }, [setMenuOpen]);
+
   if (pathname === "/signin" || pathname === "/signup" || pathname === "/changePassword") return null;
   return (
     <>
@@ -58,8 +64,8 @@ const Header = () => {
             <TextLogo />
           </Link>
 
-          <div  onClick={() => setMenuOpen(!menuOpen)} className="sm:hidden">
-            {menuOpen?<Hamburger/> : <Close/>}
+          <div className="sm:hidden cursor-pointer" onClick={handleMenuToggle}>
+            {menuOpen ? <Hamburger /> : <Close />}
           </div>
 
           <ul className="hidden sm:flex gap-[2rem] text-gray-500 items-center text-body3 sm:text-label">
@@ -93,9 +99,8 @@ const Header = () => {
 
         </div>
       </header>
-      <section>
-        {
-          !menuOpen &&<ul className="flex flex-col absolute right-0 z-10 h-full bg-[#DFEAFE] text-label gap-[1.25rem] px-[2rem] py-[1.75rem] shadow-[-10px_0_10px_rgba(0,0,0,0.1)]">
+      <section className="absolute right-0 h-full">
+        {!menuOpen && <ul className="flex flex-col sticky top-0 right-0 w-[10.5rem] h-full z-20 sm:hidden bg-[#DFEAFE] text-label gap-[1.25rem] px-[2rem] py-[1.75rem] shadow-[-10px_0_10px_rgba(0,0,0,0.1)]">
           {header.map((item: HeaderType) => {
             return (
               <li key={item.href}>
@@ -122,8 +127,7 @@ const Header = () => {
               로그아웃
             </li>
           </> : null}
-        </ul>
-        }
+        </ul>}
       </section>
     </>
   );
