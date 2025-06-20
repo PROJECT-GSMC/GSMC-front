@@ -2,9 +2,10 @@ import { PostProvider } from "@repo/store/postProvider";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 
+import Providers from "./providers";
+
 import { Header } from "@/shared/ui";
 
-import Providers from "./providers";
 import "./globals.css";
 
 export const metadata: Metadata = {
