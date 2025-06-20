@@ -99,9 +99,11 @@ const MemberView = () => {
                   <Card
                     Pending={member.hasPendingEvidence}
                     back={
-                      String(member.grade) +
-                      String(member.classNumber) +
-                      String(member.number).padStart(2, "0")
+                      Number(
+                        String(member.grade) +
+                        String(member.classNumber) +
+                        String(member.number).padStart(2, "0")
+                      )
                     }
                     className={
                       click === member.email
