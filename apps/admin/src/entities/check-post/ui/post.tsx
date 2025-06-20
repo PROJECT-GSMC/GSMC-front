@@ -34,10 +34,10 @@ const Post = ({ data, onClick }: PostProps) => {
         ) : null}
       </div>
       <section className="px-[0.38rem] py-[0.75rem]">
-        <h3 className="text-body2 mb-[1rem] line-clamp-2">
+        <h3 className="text-body2 mb-[1rem] line-clamp-1">
           {isActivity(data) || isReading(data) ? data.title : null}
         </h3>
-        <p className="text-gray-400 text-body5 mb-[0.75rem] line-clamp-2">
+        <p className="text-gray-400 text-body5 mb-[0.75rem] line-clamp-1">
           {isActivity(data) || isOthers(data) ? getCategoryName(data.categoryName) : ("author" in data ? data.author : "")}
         </p>
         {data.status === "PENDING" ? (
