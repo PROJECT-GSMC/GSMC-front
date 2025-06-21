@@ -1,6 +1,5 @@
+import type { DraftResponse } from "@repo/types/draft";
 import { useQuery } from "@tanstack/react-query";
-
-import type { DraftResponse } from "../model/draft";
 
 import { getDraft } from "@/views/posts/api/getDraft";
 
