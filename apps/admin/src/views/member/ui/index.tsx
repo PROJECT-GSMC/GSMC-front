@@ -19,7 +19,7 @@ const MemberView = () => {
   const [click, setClick] = useState<string | null>(null);
   const [open, setOpen] = useState<boolean>(false);
   const [student, setStudent] = useState<Member>();
-  const [result, setResult] = useState<Member[]>([]);
+  const [result, setResult] = useState<Member[] | null>(null);
   const [grade, setGrade] = useState<number>();
   const [classNumber, setClassNumber] = useState<number>();
   const [name, setName] = useState<string>();
@@ -39,7 +39,6 @@ const MemberView = () => {
   const handleOpen = useCallback((): void => {
     setOpen((prev) => !prev);
   }, []);
-
   const handleCardClick = useCallback(async (email: string): Promise<void> => {
     setClick(email);
     try {
@@ -59,11 +58,12 @@ const MemberView = () => {
       size: 100,
     });
     if (res.status === 200) {
-      if (res.data.data.length === 0) {
+      if (res.data === null) {
         toast.error("검색된 학생이 없습니다.");
       } else {
         setOpen(false);
-        setResult(res.data.data);
+        setResult([...res.data.results]);
+        console.log(res);
       }
     }
   }, [classNumber, grade, name]);
@@ -96,7 +96,11 @@ const MemberView = () => {
                   return <div className="text-center mt-24">loading...</div>;
                 }
 
-                const target = result.length > 0 ? result : members;
+                const target =
+                  Array.isArray(result) &&
+                  (result.length > 0 || name || grade || classNumber)
+                    ? result
+                    : members;
 
                 return target.map((member: Member) => (
                   <Card
