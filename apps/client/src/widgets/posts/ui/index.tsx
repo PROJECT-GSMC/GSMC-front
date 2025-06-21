@@ -11,6 +11,7 @@ import type { CategoryType } from "../model/category";
 
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
+import type { Draft } from "@/entities/posts/model/draft";
 import Search from "@/entities/posts/ui/search";
 import { Post } from "@/shared/ui";
 
@@ -36,7 +37,7 @@ export default function PostsWidget() {
     ...(postsData?.data.otherEvidence ?? []),
   ];
 
-  const draftPosts: post[] = [
+  const draftPosts: Draft[] = [
     ...(draftsData?.activityEvidences ?? []),
     ...(draftsData?.readingEvidences ?? []),
   ];
@@ -76,7 +77,7 @@ export default function PostsWidget() {
   if (search.trim().length > 0 && resultPosts.length > 0) {
     displayedPosts = resultPosts;
   } else if (categoryName === "DRAFT") {
-    displayedPosts = draftPosts;
+    displayedPosts = draftPosts.map((draft) => ({ ...draft, id: draft.draftId }));
   } else {
     displayedPosts = posts;
   }
