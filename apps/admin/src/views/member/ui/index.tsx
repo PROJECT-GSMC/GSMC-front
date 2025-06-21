@@ -58,7 +58,7 @@ const MemberView = () => {
       size: 100,
     });
     if (res.status === 200) {
-      if (res.data === null) {
+      if (res.data.results.length === 0) {
         toast.error("검색된 학생이 없습니다.");
       } else {
         setOpen(false);
