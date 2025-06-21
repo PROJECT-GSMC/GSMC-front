@@ -8,13 +8,13 @@ import { useForm } from "react-hook-form";
 
 import { patchPassword } from "@/shared/api/patchPassword";
 import type { ServerResponse } from "@/shared/model/AuthForm";
-import type { HttpError } from "@/shared/types/error";
-import ChangePassword from "@/widgets/changePassword/ui";
-import { AuthForm } from "@widgets/auth/ui";
 import type {
   ChangePasswordForm,
   ChangePasswordProps,
 } from "@/shared/model/changePWForm";
+import type { HttpError } from "@/shared/types/error";
+import ChangePassword from "@/widgets/changePassword/ui";
+import { AuthForm } from "@widgets/auth/ui";
 
 const ChangePasswordView = () => {
   const router = useRouter();
@@ -27,9 +27,6 @@ const ChangePasswordView = () => {
     mutationFn: patchPassword,
     onSuccess: (data) => {
       if (data.success) router.push("/");
-    },
-    onError: (error: HttpError) => {
-      throw error;
     },
   });
 
