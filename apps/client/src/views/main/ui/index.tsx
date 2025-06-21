@@ -50,9 +50,9 @@ const MainView = () => {
     setShow(true)
   }, [])
 
-  const handleCloseModal = useCallback(() => async () => {
+  const handleCloseModal = useCallback(() => {
     setShow(false)
-    await refetch()
+    void refetch()
   }, [refetch])
 
 
