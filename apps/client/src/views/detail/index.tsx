@@ -4,6 +4,7 @@ import { Button } from "@repo/shared/button";
 import type { post } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
+import MockJson from "@shared/mocks/data/evidenceMock.json";
 import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -12,7 +13,6 @@ import { toast } from "sonner";
 import ConfirmDetail from "@/entities/detail/ui/confirmDetail";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
-import MockJson from "@shared/mocks/data/evidenceMock.json";
 
 const DetailView = () => {
   const searchParams = useSearchParams();
@@ -91,9 +91,9 @@ const DetailView = () => {
 
         <main className="flex flex-col gap-[3rem]">
           {post &&
-          isActivity(post) &&
-          post.imageUri != null &&
-          post.imageUri !== "" ? (
+            isActivity(post) &&
+            post.imageUri != null &&
+            post.imageUri !== "" ? (
             <div className="h-[21.215rem] bg-slate-600">
               <Image
                 alt={post.title}
