@@ -6,10 +6,9 @@ import { isActivity, isReading } from "@repo/utils/handlePost";
 import { useParams, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 
-import EditForm from "./ui/EditForm";
-
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
+import EditForm from "@/widgets/edit/ui/EditForm";
 
 
 const EditView = () => {
