@@ -4,8 +4,8 @@ export interface DraftResponse {
   activityEvidences: Draft[];
   readingEvidences: Draft[];
 }
-type ActivityDraft = Omit<Activity, "id"> & { draftId: number };
+type ActivityDraft = Omit<Activity, "id"> & { draftId: string };
 
-type ReadingDraft = Omit<Reading, "id"> & { draftId: number };
+type ReadingDraft = Omit<Reading, "id"> & { draftId: string };
 
 export type Draft = ActivityDraft | ReadingDraft;
