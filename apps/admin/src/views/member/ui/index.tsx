@@ -63,7 +63,6 @@ const MemberView = () => {
       } else {
         setOpen(false);
         setResult([...res.data.results]);
-        console.log(res);
       }
     }
   }, [classNumber, grade, name]);
@@ -96,9 +95,13 @@ const MemberView = () => {
                   return <div className="text-center mt-24">loading...</div>;
                 }
 
+                const hasFilters =
+                  (name != null && name !== "") ||
+                  (grade != null && grade !== 0) ||
+                  (classNumber != null && classNumber !== 0);
+
                 const target =
-                  Array.isArray(result) &&
-                  (result.length > 0 || name || grade || classNumber)
+                  Array.isArray(result) && (result.length > 0 || hasFilters)
                     ? result
                     : members;
 
