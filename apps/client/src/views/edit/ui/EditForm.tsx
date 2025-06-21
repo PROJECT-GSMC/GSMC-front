@@ -183,13 +183,13 @@ const EditForm = ({ type, post }: EditFormProps) => {
             rules={{
               required: "내용을 입력해주세요.",
               minLength: {
-                value: type === "reading" ? 600 : file == null ? 400 : 200,
+                value: type === "reading" ? 600 : (file == null ? 400 : 200),
                 message:
                   type === "reading"
                     ? "600자 이상 입력해주세요."
-                    : file == null
+                    : (file == null
                       ? "내용을 400자 이상 입력해주세요."
-                      : "내용을 200자 이상 입력해주세요.",
+                      : "내용을 200자 이상 입력해주세요."),
               },
             }}
           />

@@ -1,5 +1,6 @@
 "use client";
 
+import type { Draft } from "@repo/types/draft";
 import type { post, Activity } from "@repo/types/evidences";
 import { isActivity, isReading } from "@repo/utils/handlePost";
 import { useParams, useSearchParams } from "next/navigation";
@@ -9,7 +10,6 @@ import EditForm from "./ui/EditForm";
 
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
-import type { Draft } from "@repo/types/draft";
 
 
 const EditView = () => {
@@ -38,13 +38,7 @@ const EditView = () => {
     ...(draftsData?.readingEvidences ?? []),
   ];
 
-  let post: post | Draft | undefined;
-
-  if (isDraft) {
-    post = draftPosts.find((p) => String(p.draftId) === id);
-  } else {
-    post = posts.find((p) => p.id === Number(id));
-  }
+  const post: post | Draft | undefined = isDraft ? draftPosts.find((p) => String(p.draftId) === id) : posts.find((p) => p.id === Number(id));
 
   if (!post) {
     return <div>게시물을 찾을 수 없습니다.</div>;
@@ -71,9 +65,9 @@ const EditView = () => {
         (p: Activity) => p.id === post.id
       );
 
-    if (isMajorActivity) {
+    if (isMajorActivity ?? false) {
       type = "major";
-    } else if (isHumanitiesActivity) {
+    } else if (isHumanitiesActivity ?? false) {
       type = "humanities";
     } else if (isReading(post)) {
       type = "reading";
