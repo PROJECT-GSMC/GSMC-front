@@ -1,5 +1,8 @@
 export interface ChangePasswordProps {
   email: string;
-  newPassword: string;
-  newPasswordCheck: string;
+  password: string;
+}
+
+export interface ChangePasswordForm extends ChangePasswordProps {
+  passwordCheck: string;
 }
