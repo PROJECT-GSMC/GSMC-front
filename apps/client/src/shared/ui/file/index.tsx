@@ -1,3 +1,5 @@
+import { useCallback } from "react";
+
 import { Chain } from "@/shared/asset/svg/chain";
 
 interface FileProps {
@@ -8,6 +10,11 @@ interface FileProps {
 }
 
 const File = ({ isImg = true, value, onChange, label }: FileProps) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) onChange(file);
+  }, [onChange]);
+
   return (
     <div className="w-full flex flex-col gap-[0.5rem]">
       <label className="text-label" htmlFor={label}>
@@ -21,14 +28,11 @@ const File = ({ isImg = true, value, onChange, label }: FileProps) => {
         {value ? value.name : "파일 첨부"}
       </label>
       <input
-        onChange={(e) => {
-          const file = e.target.files?.[0];
-          if (file) onChange(file);
-        }}
+        accept={isImg ? "image/*" : "*/*"}
         className="hidden"
         id={label}
         type="file"
-        accept={isImg ? "image/*" : "*/*"}
+        onChange={handleChange}
       />
     </div>
   );

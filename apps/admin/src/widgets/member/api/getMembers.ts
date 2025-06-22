@@ -1,5 +1,11 @@
 import instance from "@repo/api/axios";
+import type { Member } from "@repo/types/member";
+import type { AxiosResponse } from "axios";
 
-export const getMembers = async () => {
-  return await instance.get(`/members/students`);
+interface MembersResponse {
+  data: Member[];
+}
+
+export const getMembers = async (): Promise<AxiosResponse<MembersResponse>> => {
+  return await instance.get<MembersResponse>("/members/students");
 };

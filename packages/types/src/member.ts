@@ -1,13 +1,12 @@
 export interface Member {
-  data: {
-    email: string;
-    name: string;
-    grade: number;
-    classNumber: number;
-    number: number;
-    totalScore: number;
-    role: role;
-  };
+  email: string;
+  name: string;
+  grade: number;
+  classNumber: number;
+  number: number;
+  totalScore: number;
+  role: role;
+  hasPendingEvidence?: boolean;
 }
 
 export type role =

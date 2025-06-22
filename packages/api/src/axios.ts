@@ -1,20 +1,36 @@
 "use client";
 
-import axios, { InternalAxiosRequestConfig } from "axios";
 import { getCookie } from "@repo/utils/getCookie";
+import axios, {
+  type InternalAxiosRequestConfig,
+  type CreateAxiosDefaults,
+  AxiosHeaders,
+} from "axios";
 
-const instance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_URL,
-  timeout: 10000,
-});
+const TIMEOUT = 10_000;
 
-if (typeof window !== "undefined") {
+const apiUrl = process.env["NEXT_PUBLIC_API_URL"];
+if (apiUrl == null || apiUrl === "") {
+  throw new Error("API URL not found");
+}
+
+const config: CreateAxiosDefaults = {
+  baseURL: apiUrl,
+  timeout: TIMEOUT,
+};
+
+const instance = axios.create(config);
+
+if (typeof globalThis.window === "object") {
   instance.interceptors.request.use((config: InternalAxiosRequestConfig) => {
+    const accessToken = getCookie("accessToken");
     if (
-      getCookie("accessToken") &&
-      !["/signin", "/signup"].includes(window.location.pathname)
+      typeof accessToken === "string" &&
+      !["/signin", "/signup"].includes(globalThis.window.location.pathname)
     ) {
-      config.headers.set("Authorization", `Bearer ${getCookie("accessToken")}`);
+      const headers = new AxiosHeaders(config.headers);
+      headers.set("Authorization", `Bearer ${accessToken}`);
+      config.headers = headers;
     }
 
     return config;

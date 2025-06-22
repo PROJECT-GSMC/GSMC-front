@@ -1,6 +1,5 @@
 import { HttpStatusCode } from "axios";
 
-export interface HttpError {
-  message: string;
+export interface HttpError extends Error {
   httpStatus: HttpStatusCode;
 }

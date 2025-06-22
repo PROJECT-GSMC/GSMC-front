@@ -1,21 +1,29 @@
 import SearchIcon from "@repo/shared/search";
+import { useCallback } from "react";
 
 interface SearchProps {
-  ChangeName: (name: string) => void;
   name: string;
+  ChangeName: (name: string) => void;
 }
 
-export const Search = ({ ChangeName, name }: SearchProps) => {
+export default function Search({ name, ChangeName }: SearchProps) {
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      ChangeName(e.target.value);
+    },
+    [ChangeName]
+  );
+
   return (
     <div className="relative">
       <input
-        placeholder="학생을 검색하세요"
         className="bg-tropicalblue-50 p-[0.75rem] pl-10 rounded-[0.75rem] w-full"
+        placeholder="학생을 검색하세요"
         type="text"
         value={name}
-        onChange={(e) => ChangeName(e.target.value)}
+        onChange={handleChange}
       />
       <SearchIcon />
     </div>
   );
-};
+}

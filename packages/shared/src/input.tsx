@@ -1,10 +1,7 @@
 "use client";
-import React, { useState, useEffect, useRef } from "react";
-import {
-  useController,
-  UseControllerProps,
-  FieldValues,
-} from "react-hook-form";
+import { useState, useEffect, useRef } from "react";
+import { useController } from "react-hook-form";
+import type { UseControllerProps, FieldValues } from "react-hook-form";
 
 interface InputProps<T extends FieldValues = FieldValues>
   extends UseControllerProps<T> {
@@ -14,7 +11,16 @@ interface InputProps<T extends FieldValues = FieldValues>
   isEmail?: boolean;
 }
 
-export const Input = <T extends FieldValues = FieldValues>({
+const SUFFIX = "@gsm.hs.kr";
+
+const isValidEmailPrefix = (value: string): boolean => {
+  if (value.length > 6) return false;
+  if (value.length > 0 && !/^[0-9s]/.test(value)) return false;
+  if (value.length > 1 && !/^[0-9s][0-9]*$/.test(value)) return false;
+  return true;
+};
+
+const Input = <T extends FieldValues = FieldValues>({
   type,
   className,
   isEmail = false,
@@ -24,23 +30,16 @@ export const Input = <T extends FieldValues = FieldValues>({
   const [displayValue, setDisplayValue] = useState<string>("");
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const suffix = "@gsm.hs.kr";
-
-  const isValidEmailPrefix = (value: string): boolean => {
-    if (value.length > 6) return false;
-    if (value.length > 0 && !/^[0-9s]/.test(value)) return false;
-    if (value.length > 1 && !/^[0-9s][0-9]*$/.test(value)) return false;
-    return true;
-  };
-
   useEffect(() => {
     if (isEmail && typeof field.value === "string") {
-      const valueWithoutSuffix = field.value.endsWith(suffix)
-        ? field.value.slice(0, -suffix.length)
-        : field.value;
+      const value = field.value as string;
+      const valueWithoutSuffix = value.endsWith(SUFFIX)
+        ? value.slice(0, -SUFFIX.length)
+        : value;
       setDisplayValue(valueWithoutSuffix);
     } else {
-      setDisplayValue(field.value || "");
+      const value = typeof field.value === "string" ? field.value : "";
+      setDisplayValue(value);
     }
   }, [field.value, isEmail]);
 
@@ -48,28 +47,28 @@ export const Input = <T extends FieldValues = FieldValues>({
     const newValue = e.target.value;
 
     if (isEmail) {
-      if (newValue.endsWith(suffix)) {
-        const prefix = newValue.slice(0, newValue.length - suffix.length);
+      if (newValue.endsWith(SUFFIX)) {
+        const prefix = newValue.slice(0, newValue.length - SUFFIX.length);
         if (isValidEmailPrefix(prefix)) {
           setDisplayValue(prefix);
-          field.onChange(prefix + suffix);
+          field.onChange(prefix + SUFFIX);
         }
       } else {
-        const cursorPosition = e.target.selectionStart || 0;
+        const cursorPosition = e.target.selectionStart ?? 0;
         const currentValueLength = displayValue.length;
 
         if (cursorPosition <= currentValueLength) {
           const newPrefix =
-            newValue.length > currentValueLength + suffix.length
-              ? newValue.slice(0, -suffix.length)
+            newValue.length > currentValueLength + SUFFIX.length
+              ? newValue.slice(0, -SUFFIX.length)
               : newValue;
 
           if (isValidEmailPrefix(newPrefix)) {
             setDisplayValue(newPrefix);
-            field.onChange(newPrefix + suffix);
+            field.onChange(newPrefix + SUFFIX);
           }
         } else {
-          e.target.value = displayValue + suffix;
+          e.target.value = displayValue + SUFFIX;
         }
       }
     } else {
@@ -82,9 +81,11 @@ export const Input = <T extends FieldValues = FieldValues>({
     if (isEmail && inputRef.current) {
       const input = e.target as HTMLInputElement;
       const prefixLength = displayValue.length;
+      const selectionEnd = input.selectionEnd ?? 0;
 
-      if (input.selectionEnd && input.selectionEnd > prefixLength) {
-        input.setSelectionRange(input.selectionStart || 0, prefixLength);
+      if (selectionEnd > prefixLength) {
+        const selectionStart = input.selectionStart ?? 0;
+        input.setSelectionRange(selectionStart, prefixLength);
       }
     }
   };
@@ -93,8 +94,9 @@ export const Input = <T extends FieldValues = FieldValues>({
     if (isEmail && inputRef.current) {
       const input = e.target as HTMLInputElement;
       const prefixLength = displayValue.length;
+      const selectionStart = input.selectionStart ?? 0;
 
-      if (input.selectionStart && input.selectionStart > prefixLength) {
+      if (selectionStart > prefixLength) {
         input.setSelectionRange(prefixLength, prefixLength);
       }
     }
@@ -104,11 +106,11 @@ export const Input = <T extends FieldValues = FieldValues>({
     if (isEmail && inputRef.current) {
       const input = e.target as HTMLInputElement;
       const prefixLength = displayValue.length;
-      const cursorPosition = input.selectionStart || 0;
+      const cursorPosition = input.selectionStart ?? 0;
 
       if (e.key === "a" && (e.ctrlKey || e.metaKey)) {
         e.preventDefault();
-        const fullLength = (displayValue + suffix).length;
+        const fullLength = (displayValue + SUFFIX).length;
         input.setSelectionRange(0, fullLength);
         return;
       }
@@ -129,40 +131,42 @@ export const Input = <T extends FieldValues = FieldValues>({
         return;
       }
 
-      if (isEmail) {
-        const alwaysAllowedKeys = [
-          "Backspace",
-          "Delete",
-          "ArrowLeft",
-          "ArrowRight",
-          "ArrowUp",
-          "ArrowDown",
-          "Home",
-          "End",
-          "Tab",
-        ];
-        if (alwaysAllowedKeys.includes(e.key)) {
-          return;
-        }
+      const alwaysAllowedKeys = [
+        "Backspace",
+        "Delete",
+        "ArrowLeft",
+        "ArrowRight",
+        "ArrowUp",
+        "ArrowDown",
+        "Home",
+        "End",
+        "Tab",
+      ];
+      if (alwaysAllowedKeys.includes(e.key)) {
+        return;
+      }
 
-        if (cursorPosition === 0) {
-          if (!/^[0-9s]$/.test(e.key)) {
-            e.preventDefault();
-          }
-        } else {
-          if (!/^[0-9]$/.test(e.key)) {
-            e.preventDefault();
-          }
-        }
-
-        if (
-          displayValue.length >= 6 &&
-          !e.ctrlKey &&
-          !e.metaKey &&
-          !(input.selectionEnd && input.selectionStart !== input.selectionEnd)
-        ) {
+      if (cursorPosition === 0) {
+        if (!/^[0-9s]$/.test(e.key)) {
           e.preventDefault();
         }
+      } else {
+        if (!/^[0-9]$/.test(e.key)) {
+          e.preventDefault();
+        }
+      }
+
+      const selectionStart = input.selectionStart ?? 0;
+      const selectionEnd = input.selectionEnd ?? 0;
+      const hasSelection = selectionStart !== selectionEnd;
+
+      if (
+        displayValue.length >= 6 &&
+        !e.ctrlKey &&
+        !e.metaKey &&
+        !hasSelection
+      ) {
+        e.preventDefault();
       }
     }
   };
@@ -171,8 +175,8 @@ export const Input = <T extends FieldValues = FieldValues>({
     <input
       ref={inputRef}
       className={`px-[1rem] py-[0.75rem] rounded-[0.75rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600 w-full ${className}`}
-      type={field.name === "password" ? "password" : type || "text"}
-      value={isEmail ? `${displayValue}${suffix}` : displayValue}
+      type={field.name === "password" ? "password" : type ?? "text"}
+      value={isEmail ? `${displayValue}${SUFFIX}` : displayValue}
       onChange={handleChange}
       onSelect={handleSelect}
       onClick={handleClick}
@@ -182,3 +186,5 @@ export const Input = <T extends FieldValues = FieldValues>({
     />
   );
 };
+
+export { Input };

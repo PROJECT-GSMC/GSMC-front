@@ -1,17 +1,15 @@
-import { Activity, Others, Reading } from "@repo/types/evidences";
+import type { Activity, Others, Reading } from "@repo/types/evidences";
 
-export const isActivity = (
-  data: Activity | Reading | Others
-): data is Activity => {
-  return data && "imageUrl" in data;
+const isActivity = (data: Activity | Reading | Others): data is Activity => {
+  return "imageUri" in data;
 };
 
-export const isReading = (
-  data: Activity | Reading | Others
-): data is Reading => {
-  return data && "author" in data;
+const isReading = (data: Activity | Reading | Others): data is Reading => {
+  return "author" in data;
 };
 
-export const isOthers = (data: Activity | Reading | Others): data is Others => {
-  return data && !isActivity(data) && !isReading(data);
+const isOthers = (data: Activity | Reading | Others): data is Others => {
+  return !isActivity(data) && !isReading(data);
 };
+
+export { isActivity, isReading, isOthers };

@@ -1,4 +1,4 @@
-export const deleteCookie = (name: string) => {
+const deleteCookie = (name: string) => {
   try {
     document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
   } catch (error) {
@@ -6,3 +6,5 @@ export const deleteCookie = (name: string) => {
   }
   return null;
 };
+
+export { deleteCookie };
