@@ -40,7 +40,6 @@ const MemberView = () => {
   const handleOpen = useCallback((): void => {
     setOpen((prev) => !prev);
   }, []);
-
   const handleCardClick = useCallback(async (email: string): Promise<void> => {
     setClick(email);
     try {
@@ -60,11 +59,11 @@ const MemberView = () => {
       size: 100,
     });
     if (res.status === 200) {
-      if (res.data.data.length === 0) {
+      if (res.data.results.length === 0) {
         toast.error("검색된 학생이 없습니다.");
       } else {
         setOpen(false);
-        setResult(res.data.data);
+        setResult([...res.data.results]);
       }
     }
   }, [classNumber, grade, name]);
