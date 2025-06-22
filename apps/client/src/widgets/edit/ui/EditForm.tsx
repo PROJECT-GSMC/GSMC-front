@@ -3,6 +3,11 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import type {
+  Activity,
+  Others,
+  Reading,
+} from "@repo/types/evidences";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -11,12 +16,16 @@ import { toast } from "sonner";
 import { Dropdown, File, Textarea } from "@/shared/ui";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
 import { getEditConfig } from "@/widgets/edit/model/config";
-import type { EditFormProps, FormValues, Option } from "@/widgets/edit/types/types";
+import type {
+  EditFormProps,
+  FormValues,
+  Option,
+} from "@/widgets/edit/types/types";
 
 const EditForm = ({ type, post }: EditFormProps) => {
   const router = useRouter();
   const config = getEditConfig(
-    type as "major" | "humanities" | "reading" | "others"
+    type as "major" | "humanities" | "reading" | "others",
   );
 
   const {
@@ -27,7 +36,7 @@ const EditForm = ({ type, post }: EditFormProps) => {
     mode: "onChange",
     defaultValues: getDefaultValues(
       type as "major" | "humanities" | "reading" | "others",
-      post
+      post as Activity | Reading | Others,
     ),
   });
 
@@ -36,28 +45,27 @@ const EditForm = ({ type, post }: EditFormProps) => {
   const handleFormSubmit = useCallback(
     async (data: FormValues) => {
       try {
-        await config.onSubmit(data, post.id);
+        const id = "draftId" in post ? post.draftId : post.id;
+        await config.onSubmit(data, Number(id));
         toast.success("수정이 완료되었습니다.");
         router.back();
       } catch {
         toast.error("수정에 실패했습니다.");
       }
     },
-    [config, post.id, router]
+    [config, post, router],
   );
 
   const handleReviseSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       void handleSubmit(handleFormSubmit)(e);
     },
-    [handleSubmit, handleFormSubmit]
+    [handleSubmit, handleFormSubmit],
   );
 
   const handleBack = useCallback(() => {
     router.back();
   }, [router]);
-
-
 
   if (type === "others") {
     return (
@@ -107,23 +115,25 @@ const EditForm = ({ type, post }: EditFormProps) => {
           onSubmit={handleReviseSubmit}
         >
           {(type === "major" || type === "humanities") &&
-            config.categoryOptions ? <Controller<FormValues>
-            control={control}
-            name="categoryName"
-            // eslint-disable-next-line react/jsx-no-bind
-            render={({ field: { value, onChange, ...field } }) => (
-              <Dropdown
-                label="카테고리"
-                options={config.categoryOptions ?? []}
-                value={value as Option}
-                onChange={onChange}
-                {...field}
-              />
-            )}
-            rules={{
-              required: "카테고리를 선택해주세요.",
-            }}
-          /> : null}
+            config.categoryOptions ? (
+            <Controller<FormValues>
+              control={control}
+              name="categoryName"
+              // eslint-disable-next-line react/jsx-no-bind
+              render={({ field: { value, onChange, ...field } }) => (
+                <Dropdown
+                  label="카테고리"
+                  options={config.categoryOptions ?? []}
+                  value={value as Option}
+                  onChange={onChange}
+                  {...field}
+                />
+              )}
+              rules={{
+                required: "카테고리를 선택해주세요.",
+              }}
+            />
+          ) : null}
 
           <InputContainer label="제목">
             <Input<FormValues>

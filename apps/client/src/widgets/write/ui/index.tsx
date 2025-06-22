@@ -7,12 +7,13 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 
+import { getWriteConfig } from "../model/writeConfig";
+
 import { Dropdown, File, Textarea } from "@/shared/ui";
 import type { Option } from "@/shared/ui/dropdown";
 import type { FormValues } from "@/widgets/edit/types/types";
 import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
 
-import { getWriteConfig } from "../model/writeConfig";
 
 export default function WriteForm() {
   const searchParams = useSearchParams();
@@ -207,6 +208,7 @@ export default function WriteForm() {
               <Button
                 label="임시저장"
                 state="default"
+                type="button"
                 value="draft"
                 variant="skyblue"
                 onClick={handleTemporarySave}

@@ -38,7 +38,8 @@ const Card = ({
         <span>{front}</span>
         {Pending === true && <span className="text-errors-500">*</span>}
       </div>
-      {back ?? (
+
+      {back === undefined ? (
         <svg
           onClick={() => void handleDelete()}
           xmlns="http://www.w3.org/2000/svg"
@@ -52,6 +53,12 @@ const Card = ({
             fill="#DF454A"
           />
         </svg>
+      ) : (
+        typeof back == "number" ? (
+          <p className="tabular-nums">{back}</p>
+        ) : (
+          back
+        )
       )}
     </div>
   );

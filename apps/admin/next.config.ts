@@ -8,7 +8,10 @@ const nextConfig: NextConfig = {
     ignoreDuringBuilds: true,
   },
   images: {
-    domains: ["via.placeholder.com"],
+    domains: [
+      "via.placeholder.com",
+      "gsm-certification-system.s3.ap-northeast-2.amazonaws.com",
+    ],
   },
 };
 

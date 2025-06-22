@@ -1,24 +1,24 @@
 "use client";
 
 import { Button } from "@repo/shared/button";
-import type { Member } from "@repo/types/member";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
-interface InformationProps {
-  student: Member;
-}
+import { useMember } from "@/entities/member/model/memberContext";
 
-export default function Information({ student }: InformationProps) {
+export default function Information() {
   const R = useRouter();
+  const { member: student } = useMember();
 
   const handleCheckPost = useCallback(() => {
-    R.push(`/check-post/${student.email}`);
-  }, [R, student.email]);
+    R.push(`/check-post/${student?.email}`);
+  }, [R, student?.email]);
 
   const handleScore = useCallback(() => {
-    R.push(`/score/${student.email}`);
-  }, [R, student.email]);
+    R.push(`/score/${student?.email}`);
+  }, [R, student?.email]);
+
+  if (student === undefined) { return <p className="text-center m-8">로딩중...</p> }
 
   return (
     <div className="flex flex-col h-full bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] justify-between ">

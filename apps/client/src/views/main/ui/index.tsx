@@ -1,21 +1,22 @@
 "use client";
 
+import { getCertification } from "@entities/main/api/getCertification";
+import MainDropdown from "@entities/main/ui/dropdown";
+import { ShowInformation } from "@entities/main/ui/showInformation";
 import { Button } from "@repo/shared/button";
 import Card from "@repo/shared/card";
 import List from "@repo/shared/list";
 import { getCookie } from "@repo/utils/getCookie";
 import { useQuery } from "@tanstack/react-query";
+import Modal from "@widgets/main/ui/modal";
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
+import type { ModalType } from "../model/modal";
+
 import ShowSignin from "@/entities/main/ui/showSignin";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
-import { getCertification } from "@entities/main/api/getCertification";
-import MainDropdown from "@entities/main/ui/dropdown";
-import { ShowInformation } from "@entities/main/ui/showInformation";
-import Modal from "@widgets/main/ui/modal";
 
-import type { ModalType } from "../model/modal";
 
 const MainView = () => {
   const [hoverTab, setHoverTab] = useState<string | null>(null);
@@ -49,9 +50,9 @@ const MainView = () => {
     setShow(true)
   }, [])
 
-  const handleCloseModal = useCallback(() => async () => {
+  const handleCloseModal = useCallback(() => {
     setShow(false)
-    await refetch()
+    void refetch()
   }, [refetch])
 
 

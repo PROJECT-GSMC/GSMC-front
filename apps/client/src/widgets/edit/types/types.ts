@@ -1,4 +1,5 @@
-import type { Activity, Reading, Others } from "@repo/types/evidences";
+import type { Draft } from "@repo/types/draft";
+import type { post } from "@repo/types/evidences";
 
 export interface Option {
   name: string;
@@ -17,5 +18,5 @@ export interface FormValues {
 
 export interface EditFormProps {
   type: "major" | "humanities" | "reading" | "others" | "foreign";
-  post: Activity | Reading | Others;
+  post: post | Draft;
 }

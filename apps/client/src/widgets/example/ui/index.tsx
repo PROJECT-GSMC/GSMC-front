@@ -2,11 +2,11 @@
 
 import { usePost } from "@repo/store/postProvider";
 import type { post } from "@repo/types/evidences";
+import Mock from "@shared/mocks/data/evidenceMock.json";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 import { Post } from "@/shared/ui";
-import Mock from "@shared/mocks/data/evidenceMock.json";
 
 export default function ExampleWidget() {
   const { setPost } = usePost();

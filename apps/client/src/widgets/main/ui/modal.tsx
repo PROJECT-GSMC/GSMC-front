@@ -1,13 +1,14 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import { FixScore } from "@shared/api/fixScore";
+import Dropdown from "@shared/ui/dropdown";
+import File from "@shared/ui/file";
+import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { FixScore } from "@shared/api/fixScore";
-import Dropdown from "@shared/ui/dropdown";
-import File from "@shared/ui/file";
 
 import { sendCertification } from "../api/sendCertification";
 import { sendEvidence } from "../api/sendEvidence";
@@ -20,21 +21,31 @@ interface ModalProps {
 }
 
 const Modal = ({ onClose, type }: ModalProps) => {
+  const router = useRouter();
+
   const {
     handleSubmit,
     control,
     formState: { isValid },
   } = useForm<Evidence>({ mode: "onChange" });
 
-  const handleCloseModal = useCallback((e: React.FormEvent<HTMLDivElement>) => () => {
-    if (e.target === e.currentTarget) onClose()
-  }, [onClose])
+  const handleCloseModal = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      if (e.target === e.currentTarget) {
+        onClose();
+      }
+    },
+    [onClose],
+  );
 
-  const handleStopPropagation = useCallback((e: React.FormEvent<HTMLDivElement>) => () => {
-    e.stopPropagation();
-  }, [])
+  const handleStopPropagation = useCallback(
+    (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+    },
+    [],
+  );
 
-  const handleSwitchEvidence = useCallback((data: Evidence) => async () => {
+  const handleSwitchEvidence = useCallback(async (data: Evidence) => {
     switch (type) {
       case "CERTIFICATE": {
         const res = await sendCertification({
@@ -44,6 +55,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
         });
         if (res.status === 201) {
           toast.success("자격증이 등록되었습니다.");
+          router.replace("/");
           onClose();
         } else if (res.status === 422) {
           toast.error("이미 등록된 자격증입니다.");
@@ -60,6 +72,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
         });
         if (res.status === 201) {
           toast.success("TOPCIT 점수가 등록되었습니다.");
+          router.replace("/");
           onClose();
         } else {
           toast.error("TOPCIT 점수 등록에 실패했습니다.");
@@ -71,6 +84,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
         const res = await sendEvidence(data);
         if (res.status === 201) {
           toast.success("독서로가 등록되었습니다.");
+          router.replace("/");
           onClose();
         } else if (res.status === 422) {
           toast.error(
@@ -90,9 +104,9 @@ const Modal = ({ onClose, type }: ModalProps) => {
         });
       }
     }
-  }, [onClose, type])
+  }, [onClose, router, type])
 
-  const handleEvidenceSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+  const handleFormSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     void handleSubmit(handleSwitchEvidence)(e)
   }, [handleSubmit, handleSwitchEvidence])
 
@@ -115,7 +129,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
 
         <form
           className="w-full flex flex-col gap-[1.5rem]"
-          onSubmit={handleEvidenceSubmit}
+          onSubmit={handleFormSubmit}
         >
           {type === "HUMANITY" || type === "READ_A_THON" ? (
             <Controller

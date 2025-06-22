@@ -2,17 +2,19 @@
 
 import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
+import type { Draft } from "@repo/types/draft";
 import type { EvidenceResponse, post } from "@repo/types/evidences";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
+
+import type { CategoryType } from "../model/category";
 
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import Search from "@/entities/posts/ui/search";
 import { Post } from "@/shared/ui";
 
-import type { CategoryType } from "../model/category";
 
 export default function PostsWidget() {
   const R = useRouter();
@@ -35,7 +37,7 @@ export default function PostsWidget() {
     ...(postsData?.data.otherEvidence ?? []),
   ];
 
-  const draftPosts: post[] = [
+  const draftPosts: Draft[] = [
     ...(draftsData?.activityEvidences ?? []),
     ...(draftsData?.readingEvidences ?? []),
   ];
@@ -63,14 +65,18 @@ export default function PostsWidget() {
   );
 
   const handleRoute = useCallback(
-    (post: post) => () => {
+    (post: post | Draft) => () => {
       setPost(post);
+      if ("draftId" in post) {
+        R.push(`/detail/${post.draftId}?draft=${true}`);
+        return;
+      }
       R.push(`/detail/${post.id}`);
     },
     [R, setPost]
   );
 
-  let displayedPosts: post[] = [];
+  let displayedPosts: (post | Draft)[] = [];
 
   if (search.trim().length > 0 && resultPosts.length > 0) {
     displayedPosts = resultPosts;
@@ -101,7 +107,11 @@ export default function PostsWidget() {
       <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap w-full justify-center gap-[1.12rem]">
         <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
           {displayedPosts.map((post) => (
-            <Post data={post} key={post.id} onClick={handleRoute(post)} />
+            <Post
+              data={post}
+              key={"draftId" in post ? post.draftId : post.id}
+              onClick={handleRoute(post)}
+            />
           ))}
         </div>
       </div>
