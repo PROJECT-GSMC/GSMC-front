@@ -5,7 +5,7 @@ import type { AxiosResponse } from "axios";
 import type { SearchParams } from "../model/search";
 
 interface SearchResponse {
-  data: Member[];
+  results: Member[];
 }
 
 export const getSearchedMembers = async ({
