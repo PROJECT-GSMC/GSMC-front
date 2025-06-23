@@ -2,7 +2,7 @@ export interface Activity {
   id: number;
   title: string;
   content: string;
-  imageUrl?: string;
+  imageUri?: string;
   status: postState;
   categoryName: string;
 }
@@ -18,7 +18,7 @@ export interface Reading {
 
 export interface Others {
   id: number;
-  fileUrl?: string;
+  fileUri?: string;
   evidenceType: EvidenceType;
   status: postState;
   categoryName: string;

@@ -1,4 +1,4 @@
-export const setCookie = (name: string, value: string, days = 7): void => {
+const setCookie = (name: string, value: string, days = 7): void => {
   if (typeof document === "undefined") return;
 
   try {
@@ -10,3 +10,5 @@ export const setCookie = (name: string, value: string, days = 7): void => {
     console.error(error);
   }
 };
+
+export { setCookie };

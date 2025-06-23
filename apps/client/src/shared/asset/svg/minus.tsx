@@ -5,19 +5,19 @@ interface MinusProps {
 export const Minus = ({ className }: MinusProps) => {
   return (
     <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
+      className={`${className} transition-colors duration-200`}
+      fill="none"
       height="24"
       viewBox="0 0 24 24"
-      fill="none"
-      className={`${className} transition-colors duration-200`}
+      width="24"
+      xmlns="http://www.w3.org/2000/svg"
     >
       <path
         d="M5.40039 12H18.5997"
         stroke="currentColor"
-        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
+        strokeWidth="1.5"
       />
     </svg>
   );

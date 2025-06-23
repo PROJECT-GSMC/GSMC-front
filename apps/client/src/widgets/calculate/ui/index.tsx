@@ -1,11 +1,13 @@
 "use client";
 
 import { Button } from "@repo/shared/button";
+import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { useState } from "react";
-import Dropdown, { Option } from "@shared/ui/dropdown";
-import { Plus } from "@shared/asset/svg/plus";
+
 import { Minus } from "@shared/asset/svg/minus";
+import { Plus } from "@shared/asset/svg/plus";
+import Dropdown, { type Option } from "@shared/ui/dropdown";
+
 import {
   foreignCategoryOptions,
   humanCategoryOptions,
@@ -18,31 +20,28 @@ export const Calculate = () => {
 
   const [bookCount, setBookCount] = useState(0);
   const [totalScore, setTotalScore] = useState<number>(0);
-  const [selectedOptions, setSelectedOptions] = useState<{
-    [key: string]: Option | null;
-  }>({
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, Option | null>>({
     인성: null,
     전공: null,
     외국어: null,
   });
 
-  const [categoryCounts, setCategoryCounts] = useState<{
-    [key: string]: number;
-  }>({});
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
 
-  const [idCounts, setIdCounts] = useState<{ [id: number]: number }>({});
+  const [idCounts, setIdCounts] = useState<Record<number, number>>({});
 
   const { control } = useForm();
 
-  const handlePlusWithScore = (page: string) => {
+  const handlePlusWithScore = useCallback((page: string) => () => {
     const selected = selectedOptions[page];
-    if (!selected || selected.id == null) return;
+    if (selected?.id == null) return;
 
+    const selectedId = selected.id;
     const currentSendCount = categoryCounts[selected.send] ?? 0;
-    const currentIdCount = idCounts[selected.id] ?? 0;
+    const currentIdCount = idCounts[selectedId] ?? 0;
     const max =
-      parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "") || 1;
-    const score = parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
+      Number.parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "") || 1;
+    const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
     if (currentIdCount < max) {
       setCategoryCounts((prev) => ({
         ...prev,
@@ -50,16 +49,18 @@ export const Calculate = () => {
       }));
       setIdCounts((prev) => ({
         ...prev,
-        [selected.id!]: currentIdCount + 1,
+        [selectedId]: currentIdCount + 1,
       }));
       setTotalScore((prev) => prev + score);
     }
-  };
-  const handleMinusWithScore = (page: string) => {
-    const selected = selectedOptions[page];
-    if (!selected || selected.id == null) return;
+  }, [categoryCounts, idCounts, selectedOptions]);
 
-    const score = parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
+  const handleMinusWithScore = useCallback((page: string) => () => {
+    const selected = selectedOptions[page];
+    if (selected?.id == null) return;
+
+    const selectedId = selected.id;
+    const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
     const currentSendCount = categoryCounts[selected.send] ?? 0;
     const currentIdCount = idCounts[selected.id] ?? 0;
     if (currentSendCount > 0 && currentIdCount > 0) {
@@ -69,21 +70,42 @@ export const Calculate = () => {
       }));
       setIdCounts((prev) => ({
         ...prev,
-        [selected.id!]: currentIdCount - 1,
+        [selectedId]: currentIdCount - 1,
       }));
       setTotalScore((prev) => prev - score);
     }
-  };
+  }, [categoryCounts, idCounts, selectedOptions]);
+
+  const handleCalcPage = useCallback((item: string) => () => {
+    setPage(item)
+  }, [])
+
+  const handleBookMinus = useCallback(() => {
+    if (bookCount > 0) {
+      setBookCount((prev) => prev - 1);
+      setTotalScore((prev) => prev - 10);
+    }
+  }, [bookCount])
+
+  const handleBookPlus = useCallback(() => {
+    if (bookCount < 10) {
+      setBookCount((prev) => prev + 1);
+      setTotalScore((prev) => prev + 10);
+    }
+  }, [bookCount])
+
+
+
   return (
     <div className="flex flex-col gap-[1.5rem] w-full h-[30rem]">
       <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
         {Buttons.map((item) => (
           <Button
             key={item}
+            label={item}
             state="default"
             variant={page === item ? "blue" : "skyblue_hover"}
-            label={item}
-            onClick={() => setPage(item)}
+            onClick={handleCalcPage(item)}
           />
         ))}
       </div>
@@ -91,47 +113,37 @@ export const Calculate = () => {
         <div className="flex flex-col gap-[1.5rem] mx-4">
           <div className="flex w-full gap-[1.25rem]">
             <Button
-              state={bookCount === 0 ? "disabled" : "default"}
-              variant="skyblue_hover"
+              className="group basis-1/6"
               label={
                 <Minus
                   className={
                     bookCount === 0
                       ? `text-[#828387] group-hover:text-[#828387]`
-                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                      : `text-tropicalblue-500 group-hover:text-tropicalblue-100`
                   }
                 />
               }
-              className="group basis-1/6"
-              onClick={() => {
-                if (bookCount > 0) {
-                  setBookCount((prev) => prev - 1);
-                  setTotalScore((prev) => prev - 10);
-                }
-              }}
+              state={bookCount === 0 ? "disabled" : "default"}
+              variant="skyblue_hover"
+              onClick={handleBookMinus}
             />
             <p className="basis-4/6 bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
               {bookCount}
             </p>
             <Button
-              state={bookCount === 10 ? "disabled" : "default"}
-              variant="skyblue_hover"
+              className="group basis-1/6"
               label={
                 <Plus
                   className={
                     bookCount === 10
                       ? `text-[#828387] group-hover:text-[#828387]`
-                      : `text-[#5E97FC] group-hover:text-[#DFEAFE]`
+                      : `text-tropicalblue-500 group-hover:text-tropicalblue-100`
                   }
                 />
               }
-              className="group basis-1/6"
-              onClick={() => {
-                if (bookCount < 10) {
-                  setBookCount((prev) => prev + 1);
-                  setTotalScore((prev) => prev + 10);
-                }
-              }}
+              state={bookCount === 10 ? "disabled" : "default"}
+              variant="skyblue_hover"
+              onClick={handleBookPlus}
             />
           </div>
         </div>
@@ -139,62 +151,65 @@ export const Calculate = () => {
       {["인성", "전공", "외국어"].includes(page) && (
         <div className="flex flex-col gap-[1.5rem] mx-4">
           <Controller
-            name={`category-${page}`}
             control={control}
-            rules={{ required: "카테고리를 선택해주세요." }}
+            name={`category-${page}`}
+
+            // eslint-disable-next-line react/jsx-no-bind
             render={({ field }) => (
               <Dropdown
                 label="카테고리"
                 options={
                   page === "인성"
                     ? humanCategoryOptions
-                    : page === "전공"
+                    : (page === "전공"
                       ? majorCategoryOptions
-                      : foreignCategoryOptions
+                      : foreignCategoryOptions)
                 }
                 value={selectedOptions[page] ?? undefined}
+                // eslint-disable-next-line react/jsx-no-bind
                 onChange={(option) => {
                   setSelectedOptions((prev) => ({ ...prev, [page]: option }));
                   field.onChange(option);
                 }}
               />
             )}
+            rules={{ required: "카테고리를 선택해주세요." }}
           />
           <div className="flex w-full gap-[1.25rem]">
             <Button
-              state={
-                !selectedOptions[page] ||
-                (categoryCounts[selectedOptions[page]!.send] ?? 0) === 0
-                  ? "disabled"
-                  : "default"
-              }
-              variant="skyblue_hover"
+              className="group basis-1/6"
               label={
                 <Minus
                   className={
                     !selectedOptions[page] ||
-                    (categoryCounts[selectedOptions[page]!.send] ?? 0) === 0
+                      (categoryCounts[selectedOptions[page].send] ?? 0) === 0
                       ? "text-[#828387] group-hover:text-[#828387]"
-                      : "text-[#5E97FC] group-hover:text-[#DFEAFE]"
+                      : "text-tropicalblue-500 group-hover:text-tropicalblue-100"
                   }
                 />
               }
-              className="group basis-1/6"
-              onClick={() => handleMinusWithScore(page)}
+              state={
+                !selectedOptions[page] ||
+                  (categoryCounts[selectedOptions[page].send] ?? 0) === 0
+                  ? "disabled"
+                  : "default"
+              }
+              variant="skyblue_hover"
+              onClick={handleMinusWithScore(page)}
             />
             <p className="basis-4/6 bg-tropicalblue-100 text-titleSmall text-tropicalblue-700 flex justify-center items-center rounded-[0.625rem] px-[1.5rem] py-[0.97rem]">
               {selectedOptions[page]
-                ? (categoryCounts[selectedOptions[page]!.send] ?? 0)
+                ? (categoryCounts[selectedOptions[page].send] ?? 0)
                 : 0}
             </p>
             <Button
+              className="group basis-1/6"
+              label={
+                <Plus className="text-tropicalblue-500 group-hover:text-tropicalblue-100" />
+              }
               state="default"
               variant="skyblue_hover"
-              label={
-                <Plus className="text-[#5E97FC] group-hover:text-[#DFEAFE]" />
-              }
-              className="group basis-1/6"
-              onClick={() => handlePlusWithScore(page)}
+              onClick={handlePlusWithScore(page)}
             />
           </div>
         </div>

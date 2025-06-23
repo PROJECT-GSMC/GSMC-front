@@ -1,8 +1,11 @@
-import "./globals.css";
-import type { Metadata } from "next";
-import Providers from "./providers";
-import { Toaster } from "sonner";
 import { PostProvider } from "@repo/store/postProvider";
+import type { Metadata } from "next";
+import { Toaster } from "sonner";
+
+import Providers from "./providers";
+
+import "./globals.css";
+import { MemberProvider } from "@/entities/member/model/memberContext";
 
 export const metadata: Metadata = {
   title: "GSMC",
@@ -18,9 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <PostProvider>
-          <Providers>{children}</Providers>
-        </PostProvider>
+        <MemberProvider>
+          <PostProvider>
+            <Providers>{children}</Providers>
+          </PostProvider>
+        </MemberProvider>
         <Toaster richColors />
       </body>
     </html>

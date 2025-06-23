@@ -3,17 +3,17 @@
     "id": 1,
     "title": "AWS를 이용하는 방법",
     "content": "2024년 9월 12일에 진행된 4시간짜리 AWS 교육에 참여하여 AWS VPC, AWS Lambda, AWS S3, AWS EC2 등 현대 소프트웨어 개발에서 핵심이 되는 서비스들을 학습하고 실습하였다. 학생으로서는 알기 힘든 AWS의 요금제, VPC 구성 방법 등을 실습을 통해 익히고, AI 서비스인 PartyRock을 활용한 애플리케이션도 제작해보며 AWS 생태계 전반을 이해하는 데 큰 도움이 되었다. 교육 후 임시 계정을 발급받아 자율 실습도 진행하며 다양한 시도를 해볼 수 있었다.",
-    "imageUrl": "/mocks/aws.png",
     "categoryName": "전공영역-전공특강(방과후) 참가",
-    "status": "APPROVE"
+    "status": "APPROVE",
+    "imageUri": "/mocks/aws.png"
   },
   {
     "id": 2,
     "title": "한전 KDN 소프트웨어 경진대회",
     "content": "2024년 11월 27일, 나주 한전 KDN 본사에서 개최된 소프트웨어 경진대회에 참가하여 Bstorm이라는 치매 예방 목적의 소프트웨어를 개발 및 발표하였다. 나는 서버 개발을 담당하였으며, 약 40개의 API를 설계 및 구현하고 CI 파이프라인까지 구축하였다. 모놀리식 아키텍처에 대한 이해를 넓힐 수 있었고, Git Flow를 기반으로 한 협업 방식도 경험하였다. 끝까지 버그를 해결하며 노력한 결과, 장려상을 수상하였다.",
-    "imageUrl": "/mocks/KDN.png",
     "categoryName": "전공영역-공문을 통한 전공분야 대회 참여",
-    "status": "APPROVE"
+    "status": "APPROVE",
+    "imageUri": "/mocks/KDN.png"
   },
   {
     "id": 3,
@@ -35,8 +35,8 @@
     "title": "제 27회 앱잼 참여",
     "content": "Alpaco에서 주최한 제27회 앱잼에 참여하여 '가치 하다'라는 앱을 개발하였다. 백엔드 개발을 맡아 Spring Boot와 Kotlin을 사용하였고, Git을 통한 협업의 어려움을 직접 겪으며 해결책을 찾아갔다. 앱 개발이라는 환경에 적응하며 REST API 기반으로 개발을 진행했고, 협업과 시간 관리의 중요성을 체감할 수 있었다. 생활정보 분야에서 최우수상을 수상하였다.",
     "categoryName": "전공영역-전공 분야 대회 개별 참여",
-    "fileUrl": "/mocks/appjam.png",
-    "status": "APPROVE"
+    "status": "APPROVE",
+    "imageUri": "/mocks/appjam.png"
   },
   {
     "id": 6,
@@ -47,17 +47,16 @@
   },
   {
     "id": 7,
-    "title": "월계관 코스",
+    "fileUrl": "/mocks/ReadingMarathon.png",
     "evidenceType": "READ-A-THON",
     "categoryName": "인성영역-독서마라톤 토끼코스 이상",
-    "fileUrl": "/mocks/ReadingMarathon.png",
     "status": "APPROVE"
   },
   {
     "id": 8,
     "title": "전기CAD기능사",
-    "categoryName": "인성영역-자기주도적 활동",
     "content": "2025년 1월부터 시작하여 3월까지 방과후 및 정규 수업을 통해 전기CAD기능사 자격증 필기를 준비하고, 이후 실기시험 대비까지 병행하였다. 학교 실습실을 활용해 꾸준히 실습하였고 5월 초에 자격증을 최종 취득하였다.",
+    "categoryName": "인성영역-자기주도적 활동",
     "status": "APPROVE"
   },
   {
@@ -70,20 +69,22 @@
   {
     "id": 10,
     "title": "카이스트 진로 강의",
-    "categoryName": "전공영역-전공 관련 교육프로그램 참여",
     "content": "디지털 P:UM 프로젝트의 일환으로 KAIST 견학 프로그램에 참여하여 AI 및 소프트웨어 분야의 진로 강의를 들었다. AI 시대에서 개발자가 갖춰야 할 자세와 중장기 계획 수립에 대해 실제 사례와 함께 구체적으로 배울 수 있었다.",
-    "fileUrl": "/mocks/pum.png",
-    "status": "APPROVE"
+    "categoryName": "전공영역-전공 관련 교육프로그램 참여",
+    "status": "APPROVE",
+    "imageUri": "/mocks/pum.png"
   },
   {
     "id": 11,
+    "fileUrl": "/mocks/certificate.png",
+    "evidenceType": "CERTIFICATE",
     "categoryName": "인성영역-한자자격증",
-    "status": "APPROVE",
-    "evidenceType": "CERTIFICATE"
+    "status": "APPROVE"
   },
   {
     "id": 12,
     "title": "한국사 자격증 1급",
+    "content": "한국사 능력 검정 시험 1급 취득.",
     "categoryName": "인성영역-한국사자격증",
     "status": "APPROVE"
   },
@@ -103,16 +104,16 @@
   },
   {
     "id": 15,
-    "title": "토익사관학교",
-    "categoryName": "외국어영역-토사관 참여",
     "fileUrl": "/mocks/toeiccertificate.png",
+    "evidenceType": "TOEIC",
+    "categoryName": "외국어영역-토사관 참여",
     "status": "APPROVE"
   },
   {
     "id": 16,
-    "title": "다독상",
-    "categoryName": "인성영역-교내인성영역관련수상",
     "fileUrl": "/mocks/multireadingaward.png",
+    "evidenceType": "CERTIFICATE",
+    "categoryName": "인성영역-교내인성영역관련수상",
     "status": "APPROVE"
   }
 ]
