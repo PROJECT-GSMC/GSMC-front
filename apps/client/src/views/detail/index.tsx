@@ -119,22 +119,20 @@ const DetailView = () => {
         </header>
 
         <main className="flex flex-col gap-12">
-          {imageUri && (
-            <div className="max-h-[21.215rem] w-full aspect-video bg-slate-600">
-              <Image
-                alt={title}
-                className="object-cover w-full h-full"
-                src={imageUri}
-                width={600}
-                height={337}
-              />
-            </div>
-          )}
+          {(imageUri == null) ? null : <div className="max-h-[21.215rem] w-full aspect-video bg-slate-600">
+            <Image
+              alt={title}
+              className="object-cover w-full h-full"
+              height={337}
+              src={imageUri}
+              width={600}
+            />
+          </div>}
 
           <section className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold">{subTitle}</h2>
             <p className="text-lg font-normal min-h-[400px]">
-              {!fileUri ? (
+              {(fileUri == null) ? (
                 content
               ) : (
                 <a
