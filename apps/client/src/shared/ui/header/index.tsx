@@ -12,9 +12,7 @@ import { Hamburger } from "@/shared/asset/svg/hamburger";
 
 const Header = () => {
   const pathname = usePathname();
-  const [accessToken, setAccessToken] = useState<string | null>(
-    getCookie("accessToken")
-  );
+  const [accessToken, setAccessToken] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(true);
   const router = useRouter();
 
@@ -57,10 +55,12 @@ const Header = () => {
     setMenuOpen((prev) => !prev);
   }, [setMenuOpen]);
 
+  if (accessToken === null) return null;
   if (
     pathname === "/signin" ||
     pathname === "/signup" ||
-    pathname === "/changePassword"
+    pathname === "/changePassword" ||
+    accessToken === null
   )
     return null;
   return (
