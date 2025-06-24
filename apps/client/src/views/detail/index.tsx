@@ -24,7 +24,8 @@ const DetailView = () => {
   const { id } = params;
   const { data: postsData, isError: isPostsError } = useGetPosts(null);
   const { data: draftsData, isError: isDraftsError } = useGetDraft();
-  const { data: studentData, isError: isStudentDataError } = useGetCurrentMember();
+  const { data: studentData, isError: isStudentDataError } =
+    useGetCurrentMember();
   const [show, setShow] = useState(false);
 
   if (isPostsError || isDraftsError) {
@@ -101,7 +102,7 @@ const DetailView = () => {
         subTitle = `카테고리: ${getCategoryName(post.categoryName)}`;
       }
 
-      if ("imageUri" in post && (post.imageUri != null)) {
+      if ("imageUri" in post && post.imageUri != null) {
         imageUri = post.imageUri;
       }
     }
@@ -119,7 +120,7 @@ const DetailView = () => {
         </header>
 
         <main className="flex flex-col gap-[3rem]">
-          {(imageUri == null) ? null : (
+          {imageUri == null ? null : (
             <div className="h-[21.215rem] bg-slate-600">
               <Image
                 alt={title}
@@ -133,7 +134,7 @@ const DetailView = () => {
           <section className="flex flex-col gap-[1rem]">
             <h2 className="text-[1.5rem] font-semibold">{subTitle}</h2>
             <p className="text-[1.25rem] font-normal min-h-[29.9375rem]">
-              {(fileUri == null) ? (
+              {fileUri == null ? (
                 content
               ) : (
                 <a
@@ -148,40 +149,40 @@ const DetailView = () => {
             </p>
           </section>
         </main>
-        {draft == null &&
+        {draft == null && example !== "true" && (
           <span
             className="text-errors-500 underline underline-offset-4 text-body5 cursor-pointer"
             onClick={handleShow}
           >
             이 게시글 삭제하기
           </span>
-        }
+        )}
         <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
-          {draft == null && example == null ?
-            (
-              <>
-                <Button
-                  className="w-full"
-                  label="수정하기"
-                  variant="blue"
-                  onClick={handleRevise}
-                />
-                <Button
-                  className="w-full bg-white"
-                  label="뒤로가기"
-                  variant="skyblue"
-                  onClick={handleBack}
-                />
-              </>
-            ) : (
-              example == null &&
+          {draft == null && example == null ? (
+            <>
+              <Button
+                className="w-full"
+                label="수정하기"
+                variant="blue"
+                onClick={handleRevise}
+              />
+              <Button
+                className="w-full bg-white"
+                label="뒤로가기"
+                variant="skyblue"
+                onClick={handleBack}
+              />
+            </>
+          ) : (
+            example == null && (
               <Button
                 className="w-full"
                 label="이어적기"
                 variant="blue"
                 onClick={handleRevise}
               />
-            )}
+            )
+          )}
         </footer>
       </div>
       <ConfirmDetail id={Number(id)} setShow={setShow} show={show} />
