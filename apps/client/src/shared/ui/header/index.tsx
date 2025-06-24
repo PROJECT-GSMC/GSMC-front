@@ -12,7 +12,9 @@ import { Hamburger } from "@/shared/asset/svg/hamburger";
 
 const Header = () => {
   const pathname = usePathname();
-  const [accessToken, setAccessToken] = useState<string | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(
+    getCookie("accessToken")
+  );
   const [menuOpen, setMenuOpen] = useState(true);
   const router = useRouter();
 
@@ -55,7 +57,12 @@ const Header = () => {
     setMenuOpen((prev) => !prev);
   }, [setMenuOpen]);
 
-  if (pathname === "/signin" || pathname === "/signup" || pathname === "/changePassword") return null;
+  if (
+    pathname === "/signin" ||
+    pathname === "/signup" ||
+    pathname === "/changePassword"
+  )
+    return null;
   return (
     <>
       <header className="w-full py-[1.38rem] flex justify-around border-b px-4">
@@ -81,53 +88,58 @@ const Header = () => {
                 </li>
               );
             })}
-            {(accessToken ?? "") ? <>
-              <Link
-                className="hover:text-bl cursor-pointer"
-                href="/changePassword"
-              >
-                비밀번호 변경
-              </Link>
-              <li
-                className="text-errors-500 cursor-pointer"
-                onClick={signout}
-              >
-                로그아웃
-              </li>
-            </> : null}
+            {(accessToken ?? "") ? (
+              <>
+                <Link
+                  className="hover:text-bl cursor-pointer"
+                  href="/changePassword"
+                >
+                  비밀번호 변경
+                </Link>
+                <li
+                  className="text-errors-500 cursor-pointer"
+                  onClick={signout}
+                >
+                  로그아웃
+                </li>
+              </>
+            ) : null}
           </ul>
-
         </div>
       </header>
       <section className="absolute right-0 h-full">
-        {!menuOpen && <ul className="flex flex-col sticky top-0 right-0 w-[10.5rem] h-full z-20 sm:hidden bg-[#DFEAFE] text-label gap-[1.25rem] px-[2rem] py-[1.75rem] shadow-[-10px_0_10px_rgba(0,0,0,0.1)]">
-          {header.map((item: HeaderType) => {
-            return (
-              <li key={item.href}>
+        {!menuOpen && (
+          <ul className="flex flex-col sticky top-0 right-0 w-[10.5rem] h-full z-20 sm:hidden bg-[#DFEAFE] text-label gap-[1.25rem] px-[2rem] py-[1.75rem] shadow-[-10px_0_10px_rgba(0,0,0,0.1)]">
+            {header.map((item: HeaderType) => {
+              return (
+                <li key={item.href}>
+                  <Link
+                    className={item.active ? "text-black" : ""}
+                    href={item.href}
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              );
+            })}
+            {(accessToken ?? "") ? (
+              <>
                 <Link
-                  className={item.active ? "text-black" : ""}
-                  href={item.href}
+                  className="hover:text-bl cursor-pointer"
+                  href="/changePassword"
                 >
-                  {item.label}
+                  비밀번호 변경
                 </Link>
-              </li>
-            );
-          })}
-          {(accessToken ?? "") ? <>
-            <Link
-              className="hover:text-bl cursor-pointer"
-              href="/changePassword"
-            >
-              비밀번호 변경
-            </Link>
-            <li
-              className="text-errors-500 cursor-pointer"
-              onClick={signout}
-            >
-              로그아웃
-            </li>
-          </> : null}
-        </ul>}
+                <li
+                  className="text-errors-500 cursor-pointer"
+                  onClick={signout}
+                >
+                  로그아웃
+                </li>
+              </>
+            ) : null}
+          </ul>
+        )}
       </section>
     </>
   );
