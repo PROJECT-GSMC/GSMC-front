@@ -37,7 +37,7 @@ export default function StepAuthCode({
     }
   }, [email, isAuthButtonActive, isLoading]);
 
-  const handleAuthCodeClick = useCallback(() => async () => {
+  const handleAuthCodeClick = useCallback(async () => {
     await handleAuthButtonClick()
     setShow(true)
   }, [handleAuthButtonClick])
