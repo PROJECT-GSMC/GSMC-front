@@ -11,7 +11,7 @@ import { toast } from "sonner";
 import { postSignup } from "@/entities/signup/api/postSignup";
 import type { HttpError } from "@/shared/types/error";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-import type { AuthStepForm, SignupFormProps, ServerResponse, SignupStepForm } from "@shared/model/AuthForm";
+import type { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
 import { AuthForm } from "@widgets/auth/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
 import StepPassword from "@widgets/stepPassword/ui";
@@ -27,19 +27,19 @@ const SignupView = () => {
   const {
     mutate: signupMutate,
     isPending,
-    isSuccess,
-  } = useMutation<ServerResponse, HttpError, SignupFormProps>({
-    mutationFn: postSignup,
+  } = useMutation({
+    mutationFn: (form: SignupFormProps) => postSignup(form),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: ["auth"],
         exact: false,
       });
-      if (data.success) {
+      if (data.status === 201) {
         toast.success("회원가입 성공");
+        router.push("/signin");
       }
     },
-    onError: (error) => {
+    onError: (error: HttpError) => {
       if (error.httpStatus === HttpStatusCode.Unauthorized) {
         toast.error("이메일 인증을 먼저 진행해주세요.");
       } else if (error.httpStatus === HttpStatusCode.Conflict) {
@@ -67,7 +67,7 @@ const SignupView = () => {
   const {
     control: signupControl,
     handleSubmit: handleSignupSubmit,
-    formState: { errors: signupErrors },
+    formState: { errors: signupErrors, isValid },
   } = useForm<SignupStepForm>({
     mode: "onChange",
     defaultValues: {
@@ -143,11 +143,8 @@ const SignupView = () => {
           password: data.password
         });
       }
-      if (isSuccess) {
-        router.push("/signin");
-      }
     },
-    [verifiedInfo, setStep, step, isPasswordValid, isPending, signupMutate, isSuccess, router]
+    [verifiedInfo, setStep, step, isPasswordValid, isPending, signupMutate]
   );
 
   const handleAuthCodeSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
@@ -194,7 +191,7 @@ const SignupView = () => {
             </div>
             <Button
               label="회원가입"
-              state={isPending ? "disabled" : "default"}
+              state={isValid ? "default" : "disabled"}
               type="submit"
               variant="blue"
             />
