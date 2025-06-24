@@ -11,6 +11,22 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "GSMC",
   description: "광주소프트웨어마이스터고 인증제 통합 관리 시스템",
+  icons: {
+    icon: "/favicon.ico",
+  },
+  openGraph: {
+    title: "GSMC",
+    description: "광주소프트웨어마이스터고 인증제 통합 관리 시스템",
+    url: "https://gsmc.kro.kr",
+    images: [
+      {
+        url: "https://gsmc.kro.kr/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "GSMC OG 이미지",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({
