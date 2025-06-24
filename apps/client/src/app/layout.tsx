@@ -10,7 +10,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "GSMC",
-  description: "GSM 인증제 작성 웹사이트입니다",
+  description: "광주소프트웨어마이스터고 인증제 통합 관리 시스템",
 };
 
 export default function RootLayout({
