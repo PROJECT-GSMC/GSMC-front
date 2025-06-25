@@ -4,7 +4,6 @@ import { Button } from "@repo/shared/button";
 import type { Draft } from "@repo/types/draft";
 import type { post } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
-import MockJson from "@shared/mocks/data/evidenceMock.json";
 import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
@@ -14,6 +13,7 @@ import ConfirmDetail from "@/entities/detail/ui/confirmDetail";
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
+import MockJson from "@shared/mocks/data/evidenceMock.json";
 
 const DetailView = () => {
   const searchParams = useSearchParams();
@@ -119,22 +119,20 @@ const DetailView = () => {
         </header>
 
         <main className="flex flex-col gap-12">
-          {imageUri && (
-            <div className="max-h-[21.215rem] w-full aspect-video bg-slate-600">
-              <Image
-                alt={title}
-                className="object-cover w-full h-full"
-                src={imageUri}
-                width={600}
-                height={337}
-              />
-            </div>
-          )}
+          {(imageUri == null) ? null : <div className="max-h-[21.215rem] w-full aspect-video bg-slate-600">
+            <Image
+              alt={title}
+              className="object-cover w-full h-full"
+              height={337}
+              src={imageUri}
+              width={600}
+            />
+          </div>}
 
           <section className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold">{subTitle}</h2>
             <p className="text-lg font-normal min-h-[400px]">
-              {!fileUri ? (
+              {(fileUri == null) ? (
                 content
               ) : (
                 <a

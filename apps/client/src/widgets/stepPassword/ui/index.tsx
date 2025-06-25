@@ -13,7 +13,11 @@ export default function StepPassword({ control }: { control: Control<SignupStepF
           control={control}
           name="password"
           rules={{
-            required: "비밀번호를 필수로 입력해야 합니다."
+            required: "비밀번호를 필수로 입력해야 합니다.",
+            pattern: {
+              value: /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/,
+              message: "비밀번호는 영문과 숫자를 포함하여 8자 이상이어야 합니다."
+            }
           }}
           type="password"
         />

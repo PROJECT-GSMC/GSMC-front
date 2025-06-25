@@ -23,24 +23,24 @@ export default function StepAuthCode({
     name: "email",
   });
 
-  const handleAuthButtonClick = useCallback(async () => {
-    if (isAuthButtonActive && !isLoading) {
-      try {
-        setIsLoading(true);
+  const handleAuthButtonClick = useCallback(() => {
+    const sendEmail = async () => {
+      if (isAuthButtonActive && !isLoading) {
+        try {
+          setIsLoading(true);
 
-        await postSendEmail(email);
-      } catch (error) {
-        toast.error(String(error));
-      } finally {
-        setIsLoading(false);
+          await postSendEmail(email);
+          toast.success("인증번호가 전송되었습니다.");
+          setShow(true);
+        } catch (error) {
+          toast.error(String(error));
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
+    };
+    void sendEmail();
   }, [email, isAuthButtonActive, isLoading]);
-
-  const handleAuthCodeClick = useCallback(() => async () => {
-    await handleAuthButtonClick()
-    setShow(true)
-  }, [handleAuthButtonClick])
 
   return (
     <>
@@ -70,9 +70,9 @@ export default function StepAuthCode({
             className="max-w-max"
             label={isLoading ? "전송 중..." : "인증번호"}
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
-            type="submit"
+            type="button"
             variant="blue"
-            onClick={handleAuthCodeClick}
+            onClick={handleAuthButtonClick}
           />
         </div>
       </InputContainer>
