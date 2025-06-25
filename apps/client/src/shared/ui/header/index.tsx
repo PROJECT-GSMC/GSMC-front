@@ -55,7 +55,12 @@ const Header = () => {
     setMenuOpen((prev) => !prev);
   }, [setMenuOpen]);
 
-  if (pathname === "/signin" || pathname === "/signup") return null;
+  if (
+    pathname === "/signin" ||
+    pathname === "/signup" ||
+    pathname === "/changePassword"
+  )
+    return null;
 
   return (
     <>
