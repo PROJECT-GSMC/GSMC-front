@@ -17,11 +17,8 @@ const Header = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const fetchToken = async () => {
-      const token = await getCookie("accessToken");
-      setAccessToken(token);
-    };
-    fetchToken();
+    const token = getCookie("accessToken");
+    setAccessToken(token);
   }, [pathname]);
 
   const signout = useCallback(() => {
@@ -86,7 +83,7 @@ const Header = () => {
               );
             })}
 
-            {accessToken && (
+            {accessToken === null ? null : (
               <>
                 <Link
                   className="hover:text-bl cursor-pointer"
