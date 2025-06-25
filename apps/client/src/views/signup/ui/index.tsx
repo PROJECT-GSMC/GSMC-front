@@ -170,6 +170,7 @@ const SignupView = () => {
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepAuthCode
+                hasName
                 control={authControl}
                 isAuthButtonActive={isAuthCodeStepValid}
               />
