@@ -17,9 +17,12 @@ const Header = () => {
   const router = useRouter();
 
   useEffect(() => {
-    const token = getCookie("accessToken");
-    setAccessToken(token);
-  }, []);
+    const fetchToken = async () => {
+      const token = await getCookie("accessToken");
+      setAccessToken(token);
+    };
+    fetchToken();
+  }, [pathname]);
 
   const signout = useCallback(() => {
     deleteCookie("accessToken");
@@ -55,14 +58,7 @@ const Header = () => {
     setMenuOpen((prev) => !prev);
   }, [setMenuOpen]);
 
-  if (accessToken === null) return null;
-  if (
-    pathname === "/signin" ||
-    pathname === "/signup" ||
-    pathname === "/changePassword" ||
-    accessToken === null
-  )
-    return null;
+  if (pathname === "/signin" || pathname === "/signup") return null;
   return (
     <>
       <header className="w-full py-[1.38rem] flex justify-around border-b px-4">
@@ -88,7 +84,7 @@ const Header = () => {
                 </li>
               );
             })}
-            {(accessToken ?? "") ? (
+            {accessToken && (
               <>
                 <Link
                   className="hover:text-bl cursor-pointer"
@@ -103,7 +99,7 @@ const Header = () => {
                   로그아웃
                 </li>
               </>
-            ) : null}
+            )}
           </ul>
         </div>
       </header>
@@ -122,7 +118,7 @@ const Header = () => {
                 </li>
               );
             })}
-            {(accessToken ?? "") ? (
+            {accessToken && (
               <>
                 <Link
                   className="hover:text-bl cursor-pointer"
@@ -137,7 +133,7 @@ const Header = () => {
                   로그아웃
                 </li>
               </>
-            ) : null}
+            )}
           </ul>
         )}
       </section>
