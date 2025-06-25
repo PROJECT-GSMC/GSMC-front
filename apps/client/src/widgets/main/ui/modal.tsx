@@ -72,15 +72,24 @@ const Modal = ({ onClose, type }: ModalProps) => {
     },
     onSuccess: (res) => {
       if (res.status == HttpStatusCode.Created) {
-        toast.success(
-          type === "CERTIFICATE"
-            ? "자격증이 등록되었습니다."
-            : type === "TOPCIT"
-              ? "TOPCIT 점수가 등록되었습니다."
-              : type === "READ_A_THON"
-                ? "독서로가 등록되었습니다."
-                : "인성 자격증이 등록되었습니다."
-        );
+        switch (type) {
+          case "CERTIFICATE": {
+            toast.success("자격증이 등록되었습니다.");
+            break;
+          }
+          case "TOPCIT": {
+            toast.success("TOPCIT 점수가 등록되었습니다.");
+            break;
+          }
+          case "READ_A_THON": {
+            toast.success("독서로가 등록되었습니다.");
+            break;
+          }
+          case "HUMANITY": {
+            toast.success("인성 자격증이 등록되었습니다.")
+            break;
+          }
+        }
         router.refresh();
         onClose();
       }
