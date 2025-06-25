@@ -15,7 +15,7 @@ interface FeatScoreRequest {
 export const featScore = async (
   email: string,
   category: string,
-  score: number
+  score: number,
 ): Promise<AxiosResponse<FeatScoreResponse>> => {
   const data: FeatScoreRequest = {
     email,

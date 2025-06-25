@@ -18,10 +18,15 @@ export default function DetailView() {
   const { member: student, setMember } = useMember();
   const { handlePostState } = useChangeEvidenceState(Number(id));
   const searchParams = useSearchParams();
-  const email = searchParams.get('email');
-  const status = searchParams.get('status') as postState | null;
-  const { data: studentData, isError: isStudentError } = useGetStudent(decodeURIComponent(String(student?.email ?? email)));
-  const { data: studentPost, isError: isPostError } = useGetPosts(String(student?.email ?? email), status);
+  const email = searchParams.get("email");
+  const status = searchParams.get("status") as postState | null;
+  const { data: studentData, isError: isStudentError } = useGetStudent(
+    decodeURIComponent(String(student?.email ?? email)),
+  );
+  const { data: studentPost, isError: isPostError } = useGetPosts(
+    String(student?.email ?? email),
+    status,
+  );
 
   useEffect(() => {
     if (!student && studentData?.data) {
@@ -67,19 +72,23 @@ export default function DetailView() {
     <div className="flex flex-col items-center mt-12 px-4 sm:px-8">
       <div className="flex flex-col w-full max-w-[37.5rem] gap-[1.75rem]">
         <header className="flex flex-col w-full max-w-[600px] gap-2">
-          <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem] ">{title}</h1>
+          <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem] ">
+            {title}
+          </h1>
           <h3 className="text-sm text-[#767676] text-right font-normal">
             {post && isReading(post) ? post.author : "사용자"} {" . "}
-            {post && (isActivity(post) || isOthers(post)) ? getCategoryName(post.categoryName) : "Area"}
+            {post && (isActivity(post) || isOthers(post))
+              ? getCategoryName(post.categoryName)
+              : "Area"}
           </h3>
           <div className="w-full h-px bg-[#A6A6A6]" />
         </header>
 
         <main className="flex flex-col gap-12">
           {post &&
-            isActivity(post) &&
-            post.imageUri != null &&
-            post.imageUri !== "" ? (
+          isActivity(post) &&
+          post.imageUri != null &&
+          post.imageUri !== "" ? (
             <div className="max-h-[21.215rem]  w-full aspect-video bg-slate-600">
               <Image
                 alt={post.title}

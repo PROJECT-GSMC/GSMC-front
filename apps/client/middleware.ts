@@ -26,7 +26,7 @@ async function refreshAccessToken(refreshToken: string) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ refreshToken }),
-      }
+      },
     );
 
     if (!response.ok) return null;

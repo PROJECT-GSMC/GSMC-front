@@ -3,11 +3,7 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
-import type {
-  Activity,
-  Others,
-  Reading,
-} from "@repo/types/evidences";
+import type { Activity, Others, Reading } from "@repo/types/evidences";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
@@ -115,7 +111,7 @@ const EditForm = ({ type, post }: EditFormProps) => {
           onSubmit={handleReviseSubmit}
         >
           {(type === "major" || type === "humanities") &&
-            config.categoryOptions ? (
+          config.categoryOptions ? (
             <Controller<FormValues>
               control={control}
               name="categoryName"
@@ -183,13 +179,13 @@ const EditForm = ({ type, post }: EditFormProps) => {
             rules={{
               required: "내용을 입력해주세요.",
               minLength: {
-                value: type === "reading" ? 600 : (file == null ? 400 : 200),
+                value: type === "reading" ? 600 : file == null ? 400 : 200,
                 message:
                   type === "reading"
                     ? "600자 이상 입력해주세요."
-                    : (file == null
+                    : file == null
                       ? "내용을 400자 이상 입력해주세요."
-                      : "내용을 200자 이상 입력해주세요."),
+                      : "내용을 200자 이상 입력해주세요.",
               },
             }}
           />

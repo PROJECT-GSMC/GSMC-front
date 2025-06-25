@@ -4,7 +4,7 @@ import { isAxiosError, type AxiosResponse } from "axios";
 import type { ChangePasswordProps } from "../model/changePWForm";
 
 export const patchPassword = async (
-  form: ChangePasswordProps
+  form: ChangePasswordProps,
 ): Promise<AxiosResponse> => {
   try {
     const response = await instance.patch(`/auth/change-password`, form);

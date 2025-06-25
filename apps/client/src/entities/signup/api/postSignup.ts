@@ -4,7 +4,7 @@ import { isAxiosError, type AxiosResponse } from "axios";
 import type { SignupFormProps } from "@shared/model/AuthForm";
 
 export const postSignup = async (
-  form: SignupFormProps
+  form: SignupFormProps,
 ): Promise<AxiosResponse> => {
   try {
     const response = await instance.post(`/auth/signup`, form);

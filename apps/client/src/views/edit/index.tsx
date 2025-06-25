@@ -10,7 +10,6 @@ import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import EditForm from "@/widgets/edit/ui/EditForm";
 
-
 const EditView = () => {
   const params = useParams();
   const searchParams = useSearchParams();
@@ -37,7 +36,9 @@ const EditView = () => {
     ...(draftsData?.readingEvidences ?? []),
   ];
 
-  const post: post | Draft | undefined = isDraft ? draftPosts.find((p) => String(p.draftId) === id) : posts.find((p) => p.id === Number(id));
+  const post: post | Draft | undefined = isDraft
+    ? draftPosts.find((p) => String(p.draftId) === id)
+    : posts.find((p) => p.id === Number(id));
 
   if (!post) {
     return <div>게시물을 찾을 수 없습니다.</div>;
@@ -56,12 +57,14 @@ const EditView = () => {
   } else {
     const isMajorActivity =
       isActivity(post) &&
-      postsData?.data.majorActivityEvidence.some((p: Activity) => p.id === post.id);
+      postsData?.data.majorActivityEvidence.some(
+        (p: Activity) => p.id === post.id,
+      );
 
     const isHumanitiesActivity =
       isActivity(post) &&
       postsData?.data.humanitiesActivityEvidence.some(
-        (p: Activity) => p.id === post.id
+        (p: Activity) => p.id === post.id,
       );
 
     if (isMajorActivity ?? false) {

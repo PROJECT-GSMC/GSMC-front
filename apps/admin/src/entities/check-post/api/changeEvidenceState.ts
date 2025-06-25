@@ -8,11 +8,11 @@ interface ChangeEvidenceStateResponse {
 
 export const changeEvidenceState = async (
   evidenceId: number,
-  status: postState
+  status: postState,
 ): Promise<ChangeEvidenceStateResponse> => {
   const response = await instance.patch<ChangeEvidenceStateResponse>(
     `/evidence/${evidenceId}/status`,
-    { status }
+    { status },
   );
   return response;
 };

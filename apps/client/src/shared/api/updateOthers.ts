@@ -3,7 +3,7 @@ import type { AxiosError, AxiosResponse } from "axios";
 
 export const updateOthers = async (
   evidenceId: number,
-  formData: FormData
+  formData: FormData,
 ): Promise<AxiosError | AxiosResponse> => {
   try {
     const res = await instance.patch(`evidence/other/${evidenceId}`, formData);

@@ -12,7 +12,7 @@ export async function PATCH(request: NextRequest) {
         JSON.stringify({ error: "리프레시 토큰이 없습니다." }),
         {
           status: 400,
-        }
+        },
       );
     }
 
@@ -24,7 +24,7 @@ export async function PATCH(request: NextRequest) {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ refreshToken }),
-      }
+      },
     );
 
     if (!res.ok) {

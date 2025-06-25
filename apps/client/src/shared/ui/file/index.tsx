@@ -15,7 +15,7 @@ const File = ({ isImg = true, value, onChange, label }: FileProps) => {
       const file = e.target.files?.[0];
       if (file) onChange(file);
     },
-    [onChange]
+    [onChange],
   );
 
   return (

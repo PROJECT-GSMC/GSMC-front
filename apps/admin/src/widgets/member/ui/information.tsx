@@ -18,7 +18,9 @@ export default function Information() {
     R.push(`/score/${student?.email}`);
   }, [R, student?.email]);
 
-  if (student === undefined) { return <p className="text-center m-8">로딩중...</p> }
+  if (student === undefined) {
+    return <p className="text-center m-8">로딩중...</p>;
+  }
 
   return (
     <div className="flex flex-col h-full bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] justify-between ">

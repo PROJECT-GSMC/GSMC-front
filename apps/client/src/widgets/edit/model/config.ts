@@ -14,7 +14,7 @@ interface Config {
 }
 
 export const getEditConfig = (
-  type: "major" | "humanities" | "reading" | "others"
+  type: "major" | "humanities" | "reading" | "others",
 ): Config => {
   switch (type) {
     case "major": {

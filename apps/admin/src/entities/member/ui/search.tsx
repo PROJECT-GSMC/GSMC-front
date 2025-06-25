@@ -11,7 +11,7 @@ export default function Search({ name, ChangeName }: SearchProps) {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       ChangeName(e.target.value);
     },
-    [ChangeName]
+    [ChangeName],
   );
 
   return (

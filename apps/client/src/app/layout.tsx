@@ -6,7 +6,6 @@ import { Header } from "@/shared/ui";
 
 import Providers from "./providers";
 
-
 import "./globals.css";
 
 export const metadata: Metadata = {

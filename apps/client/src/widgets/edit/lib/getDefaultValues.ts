@@ -5,7 +5,7 @@ import type { FormValues } from "../types/types";
 
 export const getDefaultValues = (
   type: "major" | "humanities" | "reading" | "others",
-  post: Activity | Reading | Others
+  post: Activity | Reading | Others,
 ): Partial<FormValues> => {
   const config = getEditConfig(type);
 
@@ -26,7 +26,7 @@ export const getDefaultValues = (
   ) {
     const defaultCategory =
       config.categoryOptions?.find(
-        (option) => option.send === post.categoryName
+        (option) => option.send === post.categoryName,
       ) ?? config.categoryOptions?.[0];
 
     return {

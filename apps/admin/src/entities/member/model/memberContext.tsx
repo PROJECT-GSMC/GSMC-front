@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import type { Member } from "@repo/types/member";
 import { createContext, useContext, useMemo, useState } from "react";
@@ -10,18 +10,17 @@ interface MemberContextType {
 }
 
 const MemberContext = createContext<MemberContextType>({
-  member: undefined, setMember: () => {
+  member: undefined,
+  setMember: () => {
     throw new Error("MemberContext not initialized");
-  }
+  },
 });
 
 const MemberProvider = ({ children }: { children: ReactNode }) => {
   const [member, setMember] = useState<Member | undefined>();
   const value = useMemo(() => ({ member, setMember }), [member]);
   return (
-    <MemberContext.Provider value={value}>
-      {children}
-    </MemberContext.Provider>
+    <MemberContext.Provider value={value}>{children}</MemberContext.Provider>
   );
 };
 
@@ -30,4 +29,4 @@ const useMember = (): MemberContextType => {
   return context;
 };
 
-export { MemberProvider, useMember }
+export { MemberProvider, useMember };

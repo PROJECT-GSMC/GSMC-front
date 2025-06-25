@@ -53,12 +53,10 @@ const Card = ({
             fill="#DF454A"
           />
         </svg>
+      ) : typeof back == "number" ? (
+        <p className="tabular-nums">{back}</p>
       ) : (
-        typeof back == "number" ? (
-          <p className="tabular-nums">{back}</p>
-        ) : (
-          back
-        )
+        back
       )}
     </div>
   );

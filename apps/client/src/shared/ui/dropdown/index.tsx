@@ -45,11 +45,13 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
     setIsOpen((prev) => !prev);
   }, []);
 
-  const handleSelect = useCallback((option: Option) => () => {
-    onChange(option);
-    setIsOpen(false);
-
-  }, [onChange]);
+  const handleSelect = useCallback(
+    (option: Option) => () => {
+      onChange(option);
+      setIsOpen(false);
+    },
+    [onChange],
+  );
 
   return (
     <div
@@ -63,33 +65,42 @@ const Dropdown = ({ options, label, value, onChange }: DropdownProps) => {
       )}
 
       <button
-        className={`rounded-[0.625rem] min-h-[56px] text-left ${isOpen ? "border-tropicalblue-500" : ""
-          } px-[1.5rem] py-[1rem] border mt-[0.5rem]`}
+        className={`rounded-[0.625rem] min-h-[56px] text-left ${
+          isOpen ? "border-tropicalblue-500" : ""
+        } px-[1.5rem] py-[1rem] border mt-[0.5rem]`}
         type="button"
         onClick={handleButtonClick}
       >
         <div className="flex gap-2">
           <span>{value?.name ?? "선택해주세요"}</span>
-          {value?.score != null && value.score !== "" && <span>/ {value.score}</span>}
-          {value?.max_number != null && value.max_number !== "" && <span>/ {value.max_number}</span>}
+          {value?.score != null && value.score !== "" && (
+            <span>/ {value.score}</span>
+          )}
+          {value?.max_number != null && value.max_number !== "" && (
+            <span>/ {value.max_number}</span>
+          )}
         </div>
       </button>
 
-      {isOpen ? <ul className="absolute z-10 rounded-[0.625rem] bg-white w-full border overflow-auto max-h-[200px] top-[6rem]">
-        {options.map((option, index) => (
-          <li
-            className="rounded-[0.625rem] text-left px-[1.5rem] py-[1rem] hover:bg-gray-100 cursor-pointer"
-            key={index}
-            onClick={handleSelect(option)}
-          >
-            <div className="flex gap-1 sm:gap-2">
-              <span>{option.name}</span>
-              {(option.score == null) ? null : <span>/ {option.score}</span>}
-              {(option.max_number == null) ? null : <span>/ {option.max_number}</span>}
-            </div>
-          </li>
-        ))}
-      </ul> : null}
+      {isOpen ? (
+        <ul className="absolute z-10 rounded-[0.625rem] bg-white w-full border overflow-auto max-h-[200px] top-[6rem]">
+          {options.map((option, index) => (
+            <li
+              className="rounded-[0.625rem] text-left px-[1.5rem] py-[1rem] hover:bg-gray-100 cursor-pointer"
+              key={index}
+              onClick={handleSelect(option)}
+            >
+              <div className="flex gap-1 sm:gap-2">
+                <span>{option.name}</span>
+                {option.score == null ? null : <span>/ {option.score}</span>}
+                {option.max_number == null ? null : (
+                  <span>/ {option.max_number}</span>
+                )}
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : null}
     </div>
   );
 };

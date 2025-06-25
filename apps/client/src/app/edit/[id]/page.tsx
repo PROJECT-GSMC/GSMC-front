@@ -4,4 +4,4 @@ const EditPage = () => {
   return <EditView />;
 };
 
-export default EditPage; 
+export default EditPage;

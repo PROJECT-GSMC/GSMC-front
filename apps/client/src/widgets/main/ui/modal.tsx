@@ -10,7 +10,6 @@ import { FixScore } from "@shared/api/fixScore";
 import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
 
-
 import { sendCertification } from "../api/sendCertification";
 import { sendEvidence } from "../api/sendEvidence";
 import type { Evidence } from "../model/evidence";
@@ -46,70 +45,76 @@ const Modal = ({ onClose, type }: ModalProps) => {
     [],
   );
 
-  const handleSwitchEvidence = useCallback(async (data: Evidence) => {
-    switch (type) {
-      case "CERTIFICATE": {
-        const res = await sendCertification({
-          name: data.categoryName,
-          file: data.file,
-          acquisitionDate: String(data.acquisitionDate),
-        });
-        if (res.status === 201) {
-          toast.success("자격증이 등록되었습니다.");
-          router.replace("/");
-          onClose();
-        } else if (res.status === 422) {
-          toast.error("이미 등록된 자격증입니다.");
-        } else {
-          toast.error("자격증 등록에 실패했습니다.");
+  const handleSwitchEvidence = useCallback(
+    async (data: Evidence) => {
+      switch (type) {
+        case "CERTIFICATE": {
+          const res = await sendCertification({
+            name: data.categoryName,
+            file: data.file,
+            acquisitionDate: String(data.acquisitionDate),
+          });
+          if (res.status === 201) {
+            toast.success("자격증이 등록되었습니다.");
+            router.replace("/");
+            onClose();
+          } else if (res.status === 422) {
+            toast.error("이미 등록된 자격증입니다.");
+          } else {
+            toast.error("자격증 등록에 실패했습니다.");
+          }
+
+          break;
         }
+        case "TOPCIT": {
+          const res = await FixScore({
+            categoryName: "MAJOR-TOPCIT_SCORE",
+            score: Number(data.value),
+          });
+          if (res.status === 201) {
+            toast.success("TOPCIT 점수가 등록되었습니다.");
+            router.replace("/");
+            onClose();
+          } else {
+            toast.error("TOPCIT 점수 등록에 실패했습니다.");
+          }
 
-        break;
-      }
-      case "TOPCIT": {
-        const res = await FixScore({
-          categoryName: "MAJOR-TOPCIT_SCORE",
-          score: Number(data.value),
-        });
-        if (res.status === 201) {
-          toast.success("TOPCIT 점수가 등록되었습니다.");
-          router.replace("/");
-          onClose();
-        } else {
-          toast.error("TOPCIT 점수 등록에 실패했습니다.");
+          break;
         }
+        case "READ_A_THON": {
+          const res = await sendEvidence(data);
+          if (res.status === 201) {
+            toast.success("독서로가 등록되었습니다.");
+            router.replace("/");
+            onClose();
+          } else if (res.status === 422) {
+            toast.error(
+              "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요",
+            );
+          } else {
+            toast.error("독서로 등록에 실패했습니다.");
+          }
 
-        break;
-      }
-      case "READ_A_THON": {
-        const res = await sendEvidence(data);
-        if (res.status === 201) {
-          toast.success("독서로가 등록되었습니다.");
-          router.replace("/");
-          onClose();
-        } else if (res.status === 422) {
-          toast.error(
-            "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요"
-          );
-        } else {
-          toast.error("독서로 등록에 실패했습니다.");
+          break;
         }
-
-        break;
+        case "HUMANITY": {
+          await sendCertification({
+            name: data.option.send,
+            file: data.file,
+            acquisitionDate: String(data.acquisitionDate),
+          });
+        }
       }
-      case "HUMANITY": {
-        await sendCertification({
-          name: data.option.send,
-          file: data.file,
-          acquisitionDate: String(data.acquisitionDate),
-        });
-      }
-    }
-  }, [onClose, router, type])
+    },
+    [onClose, router, type],
+  );
 
-  const handleFormSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    void handleSubmit(handleSwitchEvidence)(e)
-  }, [handleSubmit, handleSwitchEvidence])
+  const handleFormSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      void handleSubmit(handleSwitchEvidence)(e);
+    },
+    [handleSubmit, handleSwitchEvidence],
+  );
 
   return (
     <div
@@ -123,9 +128,9 @@ const Modal = ({ onClose, type }: ModalProps) => {
         <h1 className="text-title4s mb-6 text-center">
           {type === "TOPCIT"
             ? "TOPCIT"
-            : (type === "READ_A_THON"
+            : type === "READ_A_THON"
               ? "독서로"
-              : "자격증")}
+              : "자격증"}
         </h1>
 
         <form
