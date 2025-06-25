@@ -9,6 +9,8 @@ interface InputProps<T extends FieldValues = FieldValues>
   className?: string;
   type?: string;
   isEmail?: boolean;
+  min?: number;
+  max?: number;
 }
 
 const SUFFIX = "@gsm.hs.kr";
@@ -24,6 +26,8 @@ const Input = <T extends FieldValues = FieldValues>({
   type,
   className,
   isEmail = false,
+  min,
+  max,
   ...props
 }: InputProps<T>) => {
   const { field } = useController(props);
@@ -175,7 +179,7 @@ const Input = <T extends FieldValues = FieldValues>({
     <input
       ref={inputRef}
       className={`px-[1rem] py-[0.75rem] rounded-[0.75rem] border focus: outline-tropicalblue-500 bg-white ui-outline-gray-600 w-full ${className}`}
-      type={field.name === "password" ? "password" : type ?? "text"}
+      type={field.name === "password" ? "password" : (type ?? "text")}
       value={isEmail ? `${displayValue}${SUFFIX}` : displayValue}
       onChange={handleChange}
       onSelect={handleSelect}
@@ -183,6 +187,8 @@ const Input = <T extends FieldValues = FieldValues>({
       onKeyDown={handleKeyDown}
       onBlur={field.onBlur}
       name={field.name}
+      min={min}
+      max={max}
     />
   );
 };
