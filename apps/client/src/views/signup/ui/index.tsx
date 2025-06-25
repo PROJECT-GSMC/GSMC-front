@@ -84,28 +84,28 @@ const SignupView = () => {
 
   const isAuthCodeStepValid = Boolean(
     watchedAuthValues.name &&
-      watchedAuthValues.email &&
-      /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
-      !authErrors.name &&
-      !authErrors.email,
+    watchedAuthValues.email &&
+    /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
+    !authErrors.name &&
+    !authErrors.email,
   );
 
   const canProceedToPassword =
     isAuthCodeStepValid &&
     Boolean(
       watchedAuthValues.authcode &&
-        watchedAuthValues.authcode.length >= 8 &&
-        !authErrors.authcode,
+      watchedAuthValues.authcode.length >= 8 &&
+      !authErrors.authcode,
     );
 
   const isPasswordValid = useCallback(
     (data: SignupStepForm) =>
       Boolean(
         data.password &&
-          data.passwordCheck &&
-          data.password === data.passwordCheck &&
-          !signupErrors.password &&
-          !signupErrors.passwordCheck,
+        data.passwordCheck &&
+        data.password === data.passwordCheck &&
+        !signupErrors.password &&
+        !signupErrors.passwordCheck,
       ),
     [signupErrors.password, signupErrors.passwordCheck],
   );
