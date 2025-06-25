@@ -1,13 +1,14 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
-import { FixScore } from "@shared/api/fixScore";
-import Dropdown from "@shared/ui/dropdown";
-import File from "@shared/ui/file";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
+
+import { FixScore } from "@shared/api/fixScore";
+import Dropdown from "@shared/ui/dropdown";
+import File from "@shared/ui/file";
 
 
 import { sendCertification } from "../api/sendCertification";

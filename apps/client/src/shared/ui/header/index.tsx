@@ -59,8 +59,7 @@ const Header = () => {
   if (
     pathname === "/signin" ||
     pathname === "/signup" ||
-    pathname === "/changePassword" ||
-    accessToken === null
+    pathname === "/changePassword"
   )
     return null;
   return (
@@ -88,7 +87,7 @@ const Header = () => {
                 </li>
               );
             })}
-            {(accessToken ?? "") ? (
+            {accessToken ? (
               <>
                 <Link
                   className="hover:text-bl cursor-pointer"
@@ -122,7 +121,7 @@ const Header = () => {
                 </li>
               );
             })}
-            {(accessToken ?? "") ? (
+            {accessToken ? (
               <>
                 <Link
                   className="hover:text-bl cursor-pointer"
