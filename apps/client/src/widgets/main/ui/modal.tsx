@@ -1,11 +1,14 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import { useMutation } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import type { HttpError } from "@/shared/types/error";
 import { FixScore } from "@shared/api/fixScore";
 import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
@@ -29,76 +32,37 @@ const Modal = ({ onClose, type }: ModalProps) => {
     formState: { isValid },
   } = useForm<Evidence>({ mode: "onChange" });
 
-  const handleCloseModal = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget) {
-        onClose();
-      }
-    },
-    [onClose],
-  );
+  const handleCloseModal = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }, [onClose]);
 
-  const handleStopPropagation = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation();
-    },
-    [],
-  );
+  const handleStopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  }, []);
 
-  const handleSwitchEvidence = useCallback(
-    async (data: Evidence) => {
+  const mutation = useMutation({
+    mutationFn: async ({ type, data }: { type: ModalProps["type"]; data: Evidence }) => {
       switch (type) {
         case "CERTIFICATE": {
-          const res = await sendCertification({
+          return await sendCertification({
             name: data.categoryName,
             file: data.file,
             acquisitionDate: String(data.acquisitionDate),
           });
-          if (res.status === 201) {
-            toast.success("자격증이 등록되었습니다.");
-            router.replace("/");
-            onClose();
-          } else if (res.status === 422) {
-            toast.error("이미 등록된 자격증입니다.");
-          } else {
-            toast.error("자격증 등록에 실패했습니다.");
-          }
-
-          break;
         }
         case "TOPCIT": {
-          const res = await FixScore({
+          return await FixScore({
             categoryName: "MAJOR-TOPCIT_SCORE",
             score: Number(data.value),
           });
-          if (res.status === 201) {
-            toast.success("TOPCIT 점수가 등록되었습니다.");
-            router.replace("/");
-            onClose();
-          } else {
-            toast.error("TOPCIT 점수 등록에 실패했습니다.");
-          }
-
-          break;
         }
         case "READ_A_THON": {
-          const res = await sendEvidence(data);
-          if (res.status === 201) {
-            toast.success("독서로가 등록되었습니다.");
-            router.replace("/");
-            onClose();
-          } else if (res.status === 422) {
-            toast.error(
-              "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요",
-            );
-          } else {
-            toast.error("독서로 등록에 실패했습니다.");
-          }
-
-          break;
+          return await sendEvidence(data);
         }
         case "HUMANITY": {
-          await sendCertification({
+          return await sendCertification({
             name: data.option.send,
             file: data.file,
             acquisitionDate: String(data.acquisitionDate),
@@ -106,15 +70,37 @@ const Modal = ({ onClose, type }: ModalProps) => {
         }
       }
     },
-    [onClose, router, type],
-  );
-
-  const handleFormSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      void handleSubmit(handleSwitchEvidence)(e);
+    onSuccess: (res) => {
+      if (res.status == HttpStatusCode.Created) {
+        toast.success(
+          type === "CERTIFICATE"
+            ? "자격증이 등록되었습니다."
+            : type === "TOPCIT"
+              ? "TOPCIT 점수가 등록되었습니다."
+              : type === "READ_A_THON"
+                ? "독서로가 등록되었습니다."
+                : "인성 자격증이 등록되었습니다."
+        );
+        router.replace("/");
+        onClose();
+      }
     },
-    [handleSubmit, handleSwitchEvidence],
-  );
+    onError: (error: HttpError) => {
+      if (error.httpStatus == HttpStatusCode.UnprocessableEntity) {
+        toast.error(
+          type === "READ_A_THON"
+            ? "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요"
+            : "더 이상 자격증을 추가할 수 없습니다."
+        );
+      } else if (error.httpStatus == HttpStatusCode.Conflict) {
+        toast.error("이미 등록된 자격증입니다.");
+      }
+    },
+  });
+
+  const handleFormSubmit = (data: Evidence) => {
+    mutation.mutate({ type, data });
+  };
 
   return (
     <div
@@ -128,14 +114,14 @@ const Modal = ({ onClose, type }: ModalProps) => {
         <h1 className="text-title4s mb-6 text-center">
           {type === "TOPCIT"
             ? "TOPCIT"
-            : type === "READ_A_THON"
+            : (type === "READ_A_THON"
               ? "독서로"
-              : "자격증"}
+              : "자격증")}
         </h1>
 
         <form
           className="w-full flex flex-col gap-[1.5rem]"
-          onSubmit={handleFormSubmit}
+          onSubmit={handleSubmit(handleFormSubmit)}
         >
           {type === "HUMANITY" || type === "READ_A_THON" ? (
             <Controller
