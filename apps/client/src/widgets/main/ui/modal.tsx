@@ -42,7 +42,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
     e.stopPropagation();
   }, []);
 
-  const mutation = useMutation({
+  const { mutate } = useMutation({
     mutationFn: async ({ type, data }: { type: ModalProps["type"]; data: Evidence }) => {
       switch (type) {
         case "CERTIFICATE": {
@@ -81,7 +81,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
                 ? "독서로가 등록되었습니다."
                 : "인성 자격증이 등록되었습니다."
         );
-        router.replace("/");
+        router.refresh();
         onClose();
       }
     },
@@ -98,9 +98,13 @@ const Modal = ({ onClose, type }: ModalProps) => {
     },
   });
 
-  const handleFormSubmit = (data: Evidence) => {
-    mutation.mutate({ type, data });
-  };
+  const handleFormSubmit = useCallback((data: Evidence) => {
+    mutate({ type, data });
+  }, [mutate, type]);
+
+  const handleCertificateFormSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    void handleSubmit(handleFormSubmit)(e);
+  }, [handleFormSubmit, handleSubmit])
 
   return (
     <div
@@ -121,7 +125,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
 
         <form
           className="w-full flex flex-col gap-[1.5rem]"
-          onSubmit={handleSubmit(handleFormSubmit)}
+          onSubmit={handleCertificateFormSubmit}
         >
           {type === "HUMANITY" || type === "READ_A_THON" ? (
             <Controller
