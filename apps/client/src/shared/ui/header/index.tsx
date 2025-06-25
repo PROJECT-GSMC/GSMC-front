@@ -19,7 +19,7 @@ const Header = () => {
   useEffect(() => {
     const token = getCookie("accessToken");
     setAccessToken(token);
-  }, []);
+  }, [pathname]);
 
   const signout = useCallback(() => {
     deleteCookie("accessToken");
@@ -55,13 +55,13 @@ const Header = () => {
     setMenuOpen((prev) => !prev);
   }, [setMenuOpen]);
 
-  if (accessToken === null) return null;
   if (
     pathname === "/signin" ||
     pathname === "/signup" ||
     pathname === "/changePassword"
   )
     return null;
+
   return (
     <>
       <header className="w-full py-[1.38rem] flex justify-around border-b px-4">
@@ -87,7 +87,8 @@ const Header = () => {
                 </li>
               );
             })}
-            {accessToken ? (
+
+            {accessToken === null ? null : (
               <>
                 <Link
                   className="hover:text-bl cursor-pointer"
@@ -102,7 +103,7 @@ const Header = () => {
                   로그아웃
                 </li>
               </>
-            ) : null}
+            )}
           </ul>
         </div>
       </header>
@@ -121,22 +122,6 @@ const Header = () => {
                 </li>
               );
             })}
-            {accessToken ? (
-              <>
-                <Link
-                  className="hover:text-bl cursor-pointer"
-                  href="/changePassword"
-                >
-                  비밀번호 변경
-                </Link>
-                <li
-                  className="text-errors-500 cursor-pointer"
-                  onClick={signout}
-                >
-                  로그아웃
-                </li>
-              </>
-            ) : null}
           </ul>
         )}
       </section>

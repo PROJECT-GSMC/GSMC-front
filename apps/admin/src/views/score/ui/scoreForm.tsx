@@ -138,13 +138,31 @@ const ScoreForm = () => {
             점수 추가
           </h1>
           <InputContainer label="1학기 봉사 시간">
-            <Input control={control} name="oneSemester" type="number" />
+            <Input
+              min={0}
+              max={5}
+              control={control}
+              name="oneSemester"
+              type="number"
+            />
           </InputContainer>
           <InputContainer label="2학기 봉사 시간">
-            <Input control={control} name="twoSemester" type="number" />
+            <Input
+              min={0}
+              max={5}
+              control={control}
+              name="twoSemester"
+              type="number"
+            />
           </InputContainer>
           <InputContainer label="뉴로우 참여 횟수">
-            <Input control={control} name="newrrow" type="number" />
+            <Input
+              min={0}
+              max={5}
+              control={control}
+              name="newrrow"
+              type="number"
+            />
           </InputContainer>
           <Controller
             control={control}
