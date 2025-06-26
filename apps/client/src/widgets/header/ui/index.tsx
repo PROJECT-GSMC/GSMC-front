@@ -104,46 +104,45 @@ const Header = () => {
           </ul>
         </div>
       </header>
-      <section className={`sm:hidden ${menuOpen ? "" : "hidden"}`}>
-        <div
-          className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center"
-          onClick={handleMenuToggle}
-        />
-        <ul className={`
-          flex flex-col gap-[1.25rem] fixed top-20 right-0 z-50
-          w-[10.5rem] h-full px-[2rem] py-[1.75rem] bg-[#DFEAFE] text-label text-gray-500
-          ${menuOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300 ease-in-out`}
-        >
-          {header.map((item: HeaderType) => (
-            <li key={item.href}>
+
+      <div
+        className={`sm:hidden ${menuOpen ? "" : "hidden"} fixed inset-0 bg-black/50 z-40 flex items-center justify-center`}
+        onClick={handleMenuToggle}
+      />
+      <ul className={`
+        flex flex-col gap-[1.25rem] fixed top-20 right-0 z-50
+        w-[10.5rem] h-full px-[2rem] py-[1.75rem] bg-[#DFEAFE] text-label text-gray-500
+        sm:hidden ${menuOpen ? "translate-x-0 " : "translate-x-full"} duration-200 ease-in-out`}
+      >
+        {header.map((item: HeaderType) => (
+          <li key={item.href}>
+            <Link
+              className={item.active ? "text-black" : ""}
+              href={item.href}
+            >
+              {item.label}
+            </Link>
+          </li>
+        ))}
+        {accessToken === null ? null : (
+          <>
+            <li>
               <Link
-                className={item.active ? "text-black" : ""}
-                href={item.href}
+                className="hover:text-bl cursor-pointer"
+                href="/changePassword"
               >
-                {item.label}
+                비밀번호 변경
               </Link>
             </li>
-          ))}
-          {accessToken === null ? null : (
-            <>
-              <li>
-                <Link
-                  className="hover:text-bl cursor-pointer"
-                  href="/changePassword"
-                >
-                  비밀번호 변경
-                </Link>
-              </li>
-              <li
-                className="text-errors-500 cursor-pointer"
-                onClick={signout}
-              >
-                로그아웃
-              </li>
-            </>
-          )}
-        </ul>
-      </section>
+            <li
+              className="text-errors-500 cursor-pointer"
+              onClick={signout}
+            >
+              로그아웃
+            </li>
+          </>
+        )}
+      </ul>
     </>
   );
 };
