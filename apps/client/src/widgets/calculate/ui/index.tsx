@@ -171,9 +171,9 @@ export const Calculate = () => {
                 options={
                   page === "인성"
                     ? humanCategoryOptions
-                    : page === "전공"
+                    : (page === "전공"
                       ? majorCategoryOptions
-                      : foreignCategoryOptions
+                      : foreignCategoryOptions)
                 }
                 value={selectedOptions[page] ?? undefined}
                 // eslint-disable-next-line react/jsx-no-bind
@@ -192,7 +192,7 @@ export const Calculate = () => {
                 <Minus
                   className={
                     !selectedOptions[page] ||
-                    (categoryCounts[selectedOptions[page].send] ?? 0) === 0
+                      (categoryCounts[selectedOptions[page].send] ?? 0) === 0
                       ? "text-[#828387] group-hover:text-[#828387]"
                       : "text-tropicalblue-500 group-hover:text-tropicalblue-100"
                   }
@@ -200,7 +200,7 @@ export const Calculate = () => {
               }
               state={
                 !selectedOptions[page] ||
-                (categoryCounts[selectedOptions[page].send] ?? 0) === 0
+                  (categoryCounts[selectedOptions[page].send] ?? 0) === 0
                   ? "disabled"
                   : "default"
               }

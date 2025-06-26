@@ -91,7 +91,7 @@ export default function WriteForm() {
           onSubmit={handleWriteSubmit}
         >
           {(type === "major" || type === "humanities" || type === "foreign") &&
-          config.categoryOptions ? (
+            config.categoryOptions ? (
             <Controller<FormValues>
               control={control}
               name="categoryName"
@@ -182,13 +182,13 @@ export default function WriteForm() {
               rules={{
                 required: "내용을 입력해주세요.",
                 minLength: {
-                  value: type === "reading" ? 600 : file == null ? 400 : 200,
+                  value: type === "reading" ? 600 : (file == null ? 400 : 200),
                   message:
                     type === "reading"
                       ? "600자 이상 입력해주세요."
-                      : file == null
+                      : (file == null
                         ? "내용을 400자 이상 입력해주세요."
-                        : "내용을 200자 이상 입력해주세요.",
+                        : "내용을 200자 이상 입력해주세요."),
                 },
               }}
             />
@@ -197,25 +197,25 @@ export default function WriteForm() {
           {(type === "major" ||
             type === "humanities" ||
             type === "foreign") && (
-            <Controller<FormValues>
-              control={control}
-              name="file"
-              // eslint-disable-next-line react/jsx-no-bind
-              render={({ field: { value, onChange, ...field } }) => (
-                <File
-                  label="이미지"
-                  value={value as File}
-                  onChange={onChange}
-                  {...field}
-                />
-              )}
-              rules={{
-                ...(type === "foreign" && {
-                  required: "파일을 첨부해주세요.",
-                }),
-              }}
-            />
-          )}
+              <Controller<FormValues>
+                control={control}
+                name="file"
+                // eslint-disable-next-line react/jsx-no-bind
+                render={({ field: { value, onChange, ...field } }) => (
+                  <File
+                    label="이미지"
+                    value={value as File}
+                    onChange={onChange}
+                    {...field}
+                  />
+                )}
+                rules={{
+                  ...(type === "foreign" && {
+                    required: "파일을 첨부해주세요.",
+                  }),
+                }}
+              />
+            )}
 
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             {type !== "foreign" && (

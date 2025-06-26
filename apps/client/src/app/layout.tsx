@@ -2,7 +2,7 @@ import { PostProvider } from "@repo/store/postProvider";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
 
-import { Header } from "@/shared/ui";
+import Header from "@/widgets/header/ui";
 
 import Providers from "./providers";
 
@@ -36,7 +36,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="relative">
+      <body>
         <PostProvider>
           <Providers>
             <Header />
