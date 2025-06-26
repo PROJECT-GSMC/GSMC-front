@@ -19,7 +19,7 @@ interface HeaderType {
 const Header = () => {
   const pathname = usePathname();
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [menuOpen, setMenuOpen] = useState(true);
+  const [menuOpen, setMenuOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const Header = () => {
             <TextLogo />
           </Link>
           <div className="sm:hidden cursor-pointer" onClick={handleMenuToggle}>
-            {menuOpen ? <Hamburger /> : <Close />}
+            {menuOpen ? <Close /> : <Hamburger />}
           </div>
           <ul className=" sm:text-label sm:flex items-center gap-[2rem] text-gray-500 text-body3 hidden">
             {header.map((item: HeaderType) => (
@@ -104,48 +104,45 @@ const Header = () => {
           </ul>
         </div>
       </header>
-      <section>
-        {!menuOpen && (
-          <>
-            <div
-              className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center"
-              onClick={handleMenuToggle}
-            />
-            <ul className="
-              flex flex-col gap-[1.25rem] fixed top-20 right-0 z-50 sm:hidden
-              w-1/2 h-full px-[2rem] py-[1.75rem] bg-[#DFEAFE] text-label text-gray-500"
-            >
-              {header.map((item: HeaderType) => (
-                <li key={item.href}>
-                  <Link
-                    className={item.active ? "text-black" : ""}
-                    href={item.href}
-                  >
-                    {item.label}
-                  </Link>
-                </li>
-              ))}
-              {accessToken === null ? null : (
-                <>
-                  <li>
-                    <Link
-                      className="hover:text-bl cursor-pointer"
-                      href="/changePassword"
-                    >
-                      비밀번호 변경
-                    </Link>
-                  </li>
-                  <li
-                    className="text-errors-500 cursor-pointer"
-                    onClick={signout}
-                  >
-                    로그아웃
-                  </li>
-                </>
-              )}
-            </ul>
-          </>
-        )}
+      <section className={`sm:hidden ${menuOpen ? "" : "hidden"}`}>
+        <div
+          className="fixed inset-0 bg-black/50 z-40 flex items-center justify-center"
+          onClick={handleMenuToggle}
+        />
+        <ul className={`
+          flex flex-col gap-[1.25rem] fixed top-20 right-0 z-50
+          w-[10.5rem] h-full px-[2rem] py-[1.75rem] bg-[#DFEAFE] text-label text-gray-500
+          ${menuOpen ? "opacity-100" : "opacity-0"} transition-opacity duration-300 ease-in-out`}
+        >
+          {header.map((item: HeaderType) => (
+            <li key={item.href}>
+              <Link
+                className={item.active ? "text-black" : ""}
+                href={item.href}
+              >
+                {item.label}
+              </Link>
+            </li>
+          ))}
+          {accessToken === null ? null : (
+            <>
+              <li>
+                <Link
+                  className="hover:text-bl cursor-pointer"
+                  href="/changePassword"
+                >
+                  비밀번호 변경
+                </Link>
+              </li>
+              <li
+                className="text-errors-500 cursor-pointer"
+                onClick={signout}
+              >
+                로그아웃
+              </li>
+            </>
+          )}
+        </ul>
       </section>
     </>
   );
