@@ -1,6 +1,5 @@
 "use client";
 
-
 import { Button } from "@repo/shared/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { HttpStatusCode } from "axios";
@@ -11,7 +10,11 @@ import { toast } from "sonner";
 
 import { patchVerifyEmail } from "@/entities/signup/api/patchVerifyEmail";
 import { patchPassword } from "@/shared/api/patchPassword";
-import type { ChangePasswordStepForm, ChangePasswordProps, ChangePW_AuthStepForm } from "@/shared/model/changePWForm";
+import type {
+  ChangePasswordStepForm,
+  ChangePasswordProps,
+  ChangePW_AuthStepForm,
+} from "@/shared/model/changePWForm";
 import type { HttpError } from "@/shared/types/error";
 import ChangePassword from "@/widgets/changePassword/ui";
 import StepAuthCode from "@/widgets/stepAuthCode/ui";
@@ -19,11 +22,13 @@ import { AuthForm } from "@widgets/auth/ui";
 
 const ChangePasswordView = () => {
   const queryClient = useQueryClient();
-  const router = useRouter()
+  const router = useRouter();
 
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const [verifiedInfo, setVerifiedInfo] = useState<{ email: string } | null>(null);
+  const [verifiedInfo, setVerifiedInfo] = useState<{ email: string } | null>(
+    null,
+  );
 
   const { mutate: changePWMutate, isPending } = useMutation({
     mutationFn: (form: ChangePasswordProps) => patchPassword(form),
@@ -72,28 +77,28 @@ const ChangePasswordView = () => {
 
   const isAuthCodeStepValid = Boolean(
     watchedAuthValues.email &&
-    /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
-    !authErrors.email
+      /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
+      !authErrors.email,
   );
 
   const canProceedToPassword =
     isAuthCodeStepValid &&
     Boolean(
       watchedAuthValues.authcode &&
-      watchedAuthValues.authcode.length >= 8 &&
-      !authErrors.authcode
+        watchedAuthValues.authcode.length >= 8 &&
+        !authErrors.authcode,
     );
 
   const isPasswordValid = useCallback(
     (data: ChangePasswordStepForm) =>
       Boolean(
         data.password &&
-        data.passwordCheck &&
-        data.password === data.passwordCheck &&
-        !changePWErrors.password &&
-        !changePWErrors.passwordCheck
+          data.passwordCheck &&
+          data.password === data.passwordCheck &&
+          !changePWErrors.password &&
+          !changePWErrors.passwordCheck,
       ),
-    [changePWErrors.password, changePWErrors.passwordCheck]
+    [changePWErrors.password, changePWErrors.passwordCheck],
   );
 
   const handleVerifyEmail = useCallback(
@@ -115,35 +120,40 @@ const ChangePasswordView = () => {
         setIsAuthVerifying(false);
       }
     },
-    [canProceedToPassword, isAuthVerifying]
+    [canProceedToPassword, isAuthVerifying],
   );
 
-  const onSubmit = useCallback((data: ChangePasswordStepForm) => {
-    if (!verifiedInfo) {
-      toast.error("이메일 인증이 필요합니다.");
-      setStep("authCode");
-      return;
-    }
+  const onSubmit = useCallback(
+    (data: ChangePasswordStepForm) => {
+      if (!verifiedInfo) {
+        toast.error("이메일 인증이 필요합니다.");
+        setStep("authCode");
+        return;
+      }
 
-
-    if (step === "password" && isPasswordValid(data) && !isPending) {
-      changePWMutate({
-        email: verifiedInfo.email,
-        password: data.password
-      });
-    }
-
-  }, [changePWMutate, isPasswordValid, isPending, step, verifiedInfo]);
-
-  const handleAuthCodeSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    void handleAuthSubmit(handleVerifyEmail)(e);
-  },
-    [handleAuthSubmit, handleVerifyEmail]
+      if (step === "password" && isPasswordValid(data) && !isPending) {
+        changePWMutate({
+          email: verifiedInfo.email,
+          password: data.password,
+        });
+      }
+    },
+    [changePWMutate, isPasswordValid, isPending, step, verifiedInfo],
   );
 
-  const handleChangePassword = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    void handleSubmit(onSubmit)(e);
-  }, [handleSubmit, onSubmit]);
+  const handleAuthCodeSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      void handleAuthSubmit(handleVerifyEmail)(e);
+    },
+    [handleAuthSubmit, handleVerifyEmail],
+  );
+
+  const handleChangePassword = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      void handleSubmit(onSubmit)(e);
+    },
+    [handleSubmit, onSubmit],
+  );
 
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
@@ -161,7 +171,11 @@ const ChangePasswordView = () => {
             </div>
             <Button
               label="인증하기"
-              state={canProceedToPassword && !isAuthVerifying ? "default" : "disabled"}
+              state={
+                canProceedToPassword && !isAuthVerifying
+                  ? "default"
+                  : "disabled"
+              }
               type="submit"
               variant="blue"
             />

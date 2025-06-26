@@ -2,7 +2,7 @@ import instance from "@repo/api/axios";
 import { isAxiosError, type AxiosResponse } from "axios";
 
 export const postSendEmail = async (
-  email: string
+  email: string,
 ): Promise<AxiosResponse<{ success: boolean }>> => {
   try {
     const response = await instance.post(`/auth/send-email`, { email });

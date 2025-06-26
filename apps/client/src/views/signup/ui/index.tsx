@@ -11,7 +11,11 @@ import { toast } from "sonner";
 import { postSignup } from "@/entities/signup/api/postSignup";
 import type { HttpError } from "@/shared/types/error";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-import type { AuthStepForm, SignupFormProps, SignupStepForm } from "@shared/model/AuthForm";
+import type {
+  AuthStepForm,
+  SignupFormProps,
+  SignupStepForm,
+} from "@shared/model/AuthForm";
 import { AuthForm } from "@widgets/auth/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
 import StepPassword from "@widgets/stepPassword/ui";
@@ -22,12 +26,12 @@ const SignupView = () => {
 
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const [verifiedInfo, setVerifiedInfo] = useState<{ name: string; email: string } | null>(null);
+  const [verifiedInfo, setVerifiedInfo] = useState<{
+    name: string;
+    email: string;
+  } | null>(null);
 
-  const {
-    mutate: signupMutate,
-    isPending,
-  } = useMutation({
+  const { mutate: signupMutate, isPending } = useMutation({
     mutationFn: (form: SignupFormProps) => postSignup(form),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
@@ -83,7 +87,7 @@ const SignupView = () => {
     watchedAuthValues.email &&
     /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
     !authErrors.name &&
-    !authErrors.email
+    !authErrors.email,
   );
 
   const canProceedToPassword =
@@ -91,7 +95,7 @@ const SignupView = () => {
     Boolean(
       watchedAuthValues.authcode &&
       watchedAuthValues.authcode.length >= 8 &&
-      !authErrors.authcode
+      !authErrors.authcode,
     );
 
   const isPasswordValid = useCallback(
@@ -101,9 +105,9 @@ const SignupView = () => {
         data.passwordCheck &&
         data.password === data.passwordCheck &&
         !signupErrors.password &&
-        !signupErrors.passwordCheck
+        !signupErrors.passwordCheck,
       ),
-    [signupErrors.password, signupErrors.passwordCheck]
+    [signupErrors.password, signupErrors.passwordCheck],
   );
 
   const handleVerifyEmail = useCallback(
@@ -125,7 +129,7 @@ const SignupView = () => {
         setIsAuthVerifying(false);
       }
     },
-    [canProceedToPassword, isAuthVerifying]
+    [canProceedToPassword, isAuthVerifying],
   );
 
   const onSubmit = useCallback(
@@ -140,25 +144,26 @@ const SignupView = () => {
         signupMutate({
           email: verifiedInfo.email,
           name: verifiedInfo.name,
-          password: data.password
+          password: data.password,
         });
       }
     },
-    [verifiedInfo, setStep, step, isPasswordValid, isPending, signupMutate]
+    [verifiedInfo, setStep, step, isPasswordValid, isPending, signupMutate],
   );
 
-  const handleAuthCodeSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    void handleAuthSubmit(handleVerifyEmail)(e);
-  },
-    [handleAuthSubmit, handleVerifyEmail]
+  const handleAuthCodeSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      void handleAuthSubmit(handleVerifyEmail)(e);
+    },
+    [handleAuthSubmit, handleVerifyEmail],
   );
 
-  const handlePasswordSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    void handleSignupSubmit(onSubmit)(e);
-  },
-    [handleSignupSubmit, onSubmit]
+  const handlePasswordSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      void handleSignupSubmit(onSubmit)(e);
+    },
+    [handleSignupSubmit, onSubmit],
   );
-
 
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
@@ -177,7 +182,11 @@ const SignupView = () => {
             </div>
             <Button
               label="인증하기"
-              state={canProceedToPassword && !isAuthVerifying ? "default" : "disabled"}
+              state={
+                canProceedToPassword && !isAuthVerifying
+                  ? "default"
+                  : "disabled"
+              }
               type="submit"
               variant="blue"
             />

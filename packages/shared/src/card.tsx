@@ -20,7 +20,11 @@ const Card = ({
 }: CardProps) => {
   const handleDelete = async () => {
     try {
-      await removeCertification(id);
+      const res = await removeCertification(id);
+      if (res.status === 204) {
+        toast.success("자격증이 삭제되었습니다.");
+        globalThis.location.reload();
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error);
@@ -53,12 +57,10 @@ const Card = ({
             fill="#DF454A"
           />
         </svg>
+      ) : typeof back == "number" ? (
+        <p className="tabular-nums">{back}</p>
       ) : (
-        typeof back == "number" ? (
-          <p className="tabular-nums">{back}</p>
-        ) : (
-          back
-        )
+        back
       )}
     </div>
   );

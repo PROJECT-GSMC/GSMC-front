@@ -24,7 +24,8 @@ const DetailView = () => {
   const { id } = params;
   const { data: postsData, isError: isPostsError } = useGetPosts(null);
   const { data: draftsData, isError: isDraftsError } = useGetDraft();
-  const { data: studentData, isError: isStudentDataError } = useGetCurrentMember();
+  const { data: studentData, isError: isStudentDataError } =
+    useGetCurrentMember();
   const [show, setShow] = useState(false);
 
   if (isPostsError || isDraftsError) {
@@ -101,7 +102,7 @@ const DetailView = () => {
         subTitle = `카테고리: ${getCategoryName(post.categoryName)}`;
       }
 
-      if ("imageUri" in post && (post.imageUri != null)) {
+      if ("imageUri" in post && post.imageUri != null) {
         imageUri = post.imageUri;
       }
     }
@@ -111,7 +112,9 @@ const DetailView = () => {
     <div className="flex flex-col items-center mt-12 px-4 sm:px-8">
       <div className="flex flex-col w-full max-w-[600px] gap-7">
         <header className="flex flex-col w-full gap-2">
-          <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem] ">{title}</h1>
+          <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem] ">
+            {title}
+          </h1>
           <h3 className="text-sm text-[#767676] text-right font-normal">
             {`${studentData?.name ?? "사용자"} · ${subTitle}`}
           </h3>
@@ -119,20 +122,22 @@ const DetailView = () => {
         </header>
 
         <main className="flex flex-col gap-12">
-          {(imageUri == null) ? null : <div className="max-h-[21.215rem] w-full aspect-video bg-slate-600">
-            <Image
-              alt={title}
-              className="object-cover w-full h-full"
-              height={337}
-              src={imageUri}
-              width={600}
-            />
-          </div>}
+          {imageUri == null ? null : (
+            <div className="max-h-[21.215rem] w-full aspect-video bg-slate-600">
+              <Image
+                alt={title}
+                className="object-cover w-full h-full"
+                height={337}
+                src={imageUri}
+                width={600}
+              />
+            </div>
+          )}
 
           <section className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold">{subTitle}</h2>
             <p className="text-lg font-normal min-h-[400px]">
-              {(fileUri == null) ? (
+              {fileUri == null ? (
                 content
               ) : (
                 <a
@@ -158,31 +163,31 @@ const DetailView = () => {
         )}
 
         <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
-          {draft == null && example == null ?
-            (
-              <>
-                <Button
-                  className="w-full"
-                  label="수정하기"
-                  variant="blue"
-                  onClick={handleRevise}
-                />
-                <Button
-                  className="w-full bg-white"
-                  label="뒤로가기"
-                  variant="skyblue"
-                  onClick={handleBack}
-                />
-              </>
-            ) : (
-              example == null &&
+          {draft == null && example == null ? (
+            <>
+              <Button
+                className="w-full"
+                label="수정하기"
+                variant="blue"
+                onClick={handleRevise}
+              />
+              <Button
+                className="w-full bg-white"
+                label="뒤로가기"
+                variant="skyblue"
+                onClick={handleBack}
+              />
+            </>
+          ) : (
+            example == null && (
               <Button
                 className="w-full"
                 label="이어적기"
                 variant="blue"
                 onClick={handleRevise}
               />
-            )}
+            )
+          )}
         </footer>
       </div>
       <ConfirmDetail id={Number(id)} setShow={setShow} show={show} />

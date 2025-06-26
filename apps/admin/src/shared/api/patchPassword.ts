@@ -7,7 +7,7 @@ export const patchPassword = async (form: ChangePasswordProps) => {
   try {
     const response = await instance.patch<{ success: boolean }>(
       `/auth/change-password`,
-      form
+      form,
     );
 
     return response.data;

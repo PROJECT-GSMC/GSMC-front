@@ -20,81 +20,92 @@ export const Calculate = () => {
 
   const [bookCount, setBookCount] = useState(0);
   const [totalScore, setTotalScore] = useState<number>(0);
-  const [selectedOptions, setSelectedOptions] = useState<Record<string, Option | null>>({
+  const [selectedOptions, setSelectedOptions] = useState<
+    Record<string, Option | null>
+  >({
     인성: null,
     전공: null,
     외국어: null,
   });
 
-  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>(
+    {},
+  );
 
   const [idCounts, setIdCounts] = useState<Record<number, number>>({});
 
   const { control } = useForm();
 
-  const handlePlusWithScore = useCallback((page: string) => () => {
-    const selected = selectedOptions[page];
-    if (selected?.id == null) return;
+  const handlePlusWithScore = useCallback(
+    (page: string) => () => {
+      const selected = selectedOptions[page];
+      if (selected?.id == null) return;
 
-    const selectedId = selected.id;
-    const currentSendCount = categoryCounts[selected.send] ?? 0;
-    const currentIdCount = idCounts[selectedId] ?? 0;
-    const max =
-      Number.parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "") || 1;
-    const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
-    if (currentIdCount < max) {
-      setCategoryCounts((prev) => ({
-        ...prev,
-        [selected.send]: currentSendCount + 1,
-      }));
-      setIdCounts((prev) => ({
-        ...prev,
-        [selectedId]: currentIdCount + 1,
-      }));
-      setTotalScore((prev) => prev + score);
-    }
-  }, [categoryCounts, idCounts, selectedOptions]);
+      const selectedId = selected.id;
+      const currentSendCount = categoryCounts[selected.send] ?? 0;
+      const currentIdCount = idCounts[selectedId] ?? 0;
+      const max =
+        Number.parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "") || 1;
+      const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
+      if (currentIdCount < max) {
+        setCategoryCounts((prev) => ({
+          ...prev,
+          [selected.send]: currentSendCount + 1,
+        }));
+        setIdCounts((prev) => ({
+          ...prev,
+          [selectedId]: currentIdCount + 1,
+        }));
+        setTotalScore((prev) => prev + score);
+      }
+    },
+    [categoryCounts, idCounts, selectedOptions],
+  );
 
-  const handleMinusWithScore = useCallback((page: string) => () => {
-    const selected = selectedOptions[page];
-    if (selected?.id == null) return;
+  const handleMinusWithScore = useCallback(
+    (page: string) => () => {
+      const selected = selectedOptions[page];
+      if (selected?.id == null) return;
 
-    const selectedId = selected.id;
-    const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
-    const currentSendCount = categoryCounts[selected.send] ?? 0;
-    const currentIdCount = idCounts[selected.id] ?? 0;
-    if (currentSendCount > 0 && currentIdCount > 0) {
-      setCategoryCounts((prev) => ({
-        ...prev,
-        [selected.send]: currentSendCount - 1,
-      }));
-      setIdCounts((prev) => ({
-        ...prev,
-        [selectedId]: currentIdCount - 1,
-      }));
-      setTotalScore((prev) => prev - score);
-    }
-  }, [categoryCounts, idCounts, selectedOptions]);
+      const selectedId = selected.id;
+      const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
+      const currentSendCount = categoryCounts[selected.send] ?? 0;
+      const currentIdCount = idCounts[selected.id] ?? 0;
+      if (currentSendCount > 0 && currentIdCount > 0) {
+        setCategoryCounts((prev) => ({
+          ...prev,
+          [selected.send]: currentSendCount - 1,
+        }));
+        setIdCounts((prev) => ({
+          ...prev,
+          [selectedId]: currentIdCount - 1,
+        }));
+        setTotalScore((prev) => prev - score);
+      }
+    },
+    [categoryCounts, idCounts, selectedOptions],
+  );
 
-  const handleCalcPage = useCallback((item: string) => () => {
-    setPage(item)
-  }, [])
+  const handleCalcPage = useCallback(
+    (item: string) => () => {
+      setPage(item);
+    },
+    [],
+  );
 
   const handleBookMinus = useCallback(() => {
     if (bookCount > 0) {
       setBookCount((prev) => prev - 1);
       setTotalScore((prev) => prev - 10);
     }
-  }, [bookCount])
+  }, [bookCount]);
 
   const handleBookPlus = useCallback(() => {
     if (bookCount < 10) {
       setBookCount((prev) => prev + 1);
       setTotalScore((prev) => prev + 10);
     }
-  }, [bookCount])
-
-
+  }, [bookCount]);
 
   return (
     <div className="flex flex-col gap-[1.5rem] w-full h-[30rem]">
@@ -153,7 +164,6 @@ export const Calculate = () => {
           <Controller
             control={control}
             name={`category-${page}`}
-
             // eslint-disable-next-line react/jsx-no-bind
             render={({ field }) => (
               <Dropdown
@@ -161,9 +171,9 @@ export const Calculate = () => {
                 options={
                   page === "인성"
                     ? humanCategoryOptions
-                    : (page === "전공"
+                    : page === "전공"
                       ? majorCategoryOptions
-                      : foreignCategoryOptions)
+                      : foreignCategoryOptions
                 }
                 value={selectedOptions[page] ?? undefined}
                 // eslint-disable-next-line react/jsx-no-bind
@@ -182,7 +192,7 @@ export const Calculate = () => {
                 <Minus
                   className={
                     !selectedOptions[page] ||
-                      (categoryCounts[selectedOptions[page].send] ?? 0) === 0
+                    (categoryCounts[selectedOptions[page].send] ?? 0) === 0
                       ? "text-[#828387] group-hover:text-[#828387]"
                       : "text-tropicalblue-500 group-hover:text-tropicalblue-100"
                   }
@@ -190,7 +200,7 @@ export const Calculate = () => {
               }
               state={
                 !selectedOptions[page] ||
-                  (categoryCounts[selectedOptions[page].send] ?? 0) === 0
+                (categoryCounts[selectedOptions[page].send] ?? 0) === 0
                   ? "disabled"
                   : "default"
               }

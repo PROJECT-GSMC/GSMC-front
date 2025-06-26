@@ -40,15 +40,18 @@ const MemberView = () => {
   const handleOpen = useCallback((): void => {
     setOpen((prev) => !prev);
   }, []);
-  const handleCardClick = useCallback(async (email: string): Promise<void> => {
-    setClick(email);
-    try {
-      const res = await getMember(email);
-      setStudent(res.data);
-    } catch {
-      toast.error("학생정보 불러오는데 실패하였습니다.");
-    }
-  }, [setStudent]);
+  const handleCardClick = useCallback(
+    async (email: string): Promise<void> => {
+      setClick(email);
+      try {
+        const res = await getMember(email);
+        setStudent(res.data);
+      } catch {
+        toast.error("학생정보 불러오는데 실패하였습니다.");
+      }
+    },
+    [setStudent],
+  );
 
   const handleSearch = useCallback(async (): Promise<void> => {
     const res = await getSearchedMembers({
@@ -72,7 +75,7 @@ const MemberView = () => {
     (email: string) => (): void => {
       void handleCardClick(email);
     },
-    [handleCardClick]
+    [handleCardClick],
   );
 
   const memoizedSearch = useCallback((): void => {
@@ -92,18 +95,18 @@ const MemberView = () => {
               onClick={handleOpen}
             >
               {(() => {
-                if (isLoading) { <div className="text-center mt-24">loading...</div> }
+                if (isLoading) {
+                  <div className="text-center mt-24">loading...</div>;
+                }
                 const target = result.length > 0 ? result : members;
                 return target.map((member: Member) => (
                   <Card
                     Pending={member.hasPendingEvidence}
-                    back={
-                      Number(
-                        String(member.grade) +
+                    back={Number(
+                      String(member.grade) +
                         String(member.classNumber) +
-                        String(member.number).padStart(2, "0")
-                      )
-                    }
+                        String(member.number).padStart(2, "0"),
+                    )}
                     className={
                       click === member.email
                         ? "bg-[#EFF5FF] rounded-[0.75rem]"
@@ -113,7 +116,8 @@ const MemberView = () => {
                     id={member.email}
                     key={member.email}
                     onClick={memoizedCardClick(member.email)}
-                  />));
+                  />
+                ));
               })()}
             </List>
           </section>

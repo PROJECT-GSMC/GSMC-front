@@ -12,7 +12,7 @@ export async function POST(request: NextRequest) {
     if (!body.email || !body.password) {
       return NextResponse.json(
         { error: "이메일과 비밀번호를 입력해주세요." },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
         .catch(() => ({ error: "알 수 없는 오류" }))) as { error?: string };
       return NextResponse.json(
         { error: errorData.error ?? "로그인에 실패했습니다." },
-        { status: apiResponse.status }
+        { status: apiResponse.status },
       );
     }
 
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
     if (!response.accessToken || !response.refreshToken) {
       return NextResponse.json(
         { error: "인증 토큰이 없습니다." },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -63,7 +63,7 @@ export async function POST(request: NextRequest) {
             ? `로그인 처리 중 오류: ${error.message}`
             : "로그인 처리 중 오류가 발생했습니다.",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

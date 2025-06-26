@@ -9,12 +9,12 @@ interface SigninResponse {
 }
 
 export const postSignin = async (
-  form: SigninFormProps
+  form: SigninFormProps,
 ): Promise<SigninResponse> => {
   try {
     const response: AxiosResponse<SigninResponse> = await instance.post(
       `/auth/signin`,
-      form
+      form,
     );
     return response.data;
   } catch (error: unknown) {

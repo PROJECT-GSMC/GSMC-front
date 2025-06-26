@@ -15,7 +15,6 @@ import { Post } from "@/shared/ui";
 
 import type { CategoryType } from "../model/category";
 
-
 export default function PostsWidget() {
   const R = useRouter();
   const [result, setResult] = useState<EvidenceResponse>();
@@ -61,7 +60,7 @@ export default function PostsWidget() {
     (value: CategoryType) => () => {
       setCategoryName(value);
     },
-    []
+    [],
   );
 
   const handleRoute = useCallback(
@@ -73,7 +72,7 @@ export default function PostsWidget() {
       }
       R.push(`/detail/${post.id}`);
     },
-    [R, setPost]
+    [R, setPost],
   );
 
   let displayedPosts: (post | Draft)[] = [];

@@ -3,7 +3,7 @@ import type { AxiosError, AxiosResponse } from "axios";
 
 export const getSearchResult = async (
   query: string,
-  type?: string
+  type?: string,
 ): Promise<AxiosError | AxiosResponse> => {
   try {
     const res = instance.get(`/evidence/search?title=${query}&type=${type}`);

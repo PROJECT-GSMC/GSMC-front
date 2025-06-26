@@ -6,7 +6,7 @@ import type { Book } from "../model/book";
 
 export const handleSubmitBook = async (
   data: Book,
-  submitType: "submit" | "draft"
+  submitType: "submit" | "draft",
 ) => {
   try {
     await (submitType === "draft" ? saveBookDraft(data) : sendBook(data));

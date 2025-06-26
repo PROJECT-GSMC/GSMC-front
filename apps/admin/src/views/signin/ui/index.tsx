@@ -64,14 +64,14 @@ const SigninView = () => {
     (form: SigninFormProps) => {
       signinMutate(form);
     },
-    [signinMutate]
+    [signinMutate],
   );
 
   const handleFormSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
     (e) => {
       void handleSubmit(onSubmit)(e);
     },
-    [handleSubmit, onSubmit]
+    [handleSubmit, onSubmit],
   );
 
   return (

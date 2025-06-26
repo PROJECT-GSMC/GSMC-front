@@ -95,7 +95,7 @@ const SignupView = () => {
       watchedAuthValues.email &&
       /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
       !authErrors.name &&
-      !authErrors.email
+      !authErrors.email,
   );
 
   const canProceedToPassword =
@@ -103,7 +103,7 @@ const SignupView = () => {
     Boolean(
       watchedAuthValues.authcode &&
         watchedAuthValues.authcode.length >= 8 &&
-        !authErrors.authcode
+        !authErrors.authcode,
     );
 
   const isPasswordValid = (data: SignupStepForm) =>
@@ -112,7 +112,7 @@ const SignupView = () => {
         data.passwordCheck &&
         data.password === data.passwordCheck &&
         !signupErrors.password &&
-        !signupErrors.passwordCheck
+        !signupErrors.passwordCheck,
     );
 
   const handleVerifyEmail = async (data: AuthStepForm) => {
@@ -131,7 +131,9 @@ const SignupView = () => {
       }
     } catch (error) {
       toast.error(
-        error instanceof Error ? error.message : "인증코드가 일치하지 않습니다."
+        error instanceof Error
+          ? error.message
+          : "인증코드가 일치하지 않습니다.",
       );
     } finally {
       setIsAuthVerifying(false);

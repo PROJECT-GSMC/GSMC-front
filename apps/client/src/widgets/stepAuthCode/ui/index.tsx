@@ -23,7 +23,9 @@ interface StepAuthCodeWithoutNameProps extends StepAuthCodeBaseProps {
   hasName?: false;
 }
 
-type StepAuthCodeProps = StepAuthCodeWithNameProps | StepAuthCodeWithoutNameProps;
+type StepAuthCodeProps =
+  | StepAuthCodeWithNameProps
+  | StepAuthCodeWithoutNameProps;
 
 export default function StepAuthCode(props: StepAuthCodeProps) {
   const { control, isAuthButtonActive, hasName = false } = props;
@@ -56,15 +58,17 @@ export default function StepAuthCode(props: StepAuthCodeProps) {
 
   return (
     <>
-      {hasName ? <InputContainer label="이름">
-        <Input
-          control={props.control as Control<AuthStepForm>}
-          name="name"
-          rules={{
-            required: "이름을 필수로 입력해야 합니다.",
-          }}
-        />
-      </InputContainer> : null}
+      {hasName ? (
+        <InputContainer label="이름">
+          <Input
+            control={props.control as Control<AuthStepForm>}
+            name="name"
+            rules={{
+              required: "이름을 필수로 입력해야 합니다.",
+            }}
+          />
+        </InputContainer>
+      ) : null}
 
       <InputContainer label="이메일">
         <div className="flex items-center justify-between gap-4">
@@ -100,9 +104,12 @@ export default function StepAuthCode(props: StepAuthCodeProps) {
         />
       </InputContainer>
 
-      {show ? <div className="text-sm text-[#e61919]">
-        <strong>인증 코드를 찾을 수 없나요?</strong> 스팸메일함을 확인해 주세요.
-      </div> : null}
+      {show ? (
+        <div className="text-sm text-[#e61919]">
+          <strong>인증 코드를 찾을 수 없나요?</strong> 스팸메일함을 확인해
+          주세요.
+        </div>
+      ) : null}
     </>
   );
 }

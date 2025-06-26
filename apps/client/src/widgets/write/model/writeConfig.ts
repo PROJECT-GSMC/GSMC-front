@@ -15,7 +15,7 @@ interface Config {
 }
 
 export const getWriteConfig = (
-  type: "major" | "humanities" | "reading" | "others" | "foreign"
+  type: "major" | "humanities" | "reading" | "others" | "foreign",
 ): Config => {
   switch (type) {
     case "major": {
