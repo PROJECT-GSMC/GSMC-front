@@ -1,5 +1,6 @@
 "use client";
 
+import ConfirmModal from "@repo/shared/confirmModal";
 import TextLogo from "@repo/shared/textLogo";
 import { deleteCookie } from "@repo/utils/deleteCookie";
 import { getCookie } from "@repo/utils/getCookie";
@@ -9,7 +10,6 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Close } from "@/shared/asset/svg/close";
 import { Hamburger } from "@/shared/asset/svg/hamburger";
-import ConfirmModal from "@/widgets/confirmModal/ui";
 
 interface HeaderType {
   href: string;
