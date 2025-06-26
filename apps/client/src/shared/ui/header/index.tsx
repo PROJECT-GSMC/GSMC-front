@@ -122,6 +122,22 @@ const Header = () => {
                 </li>
               );
             })}
+            {accessToken === null ? null : (
+              <>
+                <Link
+                  className="hover:text-bl cursor-pointer"
+                  href="/changePassword"
+                >
+                  비밀번호 변경
+                </Link>
+                <li
+                  className="text-errors-500 cursor-pointer"
+                  onClick={signout}
+                >
+                  로그아웃
+                </li>
+              </>
+            )}
           </ul>
         )}
       </section>
