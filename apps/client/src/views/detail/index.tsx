@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@repo/shared/button";
+import ConfirmModal from "@repo/shared/confirmModal";
 import type { Draft } from "@repo/types/draft";
 import type { post } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
@@ -9,7 +10,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
-import ConfirmDetail from "@/entities/detail/ui/confirmDetail";
+import { deletePost } from "@/entities/detail/api/deletePost";
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
@@ -26,7 +27,7 @@ const DetailView = () => {
   const { data: draftsData, isError: isDraftsError } = useGetDraft();
   const { data: studentData, isError: isStudentDataError } =
     useGetCurrentMember();
-  const [show, setShow] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
   if (isPostsError || isDraftsError) {
     toast.error("게시물을 불러오지 못했습니다.");
@@ -76,9 +77,21 @@ const DetailView = () => {
     router.back();
   }, [router]);
 
-  const handleShow = useCallback(() => {
-    setShow(true);
-  }, [setShow]);
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true);
+  }, []);
+
+  const handleDelete = useCallback(() => {
+    void (async () => {
+      const res = await deletePost((Number(id)));
+      if (res.status === 204) {
+        toast.success("게시글이 삭제되었습니다");
+        router.push("/posts");
+      } else {
+        toast.error("게시글 삭제 실패하였습니다");
+      }
+    })();
+  }, [id, router]);
 
   let title = "Title";
   let subTitle = "Author";
@@ -156,7 +169,7 @@ const DetailView = () => {
         {draft == null && example !== "true" && (
           <span
             className="text-errors-500 underline underline-offset-4 text-body5 cursor-pointer"
-            onClick={handleShow}
+            onClick={handleModalOpen}
           >
             이 게시글 삭제하기
           </span>
@@ -190,7 +203,25 @@ const DetailView = () => {
           )}
         </footer>
       </div>
-      <ConfirmDetail id={Number(id)} setShow={setShow} show={show} />
+      {modalOpen ? (
+        <ConfirmModal
+          cancel={{
+            label: "취소",
+            onClick: () => {
+              setModalOpen(false);
+            },
+          }}
+          confirm={{
+            label: "삭제",
+            onClick: () => {
+              setModalOpen(false);
+              handleDelete();
+            },
+          }}
+          description="정말 이 게시물을 삭제 하시겠습니까?"
+          title="게시물 삭제"
+        />
+      ) : null}
     </div>
   );
 };
