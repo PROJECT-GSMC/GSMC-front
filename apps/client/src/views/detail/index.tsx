@@ -63,7 +63,7 @@ const DetailView = () => {
   const handleRevise = useCallback(() => {
     const idString = String(id);
     if (draft === "true") {
-      router.push(`/edit/${idString}?draft=true`);
+      router.push(`/edit/${idString}?draft=${true}`);
       return;
     }
     const exampleQuery =
