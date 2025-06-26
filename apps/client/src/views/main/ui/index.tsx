@@ -65,14 +65,14 @@ const MainView = () => {
       <div className="w-full max-w-[37.5rem] flex flex-col">
         {accessToken == null ? (
           <ShowSignin />
-        ) : currentUser ? (
+        ) : (currentUser ? (
           <ShowInformation
             name={currentUser.name}
             score={currentUser.totalScore}
           />
         ) : (
           <p className="text-center m-8">로딩중...</p>
-        )}
+        ))}
         <div className="grid grid-cols-4 gap-2 sm:gap-4 md:gap-6 lg:gap-10 mx-4">
           <div
             className="relative w-full"
@@ -167,7 +167,7 @@ const MainView = () => {
                 <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
                   로그인 후 확인가능합니다.
                 </h4>
-              ) : certification &&
+              ) : (certification &&
                 certification.data.certificates.length > 0 ? (
                 certification.data.certificates.map((v, i) => (
                   <Card front={v.name} id={v.id} key={i} />
@@ -176,7 +176,7 @@ const MainView = () => {
                 <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
                   등록된 자격증이 존재하지 않습니다.
                 </h4>
-              )}
+              ))}
             </section>
           </List>
         </div>
