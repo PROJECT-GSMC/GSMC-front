@@ -35,9 +35,9 @@ const Post = ({ data, onClick }: PostProps) => {
         <p className="text-gray-400 text-body5 mb-[0.75rem] line-clamp-2">
           {isActivity(data) || isOthers(data)
             ? getCategoryName(data.categoryName)
-            : "author" in data
+            : ("author" in data
               ? data.author
-              : ""}
+              : "")}
         </p>
         <span className={`text-body5 ${handleStateColor(data.status)}`}>
           {handleState(data.status)}
