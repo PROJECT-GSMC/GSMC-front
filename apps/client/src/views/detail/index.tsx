@@ -153,7 +153,7 @@ const DetailView = () => {
           </section>
         </main>
 
-        {draft == null && (
+        {draft == null && example !== "true" && (
           <span
             className="text-errors-500 underline underline-offset-4 text-body5 cursor-pointer"
             onClick={handleShow}
