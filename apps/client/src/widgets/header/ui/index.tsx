@@ -9,6 +9,7 @@ import { useCallback, useEffect, useState } from "react";
 
 import { Close } from "@/shared/asset/svg/close";
 import { Hamburger } from "@/shared/asset/svg/hamburger";
+import ConfirmModal from "@/widgets/confirmModal/ui";
 
 interface HeaderType {
   href: string;
@@ -20,6 +21,8 @@ const Header = () => {
   const pathname = usePathname();
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [, setIsConfirm] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -28,6 +31,10 @@ const Header = () => {
   }, [pathname]);
 
   const signout = useCallback(() => {
+    setModalOpen(true);
+  }, []);
+
+  const handleSignoutConfirm = useCallback(() => {
     deleteCookie("accessToken");
     deleteCookie("refreshToken");
     router.push("/signin");
@@ -151,6 +158,27 @@ const Header = () => {
           )}
         </ul>
       </div>
+      {modalOpen ? (
+        <ConfirmModal
+          cancel={{
+            label: "취소",
+            onClick: () => {
+              setIsConfirm(false);
+              setModalOpen(false);
+            },
+          }}
+          confirm={{
+            label: "로그아웃",
+            onClick: () => {
+              setIsConfirm(true);
+              setModalOpen(false);
+              handleSignoutConfirm();
+            },
+          }}
+          description="정말 로그아웃 하시겠습니까?"
+          title="로그아웃"
+        />
+      ) : null}
     </>
   );
 };
