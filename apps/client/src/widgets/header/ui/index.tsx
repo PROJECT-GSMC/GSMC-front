@@ -29,7 +29,7 @@ const Header = () => {
     setAccessToken(token);
   }, [pathname]);
 
-  const signout = useCallback(() => {
+  const handleModalOpen = useCallback(() => {
     setModalOpen(true);
   }, []);
 
@@ -105,7 +105,7 @@ const Header = () => {
                 </li>
                 <li
                   className="text-errors-500 cursor-pointer"
-                  onClick={signout}
+                  onClick={handleModalOpen}
                 >
                   로그아웃
                 </li>
@@ -149,7 +149,7 @@ const Header = () => {
               </li>
               <li
                 className="text-errors-500 cursor-pointer"
-                onClick={signout}
+                onClick={handleModalOpen}
               >
                 로그아웃
               </li>
