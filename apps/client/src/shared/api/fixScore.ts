@@ -1,22 +1,23 @@
 import instance from "@repo/api/axios";
-import type { AxiosError, AxiosResponse } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 
 interface FixScore {
   categoryName: string;
-  score: number;
+  file: File;
+  value: number;
 }
 
-export const FixScore = async ({
-  categoryName,
-  score,
-}: FixScore): Promise<AxiosError | AxiosResponse> => {
-  const formData = new FormData();
-  formData.append("categoryName", categoryName);
-  formData.append("score", score.toString());
+export const FixScore = async (data: FixScore): Promise<AxiosResponse> => {
   try {
-    const res = await instance.post("/evidence/current/scoring", formData);
-    return res;
+    const formData = new FormData();
+    formData.append("file", data.file);
+    formData.append("categoryName", data.categoryName);
+    formData.append("value", data.value.toString());
+    return await instance.post("/evidence/current/scoring", formData);
   } catch (error) {
-    return error as AxiosError;
+    if (isAxiosError(error) && error.response) {
+      throw error.response.data ?? "자격증 등록 실패";
+    }
+    throw error;
   }
 };

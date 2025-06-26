@@ -55,7 +55,8 @@ const Modal = ({ onClose, type }: ModalProps) => {
         case "TOPCIT": {
           return await FixScore({
             categoryName: "MAJOR-TOPCIT_SCORE",
-            score: Number(data.value),
+            file: data.file,
+            value: Number(data.value),
           });
         }
         case "READ_A_THON": {
@@ -71,7 +72,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
       }
     },
     onSuccess: (res) => {
-      if (res.status == HttpStatusCode.Created) {
+      if (res.status == 201) {
         switch (type) {
           case "CERTIFICATE": {
             toast.success("자격증이 등록되었습니다.");
