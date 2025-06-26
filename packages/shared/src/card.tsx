@@ -1,5 +1,8 @@
 import { removeCertification } from "@repo/api/deleteCertification";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
+
+import ConfirmModal from "./confirmModal.tsx";
 
 interface CardProps {
   front: string;
@@ -18,6 +21,8 @@ const Card = ({
   Pending,
   className = "",
 }: CardProps) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const handleDelete = async () => {
     try {
       const res = await removeCertification(id);
@@ -33,6 +38,10 @@ const Card = ({
     }
   };
 
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true);
+  }, []);
+
   return (
     <div
       onClick={onClick ?? undefined}
@@ -45,7 +54,7 @@ const Card = ({
 
       {back === undefined ? (
         <svg
-          onClick={() => void handleDelete()}
+          onClick={handleModalOpen}
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="25"
@@ -62,6 +71,25 @@ const Card = ({
       ) : (
         back
       )}
+      {modalOpen ? (
+        <ConfirmModal
+          cancel={{
+            label: "취소",
+            onClick: () => {
+              setModalOpen(false);
+            },
+          }}
+          confirm={{
+            label: "삭제",
+            onClick: () => {
+              setModalOpen(false);
+              void handleDelete();
+            },
+          }}
+          description="정말 자격증을 삭제 하시겠습니까?"
+          title="자격증 삭제"
+        />
+      ) : null}
     </div>
   );
 };
