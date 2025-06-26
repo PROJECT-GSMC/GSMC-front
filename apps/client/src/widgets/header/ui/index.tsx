@@ -22,7 +22,6 @@ const Header = () => {
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
   const [modalOpen, setModalOpen] = useState(false);
-  const [, setIsConfirm] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -163,14 +162,12 @@ const Header = () => {
           cancel={{
             label: "취소",
             onClick: () => {
-              setIsConfirm(false);
               setModalOpen(false);
             },
           }}
           confirm={{
             label: "로그아웃",
             onClick: () => {
-              setIsConfirm(true);
               setModalOpen(false);
               handleSignoutConfirm();
             },
