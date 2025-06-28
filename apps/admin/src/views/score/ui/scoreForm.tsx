@@ -8,11 +8,11 @@ import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Checkbox } from "@/entities/score/ui/checkbox";
-import Header from "@/shared/ui/header";
-
 import { featScore } from "../api/featScore";
 import type { ScoreFormType } from "../model/score";
+
+import { Checkbox } from "@/entities/score/ui/checkbox";
+import Header from "@/shared/ui/header";
 
 const SCORE_CATEGORIES = {
   SEMESTER_1: "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
@@ -46,9 +46,9 @@ const ScoreForm = () => {
 
   const isFormValid = Boolean(
     (oneSemester !== undefined && oneSemester !== null && oneSemester > 0) ||
-      (twoSemester !== undefined && twoSemester !== null && twoSemester > 0) ||
-      (newrrow !== undefined && newrrow !== null && newrrow > 0) ||
-      checkbox !== undefined,
+    (twoSemester !== undefined && twoSemester !== null && twoSemester > 0) ||
+    (newrrow !== undefined && newrrow !== null && newrrow > 0) ||
+    checkbox !== undefined,
   );
 
   const handleScoreSubmit = useCallback(
@@ -139,27 +139,27 @@ const ScoreForm = () => {
           </h1>
           <InputContainer label="1학기 봉사 시간">
             <Input
-              min={0}
-              max={5}
               control={control}
+              max={5}
+              min={0}
               name="oneSemester"
               type="number"
             />
           </InputContainer>
           <InputContainer label="2학기 봉사 시간">
             <Input
-              min={0}
-              max={5}
               control={control}
+              max={5}
+              min={0}
               name="twoSemester"
               type="number"
             />
           </InputContainer>
           <InputContainer label="뉴로우 참여 횟수">
             <Input
-              min={0}
-              max={5}
               control={control}
+              max={5}
+              min={0}
               name="newrrow"
               type="number"
             />

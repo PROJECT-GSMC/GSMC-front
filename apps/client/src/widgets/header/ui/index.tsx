@@ -1,5 +1,6 @@
 "use client";
 
+import ConfirmModal from "@repo/shared/confirmModal";
 import TextLogo from "@repo/shared/textLogo";
 import { deleteCookie } from "@repo/utils/deleteCookie";
 import { getCookie } from "@repo/utils/getCookie";
@@ -20,6 +21,7 @@ const Header = () => {
   const pathname = usePathname();
   const [accessToken, setAccessToken] = useState<string | null>(null);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -27,7 +29,11 @@ const Header = () => {
     setAccessToken(token);
   }, [pathname]);
 
-  const signout = useCallback(() => {
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true);
+  }, []);
+
+  const handleSignoutConfirm = useCallback(() => {
     deleteCookie("accessToken");
     deleteCookie("refreshToken");
     router.push("/signin");
@@ -36,6 +42,10 @@ const Header = () => {
   const handleMenuToggle = useCallback(() => {
     setMenuOpen((prev) => !prev);
   }, [setMenuOpen]);
+
+  const handleStopPropagation = useCallback((e: React.MouseEvent<HTMLUListElement>) => {
+    e.stopPropagation();
+  }, []);
 
   const header = [
     {
@@ -95,7 +105,7 @@ const Header = () => {
                 </li>
                 <li
                   className="text-errors-500 cursor-pointer"
-                  onClick={signout}
+                  onClick={handleModalOpen}
                 >
                   로그아웃
                 </li>
@@ -108,41 +118,64 @@ const Header = () => {
       <div
         className={`sm:hidden ${menuOpen ? "" : "hidden"} fixed inset-0 bg-black/50 z-40 flex items-center justify-center`}
         onClick={handleMenuToggle}
-      />
-      <ul className={`
-        flex flex-col gap-[1.25rem] fixed top-20 right-0 z-50
-        w-[10.5rem] h-full px-[2rem] py-[1.75rem] bg-[#DFEAFE] text-label text-gray-500
-        sm:hidden ${menuOpen ? "translate-x-0 " : "translate-x-full"} duration-200 ease-in-out`}
       >
-        {header.map((item: HeaderType) => (
-          <li key={item.href}>
-            <Link
-              className={item.active ? "text-black" : ""}
-              href={item.href}
-            >
-              {item.label}
-            </Link>
-          </li>
-        ))}
-        {accessToken === null ? null : (
-          <>
-            <li>
+        <ul
+          className={`
+            flex flex-col gap-[1.25rem] fixed top-20 right-0 z-50
+            w-[10.5rem] h-full px-[2rem] py-[1.75rem] bg-[#DFEAFE] text-label text-gray-500
+            sm:hidden ${menuOpen ? "translate-x-0 " : "translate-x-full"} duration-200 ease-in-out
+          `}
+          onClick={handleStopPropagation}
+        >
+          {header.map((item: HeaderType) => (
+            <li key={item.href}>
               <Link
-                className="hover:text-bl cursor-pointer"
-                href="/changePassword"
+                className={item.active ? "text-black" : ""}
+                href={item.href}
               >
-                비밀번호 변경
+                {item.label}
               </Link>
             </li>
-            <li
-              className="text-errors-500 cursor-pointer"
-              onClick={signout}
-            >
-              로그아웃
-            </li>
-          </>
-        )}
-      </ul>
+          ))}
+          {accessToken === null ? null : (
+            <>
+              <li>
+                <Link
+                  className="hover:text-bl cursor-pointer"
+                  href="/changePassword"
+                >
+                  비밀번호 변경
+                </Link>
+              </li>
+              <li
+                className="text-errors-500 cursor-pointer"
+                onClick={handleModalOpen}
+              >
+                로그아웃
+              </li>
+            </>
+          )}
+        </ul>
+      </div>
+      {modalOpen ? (
+        <ConfirmModal
+          cancel={{
+            label: "취소",
+            onClick: () => {
+              setModalOpen(false);
+            },
+          }}
+          confirm={{
+            label: "로그아웃",
+            onClick: () => {
+              setModalOpen(false);
+              handleSignoutConfirm();
+            },
+          }}
+          description="정말 로그아웃 하시겠습니까?"
+          title="로그아웃"
+        />
+      ) : null}
     </>
   );
 };
