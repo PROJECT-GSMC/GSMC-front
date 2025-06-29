@@ -8,11 +8,11 @@ import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import { Checkbox } from "@/entities/score/ui/checkbox";
-import Header from "@/shared/ui/header";
-
 import { featScore } from "../api/featScore";
 import type { ScoreFormType } from "../model/score";
+
+import { Checkbox } from "@/entities/score/ui/checkbox";
+import Header from "@/shared/ui/header";
 
 const SCORE_CATEGORIES = {
   SEMESTER_1: "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
@@ -39,16 +39,16 @@ const ScoreForm = () => {
     }: {
       field: { value?: boolean; onChange: (value: boolean | null) => void };
     }) => <Checkbox {...field} />,
-    []
+    [],
   );
 
   const { oneSemester, twoSemester, newrrow, checkbox } = useWatch({ control });
 
   const isFormValid = Boolean(
     (oneSemester !== undefined && oneSemester !== null && oneSemester > 0) ||
-      (twoSemester !== undefined && twoSemester !== null && twoSemester > 0) ||
-      (newrrow !== undefined && newrrow !== null && newrrow > 0) ||
-      checkbox !== undefined
+    (twoSemester !== undefined && twoSemester !== null && twoSemester > 0) ||
+    (newrrow !== undefined && newrrow !== null && newrrow > 0) ||
+    checkbox !== undefined,
   );
 
   const handleScoreSubmit = useCallback(
@@ -69,7 +69,7 @@ const ScoreForm = () => {
         return false;
       }
     },
-    [id]
+    [id],
   );
 
   const onSubmit = useCallback(
@@ -81,7 +81,7 @@ const ScoreForm = () => {
           (await handleScoreSubmit(
             SCORE_CATEGORIES.SEMESTER_1,
             data.oneSemester,
-            "1학기 봉사 시간 점수 추가 완료"
+            "1학기 봉사 시간 점수 추가 완료",
           )) && success;
       }
 
@@ -90,7 +90,7 @@ const ScoreForm = () => {
           (await handleScoreSubmit(
             SCORE_CATEGORIES.SEMESTER_2,
             data.twoSemester,
-            "2학기 봉사 시간 점수 추가 완료"
+            "2학기 봉사 시간 점수 추가 완료",
           )) && success;
       }
 
@@ -99,7 +99,7 @@ const ScoreForm = () => {
           (await handleScoreSubmit(
             SCORE_CATEGORIES.NEWRROW,
             data.newrrow,
-            "뉴로우 참여 횟수 점수 추가 완료"
+            "뉴로우 참여 횟수 점수 추가 완료",
           )) && success;
       }
 
@@ -108,7 +108,7 @@ const ScoreForm = () => {
           (await handleScoreSubmit(
             SCORE_CATEGORIES.TOEIC,
             data.checkbox ? 1 : 0,
-            "TOEIC 참여 여부 점수 추가 완료"
+            "TOEIC 참여 여부 점수 추가 완료",
           )) && success;
       }
 
@@ -116,14 +116,14 @@ const ScoreForm = () => {
         router.push("/");
       }
     },
-    [handleScoreSubmit, router]
+    [handleScoreSubmit, router],
   );
 
   const handleFormSubmit = useCallback<React.FormEventHandler>(
     (e) => {
       void handleSubmit(onSubmit)(e);
     },
-    [handleSubmit, onSubmit]
+    [handleSubmit, onSubmit],
   );
 
   return (
@@ -139,27 +139,27 @@ const ScoreForm = () => {
           </h1>
           <InputContainer label="1학기 봉사 시간">
             <Input
-              min={0}
-              max={5}
               control={control}
+              max={5}
+              min={0}
               name="oneSemester"
               type="number"
             />
           </InputContainer>
           <InputContainer label="2학기 봉사 시간">
             <Input
-              min={0}
-              max={5}
               control={control}
+              max={5}
+              min={0}
               name="twoSemester"
               type="number"
             />
           </InputContainer>
           <InputContainer label="뉴로우 참여 횟수">
             <Input
-              min={0}
-              max={5}
               control={control}
+              max={5}
+              min={0}
               name="newrrow"
               type="number"
             />

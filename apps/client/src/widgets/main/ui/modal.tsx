@@ -1,15 +1,17 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import { useMutation } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
 import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import type { HttpError } from "@/shared/types/error";
 import { FixScore } from "@shared/api/fixScore";
 import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
-
 
 import { sendCertification } from "../api/sendCertification";
 import { sendEvidence } from "../api/sendEvidence";
@@ -30,86 +32,89 @@ const Modal = ({ onClose, type }: ModalProps) => {
     formState: { isValid },
   } = useForm<Evidence>({ mode: "onChange" });
 
-  const handleCloseModal = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget) {
+  const handleCloseModal = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      onClose();
+    }
+  }, [onClose]);
+
+  const handleStopPropagation = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation();
+  }, []);
+
+  const { mutate } = useMutation({
+    mutationFn: async ({ type, data }: { type: ModalProps["type"]; data: Evidence }) => {
+      switch (type) {
+        case "CERTIFICATE": {
+          return await sendCertification({
+            name: data.categoryName,
+            file: data.file,
+            acquisitionDate: String(data.acquisitionDate),
+          });
+        }
+        case "TOPCIT": {
+          return await FixScore({
+            categoryName: "MAJOR-TOPCIT_SCORE",
+            file: data.file,
+            value: Number(data.value),
+          });
+        }
+        case "READ_A_THON": {
+          return await sendEvidence(data);
+        }
+        case "HUMANITY": {
+          return await sendCertification({
+            name: data.option.send,
+            file: data.file,
+            acquisitionDate: String(data.acquisitionDate),
+          });
+        }
+      }
+    },
+    onSuccess: (res) => {
+      if (res.status == 201) {
+        switch (type) {
+          case "CERTIFICATE": {
+            toast.success("자격증이 등록되었습니다.");
+            break;
+          }
+          case "TOPCIT": {
+            toast.success("TOPCIT 점수가 등록되었습니다.");
+            break;
+          }
+          case "READ_A_THON": {
+            toast.success("독서로가 등록되었습니다.");
+            break;
+          }
+          case "HUMANITY": {
+            toast.success("인성 자격증이 등록되었습니다.")
+            break;
+          }
+        }
+        router.refresh();
         onClose();
       }
     },
-    [onClose],
-  );
-
-  const handleStopPropagation = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      e.stopPropagation();
+    onError: (error: HttpError) => {
+      if (error.httpStatus == HttpStatusCode.UnprocessableEntity) {
+        toast.error(
+          type === "READ_A_THON"
+            ? "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요"
+            : "더 이상 자격증을 추가할 수 없습니다."
+        );
+      } else if (error.httpStatus == HttpStatusCode.Conflict) {
+        toast.error("이미 등록된 자격증입니다.");
+      }
     },
-    [],
-  );
+  });
 
-  const handleSwitchEvidence = useCallback(async (data: Evidence) => {
-    switch (type) {
-      case "CERTIFICATE": {
-        const res = await sendCertification({
-          name: data.categoryName,
-          file: data.file,
-          acquisitionDate: String(data.acquisitionDate),
-        });
-        if (res.status === 201) {
-          toast.success("자격증이 등록되었습니다.");
-          router.replace("/");
-          onClose();
-        } else if (res.status === 422) {
-          toast.error("이미 등록된 자격증입니다.");
-        } else {
-          toast.error("자격증 등록에 실패했습니다.");
-        }
+  const handleFormSubmit = useCallback((data: Evidence) => {
+    mutate({ type, data });
+  }, [mutate, type]);
 
-        break;
-      }
-      case "TOPCIT": {
-        const res = await FixScore({
-          categoryName: "MAJOR-TOPCIT_SCORE",
-          score: Number(data.value),
-        });
-        if (res.status === 201) {
-          toast.success("TOPCIT 점수가 등록되었습니다.");
-          router.replace("/");
-          onClose();
-        } else {
-          toast.error("TOPCIT 점수 등록에 실패했습니다.");
-        }
-
-        break;
-      }
-      case "READ_A_THON": {
-        const res = await sendEvidence(data);
-        if (res.status === 201) {
-          toast.success("독서로가 등록되었습니다.");
-          router.replace("/");
-          onClose();
-        } else if (res.status === 422) {
-          toast.error(
-            "이미 독서로 단계가 동록되어 있습니다. 삭제하고 이용해주세요"
-          );
-        } else {
-          toast.error("독서로 등록에 실패했습니다.");
-        }
-
-        break;
-      }
-      case "HUMANITY": {
-        await sendCertification({
-          name: data.option.send,
-          file: data.file,
-          acquisitionDate: String(data.acquisitionDate),
-        });
-      }
-    }
-  }, [onClose, router, type])
-
-  const handleFormSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    void handleSubmit(handleSwitchEvidence)(e)
-  }, [handleSubmit, handleSwitchEvidence])
+  const handleCertificateFormSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    void handleSubmit(handleFormSubmit)(e);
+  }, [handleFormSubmit, handleSubmit])
 
   return (
     <div
@@ -130,7 +135,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
 
         <form
           className="w-full flex flex-col gap-[1.5rem]"
-          onSubmit={handleFormSubmit}
+          onSubmit={handleCertificateFormSubmit}
         >
           {type === "HUMANITY" || type === "READ_A_THON" ? (
             <Controller

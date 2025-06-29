@@ -12,10 +12,13 @@ export default function ExampleWidget() {
   const { setPost } = usePost();
   const R = useRouter();
 
-  const handleExamplePost = useCallback((data: post) => () => {
-    setPost(data);
-    R.push(`/detail/${data.id}?example=${true}`);
-  }, [R, setPost])
+  const handleExamplePost = useCallback(
+    (data: post) => () => {
+      setPost(data);
+      R.push(`/detail/${data.id}?example=${true}`);
+    },
+    [R, setPost],
+  );
 
   return (
     <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">

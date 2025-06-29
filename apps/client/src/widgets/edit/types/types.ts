@@ -14,6 +14,7 @@ export interface FormValues {
   author?: string;
   page?: string;
   value?: string | number;
+  draftId?: string;
 }
 
 export interface EditFormProps {

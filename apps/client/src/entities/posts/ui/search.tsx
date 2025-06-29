@@ -26,7 +26,7 @@ const Search = ({ setResult, search, type, setSearch }: SearchProps) => {
         const search = await getSearchResult(debouncedValue, type);
         setResult(search.data as EvidenceResponse);
       } catch {
-        toast.error("게시물 검색중 오류가 발생했습니다.")
+        toast.error("게시물 검색중 오류가 발생했습니다.");
       }
     };
 
@@ -34,9 +34,12 @@ const Search = ({ setResult, search, type, setSearch }: SearchProps) => {
     void fetchSearchResult();
   }, [debouncedValue, setResult, type]);
 
-  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
-  }, [setSearch]);
+  const handleChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setSearch(e.target.value);
+    },
+    [setSearch],
+  );
 
   return (
     <div className="relative">

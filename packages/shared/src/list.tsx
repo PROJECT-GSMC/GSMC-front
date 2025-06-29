@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import type React from "react";
 
@@ -22,7 +22,9 @@ const List = ({
   return (
     <div className="h-full px-[2.25rem] py-[3.5rem] bg-tropicalblue-100 rounded-[1.25rem]">
       <div className="flex justify-between items-center">
-        <h4 className={`${className ?? ""} text-tropicalblue-700 text-titleSmall`}>
+        <h4
+          className={`${className ?? ""} text-tropicalblue-700 text-titleSmall`}
+        >
           {title}
         </h4>
         {isFilter ? (

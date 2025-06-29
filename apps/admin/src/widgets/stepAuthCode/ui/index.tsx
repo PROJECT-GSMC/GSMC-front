@@ -35,7 +35,7 @@ export default function StepAuthCode({
           setIsLoading(false);
         });
     },
-    [email, isAuthButtonActive, isLoading]
+    [email, isAuthButtonActive, isLoading],
   );
 
   return (

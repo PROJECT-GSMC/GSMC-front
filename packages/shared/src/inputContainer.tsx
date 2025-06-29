@@ -1,8 +1,8 @@
 // const React = require("react") as typeof import("react");
 
 interface InputContainerProps {
-  label: string
-  children: React.ReactNode
+  label: string;
+  children: React.ReactNode;
 }
 
 const InputContainer = ({ label, children }: InputContainerProps) => {
@@ -14,4 +14,4 @@ const InputContainer = ({ label, children }: InputContainerProps) => {
   );
 };
 
-export { InputContainer }; 
+export { InputContainer };

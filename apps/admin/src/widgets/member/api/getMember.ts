@@ -3,7 +3,7 @@ import type { Member } from "@repo/types/member";
 import type { AxiosResponse } from "axios";
 
 export const getMember = async (
-  email: string
+  email: string,
 ): Promise<AxiosResponse<Member>> => {
   const emailParts = email.split("@");
   const firstPart = emailParts[0];
