@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteCookie } from "@repo/utils/deleteCookie";
 import { getCookie } from "@repo/utils/getCookie";
 import axios, {
   type InternalAxiosRequestConfig,
@@ -36,5 +37,16 @@ if (typeof globalThis.window === "object") {
     return config;
   });
 }
+
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response?.status === 403) {
+      deleteCookie("accessToken");
+      deleteCookie("refreshToken");
+    }
+    return Promise.reject(error);
+  }
+);
 
 export default instance;
