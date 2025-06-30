@@ -5,7 +5,7 @@ import { sendActivity } from "../api/sendActivity";
 
 export const handleSubmitActivity = async (
   submitType: "submit" | "draft",
-  formData: FormData
+  formData: FormData,
 ) => {
   try {
     await (submitType === "draft"

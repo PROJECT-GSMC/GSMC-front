@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 
 export function setAuthCookies(
   accessToken: string,
-  refreshToken: string
+  refreshToken: string,
 ): NextResponse {
   const response = NextResponse.json({
     success: true,

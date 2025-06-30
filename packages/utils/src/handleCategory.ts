@@ -74,5 +74,5 @@ export const categoryMapping: Record<string, string> = {
 };
 
 export const getCategoryName = (categoryCode: string): string => {
-  return categoryMapping[categoryCode] || categoryCode;
+  return categoryMapping[categoryCode] ?? categoryCode;
 };

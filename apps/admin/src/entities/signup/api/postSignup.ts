@@ -8,7 +8,9 @@ interface SignupResponse {
   message: string;
 }
 
-export const postSignup = async (form: SignupFormProps): Promise<SignupResponse> => {
+export const postSignup = async (
+  form: SignupFormProps,
+): Promise<SignupResponse> => {
   try {
     const response = await instance.post<SignupResponse>(`/auth/signup`, form);
     return response.data;

@@ -20,7 +20,7 @@ const Textarea = ({ isBook = false, value = "", onChange }: TextareaProps) => {
       setLength(e.target.value.length);
       onChange(e);
     },
-    [setLength, onChange]
+    [setLength, onChange],
   );
 
   return (

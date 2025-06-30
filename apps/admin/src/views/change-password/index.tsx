@@ -46,14 +46,14 @@ const ChangePasswordView = () => {
         password: form.password,
       });
     },
-    [changePWMutate]
+    [changePWMutate],
   );
 
   const handleChangePassword = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
       void handleSubmit(onSubmit)(e);
     },
-    [handleSubmit, onSubmit]
+    [handleSubmit, onSubmit],
   );
 
   return (

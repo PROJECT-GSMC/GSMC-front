@@ -18,7 +18,7 @@ export const Checkbox = ({ check, onChange }: CheckboxProps) => {
       setChecked(newValue);
       if (onChange) onChange(newValue);
     },
-    [checked, onChange]
+    [checked, onChange],
   );
 
   return (

@@ -3,12 +3,8 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
-import type {
-  Activity,
-  Others,
-  Reading,
-} from "@repo/types/evidences";
-import { useRouter } from "next/navigation";
+import type { Activity, Others, Reading } from "@repo/types/evidences";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
@@ -21,12 +17,15 @@ import type {
   FormValues,
   Option,
 } from "@/widgets/edit/types/types";
+import { getWriteConfig } from "@/widgets/write/model/writeConfig";
 
 const EditForm = ({ type, post }: EditFormProps) => {
+  const searchParams = useSearchParams();
+  const isDraft = Boolean(searchParams.get("draft"));
   const router = useRouter();
-  const config = getEditConfig(
-    type as "major" | "humanities" | "reading" | "others",
-  );
+
+  const config = getEditConfig(type as "major" | "humanities" | "reading" | "others");
+  const draftConfig = getWriteConfig(type as "major" | "humanities" | "reading" | "others");
 
   const {
     handleSubmit,
@@ -45,15 +44,21 @@ const EditForm = ({ type, post }: EditFormProps) => {
   const handleFormSubmit = useCallback(
     async (data: FormValues) => {
       try {
-        const id = "draftId" in post ? post.draftId : post.id;
-        await config.onSubmit(data, Number(id));
-        toast.success("수정이 완료되었습니다.");
-        router.back();
+        if (isDraft && "draftId" in post) {
+          await draftConfig.onSubmit({ ...data, draftId: post.draftId }, "submit");
+          toast.success("작성이 완료되었습니다.");
+          router.back();
+          return;
+        } else if (!isDraft && "id" in post) {
+          await config.onSubmit(data, Number(post.id));
+          toast.success("수정이 완료되었습니다.");
+          router.back();
+        }
       } catch {
         toast.error("수정에 실패했습니다.");
       }
     },
-    [config, post, router],
+    [config, draftConfig, isDraft, post, router],
   );
 
   const handleReviseSubmit = useCallback(
@@ -212,7 +217,7 @@ const EditForm = ({ type, post }: EditFormProps) => {
 
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             <Button
-              label="수정 완료"
+              label={isDraft ? "작성 완료" : "수정 완료"}
               state={isValid ? "default" : "disabled"}
               type="submit"
               variant="blue"

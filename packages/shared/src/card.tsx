@@ -1,5 +1,8 @@
 import { removeCertification } from "@repo/api/deleteCertification";
+import { useCallback, useState } from "react";
 import { toast } from "sonner";
+
+import ConfirmModal from "./confirmModal.tsx";
 
 interface CardProps {
   front: string;
@@ -18,9 +21,15 @@ const Card = ({
   Pending,
   className = "",
 }: CardProps) => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const handleDelete = async () => {
     try {
-      await removeCertification(id);
+      const res = await removeCertification(id);
+      if (res.status === 204) {
+        toast.success("자격증이 삭제되었습니다.");
+        globalThis.location.reload();
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         console.error(error);
@@ -28,6 +37,10 @@ const Card = ({
       toast.error("자격증 삭제에 실패했습니다.");
     }
   };
+
+  const handleModalOpen = useCallback(() => {
+    setModalOpen(true);
+  }, []);
 
   return (
     <div
@@ -41,7 +54,7 @@ const Card = ({
 
       {back === undefined ? (
         <svg
-          onClick={() => void handleDelete()}
+          onClick={handleModalOpen}
           xmlns="http://www.w3.org/2000/svg"
           width="24"
           height="25"
@@ -53,13 +66,30 @@ const Card = ({
             fill="#DF454A"
           />
         </svg>
+      ) : typeof back == "number" ? (
+        <p className="tabular-nums">{back}</p>
       ) : (
-        typeof back == "number" ? (
-          <p className="tabular-nums">{back}</p>
-        ) : (
-          back
-        )
+        back
       )}
+      {modalOpen ? (
+        <ConfirmModal
+          cancel={{
+            label: "취소",
+            onClick: () => {
+              setModalOpen(false);
+            },
+          }}
+          confirm={{
+            label: "삭제",
+            onClick: () => {
+              setModalOpen(false);
+              void handleDelete();
+            },
+          }}
+          description="정말 자격증을 삭제 하시겠습니까?"
+          title="자격증 삭제"
+        />
+      ) : null}
     </div>
   );
 };

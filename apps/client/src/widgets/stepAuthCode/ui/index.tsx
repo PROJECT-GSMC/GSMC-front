@@ -5,58 +5,75 @@ import React, { useCallback, useState } from "react";
 import { type Control, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
+import type { ChangePW_AuthStepForm } from "@/shared/model/changePWForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
 import type { AuthStepForm } from "@shared/model/AuthForm";
 
-export default function StepAuthCode({
-  control,
-  isAuthButtonActive,
-}: {
-  control: Control<AuthStepForm>;
+interface StepAuthCodeBaseProps {
   isAuthButtonActive: boolean;
-}) {
+}
+
+interface StepAuthCodeWithNameProps extends StepAuthCodeBaseProps {
+  control: Control<AuthStepForm>;
+  hasName: true;
+}
+
+interface StepAuthCodeWithoutNameProps extends StepAuthCodeBaseProps {
+  control: Control<ChangePW_AuthStepForm>;
+  hasName?: false;
+}
+
+type StepAuthCodeProps =
+  | StepAuthCodeWithNameProps
+  | StepAuthCodeWithoutNameProps;
+
+export default function StepAuthCode(props: StepAuthCodeProps) {
+  const { control, isAuthButtonActive, hasName = false } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [show, setShow] = useState(false);
 
   const email = useWatch({
-    control,
+    control: control as Control<AuthStepForm | ChangePW_AuthStepForm>,
     name: "email",
   });
 
-  const handleAuthButtonClick = useCallback(async () => {
-    if (isAuthButtonActive && !isLoading) {
-      try {
-        setIsLoading(true);
+  const handleAuthButtonClick = useCallback(() => {
+    const sendEmail = async () => {
+      if (isAuthButtonActive && !isLoading) {
+        try {
+          setIsLoading(true);
 
-        await postSendEmail(email);
-      } catch (error) {
-        toast.error(String(error));
-      } finally {
-        setIsLoading(false);
+          await postSendEmail(email);
+          toast.success("인증번호가 전송되었습니다.");
+          setShow(true);
+        } catch (error) {
+          toast.error(String(error));
+        } finally {
+          setIsLoading(false);
+        }
       }
-    }
+    };
+    void sendEmail();
   }, [email, isAuthButtonActive, isLoading]);
-
-  const handleAuthCodeClick = useCallback(() => async () => {
-    await handleAuthButtonClick()
-    setShow(true)
-  }, [handleAuthButtonClick])
 
   return (
     <>
-      <InputContainer label="이름">
-        <Input
-          control={control}
-          name="name"
-          rules={{
-            required: "이름을 필수로 입력해야 합니다.",
-          }}
-        />
-      </InputContainer>
+      {hasName ? (
+        <InputContainer label="이름">
+          <Input
+            control={props.control as Control<AuthStepForm>}
+            name="name"
+            rules={{
+              required: "이름을 필수로 입력해야 합니다.",
+            }}
+          />
+        </InputContainer>
+      ) : null}
+
       <InputContainer label="이메일">
         <div className="flex items-center justify-between gap-4">
           <Input
-            control={control}
+            control={control as Control<AuthStepForm | ChangePW_AuthStepForm>}
             name="email"
             rules={{
               required: "이메일을 필수로 입력해야 합니다.",
@@ -70,22 +87,29 @@ export default function StepAuthCode({
             className="max-w-max"
             label={isLoading ? "전송 중..." : "인증번호"}
             state={isAuthButtonActive && !isLoading ? "default" : "disabled"}
-            type="submit"
+            type="button"
             variant="blue"
-            onClick={handleAuthCodeClick}
+            onClick={handleAuthButtonClick}
           />
         </div>
       </InputContainer>
+
       <InputContainer label="인증번호">
         <Input
-          control={control}
+          control={control as Control<AuthStepForm | ChangePW_AuthStepForm>}
           name="authcode"
           rules={{
             required: "인증번호를 필수로 입력해야 합니다.",
           }}
         />
       </InputContainer>
-      {show ? <div className="text-sm text-[#e61919]"><strong>인증 코드를 찾을 수 없나요?</strong> 스팸메일함을 확인해 주세요.</div> : null}
+
+      {show ? (
+        <div className="text-sm text-[#e61919]">
+          <strong>인증 코드를 찾을 수 없나요?</strong> 스팸메일함을 확인해
+          주세요.
+        </div>
+      ) : null}
     </>
   );
 }

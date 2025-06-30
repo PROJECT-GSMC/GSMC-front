@@ -8,13 +8,12 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
-import type { CategoryType } from "../model/category";
-
 import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
 import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import Search from "@/entities/posts/ui/search";
 import { Post } from "@/shared/ui";
 
+import type { CategoryType } from "../model/category";
 
 export default function PostsWidget() {
   const R = useRouter();
@@ -61,7 +60,7 @@ export default function PostsWidget() {
     (value: CategoryType) => () => {
       setCategoryName(value);
     },
-    []
+    [],
   );
 
   const handleRoute = useCallback(
@@ -73,7 +72,7 @@ export default function PostsWidget() {
       }
       R.push(`/detail/${post.id}`);
     },
-    [R, setPost]
+    [R, setPost],
   );
 
   let displayedPosts: (post | Draft)[] = [];

@@ -17,8 +17,13 @@ export default function PostsWidget() {
   const { id: email } = useParams();
   const [state, setState] = useState<postState>("PENDING");
   const { member: student, setMember } = useMember();
-  const { data: postsData, isError: isPostsError } = useGetPosts(String(student?.email ?? email), state);
-  const { data: studentData, isError: isStudentError } = useGetStudent(decodeURIComponent(String(student?.email ?? email)));
+  const { data: postsData, isError: isPostsError } = useGetPosts(
+    String(student?.email ?? email),
+    state,
+  );
+  const { data: studentData, isError: isStudentError } = useGetStudent(
+    decodeURIComponent(String(student?.email ?? email)),
+  );
   const { setPost } = usePost();
 
   useEffect(() => {
@@ -42,20 +47,28 @@ export default function PostsWidget() {
     toast.error("사용자 정보를 불러오는 데 실패했습니다.");
   }
 
-  const Buttons: { value: postState, label: string }[] = [
+  const Buttons: { value: postState; label: string }[] = [
     { label: "대기", value: "PENDING" },
     { label: "통과", value: "APPROVE" },
     { label: "거절", value: "REJECT" },
   ];
 
-  const handleState = useCallback((value: postState) => () => {
-    setState(value)
-  }, [])
+  const handleState = useCallback(
+    (value: postState) => () => {
+      setState(value);
+    },
+    [],
+  );
 
-  const handleRoute = useCallback((post: post) => () => {
-    setPost(post);
-    R.push(`/detail/${post.id}?status=${state}&email=${String(student?.email ?? email)}`);
-  }, [R, email, setPost, state, student?.email])
+  const handleRoute = useCallback(
+    (post: post) => () => {
+      setPost(post);
+      R.push(
+        `/detail/${post.id}?status=${state}&email=${String(student?.email ?? email)}`,
+      );
+    },
+    [R, email, setPost, state, student?.email],
+  );
 
   return (
     <div className="flex w-full items-center flex-col p-[1rem]">
@@ -76,11 +89,7 @@ export default function PostsWidget() {
         <div className="flex flex-wrap overflow-y-visible sm:justify-start justify-center w-full gap-[1.12rem]">
           {posts.length > 0 ? (
             posts.map((post) => (
-              <Post
-                data={post}
-                key={post.id}
-                onClick={handleRoute(post)}
-              />
+              <Post data={post} key={post.id} onClick={handleRoute(post)} />
             ))
           ) : (
             <p className="w-full text-center mt-4 text-gray-400">
@@ -91,5 +100,4 @@ export default function PostsWidget() {
       </div>
     </div>
   );
-};
-
+}
