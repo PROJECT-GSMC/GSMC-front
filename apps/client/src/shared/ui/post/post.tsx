@@ -41,7 +41,7 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
       onClick={onClick}
     >
       <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
-        {(imageUri == null) ? null : (
+        {imageUri == null ? null : (
           <Image
             alt={title}
             className="object-cover w-[188px] h-[150px] rounded-t-[0.625rem]"

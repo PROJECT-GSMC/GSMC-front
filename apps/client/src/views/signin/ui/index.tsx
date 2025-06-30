@@ -59,15 +59,18 @@ const SigninView = () => {
     },
   });
 
-  const onSubmit = useCallback((form: SigninFormProps) => {
-    signinMutate(form);
-  }, [signinMutate]);
+  const onSubmit = useCallback(
+    (form: SigninFormProps) => {
+      signinMutate(form);
+    },
+    [signinMutate],
+  );
 
   const handleFormSubmit = useCallback<React.FormEventHandler<HTMLFormElement>>(
     (e) => {
       void handleSubmit(onSubmit)(e);
     },
-    [handleSubmit, onSubmit]
+    [handleSubmit, onSubmit],
   );
 
   return (

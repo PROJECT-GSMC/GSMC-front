@@ -27,6 +27,9 @@ export const getWriteConfig = (
           if (data.file) {
             formData.append("file", data.file);
           }
+          if (data.draftId != null) {
+            formData.append("draftId", data.draftId);
+          }
           formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("title", data.title || "");
           formData.append("content", data.content || "");
@@ -44,6 +47,9 @@ export const getWriteConfig = (
           const formData = new FormData();
           if (data.file) {
             formData.append("file", data.file);
+          }
+          if (data.draftId != null) {
+            formData.append("draftId", data.draftId);
           }
           formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("title", data.title || "");
@@ -63,6 +69,7 @@ export const getWriteConfig = (
             author: data.author ?? "",
             page: Number(data.page) || 0,
             content: data.content || "",
+            draftId: data.draftId ?? null,
           };
           await handleSubmitBook(bookData, type);
         },

@@ -28,7 +28,7 @@ export function useChangeEvidenceState(postId: number) {
         toast.error("게시글 상태 변경에 실패했습니다.");
       }
     },
-    [postId, queryClient]
+    [postId, queryClient],
   );
 
   const handlePostState = useCallback(
@@ -36,7 +36,7 @@ export function useChangeEvidenceState(postId: number) {
       e.stopPropagation();
       void updatePostState(state);
     },
-    [updatePostState]
+    [updatePostState],
   );
 
   return { handlePostState };

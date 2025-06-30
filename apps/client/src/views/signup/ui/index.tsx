@@ -11,7 +11,11 @@ import { toast } from "sonner";
 import { postSignup } from "@/entities/signup/api/postSignup";
 import type { HttpError } from "@/shared/types/error";
 import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-import type { AuthStepForm, SignupFormProps, ServerResponse, SignupStepForm } from "@shared/model/AuthForm";
+import type {
+  AuthStepForm,
+  SignupFormProps,
+  SignupStepForm,
+} from "@shared/model/AuthForm";
 import { AuthForm } from "@widgets/auth/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
 import StepPassword from "@widgets/stepPassword/ui";
@@ -22,24 +26,24 @@ const SignupView = () => {
 
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const [verifiedInfo, setVerifiedInfo] = useState<{ name: string; email: string } | null>(null);
+  const [verifiedInfo, setVerifiedInfo] = useState<{
+    name: string;
+    email: string;
+  } | null>(null);
 
-  const {
-    mutate: signupMutate,
-    isPending,
-    isSuccess,
-  } = useMutation<ServerResponse, HttpError, SignupFormProps>({
-    mutationFn: postSignup,
+  const { mutate: signupMutate, isPending } = useMutation({
+    mutationFn: (form: SignupFormProps) => postSignup(form),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
         queryKey: ["auth"],
         exact: false,
       });
-      if (data.success) {
+      if (data.status === 201) {
         toast.success("회원가입 성공");
+        router.push("/signin");
       }
     },
-    onError: (error) => {
+    onError: (error: HttpError) => {
       if (error.httpStatus === HttpStatusCode.Unauthorized) {
         toast.error("이메일 인증을 먼저 진행해주세요.");
       } else if (error.httpStatus === HttpStatusCode.Conflict) {
@@ -67,7 +71,7 @@ const SignupView = () => {
   const {
     control: signupControl,
     handleSubmit: handleSignupSubmit,
-    formState: { errors: signupErrors },
+    formState: { errors: signupErrors, isValid },
   } = useForm<SignupStepForm>({
     mode: "onChange",
     defaultValues: {
@@ -83,7 +87,7 @@ const SignupView = () => {
     watchedAuthValues.email &&
     /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
     !authErrors.name &&
-    !authErrors.email
+    !authErrors.email,
   );
 
   const canProceedToPassword =
@@ -91,7 +95,7 @@ const SignupView = () => {
     Boolean(
       watchedAuthValues.authcode &&
       watchedAuthValues.authcode.length >= 8 &&
-      !authErrors.authcode
+      !authErrors.authcode,
     );
 
   const isPasswordValid = useCallback(
@@ -101,9 +105,9 @@ const SignupView = () => {
         data.passwordCheck &&
         data.password === data.passwordCheck &&
         !signupErrors.password &&
-        !signupErrors.passwordCheck
+        !signupErrors.passwordCheck,
       ),
-    [signupErrors.password, signupErrors.passwordCheck]
+    [signupErrors.password, signupErrors.passwordCheck],
   );
 
   const handleVerifyEmail = useCallback(
@@ -125,7 +129,7 @@ const SignupView = () => {
         setIsAuthVerifying(false);
       }
     },
-    [canProceedToPassword, isAuthVerifying]
+    [canProceedToPassword, isAuthVerifying],
   );
 
   const onSubmit = useCallback(
@@ -140,28 +144,26 @@ const SignupView = () => {
         signupMutate({
           email: verifiedInfo.email,
           name: verifiedInfo.name,
-          password: data.password
+          password: data.password,
         });
       }
-      if (isSuccess) {
-        router.push("/signin");
-      }
     },
-    [verifiedInfo, setStep, step, isPasswordValid, isPending, signupMutate, isSuccess, router]
+    [verifiedInfo, setStep, step, isPasswordValid, isPending, signupMutate],
   );
 
-  const handleAuthCodeSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    void handleAuthSubmit(handleVerifyEmail)(e);
-  },
-    [handleAuthSubmit, handleVerifyEmail]
+  const handleAuthCodeSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      void handleAuthSubmit(handleVerifyEmail)(e);
+    },
+    [handleAuthSubmit, handleVerifyEmail],
   );
 
-  const handlePasswordSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
-    void handleSignupSubmit(onSubmit)(e);
-  },
-    [handleSignupSubmit, onSubmit]
+  const handlePasswordSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      void handleSignupSubmit(onSubmit)(e);
+    },
+    [handleSignupSubmit, onSubmit],
   );
-
 
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
@@ -173,13 +175,18 @@ const SignupView = () => {
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <StepAuthCode
+                hasName
                 control={authControl}
                 isAuthButtonActive={isAuthCodeStepValid}
               />
             </div>
             <Button
               label="인증하기"
-              state={canProceedToPassword && !isAuthVerifying ? "default" : "disabled"}
+              state={
+                canProceedToPassword && !isAuthVerifying
+                  ? "default"
+                  : "disabled"
+              }
               type="submit"
               variant="blue"
             />
@@ -194,7 +201,7 @@ const SignupView = () => {
             </div>
             <Button
               label="회원가입"
-              state={isPending ? "disabled" : "default"}
+              state={isValid ? "default" : "disabled"}
               type="submit"
               variant="blue"
             />

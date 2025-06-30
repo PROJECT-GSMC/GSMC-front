@@ -12,7 +12,7 @@ function isPublicRoute(path: string): boolean {
 }
 
 async function refreshAccessToken(
-  refreshToken: string
+  refreshToken: string,
 ): Promise<{ accessToken: string; refreshToken: string } | null> {
   try {
     const response = await fetch(
@@ -23,7 +23,7 @@ async function refreshAccessToken(
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ refreshToken }),
-      }
+      },
     );
 
     if (!response.ok) return null;
