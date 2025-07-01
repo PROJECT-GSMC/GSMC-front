@@ -1,5 +1,5 @@
 import instance from "@repo/api/axios";
-import { AxiosError, type AxiosResponse } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 
 interface FeatScoreResponse {
   categoryName: string;
@@ -7,25 +7,24 @@ interface FeatScoreResponse {
 }
 
 interface FeatScoreRequest {
-  email: string;
-  category: string;
-  score: number;
+  categoryName: string;
+  value: number;
 }
 
 export const featScore = async (
   email: string,
   category: string,
-  score: number,
+  score: number
 ): Promise<AxiosResponse<FeatScoreResponse>> => {
   const data: FeatScoreRequest = {
-    email,
-    category,
-    score,
+    categoryName: category,
+    value: Number(score),
   };
   try {
-    return await instance.patch<FeatScoreResponse>("/score", data);
+    const id = email.split("@")[0]?.slice(1);
+    return await instance.patch<FeatScoreResponse>(`/score/${id}`, data);
   } catch (error) {
-    if (error instanceof AxiosError) {
+    if (isAxiosError(error) && error.response) {
       throw error;
     }
     throw new Error("Unknown error occurred");
