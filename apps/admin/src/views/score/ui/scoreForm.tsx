@@ -16,6 +16,7 @@ import type { ScoreFormType } from "../model/score";
 
 
 const SCORE_CATEGORIES = {
+  ACTIVITY: "HUMANITIES-SERVICE-ACTIVITY",
   SEMESTER_1: "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
   SEMESTER_2: "HUMANITIES-SERVICE-CLUB_SEMESTER_2",
   NEWRROW: "HUMANITIES-ACTIVITIES-NEWRROW_S",
@@ -35,9 +36,7 @@ const ScoreForm = () => {
   }, [router]);
 
   const renderCheckbox = useCallback(
-    ({
-      field,
-    }: {
+    ({ field }: {
       field: { value?: boolean; onChange: (value: boolean | null) => void };
     }) => <Checkbox {...field} />,
     [],
@@ -77,7 +76,16 @@ const ScoreForm = () => {
     async (data: ScoreFormType) => {
       let success = true;
 
-      if (data.oneSemester !== null && data.oneSemester > 0) {
+      if (data.activity !== null && data.activity > 0) {
+        success =
+          (await handleScoreSubmit(
+            SCORE_CATEGORIES.ACTIVITY,
+            data.activity,
+            "봉사활동 점수 추가 완료",
+          )) && success;
+      }
+
+      else if (data.oneSemester !== null && data.oneSemester > 0) {
         success =
           (await handleScoreSubmit(
             SCORE_CATEGORIES.SEMESTER_1,
@@ -138,6 +146,15 @@ const ScoreForm = () => {
           <h1 className="sm:text-titleMedium text-title4s text-tropicalblue-700 mt-[2.38rem]">
             점수 추가
           </h1>
+          <InputContainer label="봉사활동">
+            <Input
+              control={control}
+              max={40}
+              min={0}
+              name="activity"
+              type="number"
+            />
+          </InputContainer>
           <InputContainer label="1학기 봉사 시간">
             <Input
               control={control}
