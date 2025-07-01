@@ -8,11 +8,12 @@ import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
+import { Checkbox } from "@/entities/score/ui/checkbox";
+import Header from "@/shared/ui/header";
+
 import { featScore } from "../api/featScore";
 import type { ScoreFormType } from "../model/score";
 
-import { Checkbox } from "@/entities/score/ui/checkbox";
-import Header from "@/shared/ui/header";
 
 const SCORE_CATEGORIES = {
   SEMESTER_1: "HUMANITIES-SERVICE-CLUB_SEMESTER_1",
