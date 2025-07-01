@@ -60,7 +60,10 @@ const Modal = ({ onClose, type }: ModalProps) => {
           });
         }
         case "READ_A_THON": {
-          return await sendEvidence(data);
+          return await sendEvidence({
+            categoryName: data.option.send,
+            file: data.file
+          });
         }
         case "HUMANITY": {
           return await sendCertification({
