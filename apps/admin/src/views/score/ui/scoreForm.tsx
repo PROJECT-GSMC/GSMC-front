@@ -141,7 +141,7 @@ const ScoreForm = () => {
           <InputContainer label="1학기 봉사 시간">
             <Input
               control={control}
-              max={5}
+              max={1}
               min={0}
               name="oneSemester"
               type="number"
@@ -150,7 +150,7 @@ const ScoreForm = () => {
           <InputContainer label="2학기 봉사 시간">
             <Input
               control={control}
-              max={5}
+              max={1}
               min={0}
               name="twoSemester"
               type="number"
