@@ -3,12 +3,12 @@ import { InputContainer } from "@repo/shared/inputContainer";
 import React from "react";
 import type { Control } from "react-hook-form";
 
-import type { SignupStepForm } from "@shared/model/AuthForm";
+import type { StepPasswordForm } from "@/shared/model/signup";
 
 export default function StepPassword({
   control,
 }: {
-  control: Control<SignupStepForm>;
+  control: Control<StepPasswordForm>;
 }) {
   return (
     <>

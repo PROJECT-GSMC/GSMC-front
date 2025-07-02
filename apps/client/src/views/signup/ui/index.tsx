@@ -9,13 +9,13 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { postSignup } from "@/entities/signup/api/postSignup";
-import type { HttpError } from "@/shared/types/error";
-import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
+import type { HttpError } from "@/shared/model/error";
 import type {
-  AuthStepForm,
+  StepAuthCodeForm,
   SignupFormProps,
-  SignupStepForm,
-} from "@shared/model/AuthForm";
+  StepPasswordForm
+} from "@/shared/model/signup"
+import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
 import { AuthForm } from "@widgets/auth/ui";
 import StepAuthCode from "@widgets/stepAuthCode/ui";
 import StepPassword from "@widgets/stepPassword/ui";
@@ -59,7 +59,7 @@ const SignupView = () => {
     handleSubmit: handleAuthSubmit,
     watch: watchAuth,
     formState: { errors: authErrors },
-  } = useForm<AuthStepForm>({
+  } = useForm<StepAuthCodeForm>({
     mode: "onChange",
     defaultValues: {
       name: "",
@@ -72,7 +72,7 @@ const SignupView = () => {
     control: signupControl,
     handleSubmit: handleSignupSubmit,
     formState: { errors: signupErrors, isValid },
-  } = useForm<SignupStepForm>({
+  } = useForm<StepPasswordForm>({
     mode: "onChange",
     defaultValues: {
       password: "",
@@ -99,7 +99,7 @@ const SignupView = () => {
     );
 
   const isPasswordValid = useCallback(
-    (data: SignupStepForm) =>
+    (data: StepPasswordForm) =>
       Boolean(
         data.password &&
         data.passwordCheck &&
@@ -111,7 +111,7 @@ const SignupView = () => {
   );
 
   const handleVerifyEmail = useCallback(
-    async (data: AuthStepForm) => {
+    async (data: StepAuthCodeForm) => {
       if (!canProceedToPassword || isAuthVerifying) return;
 
       try {
@@ -133,7 +133,7 @@ const SignupView = () => {
   );
 
   const onSubmit = useCallback(
-    (data: SignupStepForm) => {
+    (data: StepPasswordForm) => {
       if (!verifiedInfo) {
         toast.error("이메일 인증이 필요합니다.");
         setStep("authCode");
