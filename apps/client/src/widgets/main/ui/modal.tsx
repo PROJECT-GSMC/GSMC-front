@@ -8,8 +8,8 @@ import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import type { HttpError } from "@/shared/types/error";
-import { FixScore } from "@shared/api/fixScore";
+import type { HttpError } from "@/shared/model/error";
+import { PostScore } from "@shared/api/postScore";
 import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
 
@@ -53,7 +53,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
           });
         }
         case "TOPCIT": {
-          return await FixScore({
+          return await PostScore({
             categoryName: "MAJOR-TOPCIT_SCORE",
             file: data.file,
             value: Number(data.value),
