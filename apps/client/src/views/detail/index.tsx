@@ -11,7 +11,6 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { deletePost } from "@/entities/detail/api/deletePost";
-import { useGetCurrentMember } from "@/shared/lib/useGetCurrentMember";
 import { useGetDraft } from "@/shared/lib/useGetDraft";
 import { useGetPosts } from "@/shared/lib/useGetPosts";
 import MockJson from "@shared/mocks/data/evidenceMock.json";
@@ -29,14 +28,9 @@ const DetailView = () => {
 
   const { data: postsData, isError: isPostsError } = useGetPosts(null);
   const { data: draftsData, isError: isDraftsError } = useGetDraft();
-  const { data: studentData, isError: isStudentDataError } = useGetCurrentMember();
 
   if (isPostsError || isDraftsError) {
     toast.error("게시물을 불러오지 못했습니다.");
-  }
-
-  if (isStudentDataError) {
-    toast.error("회원 정보를 불러오지 못했습니다.");
   }
 
   const posts: post[] = [
@@ -112,7 +106,7 @@ const DetailView = () => {
       content = post.content;
 
       if ("author" in post && post.author) {
-        subTitle = post.author;
+        subTitle = `저자: ${post.author}`;
       } else if ("categoryName" in post) {
         subTitle = `카테고리: ${getCategoryName(post.categoryName)}`;
       }
@@ -130,12 +124,8 @@ const DetailView = () => {
           <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem] ">
             {title}
           </h1>
-          <h3 className="text-sm text-[#767676] text-right font-normal">
-            {`${studentData?.name ?? "사용자"} · ${subTitle}`}
-          </h3>
           <div className="w-full h-px bg-[#A6A6A6]" />
         </header>
-
         <main className="flex flex-col gap-12">
           {imageUri == null ? null : (
             <div className="max-h-[21.215rem] w-full aspect-video bg-slate-600">
@@ -148,7 +138,6 @@ const DetailView = () => {
               />
             </div>
           )}
-
           <section className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold">{subTitle}</h2>
             <p className="text-lg font-normal min-h-[400px]">
@@ -167,7 +156,6 @@ const DetailView = () => {
             </p>
           </section>
         </main>
-
         {draft == null && example !== "true" && (
           <span
             className="text-errors-500 underline underline-offset-4 text-body5 cursor-pointer"
@@ -176,7 +164,6 @@ const DetailView = () => {
             이 게시글 삭제하기
           </span>
         )}
-
         <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
           {draft == null && example == null ? (
             <>
