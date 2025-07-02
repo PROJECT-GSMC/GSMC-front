@@ -1,8 +1,9 @@
-import { sendScore } from "@/shared/api/sendScore";
+import type { ConfigType } from "@/shared/model/config";
 import { majorCategoryOptions } from "@/widgets/calculate/model/category";
 import type { FormValues } from "@/widgets/edit/types/types";
 import { CharacterCategory } from "@/widgets/write/model/category";
 
+import { postScore } from "../api/postScore";
 import { handleSubmitBook } from "../lib/handleBookSubmit";
 import { handleSubmitActivity } from "../lib/handleSubmitActivity";
 
@@ -14,9 +15,7 @@ interface Config {
   onSubmit: (data: FormValues, type: "draft" | "submit") => Promise<void>;
 }
 
-export const getWriteConfig = (
-  type: "major" | "humanities" | "reading" | "others" | "foreign"
-): Config => {
+export const getWriteConfig = (type: ConfigType): Config => {
   switch (type) {
     case "major": {
       return {
@@ -75,14 +74,6 @@ export const getWriteConfig = (
         },
       };
     }
-    case "others": {
-      return {
-        title: "기타 증빙 자료",
-        onSubmit: async () => {
-          // No submission logic implemented for 'others' category yet.
-        },
-      };
-    }
     case "foreign": {
       return {
         title: "외국어 영역",
@@ -93,8 +84,16 @@ export const getWriteConfig = (
             formData.append("file", data.file);
           }
           formData.append("categoryName", data.categoryName?.send ?? "");
-          formData.append("value", data.title || "");
-          await sendScore(formData);
+          formData.append("value", String(data.value));
+          await postScore(formData);
+        },
+      };
+    }
+    case "others": {
+      return {
+        title: "기타 증빙 자료",
+        onSubmit: async () => {
+          // No submission logic implemented for 'others' category yet.
         },
       };
     }

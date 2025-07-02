@@ -1,16 +1,16 @@
 import { toast } from "sonner";
 
-import { saveDraft } from "../api/saveDraft";
-import { sendActivity } from "../api/sendActivity";
+import { postActivity } from "../api/postActivity";
+import { postActivityDraft } from "../api/postActivityDraft";
 
 export const handleSubmitActivity = async (
   submitType: "submit" | "draft",
-  formData: FormData,
+  formData: FormData
 ) => {
   try {
     await (submitType === "draft"
-      ? saveDraft(formData)
-      : sendActivity(formData));
+      ? postActivityDraft(formData)
+      : postActivity(formData));
     toast.success(submitType === "draft" ? "임시저장 완료" : "제출 완료");
     return true;
   } catch {
