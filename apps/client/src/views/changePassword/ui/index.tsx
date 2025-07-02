@@ -26,9 +26,7 @@ const ChangePasswordView = () => {
 
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const [verifiedInfo, setVerifiedInfo] = useState<{ email: string } | null>(
-    null,
-  );
+  const [verifiedInfo, setVerifiedInfo] = useState<{ email: string } | null>(null);
 
   const { mutate: changePWMutate, isPending } = useMutation({
     mutationFn: (form: ChangePasswordProps) => patchPassword(form),
@@ -81,46 +79,42 @@ const ChangePasswordView = () => {
     !authErrors.email,
   );
 
-  const canProceedToPassword =
+  const canProceedToPassword = Boolean(
     isAuthCodeStepValid &&
-    Boolean(
-      watchedAuthValues.authcode &&
-      watchedAuthValues.authcode.length >= 8 &&
-      !authErrors.authcode,
-    );
+    watchedAuthValues.authcode &&
+    watchedAuthValues.authcode.length >= 8 &&
+    !authErrors.authcode,
+  );
 
-  const isPasswordValid = useCallback(
-    (data: StepChangePasswordForm) =>
-      Boolean(
-        data.password &&
-        data.passwordCheck &&
-        data.password === data.passwordCheck &&
-        !changePWErrors.password &&
-        !changePWErrors.passwordCheck,
-      ),
+  const isPasswordValid = useCallback((data: StepChangePasswordForm) =>
+    Boolean(
+      data.password &&
+      data.passwordCheck &&
+      data.password === data.passwordCheck &&
+      !changePWErrors.password &&
+      !changePWErrors.passwordCheck,
+    ),
     [changePWErrors.password, changePWErrors.passwordCheck],
   );
 
-  const handleVerifyEmail = useCallback(
-    async (data: ChangePassword_StepAuthCodeForm) => {
-      if (!canProceedToPassword || isAuthVerifying) return;
+  const handleVerifyEmail = useCallback(async (data: ChangePassword_StepAuthCodeForm) => {
+    if (!canProceedToPassword || isAuthVerifying) return;
 
-      try {
-        setIsAuthVerifying(true);
-        const response = await patchVerifyEmail(Number(data.authcode));
+    try {
+      setIsAuthVerifying(true);
+      const response = await patchVerifyEmail(Number(data.authcode));
 
-        if (response.status === 204) {
-          setVerifiedInfo({ email: data.email });
-          setStep("password");
-          toast.success("이메일 인증이 완료되었습니다.");
-        }
-      } catch {
-        toast.error("인증코드가 일치하지 않습니다.");
-      } finally {
-        setIsAuthVerifying(false);
+      if (response.status === 204) {
+        setVerifiedInfo({ email: data.email });
+        setStep("password");
+        toast.success("이메일 인증이 완료되었습니다.");
       }
-    },
-    [canProceedToPassword, isAuthVerifying],
+    } catch {
+      toast.error("인증코드가 일치하지 않습니다.");
+    } finally {
+      setIsAuthVerifying(false);
+    }
+  }, [canProceedToPassword, isAuthVerifying]
   );
 
   const onSubmit = useCallback(

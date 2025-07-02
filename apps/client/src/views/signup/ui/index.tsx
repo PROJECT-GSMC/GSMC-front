@@ -26,10 +26,7 @@ const SignupView = () => {
 
   const [step, setStep] = useState("authCode");
   const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const [verifiedInfo, setVerifiedInfo] = useState<{
-    name: string;
-    email: string;
-  } | null>(null);
+  const [verifiedInfo, setVerifiedInfo] = useState<{ name: string; email: string; } | null>(null);
 
   const { mutate: signupMutate, isPending } = useMutation({
     mutationFn: (form: SignupFormProps) => postSignup(form),
@@ -74,10 +71,7 @@ const SignupView = () => {
     formState: { errors: signupErrors, isValid },
   } = useForm<StepPasswordForm>({
     mode: "onChange",
-    defaultValues: {
-      password: "",
-      passwordCheck: "",
-    },
+    defaultValues: { password: "", passwordCheck: "", },
   });
 
   const watchedAuthValues = watchAuth();
@@ -90,46 +84,42 @@ const SignupView = () => {
     !authErrors.email,
   );
 
-  const canProceedToPassword =
+  const canProceedToPassword = Boolean(
     isAuthCodeStepValid &&
-    Boolean(
-      watchedAuthValues.authcode &&
-      watchedAuthValues.authcode.length >= 8 &&
-      !authErrors.authcode,
-    );
+    watchedAuthValues.authcode &&
+    watchedAuthValues.authcode.length >= 8 &&
+    !authErrors.authcode,
+  );
 
-  const isPasswordValid = useCallback(
-    (data: StepPasswordForm) =>
-      Boolean(
-        data.password &&
-        data.passwordCheck &&
-        data.password === data.passwordCheck &&
-        !signupErrors.password &&
-        !signupErrors.passwordCheck,
-      ),
+  const isPasswordValid = useCallback((data: StepPasswordForm) =>
+    Boolean(
+      data.password &&
+      data.passwordCheck &&
+      data.password === data.passwordCheck &&
+      !signupErrors.password &&
+      !signupErrors.passwordCheck,
+    ),
     [signupErrors.password, signupErrors.passwordCheck],
   );
 
-  const handleVerifyEmail = useCallback(
-    async (data: StepAuthCodeForm) => {
-      if (!canProceedToPassword || isAuthVerifying) return;
+  const handleVerifyEmail = useCallback(async (data: StepAuthCodeForm) => {
+    if (!canProceedToPassword || isAuthVerifying) return;
 
-      try {
-        setIsAuthVerifying(true);
-        const response = await patchVerifyEmail(Number(data.authcode));
+    try {
+      setIsAuthVerifying(true);
+      const response = await patchVerifyEmail(Number(data.authcode));
 
-        if (response.status === 204) {
-          setVerifiedInfo({ name: data.name, email: data.email });
-          setStep("password");
-          toast.success("이메일 인증이 완료되었습니다.");
-        }
-      } catch {
-        toast.error("인증코드가 일치하지 않습니다.");
-      } finally {
-        setIsAuthVerifying(false);
+      if (response.status === 204) {
+        setVerifiedInfo({ name: data.name, email: data.email });
+        setStep("password");
+        toast.success("이메일 인증이 완료되었습니다.");
       }
-    },
-    [canProceedToPassword, isAuthVerifying],
+    } catch {
+      toast.error("인증코드가 일치하지 않습니다.");
+    } finally {
+      setIsAuthVerifying(false);
+    }
+  }, [canProceedToPassword, isAuthVerifying]
   );
 
   const onSubmit = useCallback(
