@@ -11,23 +11,25 @@ import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { deletePost } from "@/entities/detail/api/deletePost";
-import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
-import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
-import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
+import { useGetCurrentMember } from "@/shared/lib/useGetCurrentMember";
+import { useGetDraft } from "@/shared/lib/useGetDraft";
+import { useGetPosts } from "@/shared/lib/useGetPosts";
 import MockJson from "@shared/mocks/data/evidenceMock.json";
 
 const DetailView = () => {
+  const [modalOpen, setModalOpen] = useState(false);
+
   const searchParams = useSearchParams();
   const example = searchParams.get("example");
   const draft = searchParams.get("draft");
+
   const params = useParams();
   const router = useRouter();
   const { id } = params;
+
   const { data: postsData, isError: isPostsError } = useGetPosts(null);
   const { data: draftsData, isError: isDraftsError } = useGetDraft();
-  const { data: studentData, isError: isStudentDataError } =
-    useGetCurrentMember();
-  const [modalOpen, setModalOpen] = useState(false);
+  const { data: studentData, isError: isStudentDataError } = useGetCurrentMember();
 
   if (isPostsError || isDraftsError) {
     toast.error("게시물을 불러오지 못했습니다.");
