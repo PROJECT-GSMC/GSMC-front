@@ -1,11 +1,17 @@
+import type { ConfigType } from "@/shared/model/config";
 import {
-  updateMajorActivity,
-  updateHumanitiesActivity,
-} from "@/shared/api/updateActivity";
-import { updateReading } from "@/shared/api/updateReading";
-import { majorCategoryOptions } from "@/widgets/calculate/model/category";
+  foreignCategoryOptions,
+  majorCategoryOptions,
+} from "@/widgets/calculate/model/category";
 import type { FormValues } from "@/widgets/edit/types/types";
 import { CharacterCategory } from "@/widgets/write/model/category";
+
+import {
+  patchMajorActivity,
+  patchHumanitiesActivity,
+} from "../api/patchActivity";
+import { patchReading } from "../api/patchReading";
+import { patchScore } from "../api/patchScore";
 
 interface Config {
   title: string;
@@ -13,9 +19,7 @@ interface Config {
   onSubmit: (data: FormValues, id: number) => Promise<void>;
 }
 
-export const getEditConfig = (
-  type: "major" | "humanities" | "reading" | "others",
-): Config => {
+export const getEditConfig = (type: ConfigType): Config => {
   switch (type) {
     case "major": {
       return {
@@ -31,7 +35,7 @@ export const getEditConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
 
-          await updateMajorActivity(id, formData);
+          await patchMajorActivity(id, formData);
         },
       };
     }
@@ -49,7 +53,7 @@ export const getEditConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
 
-          await updateHumanitiesActivity(id, formData);
+          await patchHumanitiesActivity(id, formData);
         },
       };
     }
@@ -63,7 +67,21 @@ export const getEditConfig = (
             page: Number(data.page) || 0,
             content: data.content || "",
           };
-          await updateReading(id, bookData);
+          await patchReading(id, bookData);
+        },
+      };
+    }
+    case "foreign": {
+      return {
+        title: "외국어 영역 수정",
+        categoryOptions: foreignCategoryOptions,
+        onSubmit: async (data: FormValues, id: number) => {
+          const formData = new FormData();
+          if (data.file) {
+            formData.append("file", data.file);
+          }
+          formData.append("value", String(data.value));
+          await patchScore(id, formData);
         },
       };
     }

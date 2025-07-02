@@ -11,7 +11,7 @@ import { toast } from "sonner";
 
 import { Dropdown, File, Textarea } from "@/shared/ui";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
-import { getEditConfig } from "@/widgets/edit/model/config";
+import { getEditConfig } from "@/widgets/edit/model/editConfig";
 import type {
   EditFormProps,
   FormValues,

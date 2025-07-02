@@ -1,11 +1,14 @@
 import instance from "@repo/api/axios";
 import type { AxiosError, AxiosResponse } from "axios";
 
-export const sendScore = async (
-  formData: FormData,
+export const postActivityDraft = async (
+  activity: FormData
 ): Promise<AxiosError | AxiosResponse> => {
   try {
-    const res = await instance.post("/evidence/current/scoring", formData);
+    const res = await instance.post(
+      "/evidence/current/draft/activity",
+      activity
+    );
     return res;
   } catch (error) {
     return error as AxiosError;
