@@ -1,6 +1,6 @@
 import type { Activity, Reading, Others } from "@repo/types/evidences";
 
-import { getEditConfig } from "../model/config";
+import { getEditConfig } from "../model/editConfig";
 import type { FormValues } from "../types/types";
 
 export const getDefaultValues = (

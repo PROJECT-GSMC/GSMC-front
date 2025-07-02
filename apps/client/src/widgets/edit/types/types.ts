@@ -13,7 +13,7 @@ export interface FormValues {
   file?: File;
   author?: string;
   page?: string;
-  value?: string | number;
+  value?: number;
   draftId?: string;
 }
 
