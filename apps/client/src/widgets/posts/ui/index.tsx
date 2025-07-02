@@ -8,9 +8,9 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
-import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
-import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import Search from "@/entities/posts/ui/search";
+import { useGetDraft } from "@/shared/lib/useGetDraft";
+import { useGetPosts } from "@/shared/lib/useGetPosts"
 import { Post } from "@/shared/ui";
 
 import type { CategoryType } from "../model/category";
