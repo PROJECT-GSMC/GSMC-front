@@ -85,13 +85,5 @@ export const getEditConfig = (type: ConfigType): Config => {
         },
       };
     }
-    case "others": {
-      return {
-        title: "기타 증빙 수정",
-        onSubmit: async () => {
-          // No submission logic implemented for 'others' category yet.
-        },
-      };
-    }
   }
 };

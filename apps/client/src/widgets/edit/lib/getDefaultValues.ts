@@ -1,10 +1,12 @@
 import type { Activity, Reading, Others } from "@repo/types/evidences";
 
+import type { ConfigType } from "@/shared/model/config";
+
 import { getEditConfig } from "../model/editConfig";
 import type { FormValues } from "../types/types";
 
 export const getDefaultValues = (
-  type: "major" | "humanities" | "reading" | "others",
+  type: ConfigType,
   post: Activity | Reading | Others
 ): Partial<FormValues> => {
   const config = getEditConfig(type);

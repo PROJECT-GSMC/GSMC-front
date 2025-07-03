@@ -9,6 +9,7 @@ import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
+import type { ConfigType } from "@/shared/model/config";
 import { Dropdown, File, Textarea } from "@/shared/ui";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
 import { getEditConfig } from "@/widgets/edit/model/editConfig";
@@ -24,8 +25,8 @@ const EditForm = ({ type, post }: EditFormProps) => {
   const isDraft = Boolean(searchParams.get("draft"));
   const router = useRouter();
 
-  const config = getEditConfig(type as "major" | "humanities" | "reading" | "others");
-  const draftConfig = getWriteConfig(type as "major" | "humanities" | "reading" | "others");
+  const config = getEditConfig(type as ConfigType);
+  const draftConfig = getWriteConfig(type as ConfigType);
 
   const {
     handleSubmit,
@@ -34,39 +35,32 @@ const EditForm = ({ type, post }: EditFormProps) => {
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: getDefaultValues(
-      type as "major" | "humanities" | "reading" | "others",
+      type as ConfigType,
       post as Activity | Reading | Others,
     ),
   });
 
   const file = useWatch<FormValues>({ control, name: "file" });
 
-  const handleFormSubmit = useCallback(
-    async (data: FormValues) => {
-      try {
-        if (isDraft && "draftId" in post) {
-          await draftConfig.onSubmit({ ...data, draftId: post.draftId }, "submit");
-          toast.success("작성이 완료되었습니다.");
-          router.back();
-          return;
-        } else if (!isDraft && "id" in post) {
-          await config.onSubmit(data, Number(post.id));
-          toast.success("수정이 완료되었습니다.");
-          router.back();
-        }
-      } catch {
-        toast.error("수정에 실패했습니다.");
+  const handleFormSubmit = useCallback(async (data: FormValues) => {
+    try {
+      if (isDraft && "draftId" in post) {
+        await draftConfig.onSubmit({ ...data, draftId: post.draftId }, "submit");
+        toast.success("작성이 완료되었습니다.");
+        router.back();
+      } else if (!isDraft && "id" in post) {
+        await config.onSubmit(data, Number(post.id));
+        toast.success("수정이 완료되었습니다.");
+        router.back();
       }
-    },
-    [config, draftConfig, isDraft, post, router],
-  );
+    } catch {
+      toast.error("수정에 실패했습니다.");
+    }
+  }, [config, draftConfig, isDraft, post, router]);
 
-  const handleReviseSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      void handleSubmit(handleFormSubmit)(e);
-    },
-    [handleSubmit, handleFormSubmit],
-  );
+  const handleReviseSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
+    void handleSubmit(handleFormSubmit)(e);
+  }, [handleSubmit, handleFormSubmit]);
 
   const handleBack = useCallback(() => {
     router.back();
