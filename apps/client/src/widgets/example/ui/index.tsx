@@ -10,12 +10,12 @@ import Mock from "@shared/mocks/data/evidenceMock.json";
 
 export default function ExampleWidget() {
   const { setPost } = usePost();
-  const R = useRouter();
+  const router = useRouter();
 
-  const handleExamplePost = useCallback((data: post) => () => {
-    setPost(data);
-    R.push(`/detail/${data.id}?example=${true}`);
-  }, [R, setPost]);
+  const handleRoute = useCallback((mock: post) => () => {
+    setPost(mock);
+    router.push(`/detail/${mock.id}`);
+  }, [router, setPost]);
 
   const mockPosts: post[] = [
     ...(Mock.majorActivityEvidence as post[]),
@@ -24,16 +24,15 @@ export default function ExampleWidget() {
     ...(Mock.otherEvidence as post[]),
   ];
 
-
   return (
     <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
-      {mockPosts.map((data) => {
+      {mockPosts.map((mock) => {
         return (
           <Post
             isExample
-            data={data}
-            key={data.id}
-            onClick={handleExamplePost(data)}
+            data={mock}
+            key={mock.id}
+            onClick={handleRoute(mock)}
           />
         );
       })}
