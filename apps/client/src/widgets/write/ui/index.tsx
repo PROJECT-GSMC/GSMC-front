@@ -19,8 +19,6 @@ import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
 
 import { getWriteConfig } from "../model/writeConfig";
 
-
-
 export default function WriteForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
@@ -101,8 +99,7 @@ export default function WriteForm() {
           className="flex sm:gap-[2rem] gap-[1.5rem] flex-col"
           onSubmit={handleWriteSubmit}
         >
-          {(type === "major" || type === "humanities" || type === "foreign") &&
-            config.categoryOptions ? (
+          {type !== "reading" && config.categoryOptions ? (
             <Controller<FormValues>
               control={control}
               name="categoryName"
@@ -136,7 +133,6 @@ export default function WriteForm() {
               rules={{ required: "카테고리를 선택해주세요." }}
             />
           ) : null}
-
           {type !== "foreign" && (
             <InputContainer label="제목">
               <Input<FormValues>
@@ -148,7 +144,6 @@ export default function WriteForm() {
               />
             </InputContainer>
           )}
-
           {(type === "reading" || (type === "foreign" && !needDropdown)) && (
             <>
               {type === "reading" && (
@@ -176,7 +171,6 @@ export default function WriteForm() {
               </InputContainer>
             </>
           )}
-
           {type !== "foreign" && (
             <Controller<FormValues>
               control={control}
@@ -204,30 +198,26 @@ export default function WriteForm() {
               }}
             />
           )}
-
-          {(type === "major" ||
-            type === "humanities" ||
-            type === "foreign") && (
-              <Controller<FormValues>
-                control={control}
-                name="file"
-                // eslint-disable-next-line react/jsx-no-bind
-                render={({ field: { value, onChange, ...field } }) => (
-                  <File
-                    label="이미지"
-                    value={value as File}
-                    onChange={onChange}
-                    {...field}
-                  />
-                )}
-                rules={{
-                  ...(type === "foreign" && {
-                    required: "파일을 첨부해주세요.",
-                  }),
-                }}
-              />
-            )}
-
+          {(type !== "reading") && (
+            <Controller<FormValues>
+              control={control}
+              name="file"
+              // eslint-disable-next-line react/jsx-no-bind
+              render={({ field: { value, onChange, ...field } }) => (
+                <File
+                  label="이미지"
+                  value={value as File}
+                  onChange={onChange}
+                  {...field}
+                />
+              )}
+              rules={{
+                ...(type === "foreign" && {
+                  required: "파일을 첨부해주세요.",
+                }),
+              }}
+            />
+          )}
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
             {type !== "foreign" && (
               <Button
