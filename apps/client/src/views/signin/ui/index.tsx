@@ -84,7 +84,6 @@ const SigninView = () => {
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <InputContainer label="이메일">
                 <Input
-                  isEmail
                   control={control}
                   name="email"
                   rules={{
