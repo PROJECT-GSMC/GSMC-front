@@ -145,7 +145,7 @@ const DetailView = () => {
           )}
           <section className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold">{subTitle}</h2>
-            <p className="text-lg font-normal min-h-[400px]">
+            <p className="text-lg font-normal min-h-[400px] break-words">
               {fileUri == null ? (
                 content
               ) : (
