@@ -63,17 +63,14 @@ export default function PostsWidget() {
     [],
   );
 
-  const handleRoute = useCallback(
-    (post: post | Draft) => () => {
-      setPost(post);
-      if ("draftId" in post) {
-        R.push(`/detail/${post.draftId}?draft=${true}`);
-        return;
-      }
-      R.push(`/detail/${post.id}`);
-    },
-    [R, setPost],
-  );
+  const handleRoute = useCallback((post: post | Draft) => () => {
+    setPost(post);
+    if ("draftId" in post) {
+      R.push(`/detail/${post.draftId}`);
+      return;
+    }
+    R.push(`/detail/${post.id}`);
+  }, [R, setPost]);
 
   let displayedPosts: (post | Draft)[] = [];
 
