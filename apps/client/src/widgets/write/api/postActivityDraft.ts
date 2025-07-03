@@ -1,16 +1,19 @@
 import instance from "@repo/api/axios";
-import type { AxiosError, AxiosResponse } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 
 export const postActivityDraft = async (
   activity: FormData
-): Promise<AxiosError | AxiosResponse> => {
+): Promise<AxiosResponse> => {
   try {
-    const res = await instance.post(
+    const response = await instance.post(
       "/evidence/current/draft/activity",
       activity
     );
-    return res;
-  } catch (error) {
-    return error as AxiosError;
+    return response;
+  } catch (error: unknown) {
+    if (isAxiosError(error) && error.response) {
+      throw error.response.data ?? "활동영역 임시 저장 실패";
+    }
+    throw error;
   }
 };
