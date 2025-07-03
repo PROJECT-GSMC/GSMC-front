@@ -3,10 +3,15 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import { useMutation } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useRef } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
+import { toast } from "sonner";
 
+import type { ConfigType } from "@/shared/model/config";
+import type { HttpError } from "@/shared/model/error";
 import { Dropdown, File, Textarea } from "@/shared/ui";
 import type { Option } from "@/shared/ui/dropdown";
 import type { FormValues } from "@/widgets/edit/types/types";
@@ -14,23 +19,38 @@ import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
 
 import { getWriteConfig } from "../model/writeConfig";
 
+
+
 export default function WriteForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const type = searchParams.get("type") as
-    | "major"
-    | "humanities"
-    | "reading"
-    | "others"
-    | "foreign";
+  const type = searchParams.get("type") as ConfigType
   const config = getWriteConfig(type);
 
   const submitTypeRef = useRef<"draft" | "submit">("submit");
 
+  const { mutate } = useMutation({
+    mutationFn: (data: FormValues) => config.onSubmit(data, submitTypeRef.current),
+    onSuccess: (data) => {
+      if (data.status === 201) {
+        toast.success("증빙자료를 성공적으로 저장하였습니다.")
+        router.push("/");
+      }
+    },
+    onError: (error: HttpError) => {
+      if (error.httpStatus === HttpStatusCode.NotFound) {
+        toast.error("해당 증빙 자료가 존재하지 않습니다.");
+      } else if (error.httpStatus === HttpStatusCode.UnprocessableEntity) {
+        toast.error("더 이상 증빙 자료를 추가할 수 없습니다.");
+      } else {
+        toast.error("증빙 자료 추가에 실패했습니다.");
+      }
+    }
+  })
+
   const {
     handleSubmit,
     control,
-    getValues,
     formState: { isValid },
   } = useForm<FormValues>({
     mode: "onChange",
@@ -44,39 +64,30 @@ export default function WriteForm() {
       file: undefined,
     },
   });
+
   const file = useWatch<FormValues>({ control, name: "file" });
-  const category = useWatch({
-    control,
-    name: "categoryName",
-  });
+
+  const category = useWatch({ control, name: "categoryName", });
 
   const needDropdown =
     category?.name === "OPIC" ||
     category?.name === "TOEIC SPEAKING" ||
     category?.name === "HSK";
 
-  const handleFormSubmit = useCallback(
-    async (data: FormValues) => {
-      await config.onSubmit(data, submitTypeRef.current);
-      router.push("/");
-    },
-    [config, router],
-  );
+  const handleFormSubmit = useCallback((data: FormValues) => {
+    mutate(data)
+  }, [mutate]);
 
-  const handleWriteSubmit = useCallback(
-    (e: React.FormEvent) => {
-      e.preventDefault();
-      void handleSubmit(handleFormSubmit)();
-    },
-    [handleFormSubmit, handleSubmit],
-  );
+  const handleWriteSubmit = useCallback((e: React.FormEvent) => {
+    e.preventDefault();
+    void handleSubmit(handleFormSubmit)();
+  }, [handleFormSubmit, handleSubmit]);
 
-  const handleTemporarySave = useCallback(() => {
+  const ChangeStatusDraft = useCallback(() => {
     submitTypeRef.current = "draft";
-    void handleFormSubmit(getValues());
-  }, [getValues, handleFormSubmit]);
+  }, []);
 
-  const handleSubmissionSubmit = useCallback(() => {
+  const ChangeStatusWrite = useCallback(() => {
     submitTypeRef.current = "submit";
   }, []);
 
@@ -221,11 +232,11 @@ export default function WriteForm() {
             {type !== "foreign" && (
               <Button
                 label="임시저장"
-                state="default"
-                type="button"
+                state={isValid ? "default" : "disabled"}
+                type="submit"
                 value="draft"
                 variant="skyblue"
-                onClick={handleTemporarySave}
+                onClick={ChangeStatusDraft}
               />
             )}
             <Button
@@ -234,7 +245,7 @@ export default function WriteForm() {
               type="submit"
               value="submit"
               variant="blue"
-              onClick={handleSubmissionSubmit}
+              onClick={ChangeStatusWrite}
             />
           </div>
         </form>
