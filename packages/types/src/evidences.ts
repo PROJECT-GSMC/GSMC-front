@@ -18,7 +18,7 @@ export interface Reading {
 
 export interface Others {
   id: number;
-  fileUri?: string;
+  fileUri: string;
   evidenceType: EvidenceType;
   status: postState;
   categoryName: string;
