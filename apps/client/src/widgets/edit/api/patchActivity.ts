@@ -1,29 +1,38 @@
 import instance from "@repo/api/axios";
-import type { AxiosError, AxiosResponse } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 
 export const patchMajorActivity = async (
   evidenceId: number,
   activity: FormData
-): Promise<AxiosResponse | AxiosError> => {
+): Promise<AxiosResponse> => {
   try {
-    const res = await instance.patch(`evidence/major/${evidenceId}`, activity);
-    return res;
-  } catch (error) {
-    return error as AxiosError;
+    const response = await instance.patch(
+      `evidence/major/${evidenceId}`,
+      activity
+    );
+    return response;
+  } catch (error: unknown) {
+    if (isAxiosError(error) && error.response) {
+      throw error.response.data ?? "전공 영역 수정 실패";
+    }
+    throw error;
   }
 };
 
 export const patchHumanitiesActivity = async (
   evidenceId: number,
   activity: FormData
-): Promise<AxiosError | AxiosResponse> => {
+): Promise<AxiosResponse> => {
   try {
-    const res = await instance.patch(
+    const response = await instance.patch(
       `evidence/humanities/${evidenceId}`,
       activity
     );
-    return res;
-  } catch (error) {
-    return error as AxiosError;
+    return response;
+  } catch (error: unknown) {
+    if (isAxiosError(error) && error.response) {
+      throw error.response.data ?? "인성 영역 수정 실패";
+    }
+    throw error;
   }
 };

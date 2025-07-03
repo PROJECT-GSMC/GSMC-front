@@ -4,12 +4,15 @@ import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 import type { Activity, Others, Reading } from "@repo/types/evidences";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useMutation } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
 import type { ConfigType } from "@/shared/model/config";
+import type { HttpError } from "@/shared/model/error";
 import { Dropdown, File, Textarea } from "@/shared/ui";
 import { getDefaultValues } from "@/widgets/edit/lib/getDefaultValues";
 import { getEditConfig } from "@/widgets/edit/model/editConfig";
@@ -20,13 +23,35 @@ import type {
 } from "@/widgets/edit/types/types";
 import { getWriteConfig } from "@/widgets/write/model/writeConfig";
 
+
+
 const EditForm = ({ type, post }: EditFormProps) => {
-  const searchParams = useSearchParams();
-  const isDraft = Boolean(searchParams.get("draft"));
   const router = useRouter();
+  const isDraft = "draftId" in post;
 
   const config = getEditConfig(type as ConfigType);
   const draftConfig = getWriteConfig(type as ConfigType);
+
+  const { mutate } = useMutation({
+    mutationFn: (data: FormValues) => isDraft ?
+      draftConfig.onSubmit({ ...data, draftId: post.draftId }, "submit") :
+      config.onSubmit(data, Number(post.id)),
+    onSuccess: (data) => {
+      if (data.status === 201) {
+        toast.success("증빙자료를 성공적으로 저장하였습니다.")
+        router.push("/");
+      }
+    },
+    onError: (error: HttpError) => {
+      if (error.httpStatus === HttpStatusCode.NotFound) {
+        toast.error("해당 증빙 자료가 존재하지 않습니다.");
+      } else if (error.httpStatus === HttpStatusCode.UnprocessableEntity) {
+        toast.error("더 이상 증빙 자료를 추가할 수 없습니다.");
+      } else {
+        toast.error("증빙 자료 추가에 실패했습니다.");
+      }
+    }
+  })
 
   const {
     handleSubmit,
@@ -42,21 +67,10 @@ const EditForm = ({ type, post }: EditFormProps) => {
 
   const file = useWatch<FormValues>({ control, name: "file" });
 
-  const handleFormSubmit = useCallback(async (data: FormValues) => {
-    try {
-      if (isDraft && "draftId" in post) {
-        await draftConfig.onSubmit({ ...data, draftId: post.draftId }, "submit");
-        toast.success("작성이 완료되었습니다.");
-        router.back();
-      } else if (!isDraft && "id" in post) {
-        await config.onSubmit(data, Number(post.id));
-        toast.success("수정이 완료되었습니다.");
-        router.back();
-      }
-    } catch {
-      toast.error("수정에 실패했습니다.");
-    }
-  }, [config, draftConfig, isDraft, post, router]);
+  const handleFormSubmit = useCallback((data: FormValues) => {
+    mutate(data)
+    router.back()
+  }, [mutate, router]);
 
   const handleReviseSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {
     void handleSubmit(handleFormSubmit)(e);

@@ -1,3 +1,5 @@
+import type { AxiosResponse } from "axios";
+
 import type { ConfigType } from "@/shared/model/config";
 import type { FormValues } from "@/widgets/edit/types/types";
 import {
@@ -16,7 +18,7 @@ import { patchScore } from "../api/patchScore";
 interface Config {
   title: string;
   categoryOptions?: { name: string; send: string }[];
-  onSubmit: (data: FormValues, id: number) => Promise<void>;
+  onSubmit: (data: FormValues, id: number) => Promise<AxiosResponse>;
 }
 
 export const getEditConfig = (type: ConfigType): Config => {
@@ -35,7 +37,7 @@ export const getEditConfig = (type: ConfigType): Config => {
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
 
-          await patchMajorActivity(id, formData);
+          return await patchMajorActivity(id, formData);
         },
       };
     }
@@ -53,7 +55,7 @@ export const getEditConfig = (type: ConfigType): Config => {
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
 
-          await patchHumanitiesActivity(id, formData);
+          return await patchHumanitiesActivity(id, formData);
         },
       };
     }
@@ -67,7 +69,7 @@ export const getEditConfig = (type: ConfigType): Config => {
             page: Number(data.page) || 0,
             content: data.content || "",
           };
-          await patchReading(id, bookData);
+          return await patchReading(id, bookData);
         },
       };
     }
@@ -81,7 +83,7 @@ export const getEditConfig = (type: ConfigType): Config => {
             formData.append("file", data.file);
           }
           formData.append("value", String(data.value));
-          await patchScore(id, formData);
+          return await patchScore(id, formData);
         },
       };
     }
