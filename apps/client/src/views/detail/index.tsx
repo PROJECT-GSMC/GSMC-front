@@ -63,15 +63,14 @@ const DetailView = () => {
   }
 
   const handleRevise = useCallback(() => {
-    const idString = String(id);
     if (draft === "true") {
-      router.push(`/edit/${idString}?draft=${true}`);
+      router.push(`/edit/${String(id)}?draft=${true}`);
       return;
+    } else if (example == "true") {
+      router.push(`/edit/${String(id)}?example=${true}`);
+    } else {
+      router.push(`edit/${String(id)}`)
     }
-    const exampleQuery =
-      example != null && example !== "" ? "?example=true" : "";
-
-    router.push(`/edit/${idString}${exampleQuery}`);
   }, [router, id, example, draft]);
 
   const handleBack = useCallback(() => {
