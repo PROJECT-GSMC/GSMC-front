@@ -13,7 +13,7 @@ import { toast } from "sonner";
 import { deletePost } from "@/entities/detail/api/deletePost";
 import { useGetDraft } from "@/shared/lib/useGetDraft";
 import { useGetPosts } from "@/shared/lib/useGetPosts";
-import MockJson from "@shared/mocks/data/evidenceMock.json";
+import Mock from "@shared/mocks/data/evidenceMock.json";
 
 const DetailView = () => {
   const [modalOpen, setModalOpen] = useState(false);
@@ -45,14 +45,19 @@ const DetailView = () => {
     ...(draftsData?.readingEvidences ?? []),
   ];
 
-  const Mock: post[] = MockJson as post[];
+  const mockPosts: post[] = [
+    ...(Mock.majorActivityEvidence as post[]),
+    ...(Mock.humanitiesActivityEvidence as post[]),
+    ...(Mock.readingEvidence as post[]),
+    ...(Mock.otherEvidence as post[]),
+  ];
 
   let post: post | Draft | undefined;
 
   if (draft === "true") {
     post = draftPosts.find((post) => post.draftId === id);
   } else if (example === "true") {
-    post = Mock.find((post) => post.id === Number(id));
+    post = mockPosts.find((post) => post.id === Number(id));
   } else {
     post = posts.find((post) => post.id === Number(id));
   }
