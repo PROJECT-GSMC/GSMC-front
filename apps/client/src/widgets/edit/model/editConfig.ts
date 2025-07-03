@@ -1,10 +1,10 @@
 import type { ConfigType } from "@/shared/model/config";
-import {
-  foreignCategoryOptions,
-  majorCategoryOptions,
-} from "@/widgets/calculate/model/category";
 import type { FormValues } from "@/widgets/edit/types/types";
-import { CharacterCategory } from "@/widgets/write/model/category";
+import {
+  MajorOptions,
+  HumanitiesOptions,
+  ForeignOptions,
+} from "@/widgets/write/model/category";
 
 import {
   patchMajorActivity,
@@ -24,7 +24,7 @@ export const getEditConfig = (type: ConfigType): Config => {
     case "major": {
       return {
         title: "전공 영역 수정",
-        categoryOptions: majorCategoryOptions,
+        categoryOptions: MajorOptions,
         onSubmit: async (data: FormValues, id: number) => {
           const formData = new FormData();
           if (data.file) {
@@ -42,7 +42,7 @@ export const getEditConfig = (type: ConfigType): Config => {
     case "humanities": {
       return {
         title: "인성 영역 수정",
-        categoryOptions: CharacterCategory,
+        categoryOptions: HumanitiesOptions,
         onSubmit: async (data: FormValues, id: number) => {
           const formData = new FormData();
           if (data.file) {
@@ -74,7 +74,7 @@ export const getEditConfig = (type: ConfigType): Config => {
     case "foreign": {
       return {
         title: "외국어 영역 수정",
-        categoryOptions: foreignCategoryOptions,
+        categoryOptions: ForeignOptions,
         onSubmit: async (data: FormValues, id: number) => {
           const formData = new FormData();
           if (data.file) {
