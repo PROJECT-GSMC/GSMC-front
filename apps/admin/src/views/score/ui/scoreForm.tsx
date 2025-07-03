@@ -69,48 +69,59 @@ const ScoreForm = () => {
       let success = true;
 
       if (data.activity !== null && data.activity > 0) {
-        success =
-          (await handleScoreSubmit(
-            SCORE_CATEGORIES.ACTIVITY,
-            data.activity,
-            "봉사활동 점수 추가 완료",
-          )) && success;
+        success = (await handleScoreSubmit(
+          SCORE_CATEGORIES.ACTIVITY,
+          data.activity,
+          "봉사활동 점수 추가 완료",
+        )) && success;
       }
 
-      else if (data.oneSemester !== null && data.oneSemester > 0) {
-        success =
-          (await handleScoreSubmit(
-            SCORE_CATEGORIES.SEMESTER_1,
-            data.oneSemester,
-            "1학기 봉사 시간 점수 추가 완료",
-          )) && success;
+      if (data.oneSemester !== null && data.oneSemester > 0) {
+        success = (await handleScoreSubmit(
+          SCORE_CATEGORIES.SEMESTER_1,
+          data.oneSemester,
+          "1학기 봉사 시간 점수 추가 완료",
+        )) && success;
       }
 
       if (data.twoSemester !== null && data.twoSemester > 0) {
-        success =
-          (await handleScoreSubmit(
-            SCORE_CATEGORIES.SEMESTER_2,
-            data.twoSemester,
-            "2학기 봉사 시간 점수 추가 완료",
-          )) && success;
+        success = (await handleScoreSubmit(
+          SCORE_CATEGORIES.SEMESTER_2,
+          data.twoSemester,
+          "2학기 봉사 시간 점수 추가 완료",
+        )) && success;
+      }
+
+      if (data.inAward !== null && data.inAward > 0) {
+        success = (await handleScoreSubmit(
+          SCORE_CATEGORIES.AWARD_IN,
+          data.inAward,
+          "교내인성영역관련수상 점수 추가 완료",
+        )) && success;
+      }
+
+      if (data.outAward !== null && data.outAward > 0) {
+        success = (await handleScoreSubmit(
+          SCORE_CATEGORIES.AWARD_OUT,
+          data.outAward,
+          "교외인성영역관련수상 점수 추가 완료",
+        )) && success;
       }
 
       if (data.newrrow !== null && data.newrrow > 0) {
-        success =
-          (await handleScoreSubmit(
-            SCORE_CATEGORIES.NEWRROW,
-            data.newrrow,
-            "뉴로우 참여 횟수 점수 추가 완료",
-          )) && success;
+        success = (await handleScoreSubmit(
+          SCORE_CATEGORIES.NEWRROW,
+          data.newrrow,
+          "뉴로우 참여 횟수 점수 추가 완료",
+        )) && success;
       }
 
       if (data.checkbox !== undefined) {
-        success =
-          (await handleScoreSubmit(
-            SCORE_CATEGORIES.TOEIC,
-            data.checkbox ? 1 : 0,
-            "TOEIC 참여 여부 점수 추가 완료",
-          )) && success;
+        success = (await handleScoreSubmit(
+          SCORE_CATEGORIES.TOEIC,
+          data.checkbox ? 1 : 0,
+          "TOEIC 참여 여부 점수 추가 완료",
+        )) && success;
       }
 
       if (success) {
@@ -147,24 +158,46 @@ const ScoreForm = () => {
               type="number"
             />
           </InputContainer>
-          <InputContainer label="1학기 봉사 시간">
-            <Input
-              control={control}
-              max={1}
-              min={0}
-              name="oneSemester"
-              type="number"
-            />
-          </InputContainer>
-          <InputContainer label="2학기 봉사 시간">
-            <Input
-              control={control}
-              max={1}
-              min={0}
-              name="twoSemester"
-              type="number"
-            />
-          </InputContainer>
+          <div className="grid grid-cols-2 gap-4">
+            <InputContainer label="1학기 봉사 시간">
+              <Input
+                control={control}
+                max={1}
+                min={0}
+                name="oneSemester"
+                type="number"
+              />
+            </InputContainer>
+            <InputContainer label="2학기 봉사 시간">
+              <Input
+                control={control}
+                max={1}
+                min={0}
+                name="twoSemester"
+                type="number"
+              />
+            </InputContainer>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <InputContainer label="교내인성영역관련수상">
+              <Input
+                control={control}
+                max={4}
+                min={0}
+                name="inAward"
+                type="number"
+              />
+            </InputContainer>
+            <InputContainer label="교외인성영역관련수상">
+              <Input
+                control={control}
+                max={4}
+                min={0}
+                name="outAward"
+                type="number"
+              />
+            </InputContainer>
+          </div>
           <InputContainer label="뉴로우 참여 횟수">
             <Input
               control={control}
