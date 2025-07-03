@@ -139,10 +139,15 @@ export default function WriteForm() {
                 control={control}
                 name="title"
                 rules={{
+                  maxLength: {
+                    value: 20,
+                    message: "20자 이내로 입력해주세요"
+                  },
                   required: "제목을 입력해주세요.",
                 }}
               />
             </InputContainer>
+
           )}
           {(type === "reading" || (type === "foreign" && !needDropdown)) && (
             <>
@@ -152,6 +157,10 @@ export default function WriteForm() {
                     control={control}
                     name="author"
                     rules={{
+                      maxLength: {
+                        value: 20,
+                        message: "20자 이내로 입력해주세요"
+                      },
                       required: "저자를 입력해주세요.",
                     }}
                   />
@@ -162,6 +171,10 @@ export default function WriteForm() {
                   control={control}
                   name={type === "reading" ? "page" : "value"}
                   rules={{
+                    maxLength: {
+                      value: 5,
+                      message: "5자 이내로 입력해주세요"
+                    },
                     required:
                       type === "reading"
                         ? "페이지를 입력해주세요."
