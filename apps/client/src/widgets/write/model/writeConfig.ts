@@ -1,3 +1,5 @@
+import type { AxiosResponse } from "axios";
+
 import type { ConfigType } from "@/shared/model/config";
 import type { FormValues } from "@/widgets/edit/types/types";
 import {
@@ -13,7 +15,10 @@ import { handleSubmitActivity } from "../lib/handleSubmitActivity";
 interface Config {
   title: string;
   categoryOptions?: { name: string; send: string }[];
-  onSubmit: (data: FormValues, type: "draft" | "submit") => Promise<void>;
+  onSubmit: (
+    data: FormValues,
+    type: "draft" | "submit"
+  ) => Promise<AxiosResponse>;
 }
 
 export const getWriteConfig = (type: ConfigType): Config => {
@@ -35,7 +40,7 @@ export const getWriteConfig = (type: ConfigType): Config => {
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
 
-          await handleSubmitActivity(type, formData);
+          return await handleSubmitActivity(type, formData);
         },
       };
     }
@@ -56,7 +61,7 @@ export const getWriteConfig = (type: ConfigType): Config => {
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
 
-          await handleSubmitActivity(type, formData);
+          return await handleSubmitActivity(type, formData);
         },
       };
     }
@@ -71,7 +76,7 @@ export const getWriteConfig = (type: ConfigType): Config => {
             content: data.content || "",
             draftId: data.draftId ?? null,
           };
-          await handleSubmitBook(bookData, type);
+          return await handleSubmitBook(bookData, type);
         },
       };
     }
@@ -86,15 +91,7 @@ export const getWriteConfig = (type: ConfigType): Config => {
           }
           formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("value", String(data.value));
-          await postScore(formData);
-        },
-      };
-    }
-    case "others": {
-      return {
-        title: "기타 증빙 자료",
-        onSubmit: async () => {
-          // No submission logic implemented for 'others' category yet.
+          return await postScore(formData);
         },
       };
     }
