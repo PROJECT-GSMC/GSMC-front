@@ -3,30 +3,26 @@ export interface Activity {
   title: string;
   content: string;
   imageUri?: string;
-  status: postState;
   categoryName: string;
+  status: PostStatus;
 }
 
 export interface Reading {
   id: number;
   title: string;
+  content: string;
   author: string;
   page: number;
-  content: string;
-  status: postState;
+  status: PostStatus;
 }
 
 export interface Others {
   id: number;
-  fileUri: string;
   evidenceType: EvidenceType;
-  status: postState;
+  fileUri: string;
   categoryName: string;
+  status: PostStatus;
 }
-
-export type postState = "APPROVE" | "PENDING" | "REJECT";
-
-export type post = Activity | Reading | Others;
 
 export type EvidenceType =
   | "MAJOR"
@@ -44,6 +40,10 @@ export type EvidenceType =
   | "JPT"
   | "CPT"
   | "HSK";
+
+export type PostStatus = "PENDING" | "APPROVE" | "REJECT";
+
+export type Post = Activity | Reading | Others;
 
 export interface EvidenceResponse {
   majorActivityEvidence: Activity[];

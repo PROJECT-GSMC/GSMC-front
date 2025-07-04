@@ -1,11 +1,25 @@
-import type { Activity, Reading } from "@repo/types/evidences";
-
-export interface DraftResponse {
-  activityEvidences: Draft[];
-  readingEvidences: Draft[];
+export interface ActivityDraft {
+  draftId: string;
+  title: string;
+  content: string;
+  imageUri?: string;
+  categoryName: string;
+  activityType: ActivityType;
 }
-export type ActivityDraft = Omit<Activity, "id"> & { draftId: string };
 
-export type ReadingDraft = Omit<Reading, "id"> & { draftId: string };
+export interface ReadingDraft {
+  draftId: string;
+  title: string;
+  content: string;
+  author: string;
+  page: number;
+}
+
+export type ActivityType = "MAJOR" | "HUMANITIES";
 
 export type Draft = ActivityDraft | ReadingDraft;
+
+export interface DraftResponse {
+  activityEvidences: ActivityDraft[];
+  readingEvidences: ReadingDraft[];
+}
