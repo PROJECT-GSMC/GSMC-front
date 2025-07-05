@@ -1,17 +1,18 @@
-import type { Draft } from "@repo/types/draft";
-import type { post } from "@repo/types/evidences";
+import type { DraftType } from "@repo/types/draft";
+import type { PostType } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import { handleState, handleStateColor } from "@repo/utils/handleState";
 import Image from "next/image";
 
 interface PostProps {
-  data: post | Draft;
+  data: PostType | DraftType;
   isExample?: boolean;
   onClick?: () => void;
 }
 
 const Post = ({ data, isExample = false, onClick }: PostProps) => {
+
   const title = (() => {
     if ("title" in data) return data.title;
     if ("evidenceType" in data) return data.evidenceType
@@ -52,7 +53,7 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
           {subTitle}
         </p>
         {!isExample && state ?
-          <span className={`text-body5 ${handleStateColor(state)}`}>
+          <span className={`text-body5 ${handleStateColor(state)} `}>
             {handleState(state)}
           </span> : null}
       </section>
