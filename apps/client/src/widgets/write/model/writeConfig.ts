@@ -1,20 +1,20 @@
 import type { AxiosResponse } from "axios";
 
 import type { ConfigType } from "@/shared/model/config";
-import type { FormValues } from "@/widgets/edit/types/types";
+import type { FormValues, Option } from "@/widgets/edit/types/types";
 import {
   MajorOptions,
   HumanitiesOptions,
   ForeignOptions,
 } from "@/widgets/write/model/category";
 
-import { postScore } from "../api/postScore";
-import { handleSubmitBook } from "../lib/handleBookSubmit";
+import { postScoring } from "../api/postScoring";
 import { handleSubmitActivity } from "../lib/handleSubmitActivity";
+import { handleSubmitReading } from "../lib/handleSubmitReading";
 
 interface Config {
   title: string;
-  categoryOptions?: { name: string; send: string }[];
+  categoryOptions?: Option[];
   onSubmit: (
     data: FormValues,
     type: "draft" | "submit"
@@ -76,11 +76,11 @@ export const getWriteConfig = (type: ConfigType): Config => {
             content: data.content || "",
             draftId: data.draftId ?? null,
           };
-          return await handleSubmitBook(bookData, type);
+          return await handleSubmitReading(bookData, type);
         },
       };
     }
-    case "foreign": {
+    case "others": {
       return {
         title: "외국어 영역",
         categoryOptions: ForeignOptions,
@@ -91,7 +91,7 @@ export const getWriteConfig = (type: ConfigType): Config => {
           }
           formData.append("categoryName", data.categoryName?.send ?? "");
           formData.append("value", String(data.value));
-          return await postScore(formData);
+          return await postScoring(formData);
         },
       };
     }

@@ -1,7 +1,7 @@
 import type { AxiosResponse } from "axios";
 
 import type { ConfigType } from "@/shared/model/config";
-import type { FormValues } from "@/widgets/edit/types/types";
+import type { FormValues, Option } from "@/widgets/edit/types/types";
 import {
   MajorOptions,
   HumanitiesOptions,
@@ -13,11 +13,11 @@ import {
   patchHumanitiesActivity,
 } from "../api/patchActivity";
 import { patchReading } from "../api/patchReading";
-import { patchScore } from "../api/patchScore";
+import { patchScoring } from "../api/patchScoring";
 
 interface Config {
   title: string;
-  categoryOptions?: { name: string; send: string }[];
+  categoryOptions?: Option[];
   onSubmit: (data: FormValues, id: number) => Promise<AxiosResponse>;
 }
 
@@ -73,7 +73,7 @@ export const getEditConfig = (type: ConfigType): Config => {
         },
       };
     }
-    case "foreign": {
+    case "others": {
       return {
         title: "외국어 영역 수정",
         categoryOptions: ForeignOptions,
@@ -83,7 +83,7 @@ export const getEditConfig = (type: ConfigType): Config => {
             formData.append("file", data.file);
           }
           formData.append("value", String(data.value));
-          return await patchScore(id, formData);
+          return await patchScoring(id, formData);
         },
       };
     }
