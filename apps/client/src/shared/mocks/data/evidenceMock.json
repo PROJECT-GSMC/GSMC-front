@@ -3,80 +3,71 @@
     {
       "id": 1,
       "title": "AWS를 이용하는 방법",
-      "content": "...",
+      "content": "2024년 9월 12일에 진행된 4시간짜리 AWS 교육에 참여하여 AWS VPC, AWS Lambda, AWS S3, AWS EC2 등 현대 소프트웨어 개발에서 핵심이 되는 서비스들을 학습하고 실습하였다. 학생으로서는 알기 힘든 AWS의 요금제, VPC 구성 방법 등을 실습을 통해 익히고, AI 서비스인 PartyRock을 활용한 애플리케이션도 제작해보며 AWS 생태계 전반을 이해하는 데 큰 도움이 되었다. 교육 후 임시 계정을 발급받아 자율 실습도 진행하며 다양한 시도를 해볼 수 있었다.",
       "categoryName": "전공영역-전공특강(방과후) 참가",
       "status": "APPROVE",
-      "imageUri": "/mocks/aws.png",
-      "__isMock": true
+      "imageUri": "/mocks/aws.png"
     },
     {
       "id": 2,
       "title": "한전 KDN 소프트웨어 경진대회",
-      "content": "...",
+      "content": "2024년 11월 27일, 나주 한전 KDN 본사에서 개최된 소프트웨어 경진대회에 참가하여 Bstorm이라는 치매 예방 목적의 소프트웨어를 개발 및 발표하였다. 나는 서버 개발을 담당하였으며, 약 40개의 API를 설계 및 구현하고 CI 파이프라인까지 구축하였다. 모놀리식 아키텍처에 대한 이해를 넓힐 수 있었고, Git Flow를 기반으로 한 협업 방식도 경험하였다. 끝까지 버그를 해결하며 노력한 결과, 장려상을 수상하였다.",
       "categoryName": "전공영역-공문을 통한 전공분야 대회 참여",
       "status": "APPROVE",
-      "imageUri": "/mocks/KDN.png",
-      "__isMock": true
+      "imageUri": "/mocks/KDN.png"
     },
     {
       "id": 5,
       "title": "제 27회 앱잼 참여",
-      "content": "...",
+      "content": "Alpaco에서 주최한 제27회 앱잼에 참여하여 '가치 하다'라는 앱을 개발하였다. 백엔드 개발을 맡아 Spring Boot와 Kotlin을 사용하였고, Git을 통한 협업의 어려움을 직접 겪으며 해결책을 찾아갔다. 앱 개발이라는 환경에 적응하며 REST API 기반으로 개발을 진행했고, 협업과 시간 관리의 중요성을 체감할 수 있었다. 생활정보 분야에서 최우수상을 수상하였다.",
       "categoryName": "전공영역-전공 분야 대회 개별 참여",
       "status": "APPROVE",
-      "imageUri": "/mocks/appjam.png",
-      "__isMock": true
+      "imageUri": "/mocks/appjam.png"
     },
     {
       "id": 6,
       "title": "C언어 코딩 콘테스트 참여",
-      "content": "...",
+      "content": "2024년 5월부터 6월까지 진행된 교내 C언어 코딩 콘테스트에서 DB 서버와 curl 라이브러리를 활용해 실시간 온라인 게임인 'project return(회귀)'를 개발하였다. 포인터 누수로 인한 DB 연결 중단 문제를 해결하기 위해 포인터 관리 기능을 도입하였고, 이메일 전송 기능도 직접 구현하였다. 총 누적 75,000줄에 달하는 코드 작업 끝에 최우수상을 수상하였다.",
       "categoryName": "전공영역-교내 해커톤 대회",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     },
     {
       "id": 10,
       "title": "카이스트 진로 강의",
-      "content": "...",
+      "content": "디지털 P:UM 프로젝트의 일환으로 KAIST 견학 프로그램에 참여하여 AI 및 소프트웨어 분야의 진로 강의를 들었다. AI 시대에서 개발자가 갖춰야 할 자세와 중장기 계획 수립에 대해 실제 사례와 함께 구체적으로 배울 수 있었다.",
       "categoryName": "전공영역-전공 관련 교육프로그램 참여",
       "status": "APPROVE",
-      "imageUri": "/mocks/pum.png",
-      "__isMock": true
+      "imageUri": "/mocks/pum.png"
     },
     {
       "id": 13,
       "title": "아이디어 페스티벌",
-      "content": "...",
+      "content": "학년별로 팀을 구성해 1년 동안 전공 수업을 통해 준비한 프로젝트를 발표하는 교내 행사에 참여하였다. 팀워크와 실무 경험을 통해 협업의 중요성과 발표 능력을 키울 수 있었다.",
       "categoryName": "전공영역-GSM FESTIVAL",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     },
     {
       "id": 14,
       "title": "전공 캠프",
-      "content": "...",
+      "content": "방학 동안 1주일간 학교에서 진행된 전공 캠프에 참여하여 Python, 백엔드, Git, 그리고 TOPCIT 대비 교육을 받았다. 실습 위주의 수업을 통해 백엔드 개발과 형상관리 도구에 대한 이해를 높일 수 있었고, 진로에 대한 방향을 설정하는 데 큰 도움이 되었다.",
       "categoryName": "전공영역-전공관련 방과후학교 이수",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     }
   ],
   "humanitiesActivityEvidence": [
     {
       "id": 8,
       "title": "전기CAD기능사",
-      "content": "...",
+      "content": "2025년 1월부터 시작하여 3월까지 방과후 및 정규 수업을 통해 전기CAD기능사 자격증 필기를 준비하고, 이후 실기시험 대비까지 병행하였다. 학교 실습실을 활용해 꾸준히 실습하였고 5월 초에 자격증을 최종 취득하였다.",
       "categoryName": "인성영역-자기주도적 활동",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     },
     {
       "id": 12,
       "title": "한국사 자격증 1급",
-      "content": "...",
+      "content": "한국사 능력 검정 시험 1급 취득.",
       "categoryName": "인성영역-한국사자격증",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     }
   ],
   "readingEvidence": [
@@ -85,9 +76,8 @@
       "title": "모두의 HTML5 & CSS3",
       "author": "김인권",
       "page": 324,
-      "content": "...",
-      "status": "APPROVE",
-      "__isMock": true
+      "content": "HTML과 CSS의 기초를 쉽고 재미있게 배울 수 있도록 구성된 입문서이다. 실제 예제를 기반으로 HTML5 태그와 CSS3의 스타일링 기법을 설명하고, 반응형 웹 디자인까지 다루며 웹 개발 초보자에게 실용적인 내용을 제공한다.",
+      "status": "APPROVE"
     }
   ],
   "otherEvidence": [
@@ -96,48 +86,42 @@
       "fileUri": "/mocks/toefl.png",
       "evidenceType": "TOEFL",
       "categoryName": "외국어영역-TOEFL 점수",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     },
     {
       "id": 7,
       "fileUri": "/mocks/ReadingMarathon.png",
       "evidenceType": "READ-A-THON",
       "categoryName": "인성영역-독서마라톤 토끼코스 이상",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     },
     {
       "id": 9,
       "fileUri": "/mocks/toeic.png",
       "evidenceType": "TOEIC",
       "categoryName": "외국어영역-TOEIC 점수",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     },
     {
       "id": 11,
       "fileUri": "/mocks/certificate.png",
       "evidenceType": "CERTIFICATE",
       "categoryName": "인성영역-한자자격증",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     },
     {
       "id": 15,
       "fileUri": "/mocks/toeiccertificate.png",
       "evidenceType": "TOEIC",
       "categoryName": "외국어영역-토사관 참여",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     },
     {
       "id": 16,
       "fileUri": "/mocks/multireadingaward.png",
       "evidenceType": "CERTIFICATE",
       "categoryName": "인성영역-교내인성영역관련수상",
-      "status": "APPROVE",
-      "__isMock": true
+      "status": "APPROVE"
     }
   ]
 }
