@@ -1,8 +1,6 @@
 import instance from "@repo/api/axios";
-import type { EvidenceResponse, EvidenceType } from "@repo/types/evidences";
+import type { PostResponse, EvidenceType } from "@repo/types/evidences";
 
-export const getPosts = async (type: EvidenceType | null) => {
-  return await instance.get<EvidenceResponse>(
-    `/evidence/current${type === null ? "" : "?type=" + type}`,
-  );
+export const getPosts = async (type: EvidenceType) => {
+  return await instance.get<PostResponse>(`/evidence/current?type=${type}`);
 };
