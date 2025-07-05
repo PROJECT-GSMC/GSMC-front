@@ -1,3 +1,22 @@
+export type EvidenceType =
+  | "MAJOR"
+  | "HUMANITIES"
+  | "READING"
+  | "FOREIGN_LANGUAGE"
+  | "CERTIFICATE"
+  | "TOPCIT"
+  | "READ-A-THON"
+  | "TOEIC"
+  | "TOEFL"
+  | "TEPS"
+  | "TOEIC_SPEAKING"
+  | "OPIC"
+  | "JPT"
+  | "CPT"
+  | "HSK";
+
+export type PostStatus = "PENDING" | "APPROVE" | "REJECT";
+
 export interface Activity {
   id: number;
   title: string;
@@ -24,28 +43,9 @@ export interface Others {
   status: PostStatus;
 }
 
-export type EvidenceType =
-  | "MAJOR"
-  | "HUMANITIES"
-  | "READING"
-  | "FOREIGN_LANGUAGE"
-  | "CERTIFICATE"
-  | "TOPCIT"
-  | "READ-A-THON"
-  | "TOEIC"
-  | "TOEFL"
-  | "TEPS"
-  | "TOEIC_SPEAKING"
-  | "OPIC"
-  | "JPT"
-  | "CPT"
-  | "HSK";
+export type PostType = Activity | Reading | Others;
 
-export type PostStatus = "PENDING" | "APPROVE" | "REJECT";
-
-export type Post = Activity | Reading | Others;
-
-export interface EvidenceResponse {
+export interface PostResponse {
   majorActivityEvidence: Activity[];
   humanitiesActivityEvidence: Activity[];
   readingEvidence: Reading[];

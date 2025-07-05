@@ -1,3 +1,5 @@
+export type ActivityType = "MAJOR" | "HUMANITIES";
+
 export interface ActivityDraft {
   draftId: string;
   title: string;
@@ -15,9 +17,7 @@ export interface ReadingDraft {
   page: number;
 }
 
-export type ActivityType = "MAJOR" | "HUMANITIES";
-
-export type Draft = ActivityDraft | ReadingDraft;
+export type DraftType = ActivityDraft | ReadingDraft;
 
 export interface DraftResponse {
   activityEvidences: ActivityDraft[];
