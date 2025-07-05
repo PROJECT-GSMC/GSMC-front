@@ -6,7 +6,7 @@ import { Filtered } from "./filtered.tsx";
 
 interface ListProps {
   children: React.ReactNode;
-  title: string;
+  title?: string;
   className?: string;
   isFilter?: boolean;
   onClick?: () => void;
@@ -25,7 +25,7 @@ const List = ({
         <h4
           className={`${className ?? ""} text-tropicalblue-700 text-titleSmall`}
         >
-          {title}
+          {title ?? ""}
         </h4>
         {isFilter ? (
           <span className="cursor-pointer" onClick={onClick}>
