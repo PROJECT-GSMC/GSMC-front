@@ -1,43 +1,49 @@
-import type { Activity, Reading, Others } from "@repo/types/evidences";
-
 import type { ConfigType } from "@/shared/model/config";
+import {
+  HumanitiesOptions,
+  MajorOptions,
+} from "@/widgets/write/model/category";
 
-import { getEditConfig } from "../model/editConfig";
 import type { FormValues } from "../types/types";
 
 export const getDefaultValues = (
   type: ConfigType,
-  post: Activity | Reading | Others
+  post: FormValues
 ): Partial<FormValues> => {
-  const config = getEditConfig(type);
-
-  if (type === "reading" && "author" in post) {
-    return {
-      title: post.title,
-      author: post.author,
-      page: String(post.page),
-      content: post.content,
-    };
+  switch (type) {
+    case "major": {
+      return {
+        title: post.title,
+        content: post.content,
+        categoryName: MajorOptions.find(
+          (option) => post.categoryName?.send === option.send
+        ),
+        file: post.file,
+      };
+    }
+    case "humanities": {
+      return {
+        title: post.title,
+        content: post.content,
+        categoryName: HumanitiesOptions.find(
+          (option) => post.categoryName?.send === option.send
+        ),
+        file: post.file,
+      };
+    }
+    case "reading": {
+      return {
+        title: post.title,
+        author: post.author,
+        page: String(post.page),
+        content: post.content,
+      };
+    }
+    case "others": {
+      return {
+        file: post.file,
+        value: post.value,
+      };
+    }
   }
-
-  if (
-    (type === "major" || type === "humanities") &&
-    "title" in post &&
-    "content" in post &&
-    "categoryName" in post
-  ) {
-    const defaultCategory =
-      config.categoryOptions?.find(
-        (option) => option.send === post.categoryName
-      ) ?? config.categoryOptions?.[0];
-
-    return {
-      title: post.title,
-      content: post.content,
-      categoryName: defaultCategory,
-      file: undefined,
-    };
-  }
-
-  return {};
 };
