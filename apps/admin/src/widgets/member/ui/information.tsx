@@ -42,7 +42,7 @@ export default function Information() {
           </div>
           <div
             onClick={open}
-            className="text-tropicalblue-700 mt-[1.25rem] md:mb-[2.56rem] sm:mb-[1.75rem] mb-[3rem] text-titleMedium h-[32rem] max-md:h-[10rem] max-lg:h-[10rem] flex items-center justify-center rounded-[0.75rem] bg-white"
+            className="text-tropicalblue-700 cursor-pointer mt-[1.25rem] md:mb-[2.56rem] sm:mb-[1.75rem] mb-[3rem] text-titleMedium h-[32rem] max-md:h-[10rem] max-lg:h-[10rem] flex items-center justify-center rounded-[0.75rem] bg-white"
           >
             {student.totalScore + "점"}
           </div>
