@@ -2,8 +2,8 @@
 
 import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
-import type { Draft } from "@repo/types/draft";
-import type { EvidenceResponse, post } from "@repo/types/evidences";
+import type { DraftType } from "@repo/types/draft";
+import type { PostType, PostResponse } from "@repo/types/evidences";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
@@ -17,31 +17,31 @@ import type { CategoryType } from "../model/category";
 
 export default function PostsWidget() {
   const router = useRouter();
-  const [result, setResult] = useState<EvidenceResponse>();
+  const [result, setResult] = useState<PostResponse>();
   const [search, setSearch] = useState<string>("");
   const [categoryName, setCategoryName] = useState<CategoryType>("READING");
 
   const { data: postsData, isError: isPostsError } = useGetPosts(categoryName);
-  const { data: draftsData, isError: isDraftsError } = useGetDraft();
+  const { data: draftsData, isError: isDraftsError } = useGetDraft(categoryName);
   const { setPost } = usePost();
 
   if (isPostsError || isDraftsError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
 
-  const posts: post[] = [
+  const posts: PostType[] = [
     ...(postsData?.data.majorActivityEvidence ?? []),
     ...(postsData?.data.humanitiesActivityEvidence ?? []),
     ...(postsData?.data.readingEvidence ?? []),
     ...(postsData?.data.otherEvidence ?? []),
   ];
 
-  const draftPosts: Draft[] = [
+  const draftPosts: DraftType[] = [
     ...(draftsData?.activityEvidences ?? []),
     ...(draftsData?.readingEvidences ?? []),
   ];
 
-  const resultPosts: post[] = [
+  const resultPosts: PostType[] = [
     ...(result?.majorActivityEvidence ?? []),
     ...(result?.humanitiesActivityEvidence ?? []),
     ...(result?.readingEvidence ?? []),
@@ -56,7 +56,7 @@ export default function PostsWidget() {
     { label: "임시저장", value: "DRAFT" },
   ];
 
-  let displayedPosts: (post | Draft)[] = [];
+  let displayedPosts: (PostType | DraftType)[] = [];
 
   if (search.trim().length > 0 && resultPosts.length > 0) {
     displayedPosts = resultPosts;
@@ -70,7 +70,7 @@ export default function PostsWidget() {
     setCategoryName(value);
   }, []);
 
-  const handleRoute = useCallback((post: post | Draft) => () => {
+  const handleRoute = useCallback((post: PostType | DraftType) => () => {
     setPost(post);
     if ("draftId" in post) {
       router.push(`/detail/${post.draftId}`);
