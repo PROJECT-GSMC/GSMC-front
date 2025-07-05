@@ -9,7 +9,7 @@ export const postActivity = async (
     return response;
   } catch (error: unknown) {
     if (isAxiosError(error) && error.response) {
-      throw error.response.data ?? "활동영역 저장 실패";
+      throw error.response.data ?? "활동 영역 저장 실패";
     }
     throw error;
   }

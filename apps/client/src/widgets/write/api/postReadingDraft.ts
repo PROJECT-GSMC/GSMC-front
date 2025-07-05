@@ -3,7 +3,7 @@ import { isAxiosError, type AxiosResponse } from "axios";
 
 import type { Book } from "../model/book";
 
-export const postBookDraft = async (data: Book): Promise<AxiosResponse> => {
+export const postReadingDraft = async (data: Book): Promise<AxiosResponse> => {
   try {
     const response = await instance.post(
       "/evidence/current/draft/reading",
@@ -12,7 +12,7 @@ export const postBookDraft = async (data: Book): Promise<AxiosResponse> => {
     return response;
   } catch (error: unknown) {
     if (isAxiosError(error) && error.response) {
-      throw error.response.data ?? "독서영역 임시 저장 실패";
+      throw error.response.data ?? "독서 영역 임시 저장 실패";
     }
     throw error;
   }
