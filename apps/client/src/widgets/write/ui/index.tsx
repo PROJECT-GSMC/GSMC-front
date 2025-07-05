@@ -20,8 +20,8 @@ import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
 import { getWriteConfig } from "../model/writeConfig";
 
 export default function WriteForm() {
-  const searchParams = useSearchParams();
   const router = useRouter();
+  const searchParams = useSearchParams();
   const type = searchParams.get("type") as ConfigType
   const config = getWriteConfig(type);
 
@@ -116,7 +116,7 @@ export default function WriteForm() {
               rules={{ required: "카테고리를 선택해주세요." }}
             />
           ) : null}
-          {type === "foreign" && needDropdown ? (
+          {type === "others" && needDropdown ? (
             <Controller<FormValues>
               control={control}
               name="value"
@@ -133,7 +133,7 @@ export default function WriteForm() {
               rules={{ required: "카테고리를 선택해주세요." }}
             />
           ) : null}
-          {type !== "foreign" && (
+          {type !== "others" && (
             <InputContainer label="제목">
               <Input<FormValues>
                 control={control}
@@ -149,7 +149,7 @@ export default function WriteForm() {
             </InputContainer>
 
           )}
-          {(type === "reading" || (type === "foreign" && !needDropdown)) && (
+          {(type === "reading" || (type === "others" && !needDropdown)) && (
             <>
               {type === "reading" && (
                 <InputContainer label="저자">
@@ -184,7 +184,7 @@ export default function WriteForm() {
               </InputContainer>
             </>
           )}
-          {type !== "foreign" && (
+          {type !== "others" && (
             <Controller<FormValues>
               control={control}
               name="content"
@@ -225,14 +225,14 @@ export default function WriteForm() {
                 />
               )}
               rules={{
-                ...(type === "foreign" && {
+                ...(type === "others" && {
                   required: "파일을 첨부해주세요.",
                 }),
               }}
             />
           )}
           <div className="w-full flex flex-col gap-[0.69rem] text-[0.875rem] mb-[2rem] mt-[4rem]">
-            {type !== "foreign" && (
+            {type !== "others" && (
               <Button
                 label="임시저장"
                 state={isValid ? "default" : "disabled"}
