@@ -8,15 +8,15 @@ import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
-import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
-import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
 import Search from "@/entities/posts/ui/search";
+import { useGetDraft } from "@/shared/lib/useGetDraft";
+import { useGetPosts } from "@/shared/lib/useGetPosts"
 import { Post } from "@/shared/ui";
 
 import type { CategoryType } from "../model/category";
 
 export default function PostsWidget() {
-  const R = useRouter();
+  const router = useRouter();
   const [result, setResult] = useState<EvidenceResponse>();
   const [search, setSearch] = useState<string>("");
   const [categoryName, setCategoryName] = useState<CategoryType>("READING");
@@ -56,25 +56,6 @@ export default function PostsWidget() {
     { label: "임시저장", value: "DRAFT" },
   ];
 
-  const handleCategory = useCallback(
-    (value: CategoryType) => () => {
-      setCategoryName(value);
-    },
-    [],
-  );
-
-  const handleRoute = useCallback(
-    (post: post | Draft) => () => {
-      setPost(post);
-      if ("draftId" in post) {
-        R.push(`/detail/${post.draftId}?draft=${true}`);
-        return;
-      }
-      R.push(`/detail/${post.id}`);
-    },
-    [R, setPost],
-  );
-
   let displayedPosts: (post | Draft)[] = [];
 
   if (search.trim().length > 0 && resultPosts.length > 0) {
@@ -84,6 +65,19 @@ export default function PostsWidget() {
   } else {
     displayedPosts = posts;
   }
+
+  const handleCategory = useCallback((value: CategoryType) => () => {
+    setCategoryName(value);
+  }, []);
+
+  const handleRoute = useCallback((post: post | Draft) => () => {
+    setPost(post);
+    if ("draftId" in post) {
+      router.push(`/detail/${post.draftId}`);
+    } else {
+      router.push(`/detail/${post.id}`);
+    }
+  }, [router, setPost]);
 
   return (
     <div className="w-full max-w-[37.5rem]">

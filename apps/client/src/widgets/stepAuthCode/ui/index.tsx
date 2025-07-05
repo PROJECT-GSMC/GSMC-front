@@ -5,21 +5,21 @@ import React, { useCallback, useState } from "react";
 import { type Control, useWatch } from "react-hook-form";
 import { toast } from "sonner";
 
-import type { ChangePW_AuthStepForm } from "@/shared/model/changePWForm";
+import type { ChangePassword_StepAuthCodeForm } from "@/shared/model/changePWForm";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
-import type { AuthStepForm } from "@shared/model/AuthForm";
+import type { StepAuthCodeForm } from "@shared/model/signup";
 
 interface StepAuthCodeBaseProps {
   isAuthButtonActive: boolean;
 }
 
 interface StepAuthCodeWithNameProps extends StepAuthCodeBaseProps {
-  control: Control<AuthStepForm>;
+  control: Control<StepAuthCodeForm>;
   hasName: true;
 }
 
 interface StepAuthCodeWithoutNameProps extends StepAuthCodeBaseProps {
-  control: Control<ChangePW_AuthStepForm>;
+  control: Control<ChangePassword_StepAuthCodeForm>;
   hasName?: false;
 }
 
@@ -33,7 +33,7 @@ export default function StepAuthCode(props: StepAuthCodeProps) {
   const [show, setShow] = useState(false);
 
   const email = useWatch({
-    control: control as Control<AuthStepForm | ChangePW_AuthStepForm>,
+    control: control as Control<StepAuthCodeForm | ChangePassword_StepAuthCodeForm>,
     name: "email",
   });
 
@@ -61,7 +61,7 @@ export default function StepAuthCode(props: StepAuthCodeProps) {
       {hasName ? (
         <InputContainer label="이름">
           <Input
-            control={props.control as Control<AuthStepForm>}
+            control={props.control as Control<StepAuthCodeForm>}
             name="name"
             rules={{
               required: "이름을 필수로 입력해야 합니다.",
@@ -73,7 +73,7 @@ export default function StepAuthCode(props: StepAuthCodeProps) {
       <InputContainer label="이메일">
         <div className="flex items-center justify-between gap-4">
           <Input
-            control={control as Control<AuthStepForm | ChangePW_AuthStepForm>}
+            control={control as Control<StepAuthCodeForm | ChangePassword_StepAuthCodeForm>}
             name="email"
             rules={{
               required: "이메일을 필수로 입력해야 합니다.",
@@ -96,7 +96,7 @@ export default function StepAuthCode(props: StepAuthCodeProps) {
 
       <InputContainer label="인증번호">
         <Input
-          control={control as Control<AuthStepForm | ChangePW_AuthStepForm>}
+          control={control as Control<StepAuthCodeForm | ChangePassword_StepAuthCodeForm>}
           name="authcode"
           rules={{
             required: "인증번호를 필수로 입력해야 합니다.",

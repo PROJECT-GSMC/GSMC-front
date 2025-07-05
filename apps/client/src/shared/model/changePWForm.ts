@@ -1,13 +1,13 @@
-import type { AuthStepForm } from "./AuthForm";
+import type { StepAuthCodeForm } from "./signup";
 
 export interface ChangePasswordProps {
   email: string;
   password: string;
 }
 
-export type ChangePW_AuthStepForm = Omit<AuthStepForm, "name">;
+export type ChangePassword_StepAuthCodeForm = Omit<StepAuthCodeForm, "name">;
 
-export interface ChangePasswordStepForm {
+export interface StepChangePasswordForm {
   password: string;
   passwordCheck: string;
 }

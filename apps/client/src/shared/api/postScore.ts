@@ -1,13 +1,13 @@
 import instance from "@repo/api/axios";
 import { isAxiosError, type AxiosResponse } from "axios";
 
-interface FixScore {
+interface PostScore {
   categoryName: string;
   file: File;
   value: number;
 }
 
-export const FixScore = async (data: FixScore): Promise<AxiosResponse> => {
+export const PostScore = async (data: PostScore): Promise<AxiosResponse> => {
   try {
     const formData = new FormData();
     formData.append("file", data.file);

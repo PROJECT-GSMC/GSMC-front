@@ -1,9 +1,9 @@
 import instance from "@repo/api/axios";
 import type { AxiosError, AxiosResponse } from "axios";
 
-export const updateOthers = async (
+export const patchOthers = async (
   evidenceId: number,
-  formData: FormData,
+  formData: FormData
 ): Promise<AxiosError | AxiosResponse> => {
   try {
     const res = await instance.patch(`evidence/other/${evidenceId}`, formData);

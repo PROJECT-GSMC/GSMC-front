@@ -9,8 +9,14 @@ export const options = [
 ];
 
 export const bookOption = [
-  { name: "거북이 코스", send: "HUMANITIES-READING-READ_A_THON-TURTLE" },
-  { name: "악어 코스", send: "HUMANITIES-READING-READ_A_THON-CROCODILE" },
+  {
+    name: "거북이 코스",
+    send: "HUMANITIES-READING-READ_A_THON-TURTLE",
+  },
+  {
+    name: "악어 코스",
+    send: "HUMANITIES-READING-READ_A_THON-CROCODILE",
+  },
   {
     name: "토끼 코스 이상",
     send: "HUMANITIES-READING-READ_A_THON-RABBIT_OVER",

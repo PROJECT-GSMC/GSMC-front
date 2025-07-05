@@ -1,7 +1,7 @@
 export interface Evidence {
   categoryName: string;
   file: File;
-  acquisitionDate?: string;
+  acquisitionDate?: Date;
   value?: number;
   option: { send: string; name: string };
 }

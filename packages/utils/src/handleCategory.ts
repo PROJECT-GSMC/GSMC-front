@@ -67,7 +67,7 @@ export const categoryMapping: Record<string, string> = {
   "FOREIGN_LANG-TEPS_SCORE": "외국어 영역-외국어 공인 시험-TEPS",
   "FOREIGN_LANG-TOEIC_SPEAKING_LEVEL":
     "외국어 영역-외국어 공인 시험-TOEIC Speaking",
-  "FOREIGN_LANG-OPIC_SCORE": "외국어 영역-외국어 공인 시험-OPIc",
+  "FOREIGN_LANG-OPIC_SCORE": "외국어 영역-외국어 공인 시험-OPIC",
   "FOREIGN_LANG-JPT_SCORE": "외국어 영역-외국어 공인 시험-JPT",
   "FOREIGN_LANG-CPT_SCORE": "외국어 영역-외국어 공인 시험-CPT",
   "FOREIGN_LANG-HSK_SCORE": "외국어 영역-외국어 공인 시험-HSK",

@@ -21,16 +21,14 @@ const Search = ({ setResult, search, type, setSearch }: SearchProps) => {
   useEffect(() => {
     const fetchSearchResult = async () => {
       if (!debouncedValue) return;
-
       try {
         const search = await getSearchResult(debouncedValue, type);
-        setResult(search.data as EvidenceResponse);
+        setResult(search);
       } catch {
         toast.error("게시물 검색중 오류가 발생했습니다.");
       }
     };
 
-    // Promise를 명시적으로 처리
     void fetchSearchResult();
   }, [debouncedValue, setResult, type]);
 
