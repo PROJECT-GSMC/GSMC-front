@@ -25,7 +25,14 @@ export default function ScoreModal({ show, close, id }: ScoreModalProps) {
               return (
                 <Card
                   key={v.categoryName}
-                  front={getCategoryName(v.categoryName)}
+                  front={
+                    getCategoryName(v.categoryName).replace(/^[^-]*-/, "")
+                      .length > 20
+                      ? getCategoryName(v.categoryName)
+                          .replace(/^[^-]*-/, "")
+                          .slice(0, 20) + "..."
+                      : getCategoryName(v.categoryName).replace(/^[^-]*-/, "")
+                  }
                   id={v.categoryName}
                   back={v.value}
                 />
