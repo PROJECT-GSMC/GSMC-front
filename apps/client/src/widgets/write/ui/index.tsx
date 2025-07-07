@@ -81,11 +81,11 @@ export default function WriteForm() {
     void handleSubmit(handleFormSubmit)();
   }, [handleFormSubmit, handleSubmit]);
 
-  const ChangeStatusDraft = useCallback(() => {
+  const handleSetDraftStatus = useCallback(() => {
     submitTypeRef.current = "draft";
   }, []);
 
-  const ChangeStatusWrite = useCallback(() => {
+  const handleSetWriteStatus = useCallback(() => {
     submitTypeRef.current = "submit";
   }, []);
 
@@ -239,7 +239,7 @@ export default function WriteForm() {
                 type="submit"
                 value="draft"
                 variant="skyblue"
-                onClick={ChangeStatusDraft}
+                onClick={handleSetDraftStatus}
               />
             )}
             <Button
@@ -248,7 +248,7 @@ export default function WriteForm() {
               type="submit"
               value="submit"
               variant="blue"
-              onClick={ChangeStatusWrite}
+              onClick={handleSetWriteStatus}
             />
           </div>
         </form>
