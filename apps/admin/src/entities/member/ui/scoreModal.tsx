@@ -14,7 +14,7 @@ interface ScoreModalProps {
 
 export default function ScoreModal({ show, close, id }: ScoreModalProps) {
   const { data } = useGetScore(id as string);
-  if (!show) return;
+  if (!show) return null;
   return (
     <div className="fixed inset-0 z-10 bg-[rgba(17,17,17,0.2)] flex items-center justify-center">
       <div className="gap-6 flex flex-col bg-white z-20 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-sm:w-[20.5rem]">
