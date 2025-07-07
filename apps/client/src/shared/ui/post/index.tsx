@@ -39,7 +39,7 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
         {imageUri == null ? null : (
           <Image
             alt="gsmc"
-            className="object-cover w-[188px] h-[150px] rounded-t-[0.625rem]"
+            className="object-cover rounded-t-[0.625rem]"
             height={150}
             src={imageUri}
             width={188}
