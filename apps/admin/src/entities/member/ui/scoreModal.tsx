@@ -26,12 +26,12 @@ export default function ScoreModal({ show, close, id }: ScoreModalProps) {
                 <Card
                   key={v.categoryName}
                   front={
-                    getCategoryName(v.categoryName).replace(/^[^-]*-/, "")
-                      .length > 20
-                      ? getCategoryName(v.categoryName)
-                          .replace(/^[^-]*-/, "")
-                          .slice(0, 20) + "..."
-                      : getCategoryName(v.categoryName).replace(/^[^-]*-/, "")
+                    (() => {
+                      const transformedCategoryName = getCategoryName(v.categoryName).replace(/^[^-]*-/, "");
+                      return transformedCategoryName.length > 20
+                        ? transformedCategoryName.slice(0, 20) + "..."
+                        : transformedCategoryName;
+                    })()
                   }
                   id={v.categoryName}
                   back={v.value}
