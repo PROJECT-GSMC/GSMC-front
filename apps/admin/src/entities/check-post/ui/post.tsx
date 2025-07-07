@@ -1,13 +1,13 @@
 "use client";
 
-import type { post } from "@repo/types/evidences";
+import type { PostType } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import { handleState, handleStateColor } from "@repo/utils/handleState";
 import Image from "next/image";
 
 interface PostProps {
-  data: post;
+  data: PostType;
   onClick?: () => void;
 }
 
