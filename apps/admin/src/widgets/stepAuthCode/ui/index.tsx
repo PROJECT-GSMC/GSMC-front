@@ -1,12 +1,12 @@
+import { postSendEmail } from "@entities/signup/api/postSendEmail";
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import { type AuthStepForm } from "@shared/model/AuthForm";
 import { useCallback, useState } from "react";
 import { useWatch, type Control } from "react-hook-form";
 import { toast } from "sonner";
 
-import { postSendEmail } from "@entities/signup/api/postSendEmail";
-import { type AuthStepForm } from "@shared/model/AuthForm";
 
 export default function StepAuthCode({
   control,

@@ -1,6 +1,6 @@
 "use client";
 
-import type { post, postState } from "@repo/types/evidences";
+import type { PostStatus } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Image from "next/image";
@@ -19,11 +19,12 @@ export default function DetailView() {
   const { handlePostState } = useChangeEvidenceState(Number(id));
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
-  const status = searchParams.get("status") as postState | null;
+  const status = searchParams.get("status") as PostStatus | null;
+
   const { data: studentData, isError: isStudentError } = useGetStudent(
     decodeURIComponent(String(student?.email ?? email)),
   );
-  const { data: studentPost, isError: isPostError } = useGetPosts(
+  const { posts, isError: isPostError } = useGetPosts(
     String(student?.email ?? email),
     status,
   );
@@ -41,13 +42,6 @@ export default function DetailView() {
   if (isStudentError) {
     toast.error("회원 정보를 불러오지 못했습니다.");
   }
-
-  const posts: post[] = [
-    ...(studentPost?.data.majorActivityEvidence ?? []),
-    ...(studentPost?.data.humanitiesActivityEvidence ?? []),
-    ...(studentPost?.data.readingEvidence ?? []),
-    ...(studentPost?.data.otherEvidence ?? []),
-  ];
 
   const post = posts.find((post) => post.id === Number(id));
 
@@ -86,9 +80,9 @@ export default function DetailView() {
 
         <main className="flex flex-col gap-12">
           {post &&
-          isActivity(post) &&
-          post.imageUri != null &&
-          post.imageUri !== "" ? (
+            isActivity(post) &&
+            post.imageUri != null &&
+            post.imageUri !== "" ? (
             <div className="max-h-[21.215rem]  w-full aspect-video bg-slate-600">
               <Image
                 alt={post.title}

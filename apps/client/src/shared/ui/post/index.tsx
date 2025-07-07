@@ -1,39 +1,34 @@
-"use client";
-
-import type { Draft } from "@repo/types/draft";
-import type { post } from "@repo/types/evidences";
+import type { DraftType } from "@repo/types/draft";
+import type { PostType } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
+import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import { handleState, handleStateColor } from "@repo/utils/handleState";
 import Image from "next/image";
 
 interface PostProps {
-  data: post | Draft;
+  data: PostType | DraftType;
   isExample?: boolean;
   onClick?: () => void;
 }
 
 const Post = ({ data, isExample = false, onClick }: PostProps) => {
-  let title = "제목";
-  let subTitle = "소제목";
-  let imageUri: string | undefined;
-  let state = "PENDING";
 
-  if ("evidenceType" in data) {
-    title = data.evidenceType;
-    subTitle = data.categoryName;
-    state = data.status;
-  } else {
-    title = data.title;
-    state = data.status;
-    if ("author" in data) {
-      subTitle = data.author;
-    } else if ("categoryName" in data) {
-      subTitle = getCategoryName(data.categoryName);
-    }
-  }
-  if ("imageUri" in data) {
-    imageUri = data.imageUri;
-  }
+  const title = (() => {
+    if ("title" in data) return data.title;
+    if ("evidenceType" in data) return data.evidenceType
+    return null;
+  })();
+
+  const imageUri = isActivity(data) ? data.imageUri : null;
+
+  const state = "status" in data ? data.status : null;
+
+  const subTitle = (() => {
+    if (isReading(data)) return `${data.author}`;
+    if (isOthers(data)) return getCategoryName(data.categoryName);
+    if (isActivity(data)) return getCategoryName(data.categoryName);
+    return null;
+  })();
 
   return (
     <article
@@ -43,8 +38,8 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
       <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
         {imageUri == null ? null : (
           <Image
-            alt={title}
-            className="object-cover w-[188px] h-[150px] rounded-t-[0.625rem]"
+            alt="gsmc"
+            className="object-cover rounded-t-[0.625rem]"
             height={150}
             src={imageUri}
             width={188}
@@ -57,11 +52,10 @@ const Post = ({ data, isExample = false, onClick }: PostProps) => {
         <p className="text-gray-400 text-body5 mb-[0.75rem] line-clamp-2">
           {subTitle}
         </p>
-        {!isExample && (
-          <span className={`text-body5 ${handleStateColor(state)}`}>
+        {!isExample && state ?
+          <span className={`text-body5 ${handleStateColor(state)} `}>
             {handleState(state)}
-          </span>
-        )}
+          </span> : null}
       </section>
     </article>
   );

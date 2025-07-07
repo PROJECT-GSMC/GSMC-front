@@ -2,76 +2,52 @@
 
 import { Button } from "@repo/shared/button";
 import ConfirmModal from "@repo/shared/confirmModal";
-import type { Draft } from "@repo/types/draft";
-import type { post } from "@repo/types/evidences";
+import { usePost } from "@repo/store/postProvider";
 import { getCategoryName } from "@repo/utils/handleCategory";
+import { isActivity, isDraft, isOthers, isReading } from "@repo/utils/handlePost";
+import { useMutation } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
 import Image from "next/image";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
 import { deletePost } from "@/entities/detail/api/deletePost";
-import { useGetDraft } from "@/entities/posts/lib/useGetDraft";
-import { useGetPosts } from "@/entities/posts/lib/useGetPosts";
-import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
-import MockJson from "@shared/mocks/data/evidenceMock.json";
+import type { HttpError } from "@/shared/model/error";
 
 const DetailView = () => {
-  const searchParams = useSearchParams();
-  const example = searchParams.get("example");
-  const draft = searchParams.get("draft");
   const params = useParams();
+  const searchParams = useSearchParams()
   const router = useRouter();
+
+  const example = searchParams.get("example");
+  const type = searchParams.get("type")
   const { id } = params;
-  const { data: postsData, isError: isPostsError } = useGetPosts(null);
-  const { data: draftsData, isError: isDraftsError } = useGetDraft();
-  const { data: studentData, isError: isStudentDataError } =
-    useGetCurrentMember();
+
   const [modalOpen, setModalOpen] = useState(false);
+  const { post } = usePost();
 
-  if (isPostsError || isDraftsError) {
-    toast.error("게시물을 불러오지 못했습니다.");
-  }
-
-  if (isStudentDataError) {
-    toast.error("회원 정보를 불러오지 못했습니다.");
-  }
-
-  const posts: post[] = [
-    ...(postsData?.data.majorActivityEvidence ?? []),
-    ...(postsData?.data.humanitiesActivityEvidence ?? []),
-    ...(postsData?.data.readingEvidence ?? []),
-    ...(postsData?.data.otherEvidence ?? []),
-  ];
-
-  const draftPosts: Draft[] = [
-    ...(draftsData?.activityEvidences ?? []),
-    ...(draftsData?.readingEvidences ?? []),
-  ];
-
-  const Mock: post[] = MockJson as post[];
-
-  let post: post | Draft | undefined;
-
-  if (draft === "true") {
-    post = draftPosts.find((post) => post.draftId === id);
-  } else if (example === "true") {
-    post = Mock.find((post) => post.id === Number(id));
-  } else {
-    post = posts.find((post) => post.id === Number(id));
-  }
+  const { mutate: deletePostMutation } = useMutation({
+    mutationFn: deletePost,
+    onSuccess: (data) => {
+      if (data.status === 204) {
+        toast.success("게시글이 삭제되었습니다");
+        router.push("/posts");
+      }
+    },
+    onError: (error: HttpError) => {
+      if (error.httpStatus == HttpStatusCode.NotFound) {
+        toast.error("해당하는 게시글이 존재하지 않습니다.")
+      } else {
+        toast.error("게시글 삭제를 실패하였습니다.")
+      }
+    }
+  })
 
   const handleRevise = useCallback(() => {
-    const idString = String(id);
-    if (draft === "true") {
-      router.push(`/edit/${idString}?draft=${true}`);
-      return;
-    }
-    const exampleQuery =
-      example != null && example !== "" ? "?example=true" : "";
+    router.push(`/edit/${String(id)}?type=${type}`);
+  }, [id, router, type]);
 
-    router.push(`/edit/${idString}${exampleQuery}`);
-  }, [router, id, example, draft]);
 
   const handleBack = useCallback(() => {
     router.back();
@@ -81,64 +57,42 @@ const DetailView = () => {
     setModalOpen(true);
   }, []);
 
+
   const handleDelete = useCallback(() => {
-    void (async () => {
-      const res = await deletePost((Number(id)));
-      if (res.status === 204) {
-        toast.success("게시글이 삭제되었습니다");
-        router.push("/posts");
-      } else {
-        toast.error("게시글 삭제 실패하였습니다");
-      }
-    })();
-  }, [id, router]);
+    deletePostMutation(Number(id))
+  }, [deletePostMutation, id]);
 
-  let title = "Title";
-  let subTitle = "Author";
-  let content = "";
-  let imageUri: string | null | undefined;
-  let fileUri: string | null | undefined;
+  if (!post) return <p>존재하지 않는 게시물입니다.</p>;
 
-  if (post) {
-    if ("evidenceType" in post) {
-      title = post.evidenceType;
-      subTitle = `카테고리: ${getCategoryName(post.categoryName)}`;
-      content = "자세한 내용은 파일을 확인해주세요.";
-      fileUri = post.fileUri;
-    } else {
-      title = post.title;
-      content = post.content;
+  const title = (() => {
+    if (isActivity(post) || isReading(post)) return post.title;
+    if (isOthers(post)) return post.evidenceType
+    return null;
+  })();
 
-      if ("author" in post && post.author) {
-        subTitle = post.author;
-      } else if ("categoryName" in post) {
-        subTitle = `카테고리: ${getCategoryName(post.categoryName)}`;
-      }
+  const imageUri = isActivity(post) ? post.imageUri : null;
 
-      if ("imageUri" in post && post.imageUri != null) {
-        imageUri = post.imageUri;
-      }
-    }
-  }
+  const subTitle = (() => {
+    if (isReading(post)) return `${post.author}`;
+    if (isOthers(post)) return getCategoryName(post.categoryName);
+    if (isActivity(post)) return getCategoryName(post.categoryName);
+    return null;
+  })();
 
   return (
     <div className="flex flex-col items-center mt-12 px-4 sm:px-8">
       <div className="flex flex-col w-full max-w-[600px] gap-7">
         <header className="flex flex-col w-full gap-2">
-          <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem] ">
+          <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem]">
             {title}
           </h1>
-          <h3 className="text-sm text-[#767676] text-right font-normal">
-            {`${studentData?.name ?? "사용자"} · ${subTitle}`}
-          </h3>
           <div className="w-full h-px bg-[#A6A6A6]" />
         </header>
-
         <main className="flex flex-col gap-12">
           {imageUri == null ? null : (
             <div className="max-h-[21.215rem] w-full aspect-video bg-slate-600">
               <Image
-                alt={title}
+                alt="gsmc"
                 className="object-cover w-full h-full"
                 height={337}
                 src={imageUri}
@@ -146,27 +100,25 @@ const DetailView = () => {
               />
             </div>
           )}
-
           <section className="flex flex-col gap-4">
             <h2 className="text-xl font-semibold">{subTitle}</h2>
-            <p className="text-lg font-normal min-h-[400px]">
-              {fileUri == null ? (
-                content
-              ) : (
+            <p className="text-lg font-normal min-h-[400px] break-words">
+              {isOthers(post) ? (
                 <a
                   className="underline"
-                  href={fileUri}
+                  href={post.fileUri}
                   rel="noopener noreferrer"
                   target="_blank"
                 >
                   증빙 파일 보기
                 </a>
+              ) : (
+                post.content
               )}
             </p>
           </section>
         </main>
-
-        {draft == null && example !== "true" && (
+        {!isDraft(post) && example == null && (
           <span
             className="text-errors-500 underline underline-offset-4 text-body5 cursor-pointer"
             onClick={handleModalOpen}
@@ -174,33 +126,30 @@ const DetailView = () => {
             이 게시글 삭제하기
           </span>
         )}
-
         <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
-          {draft == null && example == null ? (
-            <>
-              <Button
-                className="w-full"
-                label="수정하기"
-                variant="blue"
-                onClick={handleRevise}
-              />
-              <Button
-                className="w-full bg-white"
-                label="뒤로가기"
-                variant="skyblue"
-                onClick={handleBack}
-              />
-            </>
-          ) : (
-            example == null && (
+          {(example == null) ? (
+            isDraft(post) ? (
               <Button
                 className="w-full"
                 label="이어적기"
                 variant="blue"
                 onClick={handleRevise}
               />
+            ) : (
+              <Button
+                className="w-full"
+                label="수정하기"
+                variant="blue"
+                onClick={handleRevise}
+              />
             )
-          )}
+          ) : null}
+          <Button
+            className="w-full bg-white"
+            label="뒤로가기"
+            variant="skyblue"
+            onClick={handleBack}
+          />
         </footer>
       </div>
       {modalOpen ? (

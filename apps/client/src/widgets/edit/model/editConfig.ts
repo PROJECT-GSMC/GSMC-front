@@ -1,26 +1,30 @@
+import type { AxiosResponse } from "axios";
+
+import type { ConfigType } from "@/shared/model/config";
+import type { FormValues, Option } from "@/shared/model/formValues";
 import {
-  updateMajorActivity,
-  updateHumanitiesActivity,
-} from "@/shared/api/updateActivity";
-import { updateReading } from "@/shared/api/updateReading";
-import { majorCategoryOptions } from "@/widgets/calculate/model/category";
-import type { FormValues } from "@/widgets/edit/types/types";
-import { CharacterCategory } from "@/widgets/write/model/category";
+  MajorOptions,
+  HumanitiesOptions,
+} from "@/widgets/write/model/category";
+
+import {
+  patchMajorActivity,
+  patchHumanitiesActivity,
+} from "../api/patchActivity";
+import { patchReading } from "../api/patchReading";
 
 interface Config {
   title: string;
-  categoryOptions?: { name: string; send: string }[];
-  onSubmit: (data: FormValues, id: number) => Promise<void>;
+  categoryOptions?: Option[];
+  onSubmit: (data: FormValues, id: number) => Promise<AxiosResponse>;
 }
 
-export const getEditConfig = (
-  type: "major" | "humanities" | "reading" | "others",
-): Config => {
+export const getEditConfig = (type: ConfigType): Config => {
   switch (type) {
     case "major": {
       return {
         title: "전공 영역 수정",
-        categoryOptions: majorCategoryOptions,
+        categoryOptions: MajorOptions,
         onSubmit: async (data: FormValues, id: number) => {
           const formData = new FormData();
           if (data.file) {
@@ -31,14 +35,14 @@ export const getEditConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
 
-          await updateMajorActivity(id, formData);
+          return await patchMajorActivity(id, formData);
         },
       };
     }
     case "humanities": {
       return {
         title: "인성 영역 수정",
-        categoryOptions: CharacterCategory,
+        categoryOptions: HumanitiesOptions,
         onSubmit: async (data: FormValues, id: number) => {
           const formData = new FormData();
           if (data.file) {
@@ -49,7 +53,7 @@ export const getEditConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
 
-          await updateHumanitiesActivity(id, formData);
+          return await patchHumanitiesActivity(id, formData);
         },
       };
     }
@@ -63,17 +67,12 @@ export const getEditConfig = (
             page: Number(data.page) || 0,
             content: data.content || "",
           };
-          await updateReading(id, bookData);
+          return await patchReading(id, bookData);
         },
       };
     }
     case "others": {
-      return {
-        title: "기타 증빙 수정",
-        onSubmit: async () => {
-          // No submission logic implemented for 'others' category yet.
-        },
-      };
+      throw new Error("외국어 영역의 수정은 지원되지 않습니다,");
     }
   }
 };

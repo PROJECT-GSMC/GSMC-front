@@ -13,8 +13,8 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { postSignin } from "@/entities/signin/api/postSignin";
-import type { HttpError } from "@/shared/types/error";
-import type { SigninFormProps } from "@shared/model/AuthForm";
+import type { HttpError } from "@/shared/model/error";
+import type { SigninFormProps } from "@/shared/model/signin";
 import { AuthForm } from "@widgets/auth/ui";
 
 const SigninView = () => {
@@ -84,7 +84,6 @@ const SigninView = () => {
             <div className="flex flex-col gap-[0.75rem] self-stretch">
               <InputContainer label="이메일">
                 <Input
-                  isEmail
                   control={control}
                   name="email"
                   rules={{

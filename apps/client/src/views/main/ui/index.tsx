@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import ShowSignin from "@/entities/main/ui/showSignin";
-import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
+import { useGetCurrentMember } from "@/shared/lib/useGetCurrentMember";
 import { getCertification } from "@entities/main/api/getCertification";
 import MainDropdown from "@entities/main/ui/dropdown";
 import { ShowInformation } from "@entities/main/ui/showInformation";
@@ -39,21 +39,16 @@ const MainView = () => {
   const handleHoverDropdown = useCallback(
     (category: string) => () => {
       setHoverTab(category);
-    },
-    [],
-  );
+    }, []);
 
   const handleLeaveDropdown = useCallback(() => {
     setHoverTab(null);
   }, []);
 
-  const handleOpenModal = useCallback(
-    (modalname: ModalType) => () => {
-      setType(modalname);
-      setShow(true);
-    },
-    [],
-  );
+  const handleOpenModal = useCallback((modalname: ModalType) => () => {
+    setType(modalname);
+    setShow(true);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
     setShow(false);
@@ -156,7 +151,7 @@ const MainView = () => {
               </div>
             </MainDropdown>
           </div>
-          <Link className="w-full" href="/write?type=foreign">
+          <Link className="w-full" href="/write?type=others">
             <Button label="외국어" variant="skyblue" />
           </Link>
         </div>
@@ -168,8 +163,8 @@ const MainView = () => {
                   로그인 후 확인가능합니다.
                 </h4>
               ) : (certification &&
-                certification.data.certificates.length > 0 ? (
-                certification.data.certificates.map((v, i) => (
+                certification.certificates.length > 0 ? (
+                certification.certificates.map((v, i) => (
                   <Card front={v.name} id={v.id} key={i} />
                 ))
               ) : (

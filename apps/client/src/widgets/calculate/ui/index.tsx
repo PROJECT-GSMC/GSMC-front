@@ -20,18 +20,13 @@ export const Calculate = () => {
 
   const [bookCount, setBookCount] = useState(0);
   const [totalScore, setTotalScore] = useState<number>(0);
-  const [selectedOptions, setSelectedOptions] = useState<
-    Record<string, Option | null>
-  >({
+  const [selectedOptions, setSelectedOptions] = useState<Record<string, Option | null>>({
     인성: null,
     전공: null,
     외국어: null,
   });
 
-  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>(
-    {},
-  );
-
+  const [categoryCounts, setCategoryCounts] = useState<Record<string, number>>({});
   const [idCounts, setIdCounts] = useState<Record<number, number>>({});
 
   const { control } = useForm();
@@ -44,9 +39,9 @@ export const Calculate = () => {
       const selectedId = selected.id;
       const currentSendCount = categoryCounts[selected.send] ?? 0;
       const currentIdCount = idCounts[selectedId] ?? 0;
-      const max =
-        Number.parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "") || 1;
+      const max = Number.parseInt(selected.max_number?.replace(/[^0-9]/g, "") ?? "") || 1;
       const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
+
       if (currentIdCount < max) {
         setCategoryCounts((prev) => ({
           ...prev,
@@ -71,6 +66,7 @@ export const Calculate = () => {
       const score = Number.parseInt(selected.score?.match(/\d+/)?.[0] ?? "0");
       const currentSendCount = categoryCounts[selected.send] ?? 0;
       const currentIdCount = idCounts[selected.id] ?? 0;
+
       if (currentSendCount > 0 && currentIdCount > 0) {
         setCategoryCounts((prev) => ({
           ...prev,
@@ -93,17 +89,17 @@ export const Calculate = () => {
     [],
   );
 
-  const handleBookMinus = useCallback(() => {
-    if (bookCount > 0) {
-      setBookCount((prev) => prev - 1);
-      setTotalScore((prev) => prev - 10);
-    }
-  }, [bookCount]);
-
   const handleBookPlus = useCallback(() => {
     if (bookCount < 10) {
       setBookCount((prev) => prev + 1);
       setTotalScore((prev) => prev + 10);
+    }
+  }, [bookCount]);
+
+  const handleBookMinus = useCallback(() => {
+    if (bookCount > 0) {
+      setBookCount((prev) => prev - 1);
+      setTotalScore((prev) => prev - 10);
     }
   }, [bookCount]);
 

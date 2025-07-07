@@ -4,9 +4,11 @@ export interface Score {
 }
 
 export interface ScoreFormType {
-  activity: number | null;
-  oneSemester: number | null;
-  twoSemester: number | null;
-  newrrow: number | null;
-  checkbox: boolean | undefined;
+  activity: number;
+  inAward: number;
+  outAward: number;
+  oneSemester: number;
+  twoSemester: number;
+  newrrow: number;
+  checkbox: boolean;
 }
