@@ -4,11 +4,11 @@ import { Button } from "@repo/shared/button";
 import ConfirmModal from "@repo/shared/confirmModal";
 import { usePost } from "@repo/store/postProvider";
 import { getCategoryName } from "@repo/utils/handleCategory";
-import { isActivity, isMockPost, isOthers, isReading } from "@repo/utils/handlePost";
+import { isActivity, isDraft, isOthers, isReading } from "@repo/utils/handlePost";
 import { useMutation } from "@tanstack/react-query";
 import { HttpStatusCode } from "axios";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
 
@@ -17,7 +17,11 @@ import type { HttpError } from "@/shared/model/error";
 
 const DetailView = () => {
   const params = useParams();
+  const searchParams = useSearchParams()
   const router = useRouter();
+
+  const example = searchParams.get("example");
+  const type = searchParams.get("type")
   const { id } = params;
 
   const [modalOpen, setModalOpen] = useState(false);
@@ -41,8 +45,8 @@ const DetailView = () => {
   })
 
   const handleRevise = useCallback(() => {
-    router.push(`/edit/${String(id)}`);
-  }, [id, router]);
+    router.push(`/edit/${String(id)}?type=${type}`);
+  }, [id, router, type]);
 
 
   const handleBack = useCallback(() => {
@@ -61,8 +65,8 @@ const DetailView = () => {
   if (!post) return <p>존재하지 않는 게시물입니다.</p>;
 
   const title = (() => {
-    if ("title" in post) return post.title;
-    if ("evidenceType" in post) return post.evidenceType
+    if (isActivity(post) || isReading(post)) return post.title;
+    if (isOthers(post)) return post.evidenceType
     return null;
   })();
 
@@ -79,7 +83,7 @@ const DetailView = () => {
     <div className="flex flex-col items-center mt-12 px-4 sm:px-8">
       <div className="flex flex-col w-full max-w-[600px] gap-7">
         <header className="flex flex-col w-full gap-2">
-          <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem] ">
+          <h1 className="text-[1.7rem] font-semibold sm:text-[2.25rem]">
             {title}
           </h1>
           <div className="w-full h-px bg-[#A6A6A6]" />
@@ -114,7 +118,7 @@ const DetailView = () => {
             </p>
           </section>
         </main>
-        {!("draftId" in post) && !isMockPost(post) && (
+        {!isDraft(post) && example == null && (
           <span
             className="text-errors-500 underline underline-offset-4 text-body5 cursor-pointer"
             onClick={handleModalOpen}
@@ -123,8 +127,8 @@ const DetailView = () => {
           </span>
         )}
         <footer className="sticky bottom-4 flex gap-[1.56rem] w-full">
-          {isMockPost(post) ? null : (
-            "draftId" in post ? (
+          {(example == null) ? (
+            isDraft(post) ? (
               <Button
                 className="w-full"
                 label="이어적기"
@@ -139,7 +143,7 @@ const DetailView = () => {
                 onClick={handleRevise}
               />
             )
-          )}
+          ) : null}
           <Button
             className="w-full bg-white"
             label="뒤로가기"
