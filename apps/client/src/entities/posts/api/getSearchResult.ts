@@ -1,13 +1,13 @@
 import instance from "@repo/api/axios";
-import type { EvidenceResponse } from "@repo/types/evidences";
+import type { PostResponse } from "@repo/types/evidences";
 import { isAxiosError } from "axios";
 
 export const getSearchResult = async (
   query: string,
   type?: string
-): Promise<EvidenceResponse> => {
+): Promise<PostResponse> => {
   try {
-    const response = await instance.get<EvidenceResponse>(
+    const response = await instance.get<PostResponse>(
       `/evidence/search?title=${query}&type=${type}`
     );
     return response.data;

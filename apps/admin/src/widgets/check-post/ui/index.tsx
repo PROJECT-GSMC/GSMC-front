@@ -2,7 +2,7 @@
 
 import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
-import type { post, postState } from "@repo/types/evidences";
+import type { PostType, PostStatus } from "@repo/types/evidences";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useState, useEffect } from "react";
 import { toast } from "sonner";
@@ -15,7 +15,7 @@ import { useGetPosts } from "@/views/check-post/model/useGetPosts";
 export default function PostsWidget() {
   const R = useRouter();
   const { id: email } = useParams();
-  const [state, setState] = useState<postState>("PENDING");
+  const [state, setState] = useState<PostStatus>("PENDING");
   const { member: student, setMember } = useMember();
   const { data: postsData, isError: isPostsError } = useGetPosts(
     String(student?.email ?? email),
@@ -32,7 +32,7 @@ export default function PostsWidget() {
     }
   }, [student, studentData, setMember]);
 
-  const posts: post[] = [
+  const posts: PostType[] = [
     ...(postsData?.data.majorActivityEvidence ?? []),
     ...(postsData?.data.humanitiesActivityEvidence ?? []),
     ...(postsData?.data.readingEvidence ?? []),
@@ -47,21 +47,21 @@ export default function PostsWidget() {
     toast.error("사용자 정보를 불러오는 데 실패했습니다.");
   }
 
-  const Buttons: { value: postState; label: string }[] = [
+  const Buttons: { value: PostStatus; label: string }[] = [
     { label: "대기", value: "PENDING" },
     { label: "통과", value: "APPROVE" },
     { label: "거절", value: "REJECT" },
   ];
 
   const handleState = useCallback(
-    (value: postState) => () => {
+    (value: PostStatus) => () => {
       setState(value);
     },
     [],
   );
 
   const handleRoute = useCallback(
-    (post: post) => () => {
+    (post: PostType) => () => {
       setPost(post);
       R.push(
         `/detail/${post.id}?status=${state}&email=${String(student?.email ?? email)}`,

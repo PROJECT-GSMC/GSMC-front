@@ -1,4 +1,4 @@
-import type { postState } from "@repo/types/evidences";
+import type { PostStatus } from "@repo/types/evidences";
 import { useQueryClient } from "@tanstack/react-query";
 import { useCallback } from "react";
 import { toast } from "sonner";
@@ -9,7 +9,7 @@ export function useChangeEvidenceState(postId: number) {
   const queryClient = useQueryClient();
 
   const updatePostState = useCallback(
-    async (state: postState) => {
+    async (state: PostStatus) => {
       try {
         if (postId) {
           const res = await changeEvidenceState(postId, state);
@@ -28,15 +28,15 @@ export function useChangeEvidenceState(postId: number) {
         toast.error("게시글 상태 변경에 실패했습니다.");
       }
     },
-    [postId, queryClient],
+    [postId, queryClient]
   );
 
   const handlePostState = useCallback(
-    (state: postState) => (e: React.MouseEvent) => {
+    (state: PostStatus) => (e: React.MouseEvent) => {
       e.stopPropagation();
       void updatePostState(state);
     },
-    [updatePostState],
+    [updatePostState]
   );
 
   return { handlePostState };

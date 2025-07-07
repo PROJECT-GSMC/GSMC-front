@@ -2,14 +2,14 @@
 
 import { useDebounce } from "@repo/hooks/useDebounce";
 import SearchIcon from "@repo/shared/search";
-import type { EvidenceResponse } from "@repo/types/evidences";
+import type { PostResponse } from "@repo/types/evidences";
 import { useCallback, useEffect } from "react";
 import { toast } from "sonner";
 
 import { getSearchResult } from "../api/getSearchResult";
 
 interface SearchProps {
-  setResult: (result: EvidenceResponse) => void;
+  setResult: (result: PostResponse) => void;
   search: string;
   setSearch: (search: string) => void;
   type?: string;
