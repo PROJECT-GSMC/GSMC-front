@@ -34,7 +34,7 @@ const ScoreForm = () => {
     field: { value?: boolean; onChange: (value: boolean | null) => void };
   }) => <Checkbox {...field} />, []);
 
-  const { mutate } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: async (data: ScoreFormType) => {
       return Promise.all(
         Object.values(SCORE_CATEGORIES).map(async (category) => {
@@ -147,7 +147,7 @@ const ScoreForm = () => {
           <Button label="뒤로가기" variant="skyblue" onClick={handleBack} />
           <Button
             label="점수 주기 완료"
-            state={isValid ? "default" : "disabled"}
+            state={isPending || !isValid ? "disabled" : "default"}
             type="submit"
             variant="blue"
           />
