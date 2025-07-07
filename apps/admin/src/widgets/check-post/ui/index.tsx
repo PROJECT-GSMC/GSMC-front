@@ -19,7 +19,7 @@ export default function PostsWidget() {
 
   const { member: student, setMember } = useMember();
 
-  const { data: postsData, isError: isPostsError } = useGetPosts(
+  const { posts, isError: isPostsError } = useGetPosts(
     String(student?.email ?? email),
     state,
   );
@@ -35,13 +35,6 @@ export default function PostsWidget() {
       setMember(studentData.data);
     }
   }, [student, studentData, setMember]);
-
-  const posts: PostType[] = [
-    ...(postsData?.data.majorActivityEvidence ?? []),
-    ...(postsData?.data.humanitiesActivityEvidence ?? []),
-    ...(postsData?.data.readingEvidence ?? []),
-    ...(postsData?.data.otherEvidence ?? []),
-  ];
 
   if (isPostsError) {
     toast.error("게시글을 불러오는 데 실패했습니다.");

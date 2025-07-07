@@ -1,6 +1,6 @@
 "use client";
 
-import type { PostType, PostStatus } from "@repo/types/evidences";
+import type { PostStatus } from "@repo/types/evidences";
 import { getCategoryName } from "@repo/utils/handleCategory";
 import { isActivity, isOthers, isReading } from "@repo/utils/handlePost";
 import Image from "next/image";
@@ -24,7 +24,7 @@ export default function DetailView() {
   const { data: studentData, isError: isStudentError } = useGetStudent(
     decodeURIComponent(String(student?.email ?? email)),
   );
-  const { data: studentPost, isError: isPostError } = useGetPosts(
+  const { posts, isError: isPostError } = useGetPosts(
     String(student?.email ?? email),
     status,
   );
@@ -42,13 +42,6 @@ export default function DetailView() {
   if (isStudentError) {
     toast.error("회원 정보를 불러오지 못했습니다.");
   }
-
-  const posts: PostType[] = [
-    ...(studentPost?.data.majorActivityEvidence ?? []),
-    ...(studentPost?.data.humanitiesActivityEvidence ?? []),
-    ...(studentPost?.data.readingEvidence ?? []),
-    ...(studentPost?.data.otherEvidence ?? []),
-  ];
 
   const post = posts.find((post) => post.id === Number(id));
 

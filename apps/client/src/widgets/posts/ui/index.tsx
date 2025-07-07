@@ -22,25 +22,13 @@ export default function PostsWidget() {
   const [search, setSearch] = useState<string>("");
   const [categoryName, setCategoryName] = useState<CategoryType>("READING");
 
-  const { data: postsData, isError: isPostsError } = useGetPosts(categoryName);
-  const { data: draftsData, isError: isDraftsError } = useGetDraft(categoryName);
+  const { posts, isError: isPostsError } = useGetPosts(categoryName);
+  const { drafts, isError: isDraftsError } = useGetDraft(categoryName);
   const { setPost } = usePost();
 
   if (isPostsError || isDraftsError) {
     toast.error("게시물을 불러오지 못했습니다.");
   }
-
-  const posts: PostType[] = [
-    ...(postsData?.data.majorActivityEvidence ?? []),
-    ...(postsData?.data.humanitiesActivityEvidence ?? []),
-    ...(postsData?.data.readingEvidence ?? []),
-    ...(postsData?.data.otherEvidence ?? []),
-  ];
-
-  const draftPosts: DraftType[] = [
-    ...(draftsData?.activityEvidences ?? []),
-    ...(draftsData?.readingEvidences ?? []),
-  ];
 
   const resultPosts: PostType[] = [
     ...(result?.majorActivityEvidence ?? []),
@@ -62,7 +50,7 @@ export default function PostsWidget() {
   if (search.trim().length > 0 && resultPosts.length > 0) {
     displayedPosts = resultPosts;
   } else if (categoryName === "DRAFT") {
-    displayedPosts = draftPosts;
+    displayedPosts = drafts;
   } else {
     displayedPosts = posts;
   }
