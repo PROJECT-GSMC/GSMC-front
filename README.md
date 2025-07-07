@@ -11,7 +11,6 @@ GSM 인증제 관리 서비스 GSMC 입니다!
 - **React-Hook-Form**
 - **ESLint**
 - **Prettier**
-- **Jest**
 
 ### Architecture
 - **Turborepo(Monorepo)**
