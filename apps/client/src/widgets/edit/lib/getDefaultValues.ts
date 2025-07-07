@@ -1,49 +1,51 @@
+import type { DraftType } from "@repo/types/draft";
+import type { PostType } from "@repo/types/evidences";
+import { isActivity, isReading } from "@repo/utils/handlePost";
+
 import type { ConfigType } from "@/shared/model/config";
+import type { FormValues } from "@/shared/model/formValues";
 import {
   HumanitiesOptions,
   MajorOptions,
 } from "@/widgets/write/model/category";
 
-import type { FormValues } from "../types/types";
-
 export const getDefaultValues = (
   type: ConfigType,
-  post: FormValues
+  post: PostType | DraftType | undefined
 ): Partial<FormValues> => {
+  if (!post) return {};
   switch (type) {
-    case "major": {
-      return {
-        title: post.title,
-        content: post.content,
-        categoryName: MajorOptions.find(
-          (option) => post.categoryName?.send === option.send
-        ),
-        file: post.file,
-      };
-    }
+    case "major":
     case "humanities": {
-      return {
-        title: post.title,
-        content: post.content,
-        categoryName: HumanitiesOptions.find(
-          (option) => post.categoryName?.send === option.send
-        ),
-        file: post.file,
-      };
+      if (isActivity(post)) {
+        const categoryOptions =
+          type === "major" ? MajorOptions : HumanitiesOptions;
+        return {
+          title: post.title,
+          content: post.content,
+          categoryName: categoryOptions.find(
+            (option) => post.categoryName === option.send
+          ),
+        };
+      }
+      break;
     }
+
     case "reading": {
-      return {
-        title: post.title,
-        author: post.author,
-        page: String(post.page),
-        content: post.content,
-      };
+      if (isReading(post)) {
+        return {
+          title: post.title,
+          author: post.author,
+          page: String(post.page),
+          content: post.content,
+        };
+      }
+      break;
     }
+
     case "others": {
-      return {
-        file: post.file,
-        value: post.value,
-      };
+      throw new Error("외국어 영역의 수정은 지원되지 않습니다,");
     }
   }
+  return {};
 };
