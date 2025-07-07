@@ -1,12 +1,8 @@
 import instance from "@repo/api/axios";
-import type { EvidenceResponse, postState } from "@repo/types/evidences";
-import type { AxiosResponse } from "axios";
+import type { PostResponse, PostStatus } from "@repo/types/evidences";
 
-export const getPosts = async (
-  email: string,
-  status: postState | null,
-): Promise<AxiosResponse<EvidenceResponse>> => {
-  return await instance.get<EvidenceResponse>(
-    `/evidence/${decodeURIComponent(email).split("@")[0]?.slice(1)}?status=${status}`,
+export const getPosts = async (email: string, status: PostStatus | null) => {
+  return await instance.get<PostResponse>(
+    `/evidence/${decodeURIComponent(email).split("@")[0]?.slice(1)}?status=${status}`
   );
 };

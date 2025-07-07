@@ -16,14 +16,18 @@ export default function PostsWidget() {
   const R = useRouter();
   const { id: email } = useParams();
   const [state, setState] = useState<PostStatus>("PENDING");
+
   const { member: student, setMember } = useMember();
+
   const { data: postsData, isError: isPostsError } = useGetPosts(
     String(student?.email ?? email),
     state,
   );
+
   const { data: studentData, isError: isStudentError } = useGetStudent(
     decodeURIComponent(String(student?.email ?? email)),
   );
+
   const { setPost } = usePost();
 
   useEffect(() => {
