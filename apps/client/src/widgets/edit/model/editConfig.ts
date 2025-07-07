@@ -1,11 +1,10 @@
 import type { AxiosResponse } from "axios";
 
 import type { ConfigType } from "@/shared/model/config";
-import type { FormValues, Option } from "@/widgets/edit/types/types";
+import type { FormValues, Option } from "@/shared/model/formValues";
 import {
   MajorOptions,
   HumanitiesOptions,
-  ForeignOptions,
 } from "@/widgets/write/model/category";
 
 import {
@@ -13,7 +12,6 @@ import {
   patchHumanitiesActivity,
 } from "../api/patchActivity";
 import { patchReading } from "../api/patchReading";
-import { patchScoring } from "../api/patchScoring";
 
 interface Config {
   title: string;
@@ -74,18 +72,7 @@ export const getEditConfig = (type: ConfigType): Config => {
       };
     }
     case "others": {
-      return {
-        title: "외국어 영역 수정",
-        categoryOptions: ForeignOptions,
-        onSubmit: async (data: FormValues, id: number) => {
-          const formData = new FormData();
-          if (data.file) {
-            formData.append("file", data.file);
-          }
-          formData.append("value", String(data.value));
-          return await patchScoring(id, formData);
-        },
-      };
+      throw new Error("외국어 영역의 수정은 지원되지 않습니다,");
     }
   }
 };
