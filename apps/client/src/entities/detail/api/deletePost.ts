@@ -1,7 +1,7 @@
 import instance from "@repo/api";
-import { isAxiosError } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 
-export const deletePost = async (id: number) => {
+export const deletePost = async (id: number): Promise<AxiosResponse> => {
   try {
     const response = await instance.delete(`/evidence/current/${id}`, {
       method: "DELETE",
