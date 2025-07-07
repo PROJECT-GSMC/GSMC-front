@@ -12,9 +12,9 @@ import { toast } from "sonner";
 
 import type { ConfigType } from "@/shared/model/config";
 import type { HttpError } from "@/shared/model/error";
+import type { FormValues } from "@/shared/model/formValues";
 import { Dropdown, File, Textarea } from "@/shared/ui";
 import type { Option } from "@/shared/ui/dropdown";
-import type { FormValues } from "@/widgets/edit/types/types";
 import { chooseDropdownOption } from "@/widgets/write/lib/chooseDropdownOption";
 
 import { getWriteConfig } from "../model/writeConfig";

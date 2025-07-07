@@ -1,7 +1,7 @@
 import type { AxiosResponse } from "axios";
 
 import type { ConfigType } from "@/shared/model/config";
-import type { FormValues, Option } from "@/widgets/edit/types/types";
+import type { FormValues, Option } from "@/shared/model/formValues";
 import {
   MajorOptions,
   HumanitiesOptions,
