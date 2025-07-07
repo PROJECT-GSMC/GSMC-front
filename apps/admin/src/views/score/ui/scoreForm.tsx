@@ -3,16 +3,19 @@
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import { useMutation } from "@tanstack/react-query";
+import { HttpStatusCode } from "axios";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { featScore } from "../api/featScore";
+import { patchScore } from "../api/patchScore";
 import type { ScoreFormType } from "../model/score";
 import { SCORE_CATEGORIES } from "../model/score_category";
 
 import { Checkbox } from "@/entities/score/ui/checkbox";
+import type { HttpError } from "@/shared/types/error";
 import Header from "@/shared/ui/header";
 
 const ScoreForm = () => {
@@ -31,37 +34,35 @@ const ScoreForm = () => {
     field: { value?: boolean; onChange: (value: boolean | null) => void };
   }) => <Checkbox {...field} />, []);
 
-  const handleScoreSubmit = useCallback(
-    async (category: string, score: number, successMessage: string) => {
-      try {
-        const email = decodeURIComponent(String(id));
-        const response = await featScore(email, category, score);
-
-        if (response.status === 204) {
-          toast.success(`${successMessage} 점수 부여 성공`);
-          return true;
-        } else {
-          toast.error(`${successMessage} 점수 부여 실패`);
-          return false;
-        }
-      } catch {
-        toast.error("점수 추가 중 오류가 발생했습니다");
-        return false;
+  const { mutate } = useMutation({
+    mutationFn: async (data: ScoreFormType) => {
+      return Promise.all(
+        Object.values(SCORE_CATEGORIES).map(async (category) => {
+          const score = data[category.field as keyof ScoreFormType];
+          return patchScore(
+            decodeURIComponent(String(id)),
+            category.value,
+            typeof score === "boolean" ? (score ? 0 : 1) : score
+          );
+        })
+      );
+    },
+    onSuccess: () => {
+      toast.success("모든 점수 부여 성공");
+      router.push("/");
+    },
+    onError: (error: HttpError) => {
+      if (error.httpStatus == HttpStatusCode.NotFound) {
+        toast.error("해당하는 카테고리가 존재하지 않습니다.");
+      } else {
+        toast.error("점수 부여 중 오류가 발생 했습니다.")
       }
-    }, [id]);
+    }
+  });
 
-  const onSubmit = useCallback(async (data: ScoreFormType) => {
-    await Promise.all(
-      Object.values(SCORE_CATEGORIES).map(async (category) => {
-        const score = data[category.field as keyof ScoreFormType];
-        await handleScoreSubmit(
-          category.value,
-          typeof score === "boolean" ? (score ? 0 : 1) : score,
-          category.message
-        );
-      })
-    );
-  }, [handleScoreSubmit]);
+  const onSubmit = useCallback((data: ScoreFormType) => {
+    mutate(data);
+  }, [mutate]);
 
   const handleFormSubmit = useCallback<React.FormEventHandler>((e) => {
     void handleSubmit(onSubmit)(e);
