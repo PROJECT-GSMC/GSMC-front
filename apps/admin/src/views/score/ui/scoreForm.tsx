@@ -5,7 +5,7 @@ import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 import { useParams, useRouter } from "next/navigation";
 import { useCallback } from "react";
-import { Controller, useForm, useWatch } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { featScore } from "../api/featScore";
@@ -19,7 +19,7 @@ const ScoreForm = () => {
   const { id } = useParams();
   const router = useRouter();
 
-  const { handleSubmit, control } = useForm<ScoreFormType>({
+  const { handleSubmit, control, formState: { isValid } } = useForm<ScoreFormType>({
     mode: "onChange",
   });
 
@@ -27,21 +27,9 @@ const ScoreForm = () => {
     router.back();
   }, [router]);
 
-  const renderCheckbox = useCallback(
-    ({ field }: {
-      field: { value?: boolean; onChange: (value: boolean | null) => void };
-    }) => <Checkbox {...field} />,
-    [],
-  );
-
-  const { oneSemester, twoSemester, newrrow, checkbox } = useWatch({ control });
-
-  const isFormValid = Boolean(
-    (oneSemester !== undefined && oneSemester !== null && oneSemester > 0) ||
-    (twoSemester !== undefined && twoSemester !== null && twoSemester > 0) ||
-    (newrrow !== undefined && newrrow !== null && newrrow > 0) ||
-    checkbox !== undefined,
-  );
+  const renderCheckbox = useCallback(({ field }: {
+    field: { value?: boolean; onChange: (value: boolean | null) => void };
+  }) => <Checkbox {...field} />, []);
 
   const handleScoreSubmit = useCallback(
     async (category: string, score: number, successMessage: string) => {
@@ -50,93 +38,34 @@ const ScoreForm = () => {
         const response = await featScore(email, category, score);
 
         if (response.status === 204) {
-          toast.success(successMessage);
+          toast.success(`${successMessage} 점수 부여 성공`);
           return true;
         } else {
-          toast.error(`${successMessage.replace(" 완료", "")} 실패`);
+          toast.error(`${successMessage} 점수 부여 실패`);
           return false;
         }
       } catch {
         toast.error("점수 추가 중 오류가 발생했습니다");
         return false;
       }
-    },
-    [id],
-  );
+    }, [id]);
 
-  const onSubmit = useCallback(
-    async (data: ScoreFormType) => {
-      let success = true;
+  const onSubmit = useCallback(async (data: ScoreFormType) => {
+    await Promise.all(
+      Object.values(SCORE_CATEGORIES).map(async (category) => {
+        const score = data[category.field as keyof ScoreFormType];
+        await handleScoreSubmit(
+          category.value,
+          typeof score === "boolean" ? (score ? 0 : 1) : score,
+          category.message
+        );
+      })
+    );
+  }, [handleScoreSubmit]);
 
-      if (data.activity !== null && data.activity > 0) {
-        success = (await handleScoreSubmit(
-          SCORE_CATEGORIES.ACTIVITY,
-          data.activity,
-          "봉사활동 점수 추가 완료",
-        )) && success;
-      }
-
-      if (data.oneSemester !== null && data.oneSemester > 0) {
-        success = (await handleScoreSubmit(
-          SCORE_CATEGORIES.SEMESTER_1,
-          data.oneSemester,
-          "1학기 봉사 시간 점수 추가 완료",
-        )) && success;
-      }
-
-      if (data.twoSemester !== null && data.twoSemester > 0) {
-        success = (await handleScoreSubmit(
-          SCORE_CATEGORIES.SEMESTER_2,
-          data.twoSemester,
-          "2학기 봉사 시간 점수 추가 완료",
-        )) && success;
-      }
-
-      if (data.inAward !== null && data.inAward > 0) {
-        success = (await handleScoreSubmit(
-          SCORE_CATEGORIES.AWARD_IN,
-          data.inAward,
-          "교내인성영역관련수상 점수 추가 완료",
-        )) && success;
-      }
-
-      if (data.outAward !== null && data.outAward > 0) {
-        success = (await handleScoreSubmit(
-          SCORE_CATEGORIES.AWARD_OUT,
-          data.outAward,
-          "교외인성영역관련수상 점수 추가 완료",
-        )) && success;
-      }
-
-      if (data.newrrow !== null && data.newrrow > 0) {
-        success = (await handleScoreSubmit(
-          SCORE_CATEGORIES.NEWRROW,
-          data.newrrow,
-          "뉴로우 참여 횟수 점수 추가 완료",
-        )) && success;
-      }
-
-      if (data.checkbox !== undefined) {
-        success = (await handleScoreSubmit(
-          SCORE_CATEGORIES.TOEIC,
-          data.checkbox ? 1 : 0,
-          "TOEIC 참여 여부 점수 추가 완료",
-        )) && success;
-      }
-
-      if (success) {
-        router.push("/");
-      }
-    },
-    [handleScoreSubmit, router],
-  );
-
-  const handleFormSubmit = useCallback<React.FormEventHandler>(
-    (e) => {
-      void handleSubmit(onSubmit)(e);
-    },
-    [handleSubmit, onSubmit],
-  );
+  const handleFormSubmit = useCallback<React.FormEventHandler>((e) => {
+    void handleSubmit(onSubmit)(e);
+  }, [handleSubmit, onSubmit]);
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -217,7 +146,7 @@ const ScoreForm = () => {
           <Button label="뒤로가기" variant="skyblue" onClick={handleBack} />
           <Button
             label="점수 주기 완료"
-            state={isFormValid ? "default" : "disabled"}
+            state={isValid ? "default" : "disabled"}
             type="submit"
             variant="blue"
           />
