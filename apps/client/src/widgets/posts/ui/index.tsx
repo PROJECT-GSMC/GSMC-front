@@ -4,6 +4,7 @@ import { Button } from "@repo/shared/button";
 import { usePost } from "@repo/store/postProvider";
 import type { DraftType } from "@repo/types/draft";
 import type { PostType, PostResponse } from "@repo/types/evidences";
+import { isDraft } from "@repo/utils/handlePost";
 import { useRouter } from "next/navigation";
 import { useCallback, useState } from "react";
 import { toast } from "sonner";
@@ -72,12 +73,12 @@ export default function PostsWidget() {
 
   const handleRoute = useCallback((post: PostType | DraftType) => () => {
     setPost(post);
-    if ("draftId" in post) {
-      router.push(`/detail/${post.draftId}`);
+    if (isDraft(post)) {
+      router.push(`/detail/${post.draftId}?type=${categoryName}`);
     } else {
-      router.push(`/detail/${post.id}`);
+      router.push(`/detail/${post.id}?type=${categoryName}`);
     }
-  }, [router, setPost]);
+  }, [categoryName, router, setPost]);
 
   return (
     <div className="w-full max-w-[37.5rem]">
@@ -102,7 +103,7 @@ export default function PostsWidget() {
           {displayedPosts.map((post) => (
             <Post
               data={post}
-              key={"draftId" in post ? post.draftId : post.id}
+              key={isDraft(post) ? post.draftId : post.id}
               onClick={handleRoute(post)}
             />
           ))}
