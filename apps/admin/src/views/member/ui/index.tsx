@@ -4,17 +4,17 @@ import { Button } from "@repo/shared/button";
 import Card from "@repo/shared/card";
 import List from "@repo/shared/list";
 import type { Member } from "@repo/types/member";
+import Question from "@shared/asset/svg/question";
+import Header from "@shared/ui/header";
+import { getMember } from "@widgets/member/api/getMember";
+import { useGetMember } from "@widgets/member/model/useGetMember";
+import { Filter } from "@widgets/member/ui/filter";
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
 
 import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 import { useMember } from "@/entities/member/model/memberContext";
 import Information from "@/widgets/member/ui/information";
-import Question from "@shared/asset/svg/question";
-import Header from "@shared/ui/header";
-import { getMember } from "@widgets/member/api/getMember";
-import { useGetMember } from "@widgets/member/model/useGetMember";
-import { Filter } from "@widgets/member/ui/filter";
 
 const MemberView = () => {
   const [click, setClick] = useState<string | null>(null);
@@ -104,8 +104,8 @@ const MemberView = () => {
                     Pending={member.hasPendingEvidence}
                     back={Number(
                       String(member.grade) +
-                        String(member.classNumber) +
-                        String(member.number).padStart(2, "0"),
+                      String(member.classNumber) +
+                      String(member.number).padStart(2, "0"),
                     )}
                     className={
                       click === member.email

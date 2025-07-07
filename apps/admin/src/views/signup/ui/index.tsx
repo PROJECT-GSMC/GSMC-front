@@ -1,24 +1,25 @@
 "use client";
 
+import { postSignup } from "@/entities/signup/api/postSignup";
+import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
 import { Button } from "@repo/shared/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { AuthForm } from "@widgets/auth/ui";
+import StepAuthCode from "@widgets/stepAuthCode/ui";
+import StepPassword from "@widgets/stepPassword/ui";
 import { HttpStatusCode } from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import { postSignup } from "@/entities/signup/api/postSignup";
 import type {
   AuthStepForm,
   SignupFormProps,
   SignupStepForm,
 } from "@/shared/model/AuthForm";
 import type { HttpError } from "@/shared/types/error";
-import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
-import { AuthForm } from "@widgets/auth/ui";
-import StepAuthCode from "@widgets/stepAuthCode/ui";
-import StepPassword from "@widgets/stepPassword/ui";
+
 
 interface SignupResponse {
   success: boolean;
@@ -92,27 +93,27 @@ const SignupView = () => {
 
   const isAuthCodeStepValid = Boolean(
     watchedAuthValues.name &&
-      watchedAuthValues.email &&
-      /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
-      !authErrors.name &&
-      !authErrors.email,
+    watchedAuthValues.email &&
+    /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
+    !authErrors.name &&
+    !authErrors.email,
   );
 
   const canProceedToPassword =
     isAuthCodeStepValid &&
     Boolean(
       watchedAuthValues.authcode &&
-        watchedAuthValues.authcode.length >= 8 &&
-        !authErrors.authcode,
+      watchedAuthValues.authcode.length >= 8 &&
+      !authErrors.authcode,
     );
 
   const isPasswordValid = (data: SignupStepForm) =>
     Boolean(
       data.password &&
-        data.passwordCheck &&
-        data.password === data.passwordCheck &&
-        !signupErrors.password &&
-        !signupErrors.passwordCheck,
+      data.passwordCheck &&
+      data.password === data.passwordCheck &&
+      !signupErrors.password &&
+      !signupErrors.passwordCheck,
     );
 
   const handleVerifyEmail = async (data: AuthStepForm) => {

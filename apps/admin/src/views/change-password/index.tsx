@@ -1,20 +1,21 @@
 "use client";
 
-import { Button } from "@repo/shared/button";
-import { useMutation } from "@tanstack/react-query";
-import { useRouter } from "next/navigation";
-import { useCallback } from "react";
-import { useForm } from "react-hook-form";
-
 import { patchPassword } from "@/shared/api/patchPassword";
-import type { ServerResponse } from "@/shared/model/AuthForm";
 import type {
   ChangePasswordForm,
   ChangePasswordProps,
 } from "@/shared/model/changePWForm";
-import type { HttpError } from "@/shared/types/error";
 import ChangePassword from "@/widgets/changePassword/ui";
+import { Button } from "@repo/shared/button";
+import { useMutation } from "@tanstack/react-query";
 import { AuthForm } from "@widgets/auth/ui";
+import { useRouter } from "next/navigation";
+import { useCallback } from "react";
+import { useForm } from "react-hook-form";
+
+import type { ServerResponse } from "@/shared/model/AuthForm";
+import type { HttpError } from "@/shared/types/error";
+
 
 const ChangePasswordView = () => {
   const router = useRouter();
