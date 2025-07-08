@@ -103,6 +103,7 @@ const SigninView = () => {
                     },
                     required: "비밀번호을 필수로 입력해야 합니다.",
                   }}
+                  type="password"
                 />
               </InputContainer>
             </div>
