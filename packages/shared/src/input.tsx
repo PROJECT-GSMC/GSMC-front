@@ -32,7 +32,7 @@ const Input = <T extends FieldValues = FieldValues>({
       <input
         ref={inputRef}
         className={`px-[1rem] py-[0.75rem] rounded-[0.75rem] border focus:outline-tropicalblue-500 bg-white ui-outline-gray-600 w-full ${className}`}
-        type={field.name === "password" ? "password" : (type ?? "text")}
+        type={type ?? "text"}
         value={field.value ?? ""}
         onChange={field.onChange}
         onBlur={field.onBlur}
