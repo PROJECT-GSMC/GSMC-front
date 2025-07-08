@@ -8,11 +8,13 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { HttpStatusCode } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { postSignin } from "@/entities/signin/api/postSignin";
+import { EyeClose } from "@/shared/asset/svg/eyeClose";
+import { EyeOpen } from "@/shared/asset/svg/eyeOpen";
 import type { HttpError } from "@/shared/model/error";
 import type { SigninFormProps } from "@/shared/model/signin";
 import { AuthForm } from "@widgets/auth/ui";
@@ -20,6 +22,7 @@ import { AuthForm } from "@widgets/auth/ui";
 const SigninView = () => {
   const queryClient = useQueryClient();
   const router = useRouter();
+  const [showPassword, setShowPassword] = useState<boolean>(false)
 
   const {
     control,
@@ -73,6 +76,10 @@ const SigninView = () => {
     [handleSubmit, onSubmit],
   );
 
+  const handleShowPassword = useCallback(() => {
+    setShowPassword(!showPassword)
+  }, [showPassword])
+
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="LOG IN">
@@ -96,21 +103,32 @@ const SigninView = () => {
                 />
               </InputContainer>
               <InputContainer label="비밀번호">
-                <Input
-                  control={control}
-                  name="password"
-                  rules={{
-                    required: "비밀번호을 필수로 입력해야 합니다.",
-                    minLength: {
-                      value: 8,
-                      message: "영문, 숫자를 포함한 8자 이상으로 입력해주세요.",
-                    },
-                    pattern: {
-                      value: /^(?=.*[a-zA-Z])(?=.*\d).*$/,
-                      message: "영문, 숫자를 포함한 비밀번호를 입력해주세요.",
-                    },
-                  }}
-                />
+                <div className="relative">
+                  <Input
+                    className="pr-10"
+                    control={control}
+                    name="password"
+                    rules={{
+                      required: "비밀번호을 필수로 입력해야 합니다.",
+                      minLength: {
+                        value: 8,
+                        message: "영문, 숫자를 포함한 8자 이상으로 입력해주세요.",
+                      },
+                      pattern: {
+                        value: /^(?=.*[a-zA-Z])(?=.*\d).*$/,
+                        message: "영문, 숫자를 포함한 비밀번호를 입력해주세요.",
+                      },
+                    }}
+                    type={showPassword ? "text" : "password"}
+                  />
+                  <button
+                    className="absolute w-6 h-6 top-[0.75rem] right-3 text-gray-500 hover:text-gray-700"
+                    type="button"
+                    onClick={handleShowPassword}
+                  >
+                    {showPassword ? <EyeOpen /> : <EyeClose />}
+                  </button>
+                </div>
               </InputContainer>
             </div>
             <Button
