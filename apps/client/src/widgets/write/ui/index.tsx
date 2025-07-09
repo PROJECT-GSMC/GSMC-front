@@ -49,7 +49,7 @@ export default function WriteForm() {
   const {
     handleSubmit,
     control,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: {
@@ -134,7 +134,7 @@ export default function WriteForm() {
             />
           ) : null}
           {type !== "others" && (
-            <InputContainer label="제목">
+            <InputContainer error={errors.title} htmlFor="title" label="제목">
               <Input<FormValues>
                 control={control}
                 name="title"
@@ -152,7 +152,7 @@ export default function WriteForm() {
           {(type === "reading" || (type === "others" && !needDropdown)) && (
             <>
               {type === "reading" && (
-                <InputContainer label="저자">
+                <InputContainer error={errors.author} htmlFor="author" label="저자">
                   <Input<FormValues>
                     control={control}
                     name="author"
@@ -166,7 +166,7 @@ export default function WriteForm() {
                   />
                 </InputContainer>
               )}
-              <InputContainer label={type === "reading" ? "페이지" : "점수"}>
+              <InputContainer error={type == "reading" ? errors.page : errors.value} htmlFor={type == "reading" ? "page" : "value"} label={type === "reading" ? "페이지" : "점수"}>
                 <Input<FormValues>
                   control={control}
                   name={type === "reading" ? "page" : "value"}
