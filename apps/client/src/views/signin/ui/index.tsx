@@ -27,7 +27,7 @@ const SigninView = () => {
   const {
     control,
     handleSubmit,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<SigninFormProps>({
     mode: "onChange",
     defaultValues: { email: "", password: "" },
@@ -89,7 +89,7 @@ const SigninView = () => {
             onSubmit={handleFormSubmit}
           >
             <div className="flex flex-col gap-[0.75rem] self-stretch">
-              <InputContainer label="이메일">
+              <InputContainer error={errors.email} htmlFor="email" label="이메일">
                 <Input
                   control={control}
                   name="email"
@@ -102,8 +102,8 @@ const SigninView = () => {
                   }}
                 />
               </InputContainer>
-              <InputContainer label="비밀번호">
-                <div className="relative">
+              <InputContainer error={errors.password} htmlFor="password" label="비밀번호">
+                <div className="relative w-full">
                   <Input
                     className="pr-10"
                     control={control}
