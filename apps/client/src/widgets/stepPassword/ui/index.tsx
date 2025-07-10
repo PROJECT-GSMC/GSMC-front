@@ -1,11 +1,11 @@
 import { Button } from "@repo/shared/button";
+import { EyeClose } from "@repo/shared/eyeClose";
+import { EyeOpen } from "@repo/shared/eyeOpen";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 import React, { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-import { EyeClose } from "@/shared/asset/svg/eyeClose";
-import { EyeOpen } from "@/shared/asset/svg/eyeOpen";
 import type { StepPasswordForm } from "@/shared/model/signup";
 
 const StepPassword = ({ isHeader = false }: { isHeader?: boolean }) => {
