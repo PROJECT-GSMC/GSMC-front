@@ -36,11 +36,15 @@ const SigninView = () => {
   const { mutate: signinMutate } = useMutation({
     mutationFn: (form: SigninFormProps) => postSignin(form),
     onSuccess: async (data) => {
-      if (data.accessToken) {
-        setCookie("accessToken", data.accessToken, 1);
+      if (data.status == 200) {
+        toast.success("로그인되었습니다.")
       }
-      if (data.refreshToken) {
-        setCookie("refreshToken", data.refreshToken);
+
+      if (data.data.accessToken) {
+        setCookie("accessToken", data.data.accessToken, 1);
+      }
+      if (data.data.refreshToken) {
+        setCookie("refreshToken", data.data.refreshToken);
       }
 
       await queryClient.invalidateQueries({
