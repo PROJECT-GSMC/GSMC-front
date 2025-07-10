@@ -26,6 +26,7 @@ const SigninView = () => {
   const {
     control,
     handleSubmit,
+    reset,
     formState: { isValid, errors },
   } = useForm<SigninFormProps>({
     mode: "onChange",
@@ -35,11 +36,13 @@ const SigninView = () => {
   const { mutate: signinMutate } = useMutation({
     mutationFn: (form: SigninFormProps) => postSignin(form),
     onSuccess: async (data) => {
-      if (data.accessToken) {
-        setCookie("accessToken", data.accessToken, 1);
+
+
+      if (data.data.accessToken) {
+        setCookie("accessToken", data.data.accessToken, 1);
       }
-      if (data.refreshToken) {
-        setCookie("refreshToken", data.refreshToken);
+      if (data.data.refreshToken) {
+        setCookie("refreshToken", data.data.refreshToken);
       }
 
       await queryClient.invalidateQueries({
@@ -47,7 +50,15 @@ const SigninView = () => {
         exact: false,
       });
 
-      router.push("/");
+      if (data.data.role === "ROLE_ADMIN" || data.data.role === "ROLE_TEACHER") {
+        if (data.status == 200) {
+          toast.success("로그인되었습니다.")
+        }
+        router.push("/");
+      } else {
+        toast.error("선생님용 계정으로 로그인해주세요.")
+        reset()
+      }
     },
     onError: (error: HttpError) => {
       if (error.httpStatus == HttpStatusCode.Unauthorized) {
@@ -93,8 +104,8 @@ const SigninView = () => {
                   rules={{
                     required: "이메일을 필수로 입력해야 합니다.",
                     pattern: {
-                      value: /^s\d{5}@gsm\.hs\.kr$/,
-                      message: "@gsm.hs.kr 학교 이메일을 입력해주세요",
+                      value: /@/,
+                      message: "선생님이메일을 입력해주세요",
                     },
                   }}
                 />
