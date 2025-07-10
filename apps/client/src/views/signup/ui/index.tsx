@@ -65,15 +65,15 @@ const SignupView = () => {
     })
   }, [signupMutate])
 
-  const onSubmit = useCallback(() => {
-    methods.handleSubmit(handlePostSignup)
+  const onSubmit = useCallback(async () => {
+    await methods.handleSubmit(handlePostSignup)()
   }, [handlePostSignup, methods])
 
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="SIGN UP">
         <FormProvider {...methods}>
-          <Form onSubmit={onSubmit}>
+          <Form className="w-full" onSubmit={onSubmit}>
             {step === "authCode" &&
               <div className="flex flex-col gap-[0.75rem] self-stretch">
                 <StepAuthcode setStep={setStep} />
