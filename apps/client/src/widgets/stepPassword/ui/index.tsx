@@ -8,7 +8,7 @@ import { EyeClose } from "@/shared/asset/svg/eyeClose";
 import { EyeOpen } from "@/shared/asset/svg/eyeOpen";
 import type { StepPasswordForm } from "@/shared/model/signup";
 
-const StepPassword = () => {
+const StepPassword = ({ isHeader = false }: { isHeader?: boolean }) => {
   const { control, watch, formState: { errors, isValid } } = useFormContext<StepPasswordForm>()
   const password = watch("password")
 
@@ -82,7 +82,7 @@ const StepPassword = () => {
         </div>
       </InputContainer>
       <Button
-        label="회원가입"
+        label={isHeader ? "비밀번호 변경" : "회원가입"}
         state={isValid ? "default" : "disabled"}
         type="submit"
         variant="blue"
