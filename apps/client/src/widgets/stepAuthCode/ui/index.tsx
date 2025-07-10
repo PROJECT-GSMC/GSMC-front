@@ -8,7 +8,7 @@ import { useFormContext } from "react-hook-form";
 import { toast } from "sonner";
 
 import { patchVerifyEmail } from "@/entities/signup/api/patchVerifyEmail";
-import type { ChangePassword_StepAuthCodeForm } from "@/shared/model/changePWForm";
+import type { ChangePassword_StepAuthCodeForm } from "@/shared/model/changePassword";
 import type { HttpError } from "@/shared/model/error";
 import { postSendEmail } from "@entities/signup/api/postSendEmail";
 import type { StepAuthCodeForm } from "@shared/model/signup";
@@ -26,7 +26,7 @@ const StepAuthcode = ({ setStep }: { setStep: (step: string) => void }) => {
       }
     },
     onError: (error: HttpError) => {
-      if (error.httpStatus === HttpStatusCode.BadRequest) {
+      if (error.httpStatus == HttpStatusCode.BadRequest) {
         toast.error("인증번호 전송을 실패하였습니다.")
       } else {
         toast.error("인증번호 전송을 실패하였습니다.")
