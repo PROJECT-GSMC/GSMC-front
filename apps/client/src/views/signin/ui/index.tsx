@@ -1,6 +1,8 @@
 "use client";
 
 import { Button } from "@repo/shared/button";
+import { EyeClose } from "@repo/shared/eyeClose";
+import { EyeOpen } from "@repo/shared/eyeOpen";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
 import { setCookie } from "@repo/utils/setCookie";
@@ -13,8 +15,6 @@ import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
 import { postSignin } from "@/entities/signin/api/postSignin";
-import { EyeClose } from "@/shared/asset/svg/eyeClose";
-import { EyeOpen } from "@/shared/asset/svg/eyeOpen";
 import type { HttpError } from "@/shared/model/error";
 import type { SigninFormProps } from "@/shared/model/signin";
 import { AuthForm } from "@widgets/auth/ui";
@@ -49,7 +49,6 @@ const SigninView = () => {
       });
 
       router.push("/");
-      return data;
     },
     onError: (error: HttpError) => {
       if (error.httpStatus == HttpStatusCode.Unauthorized) {
@@ -58,7 +57,6 @@ const SigninView = () => {
         toast.error("회원가입되지 않은 계정입니다.");
         router.push("signup");
       }
-      throw error;
     },
   });
 
