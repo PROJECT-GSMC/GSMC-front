@@ -1,3 +1,4 @@
+import type { StepPasswordForm } from "@/shared/model/signup";
 import { Button } from "@repo/shared/button";
 import { EyeClose } from "@repo/shared/eyeClose";
 import { EyeOpen } from "@repo/shared/eyeOpen";
@@ -6,7 +7,6 @@ import { InputContainer } from "@repo/shared/inputContainer";
 import React, { useCallback, useState } from "react";
 import { useFormContext } from "react-hook-form";
 
-import type { StepPasswordForm } from "@/shared/model/signup";
 
 const StepPassword = ({ isHeader = false }: { isHeader?: boolean }) => {
   const { control, watch, formState: { errors, isValid } } = useFormContext<StepPasswordForm>()

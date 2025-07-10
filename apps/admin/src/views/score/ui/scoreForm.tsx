@@ -1,6 +1,5 @@
 "use client";
 
-import type { HttpError } from "@/shared/model/error";
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
@@ -11,12 +10,14 @@ import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { Checkbox } from "@/entities/score/ui/checkbox";
+import type { HttpError } from "@/shared/model/error";
+import Header from "@/shared/ui/header";
+
 import { patchScore } from "../api/patchScore";
 import type { ScoreFormType } from "../model/score";
 import { SCORE_CATEGORIES } from "../model/score_category";
 
-import { Checkbox } from "@/entities/score/ui/checkbox";
-import Header from "@/shared/ui/header";
 
 const ScoreForm = () => {
   const { id } = useParams();

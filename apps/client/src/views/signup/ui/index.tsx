@@ -1,12 +1,5 @@
 "use client";
 
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { HttpStatusCode } from "axios";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import { Form, FormProvider, useForm } from "react-hook-form";
-import { toast } from "sonner";
-
 import { postSignup } from "@/entities/signup/api/postSignup";
 import type { HttpError } from "@/shared/model/error";
 import type {
@@ -16,7 +9,13 @@ import type {
 } from "@/shared/model/signup"
 import { StepAuthcode } from "@/widgets/stepAuthcode/ui";
 import { StepPassword } from "@/widgets/stepPassword/ui";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthForm } from "@widgets/auth/ui";
+import { HttpStatusCode } from "axios";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { Form, FormProvider, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const SignupView = () => {
   const [step, setStep] = useState("authCode");
