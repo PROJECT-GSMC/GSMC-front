@@ -19,9 +19,6 @@ const Header = () => {
       </Link>
 
       <div className="gap-[2rem] flex text-body3 sm:text-label">
-        <Link className="hover:text-bl cursor-pointer" href="/changePassword">
-          비밀번호 변경
-        </Link>
         <div className="text-errors-500 cursor-pointer " onClick={signout}>
           로그아웃
         </div>
