@@ -1,6 +1,7 @@
 import instance from "@repo/api";
 import { AxiosError } from "axios";
 import { toast } from "sonner";
+
 import type { ScoreResponse } from "../model/score";
 
 export const getScore = async (
