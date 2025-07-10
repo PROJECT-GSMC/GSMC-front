@@ -6,8 +6,3 @@ export interface ChangePasswordProps {
 }
 
 export type ChangePassword_StepAuthCodeForm = Omit<StepAuthCodeForm, "name">;
-
-export interface StepChangePasswordForm {
-  password: string;
-  passwordCheck: string;
-}
