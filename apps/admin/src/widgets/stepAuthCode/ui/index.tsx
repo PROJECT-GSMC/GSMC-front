@@ -82,8 +82,8 @@ const StepAuthcode = ({ setStep }: { setStep: (step: string) => void }) => {
             rules={{
               required: "이메일을 필수로 입력해야 합니다.",
               pattern: {
-                value: /^s\d{5}@gsm\.hs\.kr$/,
-                message: "@gsm.hs.kr 학교 이메일을 입력해주세요",
+                value: /@/,
+                message: "선생님이메일을 입력해주세요",
               },
             }}
           />
