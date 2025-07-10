@@ -1,7 +1,6 @@
+import type { SigninFormProps } from "@/shared/model/signin";
 import instance from "@repo/api/axios";
 import { isAxiosError, type AxiosResponse } from "axios";
-
-import type { SigninFormProps } from "@/shared/model/AuthForm";
 
 interface SigninResponse {
   accessToken: string;
@@ -9,12 +8,12 @@ interface SigninResponse {
 }
 
 export const postSignin = async (
-  form: SigninFormProps,
+  form: SigninFormProps
 ): Promise<SigninResponse> => {
   try {
     const response: AxiosResponse<SigninResponse> = await instance.post(
       `/auth/signin`,
-      form,
+      form
     );
     return response.data;
   } catch (error: unknown) {

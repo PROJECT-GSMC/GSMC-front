@@ -1,20 +1,14 @@
+import type { SignupFormProps } from "@/shared/model/signup";
 import instance from "@repo/api/axios";
-import { isAxiosError } from "axios";
-
-import type { SignupFormProps } from "@/shared/model/AuthForm";
-
-interface SignupResponse {
-  success: boolean;
-  message: string;
-}
+import { isAxiosError, type AxiosResponse } from "axios";
 
 export const postSignup = async (
-  form: SignupFormProps,
-): Promise<SignupResponse> => {
+  form: SignupFormProps
+): Promise<AxiosResponse> => {
   try {
-    const response = await instance.post<SignupResponse>(`/auth/signup`, form);
-    return response.data;
-  } catch (error: unknown) {
+    const response = await instance.post(`/auth/signup`, form);
+    return response;
+  } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw error.response.data ?? "회원가입 실패";
     }
