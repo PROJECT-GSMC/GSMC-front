@@ -29,8 +29,6 @@ const StepAuthcode = ({ setStep }: { setStep: (step: string) => void }) => {
     onError: (error: HttpError) => {
       if (error.httpStatus == HttpStatusCode.BadRequest) {
         toast.error("인증번호 전송을 실패하였습니다.")
-      } else {
-        toast.error("인증번호 전송을 실패하였습니다.")
       }
     }
   })
