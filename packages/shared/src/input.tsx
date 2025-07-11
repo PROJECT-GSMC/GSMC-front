@@ -1,48 +1,35 @@
-"use client";
+import type { HTMLInputTypeAttribute } from "react"
+import { useController, type Control, type FieldValues, type Path, type RegisterOptions } from "react-hook-form";
 
-import { useRef } from "react";
-import { useController } from "react-hook-form";
-import type { UseControllerProps, FieldValues } from "react-hook-form";
-
-interface InputProps<T extends FieldValues = FieldValues>
-  extends UseControllerProps<T> {
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+interface InputProps<T extends FieldValues> {
+  name: Path<T>;
+  control: Control<T>;
+  rules?: RegisterOptions<T, Path<T>>;
+  type?: HTMLInputTypeAttribute;
   className?: string;
-  type?: string;
-  min?: number;
-  max?: number;
 }
 
-const Input = <T extends FieldValues = FieldValues>({
-  type,
-  className,
-  min,
-  max,
-  ...props
-}: InputProps<T>) => {
-  const {
-    field,
-    fieldState: { error },
-  } = useController({ ...props, rules: props.rules });
-
-  const inputRef = useRef<HTMLInputElement>(null);
+const Input = <T extends FieldValues>({ name, control, rules, type = "text", className }: InputProps<T>) => {
+  const { field: { onChange, onBlur, value, ref }, fieldState: { error } } = useController({ name, control, rules })
 
   return (
-    <div className="w-full">
-      <input
-        ref={inputRef}
-        className={`px-[1rem] py-[0.75rem] rounded-[0.75rem] border focus:outline-tropicalblue-500 bg-white ui-outline-gray-600 w-full ${className}`}
-        type={field.name === "password" ? "password" : (type ?? "text")}
-        value={field.value ?? ""}
-        onChange={field.onChange}
-        onBlur={field.onBlur}
-        name={field.name}
-        min={min}
-        max={max}
-      />
-      <small className={`text-red-500 text-sm mt-1 min-h-[1.25rem] ${error ? "visible" : "invisible"}`}>{error?.message ?? "\u00A0"}</small>
+    <div className="flex flex-col w-full">
+      <div className="flex w-full h-full">
+        <input
+          ref={ref}
+          className={`
+            w-full h-[2.875rem] px-4 py-3 rounded-md border 
+            bg-white ${((error?.message) == null) ? "focus:outline-tropicalblue-500" : "focus:outline-errors-500"} outline-gray-500 ${className}`}
+          name={name}
+          id={name}
+          type={type}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+        />
+      </div>
     </div>
-  );
-};
+  )
+}
 
-export { Input };
+export { Input }

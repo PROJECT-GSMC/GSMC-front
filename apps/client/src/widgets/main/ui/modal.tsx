@@ -29,7 +29,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
   const {
     handleSubmit,
     control,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<Evidence>({ mode: "onChange" });
 
   const handleCloseModal = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
@@ -156,6 +156,8 @@ const Modal = ({ onClose, type }: ModalProps) => {
             />
           ) : (
             <InputContainer
+              error={type == "TOPCIT" ? errors.value : errors.categoryName}
+              htmlFor={type === "TOPCIT" ? "value" : "categoryName"}
               label={type === "TOPCIT" ? "TOPCIT 점수" : "자격증 작성하기"}
             >
               <Input
@@ -167,7 +169,11 @@ const Modal = ({ onClose, type }: ModalProps) => {
             </InputContainer>
           )}
           {(type === "CERTIFICATE" || type === "HUMANITY") && (
-            <InputContainer label="취득일">
+            <InputContainer
+              error={errors.acquisitionDate}
+              htmlFor="acquisitionDate"
+              label="취득일"
+            >
               <Input
                 control={control}
                 name="acquisitionDate"

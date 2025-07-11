@@ -10,19 +10,20 @@ import { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
+import { Checkbox } from "@/entities/score/ui/checkbox";
+import type { HttpError } from "@/shared/model/error";
+import Header from "@/shared/ui/header";
+
 import { patchScore } from "../api/patchScore";
 import type { ScoreFormType } from "../model/score";
 import { SCORE_CATEGORIES } from "../model/score_category";
 
-import { Checkbox } from "@/entities/score/ui/checkbox";
-import type { HttpError } from "@/shared/types/error";
-import Header from "@/shared/ui/header";
 
 const ScoreForm = () => {
   const { id } = useParams();
   const router = useRouter();
 
-  const { handleSubmit, control, formState: { isValid } } = useForm<ScoreFormType>({
+  const { handleSubmit, control, formState: { isValid, errors } } = useForm<ScoreFormType>({
     mode: "onChange",
   });
 
@@ -79,61 +80,73 @@ const ScoreForm = () => {
           <h1 className="sm:text-titleMedium text-title4s text-tropicalblue-700 mt-[2.38rem]">
             점수 추가
           </h1>
-          <InputContainer label="봉사활동">
+          <InputContainer error={errors.activity} htmlFor="activity" label="봉사활동">
             <Input
               control={control}
-              max={40}
-              min={0}
               name="activity"
+              rules={{
+                max: 40,
+                min: 0
+              }}
               type="number"
             />
           </InputContainer>
           <div className="grid grid-cols-2 gap-4">
-            <InputContainer label="1학기 봉사 시간">
+            <InputContainer error={errors.oneSemester} htmlFor="oneSemester" label="1학기 봉사 시간">
               <Input
                 control={control}
-                max={1}
-                min={0}
                 name="oneSemester"
+                rules={{
+                  max: 1,
+                  min: 0
+                }}
                 type="number"
               />
             </InputContainer>
-            <InputContainer label="2학기 봉사 시간">
+            <InputContainer error={errors.twoSemester} htmlFor="twoSemester" label="2학기 봉사 시간">
               <Input
                 control={control}
-                max={1}
-                min={0}
                 name="twoSemester"
+                rules={{
+                  max: 1,
+                  min: 0
+                }}
                 type="number"
               />
             </InputContainer>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <InputContainer label="교내인성영역관련수상">
+            <InputContainer error={errors.inAward} htmlFor="inAward" label="교내인성영역관련수상">
               <Input
                 control={control}
-                max={4}
-                min={0}
                 name="inAward"
+                rules={{
+                  max: 4,
+                  min: 0
+                }}
                 type="number"
               />
             </InputContainer>
-            <InputContainer label="교외인성영역관련수상">
+            <InputContainer error={errors.outAward} htmlFor="outAward" label="교외인성영역관련수상">
               <Input
                 control={control}
-                max={4}
-                min={0}
                 name="outAward"
+                rules={{
+                  max: 4,
+                  min: 0
+                }}
                 type="number"
               />
             </InputContainer>
           </div>
-          <InputContainer label="뉴로우 참여 횟수">
+          <InputContainer error={errors.newrrow} htmlFor="newrrow" label="뉴로우 참여 횟수">
             <Input
               control={control}
-              max={5}
-              min={0}
               name="newrrow"
+              rules={{
+                max: 5,
+                min: 0
+              }}
               type="number"
             />
           </InputContainer>

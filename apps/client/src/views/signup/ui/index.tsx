@@ -1,34 +1,39 @@
 "use client";
 
-import { Button } from "@repo/shared/button";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { HttpStatusCode } from "axios";
-import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
-import { toast } from "sonner";
-
 import { postSignup } from "@/entities/signup/api/postSignup";
 import type { HttpError } from "@/shared/model/error";
 import type {
-  StepAuthCodeForm,
   SignupFormProps,
+  StepAuthCodeForm,
   StepPasswordForm
 } from "@/shared/model/signup"
-import { patchVerifyEmail } from "@entities/signup/api/patchVerifyEmail";
+import { StepAuthcode } from "@/widgets/stepAuthcode/ui";
+import { StepPassword } from "@/widgets/stepPassword/ui";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { AuthForm } from "@widgets/auth/ui";
-import StepAuthCode from "@widgets/stepAuthCode/ui";
-import StepPassword from "@widgets/stepPassword/ui";
+import { HttpStatusCode } from "axios";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { Form, FormProvider, useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const SignupView = () => {
+  const [step, setStep] = useState("authCode");
   const queryClient = useQueryClient();
   const router = useRouter();
 
-  const [step, setStep] = useState("authCode");
-  const [isAuthVerifying, setIsAuthVerifying] = useState(false);
-  const [verifiedInfo, setVerifiedInfo] = useState<{ name: string; email: string; } | null>(null);
+  const methods = useForm({
+    defaultValues: {
+      name: '',
+      email: '',
+      authcode: '',
+      password: '',
+      passwordCheck: ''
+    },
+    mode: "onChange"
+  })
 
-  const { mutate: signupMutate, isPending } = useMutation({
+  const { mutate: signupMutate } = useMutation({
     mutationFn: (form: SignupFormProps) => postSignup(form),
     onSuccess: async (data) => {
       await queryClient.invalidateQueries({
@@ -51,152 +56,35 @@ const SignupView = () => {
     },
   });
 
-  const {
-    control: authControl,
-    handleSubmit: handleAuthSubmit,
-    watch: watchAuth,
-    formState: { errors: authErrors },
-  } = useForm<StepAuthCodeForm>({
-    mode: "onChange",
-    defaultValues: {
-      name: "",
-      email: "",
-      authcode: "",
-    },
-  });
+  const handlePostSignup = useCallback((form: StepAuthCodeForm & StepPasswordForm) => {
+    signupMutate({
+      name: form.name,
+      email: form.email,
+      password: form.password
+    })
+  }, [signupMutate])
 
-  const {
-    control: signupControl,
-    handleSubmit: handleSignupSubmit,
-    formState: { errors: signupErrors, isValid },
-  } = useForm<StepPasswordForm>({
-    mode: "onChange",
-    defaultValues: { password: "", passwordCheck: "", },
-  });
-
-  const watchedAuthValues = watchAuth();
-
-  const isAuthCodeStepValid = Boolean(
-    watchedAuthValues.name &&
-    watchedAuthValues.email &&
-    /^s\d{5}@gsm\.hs\.kr$/.test(watchedAuthValues.email) &&
-    !authErrors.name &&
-    !authErrors.email,
-  );
-
-  const canProceedToPassword = Boolean(
-    isAuthCodeStepValid &&
-    watchedAuthValues.authcode &&
-    watchedAuthValues.authcode.length >= 8 &&
-    !authErrors.authcode,
-  );
-
-  const isPasswordValid = useCallback((data: StepPasswordForm) =>
-    Boolean(
-      data.password &&
-      data.passwordCheck &&
-      data.password === data.passwordCheck &&
-      !signupErrors.password &&
-      !signupErrors.passwordCheck,
-    ),
-    [signupErrors.password, signupErrors.passwordCheck],
-  );
-
-  const handleVerifyEmail = useCallback(async (data: StepAuthCodeForm) => {
-    if (!canProceedToPassword || isAuthVerifying) return;
-
-    try {
-      setIsAuthVerifying(true);
-      const response = await patchVerifyEmail(Number(data.authcode));
-
-      if (response.status === 204) {
-        setVerifiedInfo({ name: data.name, email: data.email });
-        setStep("password");
-        toast.success("이메일 인증이 완료되었습니다.");
-      }
-    } catch {
-      toast.error("인증코드가 일치하지 않습니다.");
-    } finally {
-      setIsAuthVerifying(false);
-    }
-  }, [canProceedToPassword, isAuthVerifying]
-  );
-
-  const onSubmit = useCallback(
-    (data: StepPasswordForm) => {
-      if (!verifiedInfo) {
-        toast.error("이메일 인증이 필요합니다.");
-        setStep("authCode");
-        return;
-      }
-
-      if (step === "password" && isPasswordValid(data) && !isPending) {
-        signupMutate({
-          email: verifiedInfo.email,
-          name: verifiedInfo.name,
-          password: data.password,
-        });
-      }
-    },
-    [verifiedInfo, setStep, step, isPasswordValid, isPending, signupMutate],
-  );
-
-  const handleAuthCodeSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      void handleAuthSubmit(handleVerifyEmail)(e);
-    },
-    [handleAuthSubmit, handleVerifyEmail],
-  );
-
-  const handlePasswordSubmit = useCallback(
-    (e: React.FormEvent<HTMLFormElement>) => {
-      void handleSignupSubmit(onSubmit)(e);
-    },
-    [handleSignupSubmit, onSubmit],
-  );
+  const onSubmit = useCallback(async () => {
+    await methods.handleSubmit(handlePostSignup)()
+  }, [handlePostSignup, methods])
 
   return (
     <div className="flex justify-center items-center h-screen bg-tropicalblue-100">
       <AuthForm label="SIGN UP">
-        {step === "authCode" ? (
-          <form
-            className="flex flex-col w-full items-center gap-[3.625rem]"
-            onSubmit={handleAuthCodeSubmit}
-          >
-            <div className="flex flex-col gap-[0.75rem] self-stretch">
-              <StepAuthCode
-                hasName
-                control={authControl}
-                isAuthButtonActive={isAuthCodeStepValid}
-              />
-            </div>
-            <Button
-              label="인증하기"
-              state={
-                canProceedToPassword && !isAuthVerifying
-                  ? "default"
-                  : "disabled"
-              }
-              type="submit"
-              variant="blue"
-            />
-          </form>
-        ) : (
-          <form
-            className="flex flex-col w-full items-center gap-[3.625rem]"
-            onSubmit={handlePasswordSubmit}
-          >
-            <div className="flex flex-col gap-[0.75rem] self-stretch">
-              <StepPassword control={signupControl} />
-            </div>
-            <Button
-              label="회원가입"
-              state={isValid ? "default" : "disabled"}
-              type="submit"
-              variant="blue"
-            />
-          </form>
-        )}
+        <FormProvider {...methods}>
+          <Form className="w-full" onSubmit={onSubmit}>
+            {step === "authCode" &&
+              <div className="flex flex-col gap-[0.75rem] self-stretch">
+                <StepAuthcode setStep={setStep} />
+              </div>
+            }
+            {step === "password" &&
+              <div className="flex flex-col gap-[0.75rem] self-stretch">
+                <StepPassword />
+              </div>
+            }
+          </Form>
+        </FormProvider>
       </AuthForm>
     </div>
   );

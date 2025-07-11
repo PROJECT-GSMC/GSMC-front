@@ -41,8 +41,8 @@ export default function Information() {
             <small className="text-body2 text-gray-600">{`${student.grade}학년 ${student.classNumber}반 ${student.number}번`}</small>
           </div>
           <div
-            onClick={open}
             className="text-tropicalblue-700 cursor-pointer mt-[1.25rem] md:mb-[2.56rem] sm:mb-[1.75rem] mb-[3rem] text-titleMedium h-[32rem] max-md:h-[10rem] max-lg:h-[10rem] flex items-center justify-center rounded-[0.75rem] bg-white"
+            onClick={open}
           >
             {student.totalScore + "점"}
           </div>
@@ -53,9 +53,9 @@ export default function Information() {
         <Button label="점수 관리" variant="skyblue" onClick={handleScore} />
       </div>
       <ScoreModal
-        show={modal}
-        id={student?.email?.split("@")[0]?.slice(1) as string}
         close={close}
+        id={student.email.split("@")[0]?.slice(1) ?? ""}
+        show={modal}
       />
     </div>
   );

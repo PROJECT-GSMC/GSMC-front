@@ -111,7 +111,7 @@ const EditForm = () => {
   const {
     handleSubmit,
     control,
-    formState: { isValid },
+    formState: { isValid, errors },
   } = useForm<FormValues>({
     mode: "onChange",
     defaultValues: getDefaultValues(type, post),
@@ -172,7 +172,11 @@ const EditForm = () => {
             />
           ) : null}
 
-          <InputContainer label="제목">
+          <InputContainer
+            error={errors.title}
+            htmlFor="title"
+            label="제목"
+          >
             <Input<FormValues>
               control={control}
               name="title"
@@ -184,7 +188,11 @@ const EditForm = () => {
 
           {type === "reading" && (
             <>
-              <InputContainer label="저자">
+              <InputContainer
+                error={errors.author}
+                htmlFor="author"
+                label="저자"
+              >
                 <Input<FormValues>
                   control={control}
                   name="author"
@@ -193,7 +201,11 @@ const EditForm = () => {
                   }}
                 />
               </InputContainer>
-              <InputContainer label="페이지">
+              <InputContainer
+                error={errors.page}
+                htmlFor="page"
+                label="페이지
+              ">
                 <Input<FormValues>
                   control={control}
                   name="page"
