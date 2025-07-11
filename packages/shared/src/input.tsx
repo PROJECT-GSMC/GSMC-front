@@ -5,12 +5,11 @@ interface InputProps<T extends FieldValues> {
   name: Path<T>;
   control: Control<T>;
   rules?: RegisterOptions<T, Path<T>>;
-  placeholder?: string;
   type?: HTMLInputTypeAttribute;
   className?: string;
 }
 
-const Input = <T extends FieldValues>({ name, control, rules, type = "text", className, placeholder }: InputProps<T>) => {
+const Input = <T extends FieldValues>({ name, control, rules, type = "text", className }: InputProps<T>) => {
   const { field: { onChange, onBlur, value, ref }, fieldState: { error } } = useController({ name, control, rules })
 
   return (
@@ -24,7 +23,6 @@ const Input = <T extends FieldValues>({ name, control, rules, type = "text", cla
           name={name}
           id={name}
           type={type}
-          placeholder={placeholder}
           value={value}
           onChange={onChange}
           onBlur={onBlur}
