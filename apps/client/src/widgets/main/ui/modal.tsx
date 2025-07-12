@@ -30,7 +30,19 @@ const Modal = ({ onClose, type }: ModalProps) => {
     handleSubmit,
     control,
     formState: { isValid, errors },
-  } = useForm<Evidence>({ mode: "onChange" });
+  } = useForm<Evidence>({
+    defaultValues: {
+      categoryName: "",
+      file: undefined,
+      acquisitionDate: new Date,
+      value: 0,
+      option: {
+        send: "",
+        name: ""
+      }
+    },
+    mode: "onChange"
+  });
 
   const handleCloseModal = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -129,11 +141,13 @@ const Modal = ({ onClose, type }: ModalProps) => {
         onClick={handleStopPropagation}
       >
         <h1 className="text-title4s mb-6 text-center">
-          {type === "TOPCIT"
-            ? "TOPCIT"
-            : (type === "READ_A_THON"
-              ? "독서로"
-              : "자격증")}
+          {type === "TOPCIT" ?
+            "TOPCIT" :
+            (type === "READ_A_THON" ?
+              "독서로" :
+              "자격증"
+            )
+          }
         </h1>
 
         <form
@@ -152,7 +166,9 @@ const Modal = ({ onClose, type }: ModalProps) => {
                   {...field}
                 />
               )}
-              rules={{ required: true }}
+              rules={{
+                required: "카테고리를 선택해주세요."
+              }}
             />
           ) : (
             <InputContainer
@@ -163,7 +179,9 @@ const Modal = ({ onClose, type }: ModalProps) => {
               <Input
                 control={control}
                 name={type === "TOPCIT" ? "value" : "categoryName"}
-                rules={{ required: true }}
+                rules={{
+                  required: "값을 입력해주세요."
+                }}
                 type={type === "TOPCIT" ? "number" : "text"}
               />
             </InputContainer>
@@ -177,7 +195,10 @@ const Modal = ({ onClose, type }: ModalProps) => {
               <Input
                 control={control}
                 name="acquisitionDate"
-                rules={{ required: true }}
+                rules={{
+                  required: "취득일을 선택해주세요.",
+                  valueAsDate: true
+                }}
                 type="date"
               />
             </InputContainer>
@@ -187,7 +208,9 @@ const Modal = ({ onClose, type }: ModalProps) => {
             name="file"
             // eslint-disable-next-line react/jsx-no-bind
             render={({ field }) => <File label="파일 첨부" {...field} />}
-            rules={{ required: true }}
+            rules={{
+              required: "취득 여부를 구분할 수 있는 파일을 첨부해주세요."
+            }}
           />
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
             <Button label="뒤로가기" variant="skyblue" onClick={onClose} />
