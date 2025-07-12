@@ -121,12 +121,12 @@ const EditForm = () => {
 
   const handleEditSubmit = useCallback((data: FormValues) => {
     editMutatation(data)
-    router.back()
+    router.replace("/posts")
   }, [router, editMutatation]);
 
   const handleDraftSubmit = useCallback((data: FormValues) => {
     draftMutation(data)
-    router.back()
+    router.replace("/posts")
   }, [draftMutation, router]);
 
   const handleReviseSubmit = useCallback((e: React.FormEvent<HTMLFormElement>) => {

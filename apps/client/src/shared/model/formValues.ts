@@ -9,7 +9,7 @@ export interface FormValues {
   categoryName?: Option;
   file?: File;
   author?: string;
-  page?: string;
+  page?: number;
   value?: number;
   draftId?: string;
 }
