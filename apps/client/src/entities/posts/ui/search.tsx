@@ -25,7 +25,11 @@ const Search = ({ setResult, search, type, setSearch }: SearchProps) => {
         const search = await getSearchResult(debouncedValue, type);
         setResult(search);
       } catch {
-        toast.error("게시물 검색중 오류가 발생했습니다.");
+        if (type == "DRAFT") {
+          toast.error("임시저장 게시물은 검색하실 수 없습니다.")
+        } else {
+          toast.error("게시물 검색중 오류가 발생했습니다.");
+        }
       }
     };
 
