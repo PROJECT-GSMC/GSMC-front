@@ -32,7 +32,7 @@ const DetailView = () => {
     onSuccess: (data) => {
       if (data.status === 204) {
         toast.success("게시글이 삭제되었습니다");
-        router.push("/posts");
+        router.replace("/posts");
       }
     },
     onError: (error: HttpError) => {
