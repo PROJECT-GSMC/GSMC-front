@@ -223,7 +223,8 @@ export default function WriteForm() {
               // eslint-disable-next-line react/jsx-no-bind
               render={({ field: { value, onChange, ...field } }) => (
                 <File
-                  label="이미지"
+                  isImg={!(type == "others")}
+                  label={`${type == "others" ? "파일" : "이미지"}`}
                   value={value as File}
                   onChange={onChange}
                   {...field}
