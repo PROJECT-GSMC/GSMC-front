@@ -1,3 +1,4 @@
+import Header from "@/widgets/header/ui";
 import { PostProvider } from "@repo/store/postProvider";
 import type { Metadata } from "next";
 import { Toaster } from "sonner";
@@ -6,8 +7,6 @@ import "./globals.css";
 import Providers from "./providers";
 
 import { MemberProvider } from "@/entities/member/model/memberContext";
-import Header from "@/shared/ui/header";
-
 
 export const metadata: Metadata = {
   title: "GSMC",

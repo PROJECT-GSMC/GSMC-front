@@ -1,10 +1,13 @@
+"use client"
+
 import TextLogo from "@repo/shared/textLogo";
 import { deleteCookie } from "@repo/utils/deleteCookie";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback } from "react";
 
 const Header = () => {
+  const pathname = usePathname();
   const router = useRouter();
 
   const signout = useCallback(() => {
@@ -12,6 +15,9 @@ const Header = () => {
     deleteCookie("refreshToken");
     router.push("/signin");
   }, [router]);
+
+  if (pathname === "/signin" || pathname === "/signup") return null;
+
   return (
     <header className="sm:py-[1.4rem] py-[1rem] flex w-full justify-around items-center border-b">
       <Link className="flex items-center" href="/">
