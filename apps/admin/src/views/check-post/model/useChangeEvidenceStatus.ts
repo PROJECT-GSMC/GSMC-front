@@ -1,3 +1,5 @@
+"use client";
+
 import type { PostStatus } from "@repo/types/evidences";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
