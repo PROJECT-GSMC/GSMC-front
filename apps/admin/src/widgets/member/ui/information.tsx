@@ -34,7 +34,7 @@ export default function Information() {
   }
 
   return (
-    <div className="flex flex-col justify-between h-full bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem]">
+    <div className="flex flex-col justify-between min-w-[21.875rem] h-full bg-tropicalblue-100 rounded-[1.25rem] px-[2.45rem] py-[2.25rem]">
       <h3 className="text-titleSmall text-tropicalblue-700 my-3">
         인적사항
       </h3>
