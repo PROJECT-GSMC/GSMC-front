@@ -1,7 +1,7 @@
 "use client";
 
 import { usePost } from "@repo/store/postProvider";
-import type { post } from "@repo/types/evidences";
+import type { PostType } from "@repo/types/evidences";
 import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 
@@ -10,25 +10,29 @@ import Mock from "@shared/mocks/data/evidenceMock.json";
 
 export default function ExampleWidget() {
   const { setPost } = usePost();
-  const R = useRouter();
+  const router = useRouter();
 
-  const handleExamplePost = useCallback(
-    (data: post) => () => {
-      setPost(data);
-      R.push(`/detail/${data.id}?example=${true}`);
-    },
-    [R, setPost],
-  );
+  const handleRoute = useCallback((mock: PostType) => () => {
+    setPost(mock);
+    router.push(`/detail/${mock.id}?example=${true}`);
+  }, [router, setPost]);
+
+  const mockPosts: PostType[] = [
+    ...(Mock.majorActivityEvidence),
+    ...(Mock.humanitiesActivityEvidence),
+    ...(Mock.readingEvidence),
+    ...(Mock.otherEvidence),
+  ] as PostType[];
 
   return (
     <div className="flex mt-[2.69rem] overflow-y-visible flex-wrap sm:justify-start justify-center w-full gap-[1.12rem]">
-      {Mock.map((data) => {
+      {mockPosts.map((mock) => {
         return (
           <Post
             isExample
-            data={data as post}
-            key={data.id}
-            onClick={handleExamplePost(data as post)}
+            data={mock}
+            key={mock.id}
+            onClick={handleRoute(mock)}
           />
         );
       })}

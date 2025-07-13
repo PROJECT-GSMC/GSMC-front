@@ -1,4 +1,4 @@
-import { role } from "@repo/types/member";
+import type { role } from "@repo/types/member";
 
 export interface Member {
   email: string;

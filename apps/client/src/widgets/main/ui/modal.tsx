@@ -8,8 +8,8 @@ import React, { useCallback } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-import type { HttpError } from "@/shared/types/error";
-import { FixScore } from "@shared/api/fixScore";
+import type { HttpError } from "@/shared/model/error";
+import { PostScore } from "@shared/api/postScore";
 import Dropdown from "@shared/ui/dropdown";
 import File from "@shared/ui/file";
 
@@ -29,8 +29,20 @@ const Modal = ({ onClose, type }: ModalProps) => {
   const {
     handleSubmit,
     control,
-    formState: { isValid },
-  } = useForm<Evidence>({ mode: "onChange" });
+    formState: { isValid, errors },
+  } = useForm<Evidence>({
+    defaultValues: {
+      categoryName: "",
+      file: undefined,
+      acquisitionDate: new Date,
+      value: 0,
+      option: {
+        send: "",
+        name: ""
+      }
+    },
+    mode: "onChange"
+  });
 
   const handleCloseModal = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (e.target === e.currentTarget) {
@@ -53,14 +65,17 @@ const Modal = ({ onClose, type }: ModalProps) => {
           });
         }
         case "TOPCIT": {
-          return await FixScore({
+          return await PostScore({
             categoryName: "MAJOR-TOPCIT_SCORE",
             file: data.file,
             value: Number(data.value),
           });
         }
         case "READ_A_THON": {
-          return await sendEvidence(data);
+          return await sendEvidence({
+            categoryName: data.option.send,
+            file: data.file
+          });
         }
         case "HUMANITY": {
           return await sendCertification({
@@ -126,11 +141,13 @@ const Modal = ({ onClose, type }: ModalProps) => {
         onClick={handleStopPropagation}
       >
         <h1 className="text-title4s mb-6 text-center">
-          {type === "TOPCIT"
-            ? "TOPCIT"
-            : (type === "READ_A_THON"
-              ? "독서로"
-              : "자격증")}
+          {type === "TOPCIT" ?
+            "TOPCIT" :
+            (type === "READ_A_THON" ?
+              "독서로" :
+              "자격증"
+            )
+          }
         </h1>
 
         <form
@@ -149,26 +166,39 @@ const Modal = ({ onClose, type }: ModalProps) => {
                   {...field}
                 />
               )}
-              rules={{ required: true }}
+              rules={{
+                required: "카테고리를 선택해주세요."
+              }}
             />
           ) : (
             <InputContainer
+              error={type == "TOPCIT" ? errors.value : errors.categoryName}
+              htmlFor={type === "TOPCIT" ? "value" : "categoryName"}
               label={type === "TOPCIT" ? "TOPCIT 점수" : "자격증 작성하기"}
             >
               <Input
                 control={control}
                 name={type === "TOPCIT" ? "value" : "categoryName"}
-                rules={{ required: true }}
+                rules={{
+                  required: "값을 입력해주세요."
+                }}
                 type={type === "TOPCIT" ? "number" : "text"}
               />
             </InputContainer>
           )}
           {(type === "CERTIFICATE" || type === "HUMANITY") && (
-            <InputContainer label="취득일">
+            <InputContainer
+              error={errors.acquisitionDate}
+              htmlFor="acquisitionDate"
+              label="취득일"
+            >
               <Input
                 control={control}
                 name="acquisitionDate"
-                rules={{ required: true }}
+                rules={{
+                  required: "취득일을 선택해주세요.",
+                  valueAsDate: true
+                }}
                 type="date"
               />
             </InputContainer>
@@ -177,8 +207,10 @@ const Modal = ({ onClose, type }: ModalProps) => {
             control={control}
             name="file"
             // eslint-disable-next-line react/jsx-no-bind
-            render={({ field }) => <File label="파일 첨부" {...field} />}
-            rules={{ required: true }}
+            render={({ field }) => <File isImg={false} label="파일 첨부" {...field} />}
+            rules={{
+              required: "취득 여부를 구분할 수 있는 파일을 첨부해주세요."
+            }}
           />
           <div className="mt-[3.97rem] flex flex-col gap-[0.75rem]">
             <Button label="뒤로가기" variant="skyblue" onClick={onClose} />

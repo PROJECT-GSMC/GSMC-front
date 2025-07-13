@@ -1,10 +1,10 @@
 import instance from "@repo/api/axios";
 import { isAxiosError, type AxiosResponse } from "axios";
 
-import type { Certification } from "../model/certification";
+import type { CertificationRequest } from "@/shared/model/certification";
 
 export const sendCertification = async (
-  data: Certification
+  data: CertificationRequest
 ): Promise<AxiosResponse> => {
   try {
     const formData = new FormData();

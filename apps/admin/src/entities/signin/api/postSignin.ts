@@ -1,33 +1,21 @@
 import instance from "@repo/api/axios";
 import { isAxiosError, type AxiosResponse } from "axios";
 
-import type { SigninFormProps } from "@/shared/model/AuthForm";
-
-interface SigninResponse {
-  accessToken: string;
-  refreshToken: string;
-}
+import type {
+  SigninFormProps,
+  SigninFormResponse,
+} from "@/shared/model/signin";
 
 export const postSignin = async (
-  form: SigninFormProps,
-): Promise<SigninResponse> => {
+  form: SigninFormProps
+): Promise<AxiosResponse<SigninFormResponse>> => {
   try {
-    const response: AxiosResponse<SigninResponse> = await instance.post(
-      `/auth/signin`,
-      form,
-    );
-    return response.data;
-  } catch (error: unknown) {
+    const response = await instance.post(`/auth/signin`, form);
+    return response;
+  } catch (error) {
     if (isAxiosError(error) && error.response) {
-      const message =
-        typeof error.response.data === "object" &&
-        error.response.data !== null &&
-        "message" in error.response.data
-          ? (error.response.data as { message?: string }).message
-          : undefined;
-
-      throw new Error(message ?? "로그인 실패");
+      throw error.response.data ?? "로그인 실패";
     }
-    throw new Error("알 수 없는 로그인 에러 발생");
+    throw error;
   }
 };

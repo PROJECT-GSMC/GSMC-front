@@ -48,7 +48,7 @@ const Card = ({
       className={`flex justify-between w-[100%] cursor-pointer h-[69px] text-gray-600 text-label py-[1.5rem] px-[2rem] ${className}`}
     >
       <div className="flex items-center gap-1">
-        <span>{front}</span>
+        <span className="line-clamp-1">{front}</span>
         {Pending === true && <span className="text-errors-500">*</span>}
       </div>
 

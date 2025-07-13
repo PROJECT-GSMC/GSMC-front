@@ -1,5 +1,5 @@
 import instance from "@repo/api/axios";
-import type { postState } from "@repo/types/evidences";
+import type { PostStatus } from "@repo/types/evidences";
 
 interface ChangeEvidenceStateResponse {
   status: number;
@@ -8,11 +8,11 @@ interface ChangeEvidenceStateResponse {
 
 export const changeEvidenceState = async (
   evidenceId: number,
-  status: postState,
+  status: PostStatus
 ): Promise<ChangeEvidenceStateResponse> => {
   const response = await instance.patch<ChangeEvidenceStateResponse>(
     `/evidence/${evidenceId}/status`,
-    { status },
+    { status }
   );
   return response;
 };

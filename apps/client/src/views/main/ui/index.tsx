@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
 
 import ShowSignin from "@/entities/main/ui/showSignin";
-import { useGetCurrentMember } from "@/shared/model/useGetCurrentMember";
+import { useGetCurrentMember } from "@/shared/lib/useGetCurrentMember";
 import { getCertification } from "@entities/main/api/getCertification";
 import MainDropdown from "@entities/main/ui/dropdown";
 import { ShowInformation } from "@entities/main/ui/showInformation";
@@ -28,9 +28,9 @@ const MainView = () => {
     setAccessToken(token);
   }, []);
 
-  const { data: currentUser } = useGetCurrentMember();
+  const { data: currentUser, refetch: currentUserRefetch } = useGetCurrentMember();
 
-  const { data: certification, refetch } = useQuery({
+  const { data: certification, refetch: certificationRefetch } = useQuery({
     queryKey: ["certifications"],
     queryFn: getCertification,
     enabled: !(accessToken == null),
@@ -39,26 +39,22 @@ const MainView = () => {
   const handleHoverDropdown = useCallback(
     (category: string) => () => {
       setHoverTab(category);
-    },
-    [],
-  );
+    }, []);
 
   const handleLeaveDropdown = useCallback(() => {
     setHoverTab(null);
   }, []);
 
-  const handleOpenModal = useCallback(
-    (modalname: ModalType) => () => {
-      setType(modalname);
-      setShow(true);
-    },
-    [],
-  );
+  const handleOpenModal = useCallback((modalname: ModalType) => () => {
+    setType(modalname);
+    setShow(true);
+  }, []);
 
   const handleCloseModal = useCallback(() => {
     setShow(false);
-    void refetch();
-  }, [refetch]);
+    void currentUserRefetch();
+    void certificationRefetch();
+  }, [certificationRefetch, currentUserRefetch]);
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
@@ -156,28 +152,26 @@ const MainView = () => {
               </div>
             </MainDropdown>
           </div>
-          <Link className="w-full" href="/write?type=foreign">
+          <Link className="w-full" href="/write?type=others">
             <Button label="외국어" variant="skyblue" />
           </Link>
         </div>
         <div className="flex flex-col my-9 mx-4">
-          <List title="자격증">
-            <section className="relative h-[28.125rem]">
-              {accessToken == null ? (
-                <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
-                  로그인 후 확인가능합니다.
-                </h4>
-              ) : (certification &&
-                certification.data.certificates.length > 0 ? (
-                certification.data.certificates.map((v, i) => (
-                  <Card front={v.name} id={v.id} key={i} />
-                ))
-              ) : (
-                <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
-                  등록된 자격증이 존재하지 않습니다.
-                </h4>
-              ))}
-            </section>
+          <List className="relative h-[28.125rem]" title="자격증">
+            {accessToken == null ? (
+              <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
+                로그인 후 확인가능합니다.
+              </h4>
+            ) : (certification &&
+              certification.certificates.length > 0 ? (
+              certification.certificates.map((v, i) => (
+                <Card front={v.name} id={v.id} key={i} />
+              ))
+            ) : (
+              <h4 className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center text-body3">
+                등록된 자격증이 존재하지 않습니다.
+              </h4>
+            ))}
           </List>
         </div>
       </div>

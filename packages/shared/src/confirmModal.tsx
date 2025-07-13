@@ -9,12 +9,8 @@ interface ConfirmModalProps {
 
 const ConfirmModal = ({ description, title, confirm, cancel }: ConfirmModalProps) => {
   return (
-    <div
-      className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
-    >
-      <article
-        className="w-[26.25rem] h-[12.6875rem] flex flex-col justify-between bg-white rounded-[0.75rem] pt-4 px-[1.5rem]"
-      >
+    <div className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
+      <article className="w-[26.25rem] h-[12.6875rem] flex flex-col justify-between bg-white rounded-[0.75rem] pt-4 px-[1.5rem]">
         <section className='flex flex-col items-start p-4 gap-4'>
           <h2 className='text-body1s'>
             {title}

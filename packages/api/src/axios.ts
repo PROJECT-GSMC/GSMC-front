@@ -6,6 +6,7 @@ import axios, {
   type InternalAxiosRequestConfig,
   type CreateAxiosDefaults,
   AxiosHeaders,
+  AxiosError,
 } from "axios";
 
 const TIMEOUT = 10_000;
@@ -40,7 +41,7 @@ if (typeof globalThis.window === "object") {
 
 instance.interceptors.response.use(
   (response) => response,
-  (error) => {
+  (error: AxiosError) => {
     if (error.response?.status === 403) {
       deleteCookie("accessToken");
       deleteCookie("refreshToken");

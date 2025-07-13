@@ -9,8 +9,4 @@ export interface Member {
   hasPendingEvidence?: boolean;
 }
 
-export type role =
-  | "ROLE_STUDENT"
-  | "ROLE_HOOMROOM_TEACHER"
-  | "ROLE_MAISTER_TEACHER"
-  | "ROLE_DEVELOPER";
+export type role = "ROLE_ADMIN" | "ROLE_STUDENT" | "ROLE_TEACHER";

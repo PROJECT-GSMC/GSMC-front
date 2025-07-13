@@ -2,14 +2,14 @@
 
 import { useDebounce } from "@repo/hooks/useDebounce";
 import SearchIcon from "@repo/shared/search";
-import type { EvidenceResponse } from "@repo/types/evidences";
+import type { PostResponse } from "@repo/types/evidences";
 import { useCallback, useEffect } from "react";
 import { toast } from "sonner";
 
 import { getSearchResult } from "../api/getSearchResult";
 
 interface SearchProps {
-  setResult: (result: EvidenceResponse) => void;
+  setResult: (result: PostResponse) => void;
   search: string;
   setSearch: (search: string) => void;
   type?: string;
@@ -21,16 +21,14 @@ const Search = ({ setResult, search, type, setSearch }: SearchProps) => {
   useEffect(() => {
     const fetchSearchResult = async () => {
       if (!debouncedValue) return;
-
       try {
         const search = await getSearchResult(debouncedValue, type);
-        setResult(search.data as EvidenceResponse);
+        setResult(search);
       } catch {
-        toast.error("게시물 검색중 오류가 발생했습니다.");
+        toast.error(type == "DRAFT" ? "임시저장 게시물은 검색하실 수 없습니다." : "게시물 검색중 오류가 발생했습니다.")
       }
     };
 
-    // Promise를 명시적으로 처리
     void fetchSearchResult();
   }, [debouncedValue, setResult, type]);
 

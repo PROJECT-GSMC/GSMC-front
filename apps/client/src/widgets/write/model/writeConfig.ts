@@ -1,27 +1,32 @@
-import { sendScore } from "@/shared/api/sendScore";
-import { majorCategoryOptions } from "@/widgets/calculate/model/category";
-import type { FormValues } from "@/widgets/edit/types/types";
-import { CharacterCategory } from "@/widgets/write/model/category";
+import type { AxiosResponse } from "axios";
 
-import { handleSubmitBook } from "../lib/handleBookSubmit";
+import type { ConfigType } from "@/shared/model/config";
+import type { FormValues, Option } from "@/shared/model/formValues";
+import {
+  MajorOptions,
+  HumanitiesOptions,
+  ForeignOptions,
+} from "@/widgets/write/model/category";
+
+import { postScoring } from "../api/postScoring";
 import { handleSubmitActivity } from "../lib/handleSubmitActivity";
-
-import { foreignOptions } from "./foreignOptions";
+import { handleSubmitReading } from "../lib/handleSubmitReading";
 
 interface Config {
   title: string;
-  categoryOptions?: { name: string; send: string }[];
-  onSubmit: (data: FormValues, type: "draft" | "submit") => Promise<void>;
+  categoryOptions?: Option[];
+  onSubmit: (
+    data: FormValues,
+    type: "draft" | "submit"
+  ) => Promise<AxiosResponse>;
 }
 
-export const getWriteConfig = (
-  type: "major" | "humanities" | "reading" | "others" | "foreign"
-): Config => {
+export const getWriteConfig = (type: ConfigType): Config => {
   switch (type) {
     case "major": {
       return {
         title: "전공 영역",
-        categoryOptions: majorCategoryOptions,
+        categoryOptions: MajorOptions,
         onSubmit: async (data: FormValues, type) => {
           const formData = new FormData();
           if (data.file) {
@@ -35,14 +40,14 @@ export const getWriteConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "MAJOR");
 
-          await handleSubmitActivity(type, formData);
+          return await handleSubmitActivity(type, formData);
         },
       };
     }
     case "humanities": {
       return {
         title: "인성 영역",
-        categoryOptions: CharacterCategory,
+        categoryOptions: HumanitiesOptions,
         onSubmit: async (data: FormValues, type) => {
           const formData = new FormData();
           if (data.file) {
@@ -56,7 +61,7 @@ export const getWriteConfig = (
           formData.append("content", data.content || "");
           formData.append("activityType", "HUMANITIES");
 
-          await handleSubmitActivity(type, formData);
+          return await handleSubmitActivity(type, formData);
         },
       };
     }
@@ -71,30 +76,22 @@ export const getWriteConfig = (
             content: data.content || "",
             draftId: data.draftId ?? null,
           };
-          await handleSubmitBook(bookData, type);
+          return await handleSubmitReading(bookData, type);
         },
       };
     }
     case "others": {
       return {
-        title: "기타 증빙 자료",
-        onSubmit: async () => {
-          // No submission logic implemented for 'others' category yet.
-        },
-      };
-    }
-    case "foreign": {
-      return {
         title: "외국어 영역",
-        categoryOptions: foreignOptions,
+        categoryOptions: ForeignOptions,
         onSubmit: async (data: FormValues) => {
           const formData = new FormData();
           if (data.file) {
             formData.append("file", data.file);
           }
           formData.append("categoryName", data.categoryName?.send ?? "");
-          formData.append("value", data.title || "");
-          await sendScore(formData);
+          formData.append("value", String(data.value));
+          return await postScoring(formData);
         },
       };
     }
