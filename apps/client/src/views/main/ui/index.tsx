@@ -28,9 +28,9 @@ const MainView = () => {
     setAccessToken(token);
   }, []);
 
-  const { data: currentUser } = useGetCurrentMember();
+  const { data: currentUser, refetch: currentUserRefetch } = useGetCurrentMember();
 
-  const { data: certification, refetch } = useQuery({
+  const { data: certification, refetch: certificationRefetch } = useQuery({
     queryKey: ["certifications"],
     queryFn: getCertification,
     enabled: !(accessToken == null),
@@ -52,8 +52,9 @@ const MainView = () => {
 
   const handleCloseModal = useCallback(() => {
     setShow(false);
-    void refetch();
-  }, [refetch]);
+    void currentUserRefetch();
+    void certificationRefetch();
+  }, [certificationRefetch, currentUserRefetch]);
 
   return (
     <div className="flex flex-col justify-center items-center w-full h-full">
