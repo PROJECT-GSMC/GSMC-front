@@ -6,4 +6,5 @@ export interface ScoreResponse {
 export interface Score {
   categoryName: string;
   value: number;
+  convertedValue: number;
 }
