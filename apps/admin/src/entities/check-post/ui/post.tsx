@@ -33,7 +33,7 @@ const Post = ({ data, onClick }: PostProps) => {
       className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem]"
       onClick={onClick}
     >
-      <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
+      <div className="flex items-center justify-center bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
         {imageUri == null ? null : (
           <Image
             alt="gsmc"
