@@ -16,28 +16,22 @@ interface ScoreModalProps {
 export default function ScoreModal({ show, close, id }: ScoreModalProps) {
   const { data } = useGetScore(id);
   if (!show) return null;
+
   return (
     <div className="fixed inset-0 z-10 bg-[rgba(17,17,17,0.2)] flex items-center justify-center">
-      <div className="gap-6 flex flex-col bg-white z-20 rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-sm:w-[20.5rem]">
-        <h3 className="text-tropicalblue-700 text-titleSmall">부분점수</h3>
-        <List className="p-0">
-          {data?.scores.map((v) => {
-            return (
-              <Card
-                back={v.convertedValue}
-                front={(() => {
-                  const transformedCategoryName = getCategoryName(
-                    v.categoryName
-                  ).replace(/^[^-]*-/, "");
-                  return transformedCategoryName.length > 20
-                    ? transformedCategoryName.slice(0, 20) + "..."
-                    : transformedCategoryName;
-                })()}
-                id={v.categoryName}
-                key={v.categoryName}
-              />
-            );
-          })}
+      <div className="flex flex-col z-20 gap-6 bg-white rounded-[1.25rem] px-[2.45rem] py-[2.25rem] max-sm:w-[20.5rem]">
+        <h3 className="text-tropicalblue-700 text-titleSmall">
+          부분점수
+        </h3>
+        <List className="w-[21.875rem] h-[46.875rem] p-0">
+          {data?.scores.map((v) => (
+            <Card
+              back={v.convertedValue}
+              front={getCategoryName(v.categoryName).replace(/^[^-]*-/, "")}
+              id={v.categoryName}
+              key={v.categoryName}
+            />
+          ))}
         </List>
         <Button label="뒤로가기" variant="skyblue" onClick={close} />
       </div>
