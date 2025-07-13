@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 import { getPosts } from "../api/getPosts";
 
-export const useGetPosts = (email: string, status: PostStatus | null) => {
+export const useGetPosts = (email: string, status: PostStatus) => {
   const query = useQuery({
     queryKey: ["posts", email, status],
     queryFn: () => getPosts(email, status),
