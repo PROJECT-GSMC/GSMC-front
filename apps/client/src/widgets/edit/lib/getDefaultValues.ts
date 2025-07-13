@@ -36,7 +36,7 @@ export const getDefaultValues = (
         return {
           title: post.title,
           author: post.author,
-          page: String(post.page),
+          page: post.page,
           content: post.content,
         };
       }

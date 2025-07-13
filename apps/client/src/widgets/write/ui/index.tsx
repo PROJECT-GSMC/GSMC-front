@@ -60,6 +60,9 @@ export default function WriteForm() {
         send: "",
       },
       file: undefined,
+      author: "",
+      page: 0,
+      value: 0,
     },
   });
 
@@ -171,15 +174,17 @@ export default function WriteForm() {
                   control={control}
                   name={type === "reading" ? "page" : "value"}
                   rules={{
-                    maxLength: {
-                      value: 5,
-                      message: "5자 이내로 입력해주세요"
+                    valueAsNumber: true,
+                    max: {
+                      value: 10_000,
+                      message: "최대 10000까지만 입력가능합니다."
                     },
                     required:
                       type === "reading"
                         ? "페이지를 입력해주세요."
                         : "점수를 입력해주세요.",
                   }}
+                  type="number"
                 />
               </InputContainer>
             </>
@@ -218,7 +223,8 @@ export default function WriteForm() {
               // eslint-disable-next-line react/jsx-no-bind
               render={({ field: { value, onChange, ...field } }) => (
                 <File
-                  label="이미지"
+                  isImg={!(type == "others")}
+                  label={`${type == "others" ? "파일" : "이미지"}`}
                   value={value as File}
                   onChange={onChange}
                   {...field}
