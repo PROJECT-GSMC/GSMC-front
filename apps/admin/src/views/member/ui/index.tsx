@@ -6,14 +6,14 @@ import List from "@repo/shared/list";
 import type { Member } from "@repo/types/member";
 import Question from "@shared/asset/svg/question";
 import Header from "@shared/ui/header";
-import { getMember } from "@widgets/member/api/getMember";
-import { useGetMember } from "@widgets/member/model/useGetMember";
 import { Filter } from "@widgets/member/ui/filter";
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
 
 import { getSearchedMembers } from "@/entities/member/api/getSearchedMembers";
 import { useMember } from "@/entities/member/model/memberContext";
+import { getMember } from "@/shared/api/getMember";
+import { useGetMembers } from "@/shared/model/useGetMembers";
 import Information from "@/widgets/member/ui/information";
 
 const MemberView = () => {
@@ -25,11 +25,11 @@ const MemberView = () => {
   const [classNumber, setClassNumber] = useState<number>();
   const [name, setName] = useState<string>();
 
-  const { data, error, isLoading } = useGetMember();
+  const { data, error, isLoading } = useGetMembers();
 
   if (error) toast.error("학생 목록을 불러오지 못했습니다.");
 
-  const members = (data?.data ?? []) as Member[];
+  const members = (data?.data ?? []);
 
   const resetFilter = useCallback((): void => {
     setGrade(undefined);
@@ -40,6 +40,7 @@ const MemberView = () => {
   const handleOpen = useCallback((): void => {
     setOpen((prev) => !prev);
   }, []);
+
   const handleCardClick = useCallback(
     async (email: string): Promise<void> => {
       setClick(email);
