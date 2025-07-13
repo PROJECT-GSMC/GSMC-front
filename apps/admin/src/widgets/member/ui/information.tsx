@@ -6,6 +6,7 @@ import { useCallback, useState } from "react";
 
 import { useMember } from "@/entities/member/model/memberContext";
 import ScoreModal from "@/entities/member/ui/scoreModal";
+import { extractStudentCode } from "@/shared/util/extractStudentId";
 
 export default function Information() {
   const [modal, setModal] = useState(false);
@@ -54,7 +55,7 @@ export default function Information() {
       </div>
       <ScoreModal
         close={close}
-        id={student.email.split("@")[0]?.slice(1) ?? ""}
+        id={extractStudentCode(student.email) ?? ""}
         show={modal}
       />
     </div>
