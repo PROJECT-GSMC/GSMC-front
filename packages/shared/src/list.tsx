@@ -20,7 +20,7 @@ const List = ({
   onClick,
 }: ListProps) => {
   return (
-    <div className={`px-[2.25rem] py-[3.5rem] bg-tropicalblue-100 rounded-[1.25rem] overflow-y-auto ${className}`}>
+    <div className={`px-[2.25rem] py-[3.5rem] bg-tropicalblue-100 rounded-[1.25rem] overflow-hidden ${className}`}>
       <div className="flex justify-between items-center">
         <h4 className="text-tropicalblue-700 text-titleSmall">
           {title}
