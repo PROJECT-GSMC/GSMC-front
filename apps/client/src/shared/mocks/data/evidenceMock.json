@@ -29,7 +29,8 @@
       "title": "C언어 코딩 콘테스트 참여",
       "content": "2024년 5월부터 6월까지 진행된 교내 C언어 코딩 콘테스트에서 DB 서버와 curl 라이브러리를 활용해 실시간 온라인 게임인 'project return(회귀)'를 개발하였다. 포인터 누수로 인한 DB 연결 중단 문제를 해결하기 위해 포인터 관리 기능을 도입하였고, 이메일 전송 기능도 직접 구현하였다. 총 누적 75,000줄에 달하는 코드 작업 끝에 최우수상을 수상하였다.",
       "categoryName": "전공영역-교내 해커톤 대회",
-      "status": "APPROVE"
+      "status": "APPROVE",
+      "imageUri": null
     },
     {
       "id": 10,
@@ -44,14 +45,16 @@
       "title": "아이디어 페스티벌",
       "content": "학년별로 팀을 구성해 1년 동안 전공 수업을 통해 준비한 프로젝트를 발표하는 교내 행사에 참여하였다. 팀워크와 실무 경험을 통해 협업의 중요성과 발표 능력을 키울 수 있었다.",
       "categoryName": "전공영역-GSM FESTIVAL",
-      "status": "APPROVE"
+      "status": "APPROVE",
+      "imageUri": null
     },
     {
       "id": 14,
       "title": "전공 캠프",
       "content": "방학 동안 1주일간 학교에서 진행된 전공 캠프에 참여하여 Python, 백엔드, Git, 그리고 TOPCIT 대비 교육을 받았다. 실습 위주의 수업을 통해 백엔드 개발과 형상관리 도구에 대한 이해를 높일 수 있었고, 진로에 대한 방향을 설정하는 데 큰 도움이 되었다.",
       "categoryName": "전공영역-전공관련 방과후학교 이수",
-      "status": "APPROVE"
+      "status": "APPROVE",
+      "imageUri": null
     }
   ],
   "humanitiesActivityEvidence": [
@@ -60,14 +63,16 @@
       "title": "전기CAD기능사",
       "content": "2025년 1월부터 시작하여 3월까지 방과후 및 정규 수업을 통해 전기CAD기능사 자격증 필기를 준비하고, 이후 실기시험 대비까지 병행하였다. 학교 실습실을 활용해 꾸준히 실습하였고 5월 초에 자격증을 최종 취득하였다.",
       "categoryName": "인성영역-자기주도적 활동",
-      "status": "APPROVE"
+      "status": "APPROVE",
+      "imageUri": null
     },
     {
       "id": 12,
       "title": "한국사 자격증 1급",
       "content": "한국사 능력 검정 시험 1급 취득.",
       "categoryName": "인성영역-한국사자격증",
-      "status": "APPROVE"
+      "status": "APPROVE",
+      "imageUri": null
     }
   ],
   "readingEvidence": [

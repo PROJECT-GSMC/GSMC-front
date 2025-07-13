@@ -1,34 +1,37 @@
+"use client";
+
 import type { PostStatus } from "@repo/types/evidences";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 import { useCallback } from "react";
 import { toast } from "sonner";
 
 import { changeEvidenceState } from "@/entities/check-post/api/changeEvidenceState";
 
-export function useChangeEvidenceState(postId: number) {
+export function useChangeEvidenceStatus(postId: number) {
   const queryClient = useQueryClient();
+  const router = useRouter();
 
   const updatePostState = useCallback(
     async (state: PostStatus) => {
       try {
-        if (postId) {
-          const res = await changeEvidenceState(postId, state);
+        const res = await changeEvidenceState(postId, state);
 
-          if (res.status === 204) {
-            toast.success("게시글 상태가 변경되었습니다.");
+        if (res.status === 204) {
+          toast.success("게시글 상태가 변경되었습니다.");
 
-            // posts 쿼리만 무효화
-            await queryClient.invalidateQueries({
-              queryKey: ["posts"],
-              exact: false,
-            });
-          }
+          await queryClient.invalidateQueries({
+            queryKey: ["posts"],
+            exact: false,
+          });
+
+          router.back();
         }
       } catch {
         toast.error("게시글 상태 변경에 실패했습니다.");
       }
     },
-    [postId, queryClient]
+    [postId, queryClient, router]
   );
 
   const handlePostState = useCallback(

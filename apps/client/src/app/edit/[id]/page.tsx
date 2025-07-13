@@ -1,4 +1,4 @@
-import EditView from "@/views/edit";
+import EditView from "@/views/edit/ui";
 
 const EditPage = () => {
   return <EditView />;
