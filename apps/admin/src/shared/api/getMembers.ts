@@ -1,8 +1,8 @@
 import instance from "@repo/api/axios";
 import type { Member } from "@repo/types/member";
-import { isAxiosError } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 
-export const getMembers = async () => {
+export const getMembers = async (): Promise<AxiosResponse<Member[]>> => {
   try {
     const respone = await instance.get<Member[]>("/members/students");
     return respone;

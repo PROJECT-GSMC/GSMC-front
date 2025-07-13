@@ -1,10 +1,12 @@
 import instance from "@repo/api/axios";
 import type { Member } from "@repo/types/member";
-import { isAxiosError } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 
 import { extractStudentCode } from "@/shared/util/extractStudentId";
 
-export const getMember = async (email: string) => {
+export const getMember = async (
+  email: string
+): Promise<AxiosResponse<Member>> => {
   const studentCode = extractStudentCode(email);
   try {
     const respone = await instance.get<Member>(
