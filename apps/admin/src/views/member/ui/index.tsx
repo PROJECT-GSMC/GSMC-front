@@ -5,7 +5,6 @@ import Card from "@repo/shared/card";
 import List from "@repo/shared/list";
 import type { Member } from "@repo/types/member";
 import Question from "@shared/asset/svg/question";
-import Header from "@shared/ui/header";
 import { Filter } from "@widgets/member/ui/filter";
 import { useState, useCallback } from "react";
 import { toast } from "sonner";
@@ -85,7 +84,6 @@ const MemberView = () => {
 
   return (
     <div className="flex flex-col items-center gap-4 h-screen">
-      <Header />
       <main className="w-full h-full pt-[3.12rem] pb-[1.44rem] max-sm:px-[2.75rem] max-md:px-[4.75rem] md:px-[6.75rem]">
         <div className="h-full grid grid-cols-8 max-lg:grid-cols-1 max-lg:grid-rows-2 gap-[1.8rem]">
           <section className="col-span-5 max-lg:col-span-1">
