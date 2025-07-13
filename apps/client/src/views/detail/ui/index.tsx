@@ -48,7 +48,6 @@ const DetailView = () => {
     router.push(`/edit/${String(id)}?type=${type}`);
   }, [id, router, type]);
 
-
   const handleBack = useCallback(() => {
     router.back();
   }, [router]);
@@ -56,7 +55,6 @@ const DetailView = () => {
   const handleModalOpen = useCallback(() => {
     setModalOpen(true);
   }, []);
-
 
   const handleDelete = useCallback(() => {
     deletePostMutation(Number(id))
