@@ -5,7 +5,7 @@ import { getScore } from "../api/getScore";
 import type { ScoreResponse } from "./score";
 
 export const useGetScore = (id: string) => {
-  return useQuery<ScoreResponse | undefined>({
+  return useQuery<ScoreResponse>({
     queryKey: ["score", id],
     queryFn: () => getScore(id),
     enabled: !!id,
