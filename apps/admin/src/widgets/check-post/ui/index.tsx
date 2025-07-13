@@ -7,9 +7,9 @@ import { useParams, useRouter } from "next/navigation";
 import { useCallback, useState, useEffect } from "react";
 import { toast } from "sonner";
 
-import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
 import Post from "@/entities/check-post/ui/post";
 import { useMember } from "@/entities/member/model/memberContext";
+import { useGetMember } from "@/shared/model/useGetMember";
 import { useGetPosts } from "@/views/check-post/model/useGetPosts";
 
 export default function PostsWidget() {
@@ -24,7 +24,7 @@ export default function PostsWidget() {
     state,
   );
 
-  const { data: studentData, isError: isStudentError } = useGetStudent(
+  const { data: studentData, isError: isStudentError } = useGetMember(
     decodeURIComponent(String(student?.email ?? email)),
   );
 
