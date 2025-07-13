@@ -30,7 +30,7 @@ const Post = ({ data, onClick }: PostProps) => {
 
   return (
     <article
-      className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem] h-[276px]"
+      className="flex flex-col w-[188px] cursor-pointer rounded-[0.625rem]"
       onClick={onClick}
     >
       <div className="bg-gray-400 w-full h-[150px] rounded-t-[0.625rem] overflow-hidden">
@@ -46,8 +46,10 @@ const Post = ({ data, onClick }: PostProps) => {
       </div>
 
       <section className="px-[0.38rem] py-[0.75rem]">
-        <h3 className="text-body2 mb-[1rem] line-clamp-2">{title}</h3>
-        <p className="text-gray-400 text-body5 mb-[0.75rem] line-clamp-2">
+        <h3 className="text-body2 mb-[1rem] min-h-6 leading-6 line-clamp-2">
+          {title}
+        </h3>
+        <p className="text-gray-400 text-body5 mb-[0.75rem] min-h-12 leading-6 line-clamp-2">
           {subTitle}
         </p>
         {state ?
