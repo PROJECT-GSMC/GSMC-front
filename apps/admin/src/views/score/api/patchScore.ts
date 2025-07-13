@@ -1,3 +1,4 @@
+import { extractStudentCode } from "@/shared/util/extractStudentId";
 import instance from "@repo/api/axios";
 import { isAxiosError, type AxiosResponse } from "axios";
 
@@ -16,8 +17,8 @@ export const patchScore = async (
     value: Number(score),
   };
   try {
-    const id = email.split("@")[0]?.slice(1);
-    return await instance.patch<PatchScore>(`/score/${id}`, data);
+    const studentCode = extractStudentCode(email);
+    return await instance.patch<PatchScore>(`/score/${studentCode}`, data);
   } catch (error) {
     if (isAxiosError(error) && error.response) {
       throw error;
