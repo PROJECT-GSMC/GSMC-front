@@ -1,18 +1,16 @@
+import { patchVerifyEmail } from "@/entities/signup/api/patchVerifyEmail";
+import type { ChangePassword_StepAuthCodeForm } from "@/shared/model/changePassword";
+import type { HttpError } from "@/shared/model/error";
+import { postSendEmail } from "@entities/signup/api/postSendEmail";
 import { Button } from "@repo/shared/button";
 import { Input } from "@repo/shared/input";
 import { InputContainer } from "@repo/shared/inputContainer";
+import type { StepAuthCodeForm } from "@shared/model/signup";
 import { useMutation } from "@tanstack/react-query";
 import { HttpStatusCode } from "axios";
 import React, { useCallback } from "react";
 import { useFormContext } from "react-hook-form";
 import { toast } from "sonner";
-
-import { patchVerifyEmail } from "@/entities/signup/api/patchVerifyEmail";
-import type { ChangePassword_StepAuthCodeForm } from "@/shared/model/changePassword";
-import type { HttpError } from "@/shared/model/error";
-import { postSendEmail } from "@entities/signup/api/postSendEmail";
-import type { StepAuthCodeForm } from "@shared/model/signup";
-
 
 const StepAuthcode = ({ setStep }: { setStep: (step: string) => void }) => {
   const { control, watch, formState: { errors, isValid } } = useFormContext<StepAuthCodeForm | ChangePassword_StepAuthCodeForm>()
