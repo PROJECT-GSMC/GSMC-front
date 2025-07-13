@@ -207,7 +207,7 @@ const Modal = ({ onClose, type }: ModalProps) => {
             control={control}
             name="file"
             // eslint-disable-next-line react/jsx-no-bind
-            render={({ field }) => <File label="파일 첨부" {...field} />}
+            render={({ field }) => <File isImg={false} label="파일 첨부" {...field} />}
             rules={{
               required: "취득 여부를 구분할 수 있는 파일을 첨부해주세요."
             }}
