@@ -8,8 +8,8 @@ import { useParams, useSearchParams } from "next/navigation";
 import { useEffect } from "react";
 import { toast } from "sonner";
 
-import { useGetStudent } from "@/entities/check-post/model/useGetStudent";
 import { useMember } from "@/entities/member/model/memberContext";
+import { useGetMember } from "@/shared/model/useGetMember";
 import { useChangeEvidenceState } from "@/views/check-post/model/useChangeEvidenceState";
 import { useGetPosts } from "@/views/check-post/model/useGetPosts";
 
@@ -19,9 +19,9 @@ export default function DetailView() {
   const { handlePostState } = useChangeEvidenceState(Number(id));
   const searchParams = useSearchParams();
   const email = searchParams.get("email");
-  const status = searchParams.get("status") as PostStatus | null;
+  const status = searchParams.get("status") as PostStatus;
 
-  const { data: studentData, isError: isStudentError } = useGetStudent(
+  const { data: studentData, isError: isStudentError } = useGetMember(
     decodeURIComponent(String(student?.email ?? email)),
   );
   const { posts, isError: isPostError } = useGetPosts(
