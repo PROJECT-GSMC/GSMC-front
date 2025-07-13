@@ -139,7 +139,7 @@ const Header = () => {
           <div className="sm:hidden cursor-pointer" onClick={handleMenuToggle}>
             {menuOpen ? <Close /> : <Hamburger />}
           </div>
-          <ul className=" sm:text-label sm:flex items-center gap-[2rem] text-gray-500 text-body3 hidden">
+          <ul className="sm:text-label sm:flex items-center gap-[2rem] text-gray-500 text-body3 hidden">
             {header.map((item: HeaderType) => (
               <li key={item.href}>
                 <Link
