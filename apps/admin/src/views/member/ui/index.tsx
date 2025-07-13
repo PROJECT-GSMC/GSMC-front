@@ -89,7 +89,7 @@ const MemberView = () => {
           <section className="col-span-5 max-lg:col-span-1">
             <List
               isFilter
-              className="my-3 mx-3"
+              className="h-full"
               title="학생 목록"
               onClick={handleOpen}
             >
