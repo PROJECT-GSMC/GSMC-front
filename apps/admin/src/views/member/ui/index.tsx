@@ -24,9 +24,9 @@ const MemberView = () => {
   const [classNumber, setClassNumber] = useState<number>();
   const [name, setName] = useState<string>();
 
-  const { data, error } = useGetMembers();
+  const { data, isError } = useGetMembers();
 
-  if (error) toast.error("학생 목록을 불러오지 못했습니다.");
+  if (isError) toast.error("학생 목록을 불러오지 못했습니다.");
 
   const members = (data?.data ?? []);
 
