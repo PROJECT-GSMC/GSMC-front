@@ -24,15 +24,15 @@ export default function ScoreModal({ show, close, id }: ScoreModalProps) {
           {data?.scores.map((v) => {
             return (
               <Card
-                back={v.value}
-                front={
-                  (() => {
-                    const transformedCategoryName = getCategoryName(v.categoryName).replace(/^[^-]*-/, "");
-                    return transformedCategoryName.length > 20
-                      ? transformedCategoryName.slice(0, 20) + "..."
-                      : transformedCategoryName;
-                  })()
-                }
+                back={v.convertedValue}
+                front={(() => {
+                  const transformedCategoryName = getCategoryName(
+                    v.categoryName
+                  ).replace(/^[^-]*-/, "");
+                  return transformedCategoryName.length > 20
+                    ? transformedCategoryName.slice(0, 20) + "..."
+                    : transformedCategoryName;
+                })()}
                 id={v.categoryName}
                 key={v.categoryName}
               />
