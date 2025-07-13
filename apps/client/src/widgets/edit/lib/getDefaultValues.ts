@@ -1,41 +1,51 @@
-import type { Activity, Reading, Others } from "@repo/types/evidences";
+import type { DraftType } from "@repo/types/draft";
+import type { PostType } from "@repo/types/evidences";
+import { isActivity, isReading } from "@repo/utils/handlePost";
 
-import { getEditConfig } from "../model/config";
-import type { FormValues } from "../types/types";
+import type { ConfigType } from "@/shared/model/config";
+import type { FormValues } from "@/shared/model/formValues";
+import {
+  HumanitiesOptions,
+  MajorOptions,
+} from "@/widgets/write/model/category";
 
 export const getDefaultValues = (
-  type: "major" | "humanities" | "reading" | "others",
-  post: Activity | Reading | Others
+  type: ConfigType,
+  post: PostType | DraftType | undefined
 ): Partial<FormValues> => {
-  const config = getEditConfig(type);
+  if (!post) return {};
+  switch (type) {
+    case "major":
+    case "humanities": {
+      if (isActivity(post)) {
+        const categoryOptions =
+          type === "major" ? MajorOptions : HumanitiesOptions;
+        return {
+          title: post.title,
+          content: post.content,
+          categoryName: categoryOptions.find(
+            (option) => post.categoryName === option.send
+          ),
+        };
+      }
+      break;
+    }
 
-  if (type === "reading" && "author" in post) {
-    return {
-      title: post.title,
-      author: post.author,
-      page: String(post.page),
-      content: post.content,
-    };
+    case "reading": {
+      if (isReading(post)) {
+        return {
+          title: post.title,
+          author: post.author,
+          page: post.page,
+          content: post.content,
+        };
+      }
+      break;
+    }
+
+    case "others": {
+      throw new Error("외국어 영역의 수정은 지원되지 않습니다,");
+    }
   }
-
-  if (
-    (type === "major" || type === "humanities") &&
-    "title" in post &&
-    "content" in post &&
-    "categoryName" in post
-  ) {
-    const defaultCategory =
-      config.categoryOptions?.find(
-        (option) => option.send === post.categoryName
-      ) ?? config.categoryOptions?.[0];
-
-    return {
-      title: post.title,
-      content: post.content,
-      categoryName: defaultCategory,
-      file: undefined,
-    };
-  }
-
   return {};
 };

@@ -1,7 +1,9 @@
 import instance from "@repo/api/axios";
-import { isAxiosError } from "axios";
+import { isAxiosError, type AxiosResponse } from "axios";
 
-export const patchVerifyEmail = async (code: number) => {
+export const patchVerifyEmail = async (
+  code: number
+): Promise<AxiosResponse> => {
   try {
     const response = await instance.patch(`/auth/verify-email`, { code });
     return response;

@@ -1,3 +1,5 @@
+import CountUp from "@repo/shared/countUp"
+
 interface ShowInformationProps {
   name: string;
   score: number;
@@ -15,9 +17,13 @@ export const ShowInformation = ({ name, score }: ShowInformationProps) => {
         </span>
       </div>
       <div className="flex sm:flex-row items-start sm:items-center gap-2 sm:gap-[1.12rem]">
-        <h1 className="text-titleSmall sm:text-titleLarge px-4 sm:px-[2.25rem] py-2 sm:py-[0.75rem] text-tropicalblue-500 bg-gray-100 rounded-full">
-          {score}점
-        </h1>
+        <CountUp
+          className="
+            text-titleSmall px-4 py-2 rounded-full
+            sm:text-titleLarge sm:px-[2.25rem] sm:py-[0.75rem] 
+          text-tropicalblue-500 bg-gray-100"
+          to={score}
+        />
         <span className="text-body1s sm:text-titleSmall">입니다.</span>
       </div>
     </div>

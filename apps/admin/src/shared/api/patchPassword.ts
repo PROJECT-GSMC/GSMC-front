@@ -1,13 +1,13 @@
 import instance from "@repo/api/axios";
 import { isAxiosError } from "axios";
 
-import type { ChangePasswordProps } from "../model/changePWForm";
+import type { ChangePasswordProps } from "../model/changePassword";
 
 export const patchPassword = async (form: ChangePasswordProps) => {
   try {
     const response = await instance.patch<{ success: boolean }>(
       `/auth/change-password`,
-      form,
+      form
     );
 
     return response.data;
